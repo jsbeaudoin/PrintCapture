@@ -1,0 +1,220 @@
+﻿<Window x:Class="PrintsCapture.Cardscan.Window.PageScanWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        xmlns:language="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+        xmlns:enum="clr-namespace:PrintsCapture.Prints.Enum;assembly=PrintsCapture.Prints"
+        xmlns:scan="clr-namespace:PrintsCapture.Cardscan"
+        xmlns:converter1="clr-namespace:XL_ID.Utilities.Wpf.Converter;assembly=XL_ID.Utilities.Wpf"
+        Title="{Binding CurrentModelName}" Height="800" Width="747"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}" WindowState="Maximized" >
+    <Window.Resources>
+        <converter1:NullBoolToVisibilityConverter x:Key="BoolToVisibility"></converter1:NullBoolToVisibilityConverter>
+        <converter1:InstanceToBoolConverter x:Key="InstanceToBool"></converter1:InstanceToBoolConverter>
+        <ControlTemplate x:Key="FingerZone">
+            <Border BorderThickness="1" BorderBrush="Black" >
+                <Grid Name="Grid" Width="100" Height="100">
+                    <Rectangle Name="ColourRectangle" 
+                        Width="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid} }}" 
+                        Height="{Binding Height, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid} }}" 
+                        Fill="{x:Static scan:ScanConstants.OtherZoneBrush}" Opacity="{x:Static scan:ScanConstants.BrushOpacity}" MouseEnter="ThumbMouseEnter" MouseLeave="ThumbMouseLeave" />
+                    <TextBlock Name="Label" IsHitTestVisible="False" TextTrimming="None" TextWrapping="Wrap">One finger</TextBlock>
+                    <Thumb VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="10" Height="10" Margin="0, 0, -5, -5" DragDelta="ResizeInProgress" DragStarted="ResizeStarted" DragCompleted="ResizeCompleted" MouseEnter="ThumbResizeBottomRightMouseEnter" MouseLeave="ThumbResizeBottomRightMouseLeave" ></Thumb>
+                </Grid>
+            </Border>
+
+        </ControlTemplate>
+
+
+        <ControlTemplate x:Key="EndorsementFingerZone">
+            <Border BorderThickness="1" BorderBrush="Black" >
+                <Grid Name="Grid" Width="100" Height="100">
+                    <Rectangle Name="ColourRectangle" 
+                        Width="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid} }}" 
+                        Height="{Binding Height, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid} }}" 
+                        Fill="{x:Static scan:ScanConstants.OtherZoneBrush}" Opacity="{x:Static scan:ScanConstants.BrushOpacity}" MouseEnter="ThumbMouseEnter" MouseLeave="ThumbMouseLeave" />
+                    <TextBlock Name="Label" IsHitTestVisible="False" TextTrimming="None" TextWrapping="Wrap">One finger</TextBlock>
+                    <ComboBox Name="ComboBox" HorizontalAlignment="Left" VerticalAlignment="Bottom"></ComboBox>
+                    
+                    <Thumb VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="10" Height="10" Margin="0, 0, -5, -5" DragDelta="ResizeInProgress" DragStarted="ResizeStarted" DragCompleted="ResizeCompleted" MouseEnter="ThumbResizeBottomRightMouseEnter" MouseLeave="ThumbResizeBottomRightMouseLeave" ></Thumb>
+                </Grid>
+            </Border>
+
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="GlobalMoveZone">
+            <Border Background="Transparent" >
+            </Border>
+        </ControlTemplate>
+
+        <DataTemplate x:Key="PrintZoneElement" DataType="scan:PrintZoneInfo">
+            <Grid>
+                <Rectangle Name="ColorRectangle" Opacity="{x:Static scan:ScanConstants.BrushOpacity}" Fill="{x:Static scan:ScanConstants.OtherZoneBrush}" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></Rectangle>
+                <Label x:Name="PrintLabel" Tag="{Binding Id}" Content="{Binding Label}"                                         
+                                       Width="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}}"
+                                       MouseUp="PrintLabelDoubleClick"></Label>                
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Hand}" Value="{x:Static enum:Hand.Left}" >
+                    <Setter TargetName="ColorRectangle" Property="Fill" Value="{x:Static scan:ScanConstants.LeftFingerBrush}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Hand}" Value="{x:Static enum:Hand.Right}" >
+                    <Setter TargetName="ColorRectangle" Property="Fill" Value="{x:Static scan:ScanConstants.RightFingerBrush}"></Setter>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>        
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0" DockPanel.Dock="Top" Background="White">
+                <Label HorizontalContentAlignment="Center" Content="{x:Static language:CommonText.SelectedZone}"></Label>
+                <Label HorizontalContentAlignment="Center" Content="{Binding CurrentZone.Name}" ></Label>
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <Border Grid.Column="0" Grid.Row="0" Height="100" BorderThickness="1" BorderBrush="Black" Background="White">
+                        <Image Name="CroppedPreview" Stretch="Uniform" Source="{Binding CurrentZone.DisplayedImage}"></Image>
+                    </Border>
+
+                    <StackPanel Grid.Column="1" Grid.Row="0" Margin="2" VerticalAlignment="Center" IsEnabled="{Binding CurrentZone, Converter={StaticResource InstanceToBool}}">                        
+                        <StackPanel Margin="0,5,0,10" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Tag="-90" ToolTip="{x:Static language:CommonText.Pivot90LeftTooltip}" Click="PivotButtonClick">
+                                <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/Pivot90_left.png"/>
+                            </Button>
+
+                            <Label Content="{Binding CurrentZone.Rotation}" ContentStringFormat=" {0}&#176;" ></Label>
+
+                            <Button Margin="5,0" Tag="90" ToolTip="{x:Static language:CommonText.Pivot90RightTooltip}" Click="PivotButtonClick">
+                                <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/Pivot90_right.png"/>
+                            </Button>
+                        </StackPanel>
+
+                        <Button Click="Button_Click" Content="{x:Static language:CommonText.Delete}"></Button>
+                    </StackPanel>
+
+                    <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></Separator>
+                    
+                    <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                        <Button DockPanel.Dock="Right" Margin="5" Name="ZoomInButton" Tag="in" ToolTip="{x:Static language:CommonText.ZoomInTooltip}" Click="ZoomButtonClick">
+                            <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/ZoomIn.png"/>
+                        </Button>
+                        <Button DockPanel.Dock="Left" Name="ZoomOutButton" Tag="out" Grid.Row="1" Grid.Column="1" Margin="5" ToolTip="{x:Static language:CommonText.ZoomOutTooltip}" Click="ZoomButtonClick">
+                            <Image  Stretch="None"  Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/ZoomOut.png"/>
+                        </Button>
+                        <Slider Minimum="{Binding MinZoom}" Maximum="{Binding MaxZoom}" SmallChange="1" LargeChange="3" TickFrequency="1" TickPlacement="Both" Value="{Binding CurrentZoom}"></Slider>
+                    </DockPanel>
+                    <DockPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">                        
+                        <Image DockPanel.Dock="Left" Margin="5"  Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/contrast.png"/>                                                
+                        <Slider Minimum="10" Maximum="200" SmallChange="10" LargeChange="20" TickFrequency="10" TickPlacement="Both" Value="{Binding CurrentContrast}"></Slider>
+                    </DockPanel>
+                    <DockPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+                        <Image DockPanel.Dock="Left" Margin="5"  Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/brightness.png"/>
+                        <Slider Minimum="10" Maximum="200" SmallChange="10" LargeChange="20" TickFrequency="10" TickPlacement="Both" Value="{Binding CurrentBrightness}"></Slider>
+                    </DockPanel>
+
+
+                </Grid>
+                <Separator></Separator>                
+
+                <Button Margin="5" Name="ModelManageButton" Click="ModelManageButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding CurrentModelName}" ContentStringFormat="{x:Static language:CommonText.ManageModelPattern}"></Label>
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+            
+            <DockPanel Grid.Row="1">
+                <Label DockPanel.Dock="Top" Content="{x:Static language:CommonText.Models}"> 
+                    <Label.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Import from file"></MenuItem>
+                            <MenuItem Header="-"></MenuItem>
+                            <MenuItem Header="Export To folder"></MenuItem>                                                        
+                        </ContextMenu>
+                    </Label.ContextMenu>
+                </Label>
+                <ListBox Name="ModelListBox" ItemsSource="{Binding ModelList}"  SelectedItem="{Binding CurrentModel}" 
+                     HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="scan:ScanModel">
+                            <Grid MouseLeftButtonUp="ModelLabelClick" HorizontalAlignment="Stretch" Background="Transparent">
+                                <Label  Content="{Binding Label}"
+                                       IsHitTestVisible="False"></Label>
+                                <Border HorizontalAlignment="Right" Height="20" MouseLeftButtonDown="ModelStarMouseDown" Visibility="Collapsed">
+                                    <Image Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/StarLit.png" Visibility="{Binding IsStarred, Converter={StaticResource BoolToVisibility}}"></Image>
+                                </Border>
+                                <Border HorizontalAlignment="Right" Height="20" MouseLeftButtonDown="ModelStarMouseDown" Visibility="Collapsed">
+                                    <Image Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/StarUnlit.png" Visibility="{Binding IsStarred, Converter={StaticResource BoolToVisibility}, ConverterParameter=1}"></Image>
+                                </Border>
+                            </Grid>
+
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+            <DockPanel Grid.Row="2">
+                <DockPanel DockPanel.Dock="Top">
+                    <ComboBox Name="QuickPartComboBox" DockPanel.Dock="Right" SelectionChanged="QuickPrintSelected" Margin="5,5"
+                              ItemsSource="{Binding QuickPrints}" DisplayMemberPath="Label" >                        
+                    </ComboBox>
+                    <Label DockPanel.Dock="Right" Content="{x:Static language:CommonText.Preset}"></Label>
+                    <Label  Content="{x:Static language:CommonText.Prints}"></Label>
+                </DockPanel>
+                
+            <ListBox Name="PrintListBox" ItemsSource="{Binding PrintList}" 
+                     ItemTemplate="{StaticResource PrintZoneElement}" 
+                     HorizontalContentAlignment="Stretch">
+                    
+                </ListBox>
+            </DockPanel>
+        </Grid>
+
+
+
+
+
+
+
+
+
+
+        <ScrollViewer Grid.Row="0" Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="LightGray">
+            <Grid Name="ImageZoneGrid"  Background="LightGray" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Image Name="ScannedImage" VerticalAlignment="Top" HorizontalAlignment="Left" Source="{Binding PageImage}" SnapsToDevicePixels="False"  Stretch="Uniform" Panel.ZIndex="-1" />
+                <Thumb Name="GlobalZoneThumb" VerticalAlignment="Top" HorizontalAlignment="Left" Template="{StaticResource GlobalMoveZone}" DragStarted="GlobalZoneStartedMove" DragDelta="GlobalZoneMoved" DragCompleted="GlobalZoneMoveCompleted" ></Thumb>
+            </Grid>            
+        </ScrollViewer>
+
+        <Label Grid.Row="1" Grid.Column="1" Width="200" HorizontalAlignment="Left" Content="{Binding ImageInformation}" MouseDoubleClick="ImageInformationDoubleClick" ></Label>
+        <Button Grid.Row="1" Grid.Column="1" Height="40" Width="100" HorizontalAlignment="Right" Margin="5" Click="CloseButtonClick" Content="{x:Static language:CommonText.Accept}"></Button>
+        
+    </Grid>
+</Window>

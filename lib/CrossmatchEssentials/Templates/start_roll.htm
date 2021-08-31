@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>CrossMatch GUI Trigger: ROLLED FINGERS</title>
+
+<script language="JavaScript" type="text/JavaScript">
+
+	/***********************************************************************************************
+		This web page will use JavaScript to demonstrates the img/image_roll.svg image.
+
+		The body of this web page is at the bottom of this file.
+		The javascript will parse the html arguments and load the svg images.
+		The svg images use ecmascript to perform the image animation.
+	************************************************************************************************/
+    var myArgs = {"Result":0,"ButtonRetry":1,"ButtonConfirm":1,"HP2":0,"HP1":0,"FP10":0,"FP9":0,"FP8":0,"FP7":0,"FP6":0,"FP1":0,"FP2":0,"FP3":0,"FP4":0,"FP5":0,"peripheralityLeft":false,"peripheralityRight":false,"peripheralityTop":false,"peripheralityBottom":false};
+
+	function Load() {
+		window.moveTo(0,0);
+		window.resizeTo(800,552);
+	}
+	
+	function ToggleFlash() {
+		myArgs.acquiring = !myArgs.acquiring;
+		Browse();
+	}
+
+	// format new html with selected external parameters 
+	function SetParameters() {
+		for ( var argName in myArgs) { 
+			myArgs[argName] = parseInt(getRadioGroupValue(argName));
+		}
+
+		window.location.href = "index_roll.html?" + JSON.stringify(myArgs);
+	}
+
+	// parse to value for the selected radio button
+	function getRadioGroupValue (radioGroupName)
+	{
+		for (var i = 0; i < document.getElementsByName(radioGroupName).length; i++)
+		{
+			if (document.getElementsByName(radioGroupName)[i].checked)
+			{
+					return document.getElementsByName(radioGroupName)[i].value;
+			}
+		}
+		return null;
+	}
+
+
+   </script>
+<style>
+	html { padding: 0; margin: 0; }   
+	body { padding: 0 40px; margin: 0; height: 100%; overflow:hidden; }
+	div { margin:20px 0; }
+	p { margin:0; }
+</style>
+   
+</head>
+<body onLoad="Load();">
+  <div>
+  <span>Right Finger: </span>
+    <button type="button" id="initialScreen" onClick="window.location.href ='index_initial_roll.html'">
+      Initial Screen
+    </button>
+  <span>Auto-Sequence: </span>
+    <button type="button" id="initialScreen" onClick="window.location.href ='index_roll_auto.html'">
+      Start
+    </button>
+  </div>
+  
+  <hr/>
+  <div>
+    <h3>Recording process: </h3>
+    <p>
+      <span><b>Result: </b></span>
+      <input name="Result" type="radio" value="0" checked>Roll Prompt
+      <input name="Result" type="radio" value="1">Roll Complete
+      <input name="Result" type="radio" value="2">General Error
+      <input name="Result" type="radio" value="3">Clean the Platen
+      <br/>
+      <input name="Result" type="radio" value="4">Capture Error
+      <input name="Result" type="radio" value="5">Roll Error
+      <input name="Result" type="radio" value="6">Segmentation Error
+      <input name="Result" type="radio" value="7">Quality Check Error
+      <br/>
+      <input name="Result" type="radio" value="8">Sequence Check Error
+      <input name="Result" type="radio" value="9">Error
+      <input name="Result" type="radio" value="10">Compression Error
+      <input name="Result" type="radio" value="11">Vertical Roll Prompt
+    </p>
+
+     <p>
+      <span><b>Active Retry Button:</b> </span>
+      <input name="ButtonRetry" type="radio" value="0" >Inactive 
+      <input name="ButtonRetry" type="radio" value="1" checked>Active
+      <input name="ButtonRetry" type="radio" value="2" >Hidden 
+    </p>
+    <p>
+      <span><b>Active Confirm Button:</b> </span>
+      <input name="ButtonConfirm" type="radio" value="0" >Inactive 
+      <input name="ButtonConfirm" type="radio" value="1" checked>Active
+      <input name="ButtonConfirm" type="radio" value="2">Hidden 
+    </p>
+
+    <p>
+      <span><b>Linke Hand:</b> </span>
+      <input name="HP2" type="radio" value="0">Inactive
+      <input name="HP2" type="radio" value="1" checked>Active
+      <span><b> Rechte Hand:</b> </span>
+      <input name="HP1" type="radio" value="0" checked>Inactive
+      <input name="HP1" type="radio" value="1">Active
+    </p>
+
+    <p>Finger Status:</p>
+    <p>
+      <span>Finger 1 :</span>
+      <input name="FP1" type="radio" value="0" checked>Dark Blue - Not Active
+      <input name="FP1" type="radio" value="1" >Capture success
+      <input name="FP1" type="radio" value="2" >Yellow - Active
+      <input name="FP1" type="radio" value="3" >Red - Error
+      <input name="FP1" type="radio" value="4" >Light Blue - Success
+      <input name="FP1" type="radio" value="5" >Green - Success
+    </p>
+    <p>
+    <span>Finger 2 :</span>
+      <input name="FP2" type="radio" value="0" checked>Dark Blue - Not Active
+      <input name="FP2" type="radio" value="1" >Capture success
+      <input name="FP2" type="radio" value="2" >Yellow - Active
+      <input name="FP2" type="radio" value="3" >Red - Error
+      <input name="FP2" type="radio" value="4" >Light Blue - Success
+      <input name="FP2" type="radio" value="5" >Green - Success
+    </p>
+    <p>
+    <span>Finger 3 :</span>
+      <input name="FP3" type="radio" value="0" checked>Dark Blue - Not Active
+      <input name="FP3" type="radio" value="1" >Capture success
+      <input name="FP3" type="radio" value="2" >Yellow - Active
+      <input name="FP3" type="radio" value="3" >Red - Error
+      <input name="FP3" type="radio" value="4" >Light Blue - Success
+      <input name="FP3" type="radio" value="5" >Green - Success
+    </p>
+    <p>
+    <span>Finger 4 :</span>
+      <input name="FP4" type="radio" value="0" checked>Dark Blue - Not Active
+      <input name="FP4" type="radio" value="1" >Capture success
+      <input name="FP4" type="radio" value="2" >Yellow - Active
+      <input name="FP4" type="radio" value="3" >Red - Error
+      <input name="FP4" type="radio" value="4" >Light Blue - Success
+      <input name="FP4" type="radio" value="5" >Green - Success
+    </p>
+    <p>
+    <span>Finger 5 :</span>
+      <input name="FP5" type="radio" value="0" checked>Dark Blue - Not Active
+      <input name="FP5" type="radio" value="1" >Capture success
+      <input name="FP5" type="radio" value="2" >Yellow - Active
+      <input name="FP5" type="radio" value="3" >Red - Error
+      <input name="FP5" type="radio" value="4" >Light Blue - Success
+      <input name="FP5" type="radio" value="5" >Green - Success
+    </p>
+    <p>
+    <span>Finger 6 :</span>
+      <input name="FP6" type="radio" value="0" checked>Dark Blue - Not Active
+      <input name="FP6" type="radio" value="1" >Capture success
+      <input name="FP6" type="radio" value="2" >Yellow - Active
+      <input name="FP6" type="radio" value="3" >Red - Error
+      <input name="FP6" type="radio" value="4" >Light Blue - Success
+      <input name="FP6" type="radio" value="5" >Green - Success
+    </p>
+    <p>
+    <span>Finger 7 :</span>
+      <input name="FP7" type="radio" value="0" checked>Dark Blue - Not Active
+      <input name="FP7" type="radio" value="1" >Capture success
+      <input name="FP7" type="radio" value="2" >Yellow - Active
+      <input name="FP7" type="radio" value="3" >Red - Error
+      <input name="FP7" type="radio" value="4" >Light Blue - Success
+      <input name="FP7" type="radio" value="5" >Green - Success
+    </p>
+    <p>
+      <span>Finger 8 :</span>
+      <input name="FP8" type="radio" value="0" checked>Dark Blue - Not Active
+      <input name="FP8" type="radio" value="1" >Capture success
+      <input name="FP8" type="radio" value="2" >Yellow - Active
+      <input name="FP8" type="radio" value="3" >Red - Error
+      <input name="FP8" type="radio" value="4" >Light Blue - Success
+      <input name="FP8" type="radio" value="5" >Green - Success
+    </p>
+    <p>
+      <span>Finger 9 :</span>
+      <input name="FP9" type="radio" value="0" checked>Dark Blue - Not Active
+      <input name="FP9" type="radio" value="1" >Capture success
+      <input name="FP9" type="radio" value="2" >Yellow - Active
+      <input name="FP9" type="radio" value="3" >Red - Error
+      <input name="FP9" type="radio" value="4" >Light Blue - Success
+      <input name="FP9" type="radio" value="5" >Green - Success
+    </p>
+    <p>
+      <span>Finger 10:</span>
+      <input name="FP10" type="radio" value="0" checked>Dark Blue - Not Active
+      <input name="FP10" type="radio" value="1" >Capture success
+      <input name="FP10" type="radio" value="2" >Yellow - Active
+      <input name="FP10" type="radio" value="3" >Red - Error
+      <input name="FP10" type="radio" value="4" >Light Blue - Success
+      <input name="FP10" type="radio" value="5" >Green - Success
+    </p>
+  </div>
+      
+  <div>
+    <button type="button" id="initialScreen" onClick="SetParameters();">
+      Recording Screen
+    </button>
+  </div>
+
+
+</body>
+</html>

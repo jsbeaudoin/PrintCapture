@@ -1,0 +1,445 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neurotec.Licensing</name>
+    </assembly>
+    <members>
+        <member name="T:Neurotec.Licensing.NLicenseInfo">
+            <summary>
+            Provides information about license. 
+            </summary>                          
+        </member>
+        <member name="M:Neurotec.Licensing.NLicenseInfo.#ctor(System.Boolean,System.Int32,System.Int32)">
+            <summary>
+            Creates a new instance of NLicenseInfo class.
+            </summary>
+            <param name="isObtained"><i>true</i> if the license is obtained, else <i>false</i>.</param>
+            <param name="distributorId">Distributor ID.</param>
+            <param name="serialNumber">Serial number.</param>
+        </member>
+        <member name="P:Neurotec.Licensing.NLicenseInfo.NativeType">
+            <summary>
+            Defines the native type of the object.
+            </summary>
+        </member>
+        <member name="P:Neurotec.Licensing.NLicenseInfo.IsObtained">
+            <summary>
+            Gets license status.
+            </summary>
+            <value>
+            True if license is obtained; otherwise, false. 
+            </value>                                       
+        </member>
+        <member name="P:Neurotec.Licensing.NLicenseInfo.DistributorId">
+            <summary>
+            Gets distributor id.
+            </summary>
+            <value>
+            Distributor id.
+            </value>            
+        </member>
+        <member name="P:Neurotec.Licensing.NLicenseInfo.SerialNumber">
+            <summary>
+            Gets serial number of a license.
+            </summary>
+            <returns>
+            Serial number. 
+            </returns>                      
+        </member>
+        <member name="T:Neurotec.Licensing.NLicense">
+            <summary>
+            Provides functionality for getting, releasing licenses.
+            </summary>
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.Obtain(System.String,System.String,System.String)">
+            <summary>
+            Obtains license.
+            </summary>
+            <param name="address">Server address where license manager
+                                  is installed as a server. &quot;/local&quot;
+                                  is used for this parameter when
+                                  license is tied with the computer
+                                  using serial number.</param>
+            <param name="port">License manager server port.</param>
+            <param name="products">String which contains license name.</param>
+            <returns>
+            \Returns true if license available; otherwise, false.
+            </returns>                                                        
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.Obtain(System.String,System.Int32,System.String)">
+            <summary>
+            Obtains license.
+            </summary>
+            <param name="address">Server address where license manager
+                                  is installed as a server. &quot;/local&quot;
+                                  is used for this parameter when
+                                  license is tied with the computer
+                                  using serial number.</param>
+            <param name="port">License manager server port.</param>
+            <param name="products">String which contains license name.</param>
+            <returns>
+            \Returns true if license available; otherwise, false. 
+            </returns>                                                        
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.ObtainComponents(System.String,System.String,System.String)">
+            <summary>
+            Obtains component license from the specified server.
+            </summary>
+            <param name="address">Server address where license
+                                  manager is installed as a server.
+                                  &quot;/local&quot; is used for this
+                                  parameter when license is tied with
+                                  the computer using serial number.</param>
+            <param name="port">License manager server port (string
+                               value).</param>
+            <param name="components">String which contains component
+                                     license name.</param>
+            <returns>
+            <paraattr align="justify">
+            \Returns true if component license available; otherwise,
+            false.
+            </paraattr>
+            </returns>                                                     
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.ObtainComponents(System.String,System.Int32,System.String)">
+            <summary>
+            Obtains component license from the specified server.
+            </summary>
+            <param name="address">Server address where license
+                                  manager is installed as a server.
+                                  &quot;/local&quot; is used for this
+                                  parameter when license is tied with
+                                  the computer using serial number.</param>
+            <param name="port">License manager server port
+                               (integer value).</param>
+            <param name="components">String which contains component
+                                     license name.</param>
+            <returns>
+            <paraattr align="justify">
+            \Returns true if component license available; otherwise,
+            false.
+            </paraattr>
+            </returns>                                                     
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.Release(System.String)">
+            <summary>
+            Releases license.
+            </summary>
+            <param name="products">Name of a product to release its
+                                  license.</param>
+            <returns>
+            \Returns true if license available; otherwise, false.
+            </returns>                                            
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.ReleaseComponents(System.String)">
+            <summary>
+            Releases component license.
+            </summary>
+            <param name="components">Name of a component to release its
+                                     license.<para></para>See <see cref="M:Neurotec.Licensing.NLicense.ObtainComponents(System.String,System.Int32,System.String)" text="ObtainComponents"/>
+                                     method remarks for the list of
+                                     supported component names for this
+                                     parameter.</param>
+            <remarks>
+            This method should be called as many times as method
+            ObtainComponents was called. 
+            </remarks>                                                                                                                                             
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.GetInfo(System.String)">
+            <summary>
+            Retrieves license information of specified product.
+            </summary>
+            <param name="product">String that contains name of a product
+                                  to retrieve license information.</param>
+            <returns>
+            NLicenseInfo object that contains properties for retrieving
+            license information. 
+            </returns>                                                    
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.GetInfoForComponent(System.String)">
+            <summary>
+            Retrieves license information of specified component.
+            </summary>
+            <param name="component">String that contains name of a
+                                    component to retrieve license
+                                    information.<para></para>See <see cref="M:Neurotec.Licensing.NLicense.ObtainComponents(System.String,System.Int32,System.String)" text="ObtainComponents"/>
+                                    method remarks for the list of
+                                    supported component names for this
+                                    parameter.</param>
+            <returns>
+            NLicenseInfo object that contains properties for retrieving
+            license information. 
+            </returns>                                                                                                                                                
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.IsComponentActivated(System.String)">
+            <summary>
+            Checks if component specified by name is activated.
+            </summary>
+            <param name="component">String which contains component name.<para></para>See
+                               <see cref="M:Neurotec.Licensing.NLicense.ObtainComponents(System.String,System.Int32,System.String)" text="ObtainComponents"/>
+                               method remarks for the list of supported
+                               component names for this parameter.</param>
+            <returns>
+            Bool value indicating if the specified component was
+            activated. 
+            </returns>                                                                                                              
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.GenerateId(System.String)">
+            <summary>
+            Generates Id for activation from serial number for a particular machine.
+            </summary>
+            <param name="serialNumber">Serial number used for generating Id.</param>
+            <returns>
+            Generated Id.
+            </returns>                                                              
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.GenerateId(System.String,System.String)">
+            <summary>
+            Generates Id for activation from serial number for a particular machine.
+            </summary>
+            <param name="idGenPath">Path to Id generator program.</param>
+            <param name="serialNumber">Serial number used for generating Id.</param>
+            <returns>
+            Generated Id.
+            </returns>                                                              
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.GenerateDeactivationId(System.String)">
+            <summary>
+            Generates deactivation Id for specified provided product on current computer.
+            </summary>
+            <param name="productName">Long product name (i.e. Face Extractor, Finger Matcher and etc.). </param>
+            <returns>
+            Generated deactivation Id.
+            </returns>
+            <remarks>
+            Important! Both license and generated deactivation Id should be sent to support@neurotechnology.com in
+            order to complete deactivation process. Deactivation on Neurotechnology side is done manually.
+            
+            Important! Deactivation must be performed on the same computer supplied license was generated for. If
+            license is deactivated on another computer, although call to this function will succeed, but
+            deactivation might be refused by support@neurotechnology.com.
+            
+            Important! If method succeeds - license will be deactivated on this computer and will not be usable. 
+            </remarks>                                                                                            
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.GenerateDeactivationId(System.String,System.String)">
+            <summary>
+            Generates deactivation Id for specified provided product on current computer.
+            </summary>
+            <param name="idGenPath">Path to Id generator program.</param>
+            <param name="productName">Long product name (i.e. Face Extractor, Finger Matcher and etc.). </param>
+            <returns>
+            Generated deactivation Id.
+            </returns>
+            <remarks>
+            Important! Both license and generated deactivation Id should be sent to support@neurotechnology.com in
+            order to complete deactivation process. Deactivation on Neurotechnology side is done manually.
+            
+            Important! Deactivation must be performed on the same computer supplied license was generated for. If
+            license is deactivated on another computer, although call to this function will succeed, but
+            deactivation might be refused by support@neurotechnology.com.
+            
+            Important! If method succeeds - license will be deactivated on this computer and will not be usable. 
+            </remarks>                                                                                            
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.GenerateDeactivationIdForLicense(System.String)">
+            <summary>
+            Generates deactivation Id for specified license on current computer.
+            </summary>
+            <param name="license">License to be deactivated. </param>
+            <returns>
+            Generated deactivation Id.
+            </returns>
+            <remarks>
+            Important! Internet connection is required for this function to succeed.
+            
+            Important! Both license and generated deactivation Id should be sent to support@neurotechnology.com in
+            order to complete deactivation process. Deactivation on Neurotechnology side is done manually.
+            
+            Important! Deactivation must be performed on the same computer supplied license was generated for. If
+            license is deactivated on another computer, although call to this function will succeed, but
+            deactivation might be refused by support@neurotechnology.com. 
+            </remarks>                                                                                            
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.GenerateDeactivationIdForLicense(System.String,System.String)">
+            <summary>
+            Generates deactivation Id for specified license on current computer.
+            </summary>
+            <param name="idGenPath">Path to Id generator program.</param>
+            <param name="license">License to be deactivated. </param>
+            <returns>
+            Generated deactivation Id.
+            </returns>
+            <remarks>
+            Important! Internet connection is required for this function to succeed.
+            
+            Important! Both license and generated deactivation Id should be sent to support@neurotechnology.com in
+            order to complete deactivation process. Deactivation on Neurotechnology side is done manually.
+            
+            Important! Deactivation must be performed on the same computer supplied license was generated for. If
+            license is deactivated on another computer, although call to this function will succeed, but
+            deactivation might be refused by support@neurotechnology.com. 
+            </remarks>                                                                                            
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.ActivateOnline(System.String)">
+            <summary>
+            Activates specified Id (that was obtained through calling GenerateId method or using ActivationWizardDotNet)
+            and obtains license file for this Id via internet.
+            </summary>
+            <param name="id">Id generated from serial number. </param>
+            <returns>
+            String containing activated license data.
+            </returns>                                                                                                  
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.DeactivateOnline(System.String)">
+            <summary>
+            Deactivates specified license via internet.
+            </summary>
+            <param name="license">String that contains activated license name.</param>
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.DeactivateOnline(System.String,System.String)">
+            <summary>
+            Deactivates specified license via internet using specified Id generator.
+            </summary>
+            <param name="idGenPath">Path to Id generator program</param>
+            <param name="license">Strin that contains activated license name.</param>
+        </member>
+        <member name="M:Neurotec.Licensing.NLicense.DeactivateOnlineWithId(System.String,System.String)">
+            <summary>
+            Deactivates specified license via internet using specified deactivation Id.
+            </summary>
+            <param name="license">String that contains activated license name. </param>
+            <param name="deactivationId">Deactivation Id. </param>
+            <remarks>
+            Important! Both license and generated deactivation Id should be sent to support@neurotechnology.com in
+            order to complete deactivation process. Deactivation on Neurotechnology side is done manually.
+            
+            Deactivation must be performed on the same computer supplied license was generated for. If license is
+            deactivated on another computer, although call to this function will succeed, but deactivation might
+            be refused by support@neurotechnology.com.
+            
+            If method succeeds - license will be deactivated on this computer and will not be usable.
+            
+            
+            </remarks>                                                                                            
+        </member>
+        <member name="P:Neurotec.Licensing.NLicense.NativeType">
+            <summary>
+            Defines the native type of the object.
+            </summary>
+        </member>
+        <member name="T:Neurotec.Licensing.NLicensing">
+            <summary>
+            Provides methods for retrieving information about the
+            NLicensing library.
+            </summary>                                           
+        </member>
+        <member name="F:Neurotec.Licensing.NLicensing.DllName">
+            <summary>
+            Name of DLL containing unmanaged part of this class.
+            </summary>
+        </member>
+        <member name="M:Neurotec.Licensing.NLicensing.GetInfo">
+            <summary>
+            Gets information about the library.
+            </summary>
+            <returns>Returns NLibraryInfo structure with library information.</returns>
+        </member>
+        <member name="P:Neurotec.Licensing.NLicensing.NativeModule">
+            <summary>
+            Defines the native module of the object.
+            </summary>
+        </member>
+        <member name="F:Neurotec.Licensing.NLicensingServiceStatus.Stopped">
+            Indicates that licensing service is nor installed.
+        </member>
+        <member name="F:Neurotec.Licensing.NLicensingServiceStatus.StartPending">
+            Indicates that licensing service is stopped.
+        </member>
+        <member name="F:Neurotec.Licensing.NLicensingServiceStatus.StopPending">
+            Indicates that licensing service is pending to be started.
+        </member>
+        <member name="F:Neurotec.Licensing.NLicensingServiceStatus.Running">
+            Indicates that licensing service is pending to be stopped.
+        </member>
+        <member name="F:Neurotec.Licensing.NLicensingServiceStatus.ContinuePending">
+            Indicates that licensing service is running.
+        </member>
+        <member name="F:Neurotec.Licensing.NLicensingServiceStatus.PausePending">
+            Indicates that licensing service was continued after pause.
+        </member>
+        <member name="F:Neurotec.Licensing.NLicensingServiceStatus.Paused">
+            Indicates that licensing service is pending to be paused.
+        </member>
+        <member name="M:Neurotec.Licensing.NLicensingService.Install(System.String)">
+            <summary>
+            Installs licensing service.
+            </summary>
+            <param name="binPath">Path to licensing service file (pg.exe).</param>
+        </member>
+        <member name="M:Neurotec.Licensing.NLicensingService.Install(System.String,System.String)">
+            <summary>
+            Installs licensing service.
+            </summary>
+            <param name="binPath">Path to licensing service file (pg.exe).</param>
+            <param name="confPath">Path to licensing service configuration file (pgd.conf).</param>
+        </member>
+        <member name="M:Neurotec.Licensing.NLicensingService.Uninstall">
+            <summary>
+            Uninstalls licensing service.
+            </summary>                   
+        </member>
+        <member name="M:Neurotec.Licensing.NLicensingService.Start">
+            <summary>
+            Starts licensing service.
+            </summary>               
+        </member>
+        <member name="M:Neurotec.Licensing.NLicensingService.Stop">
+            <summary>
+            Stops licensing service.
+            </summary>              
+        </member>
+        <member name="M:Neurotec.Licensing.NLicensingService.GetStatus">
+            <summary>
+            Gets the status of the licensing service.
+            </summary>
+            <returns>
+            Licensing service status value.
+            </returns>                               
+        </member>
+        <member name="M:Neurotec.Licensing.NLicensingService.GetConfPath">
+            <summary>
+            Gets path to licensing service configuration file (pgd.conf).
+            </summary>
+            <returns>
+            Path to licensing service configuration file.
+            </returns>                                                   
+        </member>
+        <member name="M:Neurotec.Licensing.NLicensingService.GetBinPath">
+            <summary>
+            Gets the binary path (path to pg.exe) to the license.
+            </summary>
+            <returns>
+            Path to licensing service.
+            </returns>                                           
+        </member>
+        <member name="M:Neurotec.Licensing.NLicensingService.IsTrial">
+            <summary>
+            Checks whether the licensing service is trial.
+            </summary>
+            <returns>
+            true if the licensing service is trial; otherwise false.
+            </returns>                                              
+        </member>
+        <member name="P:Neurotec.Licensing.NLicensingService.NativeType">
+            <summary>
+            Defines the native type of the object.
+            </summary>
+        </member>
+        <member name="P:Neurotec.Licensing.NLicensingService.NLicensingServiceStatusNativeType">
+            <summary>
+            Defines the native type of the licensing service status.
+            </summary>
+        </member>
+    </members>
+</doc>

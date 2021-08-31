@@ -1,0 +1,267 @@
+﻿<Window x:Class="PrintsCapture.Ui.View.PrintZoomWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:language="clr-namespace:PrintsCapture.Ui.Language"
+        xmlns:converter="clr-namespace:PrintsCapture.Ui.Converter"        
+        xmlns:prints="clr-namespace:PrintsCapture.Prints;assembly=PrintsCapture.Prints"
+        xmlns:print="clr-namespace:PrintsCapture.Ui.Print"
+        xmlns:viewModel="clr-namespace:PrintsCapture.Prints.ViewModel;assembly=PrintsCapture.Prints"
+        xmlns:language1="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+        xmlns:converter2="clr-namespace:XL_ID.Utilities.Wpf.Converter;assembly=XL_ID.Utilities.Wpf"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}"
+         Title="{x:Static language:Text.ZoomWindowTitle}"
+        Name="ZoomWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized" Height="570.138"  >
+    <Window.Resources>                  
+        <converter2:NullBoolToVisibilityConverter x:Key="BoolToVisibility"></converter2:NullBoolToVisibilityConverter>        
+        <converter:QualityToGaugeConverter x:Key="QualityToGaugeConverter"></converter:QualityToGaugeConverter>
+        <converter:SequenceCheckToGaugeConverter x:Key="SequenceToGaugeConverter"></converter:SequenceCheckToGaugeConverter>
+        <Style x:Key="TextboxErrorStyle">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="TextBox.ToolTip" Value="{Binding RelativeSource={RelativeSource Self},  Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>        
+        
+        <Style x:Key="TextTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+
+        <Style x:Key="BoxStyle" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+        </Style>
+        
+        <DataTemplate x:Key="ActionDisplay" DataType="print:PrintAction" >
+            <Button Margin="10" Width="150" Tag="{Binding Key}" Click="PrintActionClick" >
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" >
+                    <Image Source="{Binding Image}" Stretch="None" MaxHeight="32" MaxWidth="32" Margin="0,0,10,0"></Image>
+                    <TextBlock Text="{Binding Label}" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+            </Button>
+        </DataTemplate>        
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0">
+            <Label HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Content="{Binding PrintName}"></Label>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Name="ResolutionLabel" Content="{x:Static language:Text.ResolutionLabel}" MouseDoubleClick="ResolutionDoubleClick"></Label>
+                <Label Content="{Binding Resolution}"></Label>
+            </StackPanel>
+            
+            
+            <Popup Name="DebugPopup" PlacementTarget="{Binding ElementName=SequenceTextBlock}" StaysOpen="True">
+                <Grid Background="Beige">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" HorizontalAlignment="Right" MouseDown="PopupLabelMouseDown">X</Label>
+                    <ScrollViewer Grid.Row="1" Width="300" Height="200">
+                        <TextBlock Name="DebugText" TextWrapping="Wrap">...</TextBlock>
+                    </ScrollViewer>
+                </Grid>
+
+
+            </Popup>
+        </StackPanel>
+
+        <DockPanel HorizontalAlignment="Center" Grid.Row="1">
+            <DockPanel DockPanel.Dock="Right" Margin="10, 0" Width="400">
+                <Border DockPanel.Dock="Top" Style="{StaticResource BoxStyle}">                    
+                    <StackPanel Margin="5,0" >                        
+                        <TextBlock Style="{StaticResource TextTitleStyle}" HorizontalAlignment="Center" Text="{Binding PrintName}"></TextBlock>
+
+                        <DockPanel Margin="0,5" >
+                            <Image DockPanel.Dock="Left" Source="{Binding PrintStatusImage}" Stretch="None" VerticalAlignment="Top" ></Image>
+                            <TextBlock Text="{Binding PrintStatusMessage}" Margin="10,0,0,0" VerticalAlignment="Top" TextWrapping="Wrap" />                            
+                        </DockPanel>
+
+                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Text="{Binding MatchingPrintPosition}" Visibility="{Binding IsMatchingPrintDisplayed, Converter={StaticResource BoolToVisibility}}" TextWrapping="Wrap" ></TextBlock>
+
+                        <StackPanel Orientation="Horizontal"  >
+                            <TextBlock Margin="0,5" Text="{x:Static language:Text.QualityLabel}" />
+                            <TextBlock Margin="10,5" Text="{Binding QualityScore}" />
+                            <Image Margin="30,0" Stretch="None" Source="{Binding QualityScore, Converter={StaticResource QualityToGaugeConverter}}"></Image>                            
+                            
+                            <TextBlock Margin="15,0" Name="SequenceTextBlock" MouseLeftButtonDown="SequenceTextBlockMouseDown"  Text="{x:Static language:Text.SequenceLabel}"  Visibility="{Binding IsSequenceCheckEnabled, Converter={StaticResource BoolToVisibility}}"/>                            
+                            <TextBlock Text="{Binding SequenceScore}"  Visibility="{Binding IsSequenceCheckEnabled, Converter={StaticResource BoolToVisibility}}"/>
+                            <Image Stretch="None" Source="{Binding SequenceScore, Converter={StaticResource SequenceToGaugeConverter}}" Visibility="{Binding IsSequenceCheckEnabled, Converter={StaticResource BoolToVisibility}}" />
+                            
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <TextBlock Text="{x:Static language1:CommonText.MinutiaLabel}" ></TextBlock>
+                            <TextBlock Margin="10,0" Text="{Binding MinutiaCount}"></TextBlock>
+                        </StackPanel>
+
+                        <TextBlock Text="{x:Static language:Text.Overrides}"></TextBlock>
+                        <TextBlock Margin="0, 5" Text="{Binding OverrideLabel}" TextWrapping="Wrap" FontWeight="Bold"></TextBlock>
+                        <Button Click="PrintOverrideClick" Margin="10" IsEnabled="{Binding CanOverridePrint}" Content="{x:Static language:Text.DefineOverride}"></Button>
+                        <Button Click="EndorsementBypassOverrideClick" Name="EndorsementBypassButton" Margin="10, 0, 10, 5" Visibility="Collapsed" Content="Bypass validation"></Button>
+                    </StackPanel>
+                </Border>
+
+                <Border DockPanel.Dock="Top" Margin="0,20" Style="{StaticResource BoxStyle}" Visibility="{Binding SegmentOverrideVisibility}">                    
+                    <StackPanel Margin="5,0" >                        
+                        <TextBlock Style="{StaticResource TextTitleStyle}" Text="{Binding SelectedSegment.Name}" HorizontalAlignment="Center"></TextBlock>
+
+                        <DockPanel >
+                            <Image DockPanel.Dock="Left" Stretch="None" MaxWidth="32" Source="{Binding SelectedSegment.QualityIndicator}"></Image>
+                            <TextBlock Text="{Binding SelectedSegment.StatusText}"  TextWrapping="Wrap"></TextBlock>
+                        </DockPanel>
+
+                            
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Margin="0, 5" Text="{x:Static language:Text.QualityLabel}"></TextBlock>
+                            <TextBlock Margin="10,5" Text="{Binding SelectedSegment.Quality}"></TextBlock>
+                            <Image Margin="30, 0" Stretch="None" Source="{Binding SelectedSegment.Quality, Converter={StaticResource QualityToGaugeConverter}}"></Image>                            
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <TextBlock Text="{x:Static language1:CommonText.MinutiaLabel}" ></TextBlock>
+                            <TextBlock Margin="10,0" Text="{Binding SelectedSegment.MinutiaCount}"></TextBlock>
+                        </StackPanel>
+                        
+                        <TextBlock Text="{x:Static language:Text.Overrides}"></TextBlock>
+                        <TextBlock Margin="0, 5" Text="{Binding SelectedSegment.OverrideLabel}" TextWrapping="Wrap"  FontWeight="Bold" HorizontalAlignment="Left"></TextBlock>
+                        <Button Click="SegmentOverrideClick" Margin="10" 
+                                            IsEnabled="{Binding CanOverrideSegment}"
+                                            Content="{x:Static language:Text.DefineOverride}"></Button>
+
+                        <CheckBox Margin="0,10" IsChecked="{Binding SelectedSegment.IsExpected}" IsEnabled="{Binding CanChangeExpectedSegment}">
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static language1:CommonText.PartExpectedQuestion}"></TextBlock>
+                        </CheckBox>
+                    </StackPanel>
+                </Border>
+
+                <Button Margin="0,15" DockPanel.Dock="Bottom"  Width="200" Height="60" Click="CloseButtonClick" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                        IsDefault="True">
+                    <DockPanel HorizontalAlignment="Stretch" >
+                        <Image Margin="10,0" DockPanel.Dock="Left" Source="pack://application:,,,/PrintsCapture.Ui;component/Images/DialogOk32x32.png" Stretch="None"></Image>
+                        <TextBlock FontSize="20" FontWeight="Bold" Text="{x:Static language:Text.Accept}" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                    </DockPanel>
+                </Button>
+
+                <TextBlock></TextBlock>
+
+            </DockPanel>
+
+            <DockPanel >
+                <ItemsControl ItemsSource="{Binding Actions}" DockPanel.Dock="Bottom" HorizontalAlignment="Center" ItemTemplate="{StaticResource ActionDisplay}" />
+
+                <Border DockPanel.Dock="Bottom" Style="{StaticResource BoxStyle}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">                        
+                        <ItemsControl Name="SegmentListItemsControl" ItemsSource="{Binding PrintSegments}" >
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel></WrapPanel>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="viewModel:SegmentInfoViewModel">
+                                    <Label Margin="10"  Tag="{Binding}" MouseDown="SegmentNameLabelClick"
+                                                Background="{Binding ViewModel.BrushForNotSelected, ElementName=ZoomWindow}" >
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Stretch="None" MaxWidth="32" Source="{Binding QualityIndicator}"></Image>
+                                            <TextBlock Margin="5,0,0,0" Text="{Binding Name}"></TextBlock>
+                                        </StackPanel>
+                                    </Label>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border >
+                
+                
+
+                <Border Name="ImageBorder"  BorderBrush="Black" BorderThickness="1" 
+                HorizontalAlignment="Center" VerticalAlignment="Center" SizeChanged="ImageSizeChanged" 
+                Background="Transparent" MouseDown="SegmentMouseDown" >
+                    <Grid>
+                        <Image Name="PrintImage" Source="{Binding PrintImage}" Stretch="Uniform" ></Image>
+                        <ItemsControl Name="SegmentsItemsControl" ItemsSource="{Binding PrintSegments}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Grid></Grid>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+
+                                <DataTemplate DataType="viewModel:SegmentInfoViewModel">
+                                    <Border Margin="{Binding Margin}" HorizontalAlignment="Left" VerticalAlignment="Top"                                            
+                                    MouseDown="SegmentMouseDown" Tag="{Binding}" BorderBrush="Black" BorderThickness="2"
+                                        Visibility="{Binding IsRectangleShown, Converter={StaticResource BoolToVisibility}}">
+                                        <Grid>
+                                            <Rectangle Width="{Binding Width}" Height="{Binding Height}"
+                                                Fill="{Binding ViewModel.BrushForNotSelected, ElementName=ZoomWindow}" 
+                                                Opacity="0.3" Name="PART_Rect"></Rectangle>
+                                            <Image Stretch="None" MaxHeight="32" Source="{Binding QualityIndicator}"
+                                        VerticalAlignment="Bottom" HorizontalAlignment="Left"></Image>
+                                        </Grid>
+
+                                    </Border>
+                                    <!--<Rectangle Fill="Aqua" Opacity="0.3"></Rectangle>-->
+
+                                </DataTemplate>
+
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+                    </Grid>
+
+                </Border>
+            </DockPanel>
+        </DockPanel>
+
+
+        <Popup Grid.Row="0" Name="OverrideListPopup" Width="400" Visibility="Collapsed">
+            <Border Background="Azure" BorderBrush="Black" BorderThickness="1">
+                <StackPanel Margin="10" >
+                    <Button  Margin="0,4" Name="PopupNoOverrideButton" Tag="0" Click="OverrideButtonClick" Content="{x:Static language:Text.NoOverride}"></Button>
+                    <ItemsControl Name="OverrideItemsControlPopup" ItemsSource="{Binding OverrideReasons}" >
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="prints:OverrideReason">
+                                <Grid Margin="0,4">
+                                    <Button Tag="{Binding}" Content="{Binding Text}"
+                                                    Visibility="{Binding HasUserText, Converter={StaticResource BoolToVisibility}, ConverterParameter=invert}"
+                                                    Click="OverrideButtonClick"></Button>
+
+                                    <DockPanel Visibility="{Binding HasUserText, Converter={StaticResource BoolToVisibility}}">
+                                        <Label Name="PART_Label" Content="{Binding Text}" 
+                                                        DockPanel.Dock="Left" ></Label>
+                                        <Button Name="PART_ButtonAction" Tag="{Binding}" 
+                                                        DockPanel.Dock="Right"
+                                                        Click="OverrideButtonClick" Content="{x:Static language1:CommonText.Select}"></Button>
+
+                                        <TextBox Margin="10,0" Name="PART_Textbox" Style="{StaticResource TextboxErrorStyle}"
+                                                            Tag="{Binding}" Background="{Binding Background, ElementName=PART_ButtonAction}">
+                                            <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=Window}" Path="ViewModel.OverridePopupText" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay">
+                                                <Binding.ValidationRules>
+                                                    <ExceptionValidationRule />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox>
+
+
+                                    </DockPanel>
+                                </Grid>
+
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Label Foreground="Red" Content="{Binding OverrideErrorMessage}"></Label>
+
+                </StackPanel>
+            </Border>
+            
+        </Popup>
+    </Grid>
+</Window>

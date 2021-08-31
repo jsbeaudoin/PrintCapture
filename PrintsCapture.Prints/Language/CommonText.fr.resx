@@ -1,0 +1,1278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accept" xml:space="preserve">
+    <value>Accepter</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="CorrectErrorBeforeContinue" xml:space="preserve">
+    <value>Impossible de continuer. Certaines erreurs doivent être corrigées.</value>
+  </data>
+  <data name="EditPrint" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="EndorsementFinger" xml:space="preserve">
+    <value>Doigt de validation</value>
+  </data>
+  <data name="EndorsementTitle" xml:space="preserve">
+    <value>Doit de validation</value>
+  </data>
+  <data name="enumHandLeft" xml:space="preserve">
+    <value>Main gauche</value>
+  </data>
+  <data name="enumHandNone" xml:space="preserve">
+    <value />
+  </data>
+  <data name="enumHandPartCompletePalm" xml:space="preserve">
+    <value>Paume complète</value>
+  </data>
+  <data name="enumHandPartEndorsement" xml:space="preserve">
+    <value>Doigt de validation</value>
+  </data>
+  <data name="enumHandPartFourFlats" xml:space="preserve">
+    <value>4 doigt simultanés</value>
+  </data>
+  <data name="enumHandPartHypothenar" xml:space="preserve">
+    <value>Hypothénar</value>
+  </data>
+  <data name="enumHandPartIndex" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="enumHandPartLittle" xml:space="preserve">
+    <value>Auriculaire</value>
+  </data>
+  <data name="enumHandPartLowerPalm" xml:space="preserve">
+    <value>Paume inférieure</value>
+  </data>
+  <data name="enumHandPartMiddle" xml:space="preserve">
+    <value>Majeur</value>
+  </data>
+  <data name="enumHandPartRing" xml:space="preserve">
+    <value>Annulaire</value>
+  </data>
+  <data name="enumHandPartThumb" xml:space="preserve">
+    <value>Pouce</value>
+  </data>
+  <data name="enumHandPartTwoThumbs" xml:space="preserve">
+    <value>Deux Pouces</value>
+  </data>
+  <data name="enumHandPartUpperPalm" xml:space="preserve">
+    <value>Paume supérieure</value>
+  </data>
+  <data name="enumHandRight" xml:space="preserve">
+    <value>Main droite</value>
+  </data>
+  <data name="enumHandScanKindFlat" xml:space="preserve">
+    <value>Plat</value>
+  </data>
+  <data name="enumHandScanKindRolled" xml:space="preserve">
+    <value>Roulé</value>
+  </data>
+  <data name="ExceptionDateFormat" xml:space="preserve">
+    <value>Mauvais format. Attendu aaaa-mm-jj</value>
+  </data>
+  <data name="ExceptionDatePast" xml:space="preserve">
+    <value>Mauvais format. Attendu aaaa-mm-jj. La date doit être dans le passé.</value>
+  </data>
+  <data name="ExceptionDateYear" xml:space="preserve">
+    <value>Mauvais format. Attendu aaaa-mm-jj . l'année doit être enre 1900 et aujourd'hui.</value>
+  </data>
+  <data name="Fingers" xml:space="preserve">
+    <value>Doigts</value>
+  </data>
+  <data name="FourFinger" xml:space="preserve">
+    <value>Quatre doigts</value>
+  </data>
+  <data name="HandPartBandaged" xml:space="preserve">
+    <value>Pansement</value>
+  </data>
+  <data name="HandPartForeignReason" xml:space="preserve">
+    <value>Raison étrangère</value>
+  </data>
+  <data name="HandPartPhysicalLimitation" xml:space="preserve">
+    <value>Limitation physique</value>
+  </data>
+  <data name="HandPartPresent" xml:space="preserve">
+    <value>Présent</value>
+  </data>
+  <data name="HandPartAmputated" xml:space="preserve">
+    <value>Amputé</value>
+  </data>
+  <data name="InvalidCharacters" xml:space="preserve">
+    <value>Le texte contient des caractères invalides</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Gauche</value>
+  </data>
+  <data name="MissingFinger" xml:space="preserve">
+    <value>Doigt manquant</value>
+  </data>
+  <data name="MissingSince" xml:space="preserve">
+    <value>Manquant depuis</value>
+  </data>
+  <data name="NoPrint" xml:space="preserve">
+    <value>Aucune empreinte</value>
+  </data>
+  <data name="Overrides" xml:space="preserve">
+    <value>Surdéfinition</value>
+  </data>
+  <data name="Palms" xml:space="preserve">
+    <value>Paumes</value>
+  </data>
+  <data name="PhysicalPartNamePattern" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="PrintFingerIndex" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="PrintFingerLittle" xml:space="preserve">
+    <value>Auriculaire</value>
+  </data>
+  <data name="PrintFingerMiddle" xml:space="preserve">
+    <value>Majeur</value>
+  </data>
+  <data name="PrintFingerRing" xml:space="preserve">
+    <value>Annulaire</value>
+  </data>
+  <data name="PrintFingerThumb" xml:space="preserve">
+    <value>Pouce</value>
+  </data>
+  <data name="PrintFlat" xml:space="preserve">
+    <value>Plat</value>
+  </data>
+  <data name="PrintIsZoomed" xml:space="preserve">
+    <value>Cliquer sur l'image pour diminuer sa taille.</value>
+  </data>
+  <data name="PrintLeftHand" xml:space="preserve">
+    <value>Main gauche</value>
+  </data>
+  <data name="PrintNamePattern" xml:space="preserve">
+    <value>{0} ({1}), {2}</value>
+    <comment>Print (ScanKind), Hand</comment>
+  </data>
+  <data name="PrintPalm" xml:space="preserve">
+    <value>Paume</value>
+  </data>
+  <data name="PrintPalmHypothenar" xml:space="preserve">
+    <value>Hypothénar</value>
+  </data>
+  <data name="PrintPalmLower" xml:space="preserve">
+    <value>Paume inférieure</value>
+  </data>
+  <data name="PrintPalmUpper" xml:space="preserve">
+    <value>Paume supérieure</value>
+  </data>
+  <data name="PrintQualityBad" xml:space="preserve">
+    <value>Mauvais</value>
+    <comment>4</comment>
+  </data>
+  <data name="PrintQualityExcellent" xml:space="preserve">
+    <value>Excellent</value>
+    <comment>1</comment>
+  </data>
+  <data name="PrintQualityGood" xml:space="preserve">
+    <value>Bon</value>
+    <comment>3</comment>
+  </data>
+  <data name="PrintQualityVeryBad" xml:space="preserve">
+    <value>Très mauvais</value>
+    <comment>5</comment>
+  </data>
+  <data name="PrintQualityVeryGood" xml:space="preserve">
+    <value>Très bon</value>
+    <comment>2</comment>
+  </data>
+  <data name="PrintRightHand" xml:space="preserve">
+    <value>Main droite</value>
+  </data>
+  <data name="PrintRolled" xml:space="preserve">
+    <value>Roulé</value>
+  </data>
+  <data name="PrintsStatusOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="PrintStatusDouble" xml:space="preserve">
+    <value>Empreinte capturée plus d'une fois</value>
+  </data>
+  <data name="PrintStatusInError" xml:space="preserve">
+    <value>En erreur</value>
+  </data>
+  <data name="PrintStatusInErrorSwapped" xml:space="preserve">
+    <value>En erreur et position modifiée</value>
+  </data>
+  <data name="PrintStatusInProcess" xml:space="preserve">
+    <value>L'empreinte est en traitement</value>
+  </data>
+  <data name="PrintStatusMissing" xml:space="preserve">
+    <value>L'empreinte est manquante</value>
+  </data>
+  <data name="PrintStatusNotCaptured" xml:space="preserve">
+    <value>Empreinte non numérisée</value>
+  </data>
+  <data name="PrintStatusOverriden" xml:space="preserve">
+    <value>L'erreur a été surdéfinie</value>
+  </data>
+  <data name="PrintStatusPendingEvaluation" xml:space="preserve">
+    <value>En évaluation</value>
+  </data>
+  <data name="PrintStatusProcessed" xml:space="preserve">
+    <value>L'empreinte est prête</value>
+  </data>
+  <data name="PrintStatusQualityError" xml:space="preserve">
+    <value>La qualité de l'empreinte est mauvaise</value>
+  </data>
+  <data name="PrintStatusSequenceError" xml:space="preserve">
+    <value>Échec de la vérification de séquence</value>
+  </data>
+  <data name="PrintStatusSequenceSwappedError" xml:space="preserve">
+    <value>La séquence a correspondu à un doigt différent</value>
+  </data>
+  <data name="PrintStatusServiceError" xml:space="preserve">
+    <value>Erreur du Service</value>
+  </data>
+  <data name="PrintStatusSubmited" xml:space="preserve">
+    <value>Soumise</value>
+  </data>
+  <data name="PrintStatusTemplateError" xml:space="preserve">
+    <value>Modèle en erreur</value>
+  </data>
+  <data name="PrintStatusUnknown" xml:space="preserve">
+    <value>Inconnu</value>
+  </data>
+  <data name="PrintStatusUnknownError" xml:space="preserve">
+    <value>Erreur inconnue</value>
+  </data>
+  <data name="PrintStatusValidatedSwapped" xml:space="preserve">
+    <value>Valide, mais la position a été modifiée</value>
+  </data>
+  <data name="PrintWasMatchedTo" xml:space="preserve">
+    <value>Empreinte correspond à : {0}</value>
+  </data>
+  <data name="QualityLabel" xml:space="preserve">
+    <value>Qualité :</value>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>Envoyer au service</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Droite</value>
+  </data>
+  <data name="ScanAgain" xml:space="preserve">
+    <value>Numériser à nouveau</value>
+  </data>
+  <data name="SequenceBad" xml:space="preserve">
+    <value>Aucune correspondance</value>
+  </data>
+  <data name="SequenceCheck" xml:space="preserve">
+    <value>Validation de séquence</value>
+  </data>
+  <data name="SequenceGood" xml:space="preserve">
+    <value>Correspond</value>
+  </data>
+  <data name="SequenceLabel" xml:space="preserve">
+    <value>Séquence :</value>
+  </data>
+  <data name="SequenceNA" xml:space="preserve">
+    <value>N/A</value>
+  </data>
+  <data name="SequenceScoreGood" xml:space="preserve">
+    <value>Correspondance partielle</value>
+    <comment>&lt; 70</comment>
+  </data>
+  <data name="SequenceScoreLow" xml:space="preserve">
+    <value>Correspondance faible</value>
+    <comment>&lt; 50</comment>
+  </data>
+  <data name="SequenceScoreNone" xml:space="preserve">
+    <value>Aucune correspondance</value>
+    <comment>&lt; 10</comment>
+  </data>
+  <data name="SequenceScorePerfectMatch" xml:space="preserve">
+    <value>Correspondance complète</value>
+    <comment>&gt;= 120</comment>
+  </data>
+  <data name="SequenceScoreVeryGood" xml:space="preserve">
+    <value>Bonne correspondance</value>
+    <comment>&lt;120</comment>
+  </data>
+  <data name="SequenceScoreVeryLow" xml:space="preserve">
+    <value>Correspondance très faible</value>
+    <comment>&lt; 36</comment>
+  </data>
+  <data name="Threshold" xml:space="preserve">
+    <value>Seuil</value>
+  </data>
+  <data name="ThresholdLabel" xml:space="preserve">
+    <value>Seuil :</value>
+  </data>
+  <data name="ZoomWindowTitle" xml:space="preserve">
+    <value>Détails de l'empreinte</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Réinitialiser</value>
+  </data>
+  <data name="FingerPresenceWindowTitle" xml:space="preserve">
+    <value>Indicateur de présence</value>
+  </data>
+  <data name="ResolutionLabel" xml:space="preserve">
+    <value>Résolution :</value>
+  </data>
+  <data name="PrintsNotReady" xml:space="preserve">
+    <value>Des empreintes ne sont pas encore prêtes :</value>
+  </data>
+  <data name="ValidationTitle" xml:space="preserve">
+    <value>Validation</value>
+  </data>
+  <data name="CaptureFlatOnly" xml:space="preserve">
+    <value>Empreintes plates uniquement</value>
+  </data>
+  <data name="CaptureMode" xml:space="preserve">
+    <value>Type de prise d'empreinte</value>
+  </data>
+  <data name="CaptureStandard14" xml:space="preserve">
+    <value>Empreintes plates et roulées</value>
+  </data>
+  <data name="CaptureStandardAndPalm" xml:space="preserve">
+    <value>Empreintes plates, roulées et paumes</value>
+  </data>
+  <data name="Configure" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="CurrentDevice" xml:space="preserve">
+    <value>Appareil courant</value>
+  </data>
+  <data name="ScanEndorsement" xml:space="preserve">
+    <value>Numériser le doigt</value>
+  </data>
+  <data name="PrintMatchWarning" xml:space="preserve">
+    <value>L'empreinte pourrait correspondre à {0}. Séquence : {1}</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="DataCompressionLabel" xml:space="preserve">
+    <value>Compression des données :</value>
+  </data>
+  <data name="MiscOptions" xml:space="preserve">
+    <value>Divers</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Inactif</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>Actif</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="OverrideFlatLabel" xml:space="preserve">
+    <value>Plates :</value>
+  </data>
+  <data name="OverrideRolledLabel" xml:space="preserve">
+    <value>Roulées :</value>
+  </data>
+  <data name="PositionEnabledLabel" xml:space="preserve">
+    <value>Position attribution :</value>
+  </data>
+  <data name="Quality" xml:space="preserve">
+    <value>Qualité</value>
+  </data>
+  <data name="QualityScorePattern" xml:space="preserve">
+    <value>Qualité : {0}</value>
+  </data>
+  <data name="QualityThreshold" xml:space="preserve">
+    <value>Seuil de qualité</value>
+  </data>
+  <data name="Sequence" xml:space="preserve">
+    <value>Séquence</value>
+  </data>
+  <data name="SequenceErrorBadScore" xml:space="preserve">
+    <value>Erreur quand le pointage est bas</value>
+  </data>
+  <data name="SequenceOptions" xml:space="preserve">
+    <value>Options de séquence</value>
+  </data>
+  <data name="SequencePosition" xml:space="preserve">
+    <value>La position peut être modifiée</value>
+  </data>
+  <data name="SequenceThreshold" xml:space="preserve">
+    <value>Seuil pour la séquence</value>
+  </data>
+  <data name="ThresholdScorePattern" xml:space="preserve">
+    <value>Seuil : {0}</value>
+  </data>
+  <data name="ThresholdTooltip" xml:space="preserve">
+    <value>Ajuster le niveau du seuil</value>
+  </data>
+  <data name="ValidationEnabledLabel" xml:space="preserve">
+    <value>Validation :</value>
+  </data>
+  <data name="PrintPositionChangedTo" xml:space="preserve">
+    <value>La position de l'empreinte a été changé pour {0}</value>
+  </data>
+  <data name="PositionChangedFrom" xml:space="preserve">
+    <value>Position originale de l'empreinte : {0}</value>
+  </data>
+  <data name="MsgPrintSyncError" xml:space="preserve">
+    <value>Surdéfinition ou présence différente sur le serveur pour {0}.</value>
+  </data>
+  <data name="MsgSwapDifferent" xml:space="preserve">
+    <value>La poistion est différente pour {0}. Désactiver le changement de position et réactiver le.</value>
+  </data>
+  <data name="MsgWsqCompressionFailed" xml:space="preserve">
+    <value>Compression en Wsq échouée pour {0}. Traiter à nouveau.</value>
+  </data>
+  <data name="RestartService" xml:space="preserve">
+    <value>Repartir le service</value>
+  </data>
+  <data name="SavePrints" xml:space="preserve">
+    <value>Sauvegarder les empreintes</value>
+  </data>
+  <data name="ServiceOperationFailed" xml:space="preserve">
+    <value>L'opération '{0}' a échouée.</value>
+  </data>
+  <data name="ServiceOperationGetPrintSet" xml:space="preserve">
+    <value>Obtention du jeu d'empreintes</value>
+  </data>
+  <data name="ServiceOperationNotCompleted" xml:space="preserve">
+    <value>L'opération n'a pu être complétée sur le serveur. Voir les journaux our plus de détails.</value>
+  </data>
+  <data name="ServiceOperationRemoveOverride" xml:space="preserve">
+    <value>Retirer une surdéfinition</value>
+  </data>
+  <data name="ServiceOperationSetOverride" xml:space="preserve">
+    <value>Surdéfinition</value>
+  </data>
+  <data name="ServiceOperationSwapPrints" xml:space="preserve">
+    <value>Changement de position</value>
+  </data>
+  <data name="TroubleShooting" xml:space="preserve">
+    <value>Débogage</value>
+  </data>
+  <data name="CloseApplicationTitle" xml:space="preserve">
+    <value>Fermeture de l'application</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="MsgClosePrompt" xml:space="preserve">
+    <value>Êtes-vous sûr de vouloir fermer l'application ?</value>
+  </data>
+  <data name="MsgLosePrintPrompt" xml:space="preserve">
+    <value>Voulez-vous fermer l'application et perdre toutes les empreintes ?</value>
+  </data>
+  <data name="MsgNoEndorsementPrompt" xml:space="preserve">
+    <value>Il n'y a pas de doigt de validation. Voulez-vous tout de même fermer l'application ?</value>
+  </data>
+  <data name="BackgroundWhiteningTooltip" xml:space="preserve">
+    <value>Retirer les couleurs pas totalement blanches de l'arrière-plan pour les remplacer par un blanc pur. Idéal pour la correspondance.</value>
+  </data>
+  <data name="BrightnessTooltip" xml:space="preserve">
+    <value>Ajuster le niveau d'éclairage</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+    <comment>d</comment>
+  </data>
+  <data name="CannotProcessImage" xml:space="preserve">
+    <value>Impossible de traiter l'image reçue</value>
+  </data>
+  <data name="CaptureFailure" xml:space="preserve">
+    <value>Échec de la capture</value>
+    <comment>d</comment>
+  </data>
+  <data name="CaptureStepCapturePreparation" xml:space="preserve">
+    <value>Préparation de la prise d'empreinte</value>
+    <comment>d</comment>
+  </data>
+  <data name="CaptureStepDeviceOpen" xml:space="preserve">
+    <value>Ouverture du périphérique</value>
+    <comment>d</comment>
+  </data>
+  <data name="CaptureStepDeviceStatus" xml:space="preserve">
+    <value>Validation du statut du périphérique</value>
+    <comment>d</comment>
+  </data>
+  <data name="CaptureStepSdk" xml:space="preserve">
+    <value>Préparation du Sdk</value>
+    <comment>d</comment>
+  </data>
+  <data name="ConfigurationWindowTitle" xml:space="preserve">
+    <value>Configuration des paramètres de saisie</value>
+  </data>
+  <data name="ContrastTooltip" xml:space="preserve">
+    <value>Ajuster le niveau de contraste</value>
+  </data>
+  <data name="CropCenterTooltip" xml:space="preserve">
+    <value>Rogner l'image et la centrer dans l'espace disponible</value>
+  </data>
+  <data name="Custom" xml:space="preserve">
+    <value>Personnalisé</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Device" xml:space="preserve">
+    <value>Périphérique</value>
+    <comment>d</comment>
+  </data>
+  <data name="DeviceInitialization" xml:space="preserve">
+    <value>Chargement du périphérique</value>
+    <comment>d</comment>
+  </data>
+  <data name="DeviceInternalError" xml:space="preserve">
+    <value>Erreur interne de l'appareil</value>
+  </data>
+  <data name="DeviceNotFound" xml:space="preserve">
+    <value>Appareil non détecté</value>
+  </data>
+  <data name="EditModeTooltip" xml:space="preserve">
+    <value>Affiche la liste des opération d'édition</value>
+  </data>
+  <data name="EmptyModel" xml:space="preserve">
+    <value>Vide</value>
+  </data>
+  <data name="EmptyZoneTooltip" xml:space="preserve">
+    <value>Vider la zone sélectionnée</value>
+  </data>
+  <data name="ErrorStoppedCapture" xml:space="preserve">
+    <value>Une erreur est survenue. Veuillez la corriger avant de reprendre.</value>
+    <comment>d</comment>
+  </data>
+  <data name="FailCommand" xml:space="preserve">
+    <value>Échec de la commande : {0}</value>
+    <comment>d</comment>
+  </data>
+  <data name="InstructionInitialization" xml:space="preserve">
+    <value>Veuillez patientez pendant le chargement du module</value>
+    <comment>d</comment>
+  </data>
+  <data name="LivePreviewTitle" xml:space="preserve">
+    <value>Fenêtre De prévisualisation</value>
+  </data>
+  <data name="ManageModelPattern" xml:space="preserve">
+    <value>Gestion de '{0}'</value>
+  </data>
+  <data name="MirrorHorizontalTooltip" xml:space="preserve">
+    <value>Miroir horizontal de l'image</value>
+  </data>
+  <data name="MirrorVerticalTooltip" xml:space="preserve">
+    <value>Miroir vertical de l'image</value>
+  </data>
+  <data name="Model" xml:space="preserve">
+    <value>Modèle</value>
+  </data>
+  <data name="ModelCreateNew" xml:space="preserve">
+    <value>Créer un nouveau modèle</value>
+  </data>
+  <data name="ModelName" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Models" xml:space="preserve">
+    <value>Modèles</value>
+  </data>
+  <data name="ModelSaveCurrent" xml:space="preserve">
+    <value>Sauvegarder sous le nom courant</value>
+  </data>
+  <data name="MoveTooltip" xml:space="preserve">
+    <value>Déplacer</value>
+  </data>
+  <data name="NegativePrintIndexError" xml:space="preserve">
+    <value>Impossible de traiter un index de capture négatif</value>
+    <comment>d</comment>
+  </data>
+  <data name="NoImageReturned" xml:space="preserve">
+    <value>Aucune image n'a été produite par l'appareil</value>
+    <comment>f</comment>
+  </data>
+  <data name="NoModel" xml:space="preserve">
+    <value>Aucun modèle</value>
+  </data>
+  <data name="Offset" xml:space="preserve">
+    <value>Décalage</value>
+  </data>
+  <data name="Pivot10LeftTooltip" xml:space="preserve">
+    <value>Pivoter de 10 degrés vers la gauche</value>
+  </data>
+  <data name="Pivot10RightTooltip" xml:space="preserve">
+    <value>Pivoter de 10 degrés vers la droite</value>
+  </data>
+  <data name="Pivot90LeftTooltip" xml:space="preserve">
+    <value>Pivoter de 90 degrés vers la gauche</value>
+  </data>
+  <data name="Pivot90RightTooltip" xml:space="preserve">
+    <value>Pivoter de 90 degrés vers la droite</value>
+  </data>
+  <data name="PivotLabel" xml:space="preserve">
+    <value>Rotation :</value>
+  </data>
+  <data name="PivotModeTooltip" xml:space="preserve">
+    <value>Affiche la liste des opérations de pivot/miroir</value>
+  </data>
+  <data name="Preset" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="PresetCompletePage" xml:space="preserve">
+    <value>Page complète</value>
+  </data>
+  <data name="PresetLowerHalf" xml:space="preserve">
+    <value>Moitié de page inférieure</value>
+  </data>
+  <data name="PresetLowerTwoThird" xml:space="preserve">
+    <value>Deux tiers inférieur de la page</value>
+  </data>
+  <data name="PresetUpperHalf" xml:space="preserve">
+    <value>Moitié de page supérieure</value>
+  </data>
+  <data name="PresetUpperTwoThird" xml:space="preserve">
+    <value>Deux tiers de page supérieure</value>
+  </data>
+  <data name="PreviousPrint" xml:space="preserve">
+    <value>Empreinte précédente</value>
+    <comment>d</comment>
+  </data>
+  <data name="PrintPivotModeTooltip" xml:space="preserve">
+    <value>Entrer dans le mode rotation</value>
+  </data>
+  <data name="PrintPositioningLabel" xml:space="preserve">
+    <value>Positionnement :</value>
+  </data>
+  <data name="Prints" xml:space="preserve">
+    <value>Empreintes</value>
+  </data>
+  <data name="QualityLabel1" xml:space="preserve">
+    <value>Qualité :</value>
+  </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>Résolution</value>
+  </data>
+  <data name="Resolutions" xml:space="preserve">
+    <value>Résolutions</value>
+    <comment>d</comment>
+  </data>
+  <data name="ResumeCapture" xml:space="preserve">
+    <value>Reprendre</value>
+    <comment>d</comment>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Sauvegarder</value>
+  </data>
+  <data name="Scanner" xml:space="preserve">
+    <value>Scanneur</value>
+    <comment>d</comment>
+  </data>
+  <data name="ScanSizeRelation" xml:space="preserve">
+    <value>Toutes les tailles sont relatives à la dimension interne du scanner</value>
+  </data>
+  <data name="ScanZone" xml:space="preserve">
+    <value>Zone de numérisation</value>
+  </data>
+  <data name="ScanZoneButton" xml:space="preserve">
+    <value>Numériser</value>
+  </data>
+  <data name="SelectedZone" xml:space="preserve">
+    <value>Zone sélectionnée</value>
+  </data>
+  <data name="SelectTooltip" xml:space="preserve">
+    <value>Selectionner une zone</value>
+  </data>
+  <data name="SerialLabel" xml:space="preserve">
+    <value># de série :</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Numéro de série</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Taille</value>
+  </data>
+  <data name="ZoomInTooltip" xml:space="preserve">
+    <value>Agrandir l'image</value>
+  </data>
+  <data name="ZoomOutTooltip" xml:space="preserve">
+    <value>Réduire l'image</value>
+  </data>
+  <data name="Pivot" xml:space="preserve">
+    <value>Rotation</value>
+  </data>
+  <data name="Crop" xml:space="preserve">
+    <value>Rognage</value>
+  </data>
+  <data name="FixedModelLabel_" xml:space="preserve">
+    <value>Dernier modèle utilisé</value>
+  </data>
+  <data name="FixedModelLabel_C216" xml:space="preserve">
+    <value>C216-GRC</value>
+  </data>
+  <data name="FixedModelLabel_EmptyModel" xml:space="preserve">
+    <value>Modèle vide</value>
+  </data>
+  <data name="FixedModelLabel_XLID" xml:space="preserve">
+    <value>Formulaire XL-ID</value>
+  </data>
+  <data name="TemplateErrorErrorOnExtract" xml:space="preserve">
+    <value>Le modèle n'a pas pu être extrait.</value>
+  </data>
+  <data name="TemplateErrorMatchingFailed" xml:space="preserve">
+    <value>La correspondance du modèle à échouhée.</value>
+  </data>
+  <data name="TemplateErrorQualityCheckFailed" xml:space="preserve">
+    <value>La validation de qualité interne a échouée et ne permet pas de créer un modèle fiable.</value>
+  </data>
+  <data name="TemplateErrorTemplatePositionUnknown" xml:space="preserve">
+    <value>La position d'un modèle n'a pas pu être déterminée. </value>
+  </data>
+  <data name="TemplateErrorTooFewMinutiae" xml:space="preserve">
+    <value>Il n'y a pas assez de minuties pour créer un modèle.</value>
+  </data>
+  <data name="TemplateErrorUnknown" xml:space="preserve">
+    <value>Une erreur inconne s'est produite lors du traitement de l'image.</value>
+  </data>
+  <data name="TemplateErrorWrongTemplateCount" xml:space="preserve">
+    <value>Le nombre de modèles extrait de l'empreinte n'est pas celui attendu.</value>
+  </data>
+  <data name="TemplateErrorWsqNotCreated" xml:space="preserve">
+    <value>L'image en format Wsq n'a pu être créée.</value>
+  </data>
+  <data name="VerifyDeviceMsg" xml:space="preserve">
+    <value>Verifier que le périphérique est bien branché, les pilotes installés et que Windows peut bien communiquer avec lui.</value>
+  </data>
+  <data name="HandPartMissingImage" xml:space="preserve">
+    <value>Image manquante</value>
+  </data>
+  <data name="CannotStartPrintSession" xml:space="preserve">
+    <value>Impossible de démarrer la session dans le service.Reconnectez-vous au service avant de quitter l'application.</value>
+    <comment>Impossible de démarrer la session dans le service.Reconnectez-vous au service avant de quitter l'application.</comment>
+  </data>
+  <data name="SerialNumberNeeded" xml:space="preserve">
+    <value>Le numéro de série ne peut être vide</value>
+  </data>
+  <data name="SdkErrorCaptureSurfaceDirty" xml:space="preserve">
+    <value>La surface de capture est sale</value>
+  </data>
+  <data name="SdkErrorCommunicationError" xml:space="preserve">
+    <value>Erreur de communication Usb ou Firewire</value>
+  </data>
+  <data name="SdkErrorDeviceInitializationFailed" xml:space="preserve">
+    <value>Erreur lors de l'initialisation du périphérique</value>
+  </data>
+  <data name="SdkErrorDeviceNotFound" xml:space="preserve">
+    <value>Le périphérique n'a pas été trouvé</value>
+  </data>
+  <data name="SdkErrorInvalidParameter" xml:space="preserve">
+    <value>Paramètre invalide</value>
+  </data>
+  <data name="SdkErrorOutOfMemory" xml:space="preserve">
+    <value>Espace mémoire insuffisant</value>
+  </data>
+  <data name="SdkErrorSdkInitFailed" xml:space="preserve">
+    <value>Échec de l'initialisation du Sdk</value>
+  </data>
+  <data name="DeviceClearPlaten" xml:space="preserve">
+    <value>Veuiller retirer ce qui se trouve sur le plateau</value>
+  </data>
+  <data name="DeviceCouldRequireUsb2" xml:space="preserve">
+    <value>
+Cause possible: Certains périphérique requiert USB2.0 ou mieux pour fonctionner</value>
+  </data>
+  <data name="AdvancedDeviceOption" xml:space="preserve">
+    <value>Outil de périphérique avancé</value>
+  </data>
+  <data name="DeviceClose" xml:space="preserve">
+    <value>Fermer le périphérique</value>
+  </data>
+  <data name="DeviceExternalTool" xml:space="preserve">
+    <value>Lancer un utilitaire externe</value>
+  </data>
+  <data name="CalibrationRequired" xml:space="preserve">
+    <value>Le périphérique doit être calibré. Réinitialiser l'opération, aller dans l'écran de configuration dans la section des options avancées. Cliquer sur le bouton des outils externes.</value>
+  </data>
+  <data name="PrintStatusSegmentQualityError" xml:space="preserve">
+    <value>La qualité des segments est mauvaise</value>
+  </data>
+  <data name="PartExpectedQuestion" xml:space="preserve">
+    <value>Est-ce que cette partie se retrouve dans l'image de l'empreinte ? Ne modifier pas sans être certain.</value>
+  </data>
+  <data name="PartQualityLow" xml:space="preserve">
+    <value>La qualité de cette partie est mauvaise.</value>
+  </data>
+  <data name="PartQualityMissing" xml:space="preserve">
+    <value>Cette partie est définie comme absente.</value>
+  </data>
+  <data name="PartQualityNotExpected" xml:space="preserve">
+    <value>Cette partie ne sera pas présente dans l'image</value>
+  </data>
+  <data name="PartQualityOk" xml:space="preserve">
+    <value>La qualité de cette partie est bonne.</value>
+  </data>
+  <data name="PartQualityOverriden" xml:space="preserve">
+    <value>Cette partie a été surdéfinie</value>
+  </data>
+  <data name="PartQualityNotFound" xml:space="preserve">
+    <value>La partie n'a pas été trouvé dans l'image.</value>
+  </data>
+  <data name="TemplateErrorWrongHand" xml:space="preserve">
+    <value>Mauvaise main</value>
+  </data>
+  <data name="ResetConnectionMessage" xml:space="preserve">
+    <value>Cela va réinitialiser la connexion au service et envoyer les empreintes à nouveau.</value>
+    <comment>Cela va réinitialiser la connexion au service et envoyer les empreintes à nouveau.</comment>
+  </data>
+  <data name="SegmentUndefinedPrintInvalid" xml:space="preserve">
+    <value>Un ou plusieurs segment(s)ne sont pas défini(s). L'empreinte est invalide.</value>
+    <comment>Un ou plusieurs segment(s)ne sont pas défini(s). L'empreinte est invalide.</comment>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Prendre</value>
+    <comment>Prendre</comment>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Nouveau</value>
+    <comment>Nouveau</comment>
+  </data>
+  <data name="AppCantStartDirectly" xml:space="preserve">
+    <value>Impossible de lancer l'application de cette façon</value>
+    <comment>Impossible de lancer l'application de cette façon</comment>
+  </data>
+  <data name="ScanModelManagementWindowTitle" xml:space="preserve">
+    <value>Gestion de modèle</value>
+  </data>
+  <data name="ScanParameterWindowTitle" xml:space="preserve">
+    <value>Paramètres de numérisation</value>
+  </data>
+  <data name="VerifyPrintsSomeNotReady" xml:space="preserve">
+    <value>Vérifier les empreintes. Plusieurs ne sont pas prêtes.</value>
+    <comment>Vérifier les empreintes. Plusieurs ne sont pas prêtes.</comment>
+  </data>
+  <data name="EndorsementFingerRequired" xml:space="preserve">
+    <value>Le doigt de validation est requis</value>
+    <comment>Le doigt de validation est requis</comment>
+  </data>
+  <data name="AllPrintsPresent" xml:space="preserve">
+    <value>Toutes les empreintes sont présentes</value>
+    <comment>Toutes les empreintes sont présentes</comment>
+  </data>
+  <data name="CaptureCompleted" xml:space="preserve">
+    <value>Prise d'empreinte terminée</value>
+    <comment>Prise d'empreinte terminée</comment>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>Erreur inconnue</value>
+    <comment>Erreur inconnue</comment>
+  </data>
+  <data name="StartCapture" xml:space="preserve">
+    <value>Débuter la saisie</value>
+    <comment>Débuter la saisie</comment>
+  </data>
+  <data name="DefineMissingAbove" xml:space="preserve">
+    <value>Cliquer sur les doigts ci-dessus pour les définir comme doigts manquants.</value>
+    <comment>Valider les doigts manquants ci-dessus</comment>
+  </data>
+  <data name="StartingCapture" xml:space="preserve">
+    <value>Début de la saisie</value>
+    <comment>Début de la saisie</comment>
+  </data>
+  <data name="DefineMissingPrintButton" xml:space="preserve">
+    <value>Identification des doigts manquants</value>
+    <comment>Identification des doigts manquants</comment>
+  </data>
+  <data name="RestartCapture" xml:space="preserve">
+    <value>Recommencer la saisie</value>
+  </data>
+  <data name="SingleCaptureCompleted" xml:space="preserve">
+    <value>Saisie terminée. 
+Fermer la fenêtre ou recommencer la saisie de l'empreinte.</value>
+    <comment>Saisie terminée. Fermer la fenêtre ou recommencer la saisie de l'empreinte.</comment>
+  </data>
+  <data name="AppVersionDisplay" xml:space="preserve">
+    <value>Version : {0}</value>
+    <comment>Version : {0}</comment>
+  </data>
+  <data name="EmptyImage" xml:space="preserve">
+    <value>Image vide</value>
+    <comment>Image vide</comment>
+  </data>
+  <data name="GreenBitSurfaceNotNormal" xml:space="preserve">
+    <value>Doigt placé trop tôt ou surface sale.</value>
+    <comment>Doigt placé trop tôt ou surface sale.</comment>
+  </data>
+  <data name="GreenbitScannerFailure" xml:space="preserve">
+    <value>Les paramètres ne sont pas conformes pour une prise d'empreinte de qualité</value>
+    <comment>Les paramètres ne sont pas conformes pour une prise d'empreinte de qualité</comment>
+  </data>
+  <data name="GreenbitCompositionSlow" xml:space="preserve">
+    <value>Le nombre d,image par secon est trop bas pour faire une image de qualité</value>
+    <comment>Le nombre d,image par secon est trop bas pour faire une image de qualité</comment>
+  </data>
+  <data name="GreenbitFlatFingerSlide" xml:space="preserve">
+    <value>L'empreinte plate a glissée</value>
+    <comment>L'empreinte plate a glissée</comment>
+  </data>
+  <data name="GreenbitTooMuchLight" xml:space="preserve">
+    <value>Trop de lumière</value>
+    <comment>Trop de lumière</comment>
+  </data>
+  <data name="GreenbitImageOutLeft" xml:space="preserve">
+    <value>L'image est hors de la zone gauche</value>
+    <comment>L'image est hors de la zone gauche</comment>
+  </data>
+  <data name="GreenbitImageOutRight" xml:space="preserve">
+    <value>L'image est hors de la zone droite</value>
+    <comment>L'image est hors de la zone droite</comment>
+  </data>
+  <data name="GreenbitImageOutTop" xml:space="preserve">
+    <value>L'image est hors de la zone supérieure</value>
+    <comment>L'image est hors de la zone supérieure</comment>
+  </data>
+  <data name="GreenbitImageOutBottom" xml:space="preserve">
+    <value>L'image est hors de la zone inférieure</value>
+    <comment>L'image est hors de la zone inférieure</comment>
+  </data>
+  <data name="GreenbitImproperRoll" xml:space="preserve">
+    <value>Roulement incorrect</value>
+    <comment>Roulement incorrect</comment>
+  </data>
+  <data name="GreenbitRollTooFast" xml:space="preserve">
+    <value>Roulement trop rapide</value>
+    <comment>Roulement trop rapide</comment>
+  </data>
+  <data name="GreenbitRollTooNarrow" xml:space="preserve">
+    <value>Roulement trop étroit</value>
+    <comment>Roulement trop étroit</comment>
+  </data>
+  <data name="GreenbitRollToTheRight" xml:space="preserve">
+    <value>Roulé vers la droite</value>
+    <comment>Roulé vers la droite</comment>
+  </data>
+  <data name="GreenbitRollToTheLeft" xml:space="preserve">
+    <value>Roulé vers la gauche</value>
+    <comment>Roulé vers la gauche</comment>
+  </data>
+  <data name="GreenbitDryFinger" xml:space="preserve">
+    <value>Avertissement : Doigts secs</value>
+    <comment>Doigts secs</comment>
+  </data>
+  <data name="GreenbitWetFinger" xml:space="preserve">
+    <value>Avertissement : Doigts humides</value>
+    <comment>Doigts humides</comment>
+  </data>
+  <data name="GreenbitRollVerticalTooShort" xml:space="preserve">
+    <value>Roulement vertical trop court</value>
+    <comment>Roulement vertical trop court</comment>
+  </data>
+  <data name="GreenbitRollTowardTop" xml:space="preserve">
+    <value>Roulé vers le haut</value>
+    <comment>Roulé vers le haut</comment>
+  </data>
+  <data name="GreenbitRollTowardBottom" xml:space="preserve">
+    <value>Roulé vers le bas</value>
+    <comment>Roulé vers le bas</comment>
+  </data>
+  <data name="PrintCaptureHalted" xml:space="preserve">
+    <value>La prise d'empreinte a été interrompue</value>
+    <comment>La prise d'empreinte a été interrompue</comment>
+  </data>
+  <data name="StoppingCapture" xml:space="preserve">
+    <value>Arrêt de la saisie en cours. Veuillez patienter.</value>
+    <comment>Arrêt de la saisie en cours. Veuillez patienter.</comment>
+  </data>
+  <data name="ScannerNotSupporPalm" xml:space="preserve">
+    <value>Le lecteur ne supporte pas les empreintes palmaires</value>
+    <comment>Le lecteur ne supporte pas les empreintes palmaires</comment>
+  </data>
+  <data name="ScannerNotSupportFlat" xml:space="preserve">
+    <value>Le lecteur ne supporte pas les empreintes plates</value>
+    <comment>Le lecteur ne supporte pas les empreintes plates</comment>
+  </data>
+  <data name="ScannerNotSupportRolled" xml:space="preserve">
+    <value>Le lecteur ne suport pas les empreintes roulées</value>
+    <comment>Le lecteur ne suport pas les empreintes roulées</comment>
+  </data>
+  <data name="PropertyEnabled" xml:space="preserve">
+    <value>Activé</value>
+    <comment>Activé</comment>
+  </data>
+  <data name="PropertyAutoCapture" xml:space="preserve">
+    <value>CaptureAuto</value>
+    <comment>CaptureAuto</comment>
+  </data>
+  <data name="PropertyDelay" xml:space="preserve">
+    <value>Temps</value>
+    <comment>Temps</comment>
+  </data>
+  <data name="PropertyCountDown" xml:space="preserve">
+    <value>Compte à rebours</value>
+    <comment>Compte à rebours</comment>
+  </data>
+  <data name="PropertyDeviceSound" xml:space="preserve">
+    <value>Son du lecteur</value>
+    <comment>Son du lecteur</comment>
+  </data>
+  <data name="PropertyComputerSound" xml:space="preserve">
+    <value>Son de l'ordinateur</value>
+    <comment>Son de l'ordinateur</comment>
+  </data>
+  <data name="PropertyMuted" xml:space="preserve">
+    <value>Muet</value>
+    <comment>Muet</comment>
+  </data>
+  <data name="PropertyAtBottom" xml:space="preserve">
+    <value>Au bas de l'écran</value>
+    <comment>Au bas de l'écran</comment>
+  </data>
+  <data name="PropertyCaptureRectangle" xml:space="preserve">
+    <value>Rectangle de capture</value>
+    <comment>Rectangle de capture</comment>
+  </data>
+  <data name="MinutiaLabel" xml:space="preserve">
+    <value>Minuties:</value>
+  </data>
+  <data name="CommunicationBreakDetected" xml:space="preserve">
+    <value>Erreur de comunication avec le lecteur - Veuillez patienter</value>
+  </data>
+  <data name="CommunicationBreakReconnect" xml:space="preserve">
+    <value>Vérifier le câble, reconnecter le lecteur et appuyer sur le bouton "Reprendre"</value>
+  </data>
+  <data name="PalmQualityIsLow" xml:space="preserve">
+    <value>{0} est de faible qualité. Voulez-vous l'accepter ?</value>
+  </data>
+  <data name="UnexpectedErrorSeeLogs" xml:space="preserve">
+    <value>Une erreur indéterminée s'est produite. Consulter les journaux pour plus de détails.</value>
+  </data>
+  <data name="Fingerprints" xml:space="preserve">
+    <value>Empreintes digitales</value>
+  </data>
+  <data name="InstructionFourFlats" xml:space="preserve">
+    <value>Placer les 4 doigts de la {0} sur le plateau.</value>
+  </data>
+  <data name="InstructionRolledFinger" xml:space="preserve">
+    <value>Placer le {1} de la main {0} sur le côté et le déposer sur le plateau. 
+Rouler le doigt jusqu'au début de l'ongle opposé.</value>
+  </data>
+  <data name="InstructionSingleFinger" xml:space="preserve">
+    <value>Placer le {1} de la main {0} au centre du plateau</value>
+  </data>
+  <data name="InstructionTwoThumbs" xml:space="preserve">
+    <value>Placer les 2 pouces sur le plateau. </value>
+  </data>
+  <data name="SomeInvalidPrints" xml:space="preserve">
+    <value>Certaines empreintes sont incorrectes.</value>
+  </data>
+  <data name="ShortNamePattern" xml:space="preserve">
+    <value>{0} {1}</value>
+  </data>
+  <data name="ShortNamePatternExplicit" xml:space="preserve">
+    <value>{0} de la main {1}</value>
+  </data>
+  <data name="WizardCleanPlaten" xml:space="preserve">
+    <value>Nettoyer le plateau avec un chiffon en microfibre
+Et cliquer sur "Débuter la saisie" pour continuer le processus.</value>
+  </data>
+  <data name="WizardDeviceInternalError" xml:space="preserve">
+    <value>Échec du périphérique, voir un associé du magasin</value>
+  </data>
+  <data name="WizardFirstInstruction" xml:space="preserve">
+    <value>Avez-vous un ou plusieurs doigts blessé, avec un pansement ou manquant?</value>
+  </data>
+  <data name="WizardMissingFingers" xml:space="preserve">
+    <value>Doigts manquants</value>
+  </data>
+  <data name="WizardNext" xml:space="preserve">
+    <value>Suivant</value>
+  </data>
+  <data name="WizardReasonBandaged" xml:space="preserve">
+    <value>Pansement</value>
+  </data>
+  <data name="WizardReasonInjured" xml:space="preserve">
+    <value>Blessé</value>
+  </data>
+  <data name="WizardReasonMissing" xml:space="preserve">
+    <value>Manquant</value>
+  </data>
+  <data name="WizardSecondInstruction" xml:space="preserve">
+    <value>Cliquer sur chaque doigt manquant, blessé ou avec pansement</value>
+  </data>
+  <data name="WizardSelectReason" xml:space="preserve">
+    <value>Veuillez sélectionner une des trois raisons pour vos doigts manquants et cliquer Suivant pour continuer.</value>
+  </data>
+  <data name="WizardStartOver" xml:space="preserve">
+    <value>Recommencer le processus en appuyant sur "Débuter la saisie"</value>
+  </data>
+  <data name="ErrorIgnored" xml:space="preserve">
+    <value>Ignoré : {0}</value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>Bonne</value>
+  </data>
+  <data name="IgnoreWithReason" xml:space="preserve">
+    <value>Ignore (select reason below) :</value>
+  </data>
+  <data name="NotGood" xml:space="preserve">
+    <value>Pas assez bonne</value>
+  </data>
+  <data name="OriginalPosition" xml:space="preserve">
+    <value>Initialement : {0}</value>
+  </data>
+  <data name="InvalidScanSizeAndOffset" xml:space="preserve">
+    <value>L'addition des valeurs de taille et de décalage ne peut pas dépasser 100.</value>
+  </data>
+  <data name="PresetC216" xml:space="preserve">
+    <value>C216</value>
+  </data>
+  <data name="PresetFD258" xml:space="preserve">
+    <value>FD 258</value>
+  </data>
+  <data name="ValidationError" xml:space="preserve">
+    <value>Erreur de validation</value>
+  </data>
+  <data name="ValidScanOffsetValues" xml:space="preserve">
+    <value>La valeur de décalage permise est de : [0 - 95]</value>
+  </data>
+  <data name="ValidScanSizeValues" xml:space="preserve">
+    <value>La valeur de taille permise est de : [5 - 100]</value>
+  </data>
+  <data name="FixedModelLabel_FD258" xml:space="preserve">
+    <value>FD258 - FBI</value>
+  </data>
+  <data name="WizardMissingDetails" xml:space="preserve">
+    <value>Raison de l'absence</value>
+  </data>
+  <data name="WizardNotMissing" xml:space="preserve">
+    <value>N'est pas absent</value>
+  </data>
+  <data name="WizardReasonForeign" xml:space="preserve">
+    <value>Piercing</value>
+  </data>
+  <data name="MatchLabel" xml:space="preserve">
+    <value>Correspondance :</value>
+  </data>
+  <data name="CalibratingDevice" xml:space="preserve">
+    <value>L'appareil doit effectuer une opération d'initialisation supplémentaire. Veuillez patienter.</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+</root>

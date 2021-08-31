@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>Guardian User Guidance Interface fingerprint roll</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+
+
+<script language="JavaScript" type="text/JavaScript">
+
+	/***********************************************************************************************
+		This web page will use JavaScript to display the img/image_roll.svg image
+		the Guardian's blue light platen.
+
+		The body of this web page is at the bottom of this file.
+		The javascript will parse the html arguments and load the svg image.
+		The svg image can use ecmascript to perform animation.
+	************************************************************************************************/
+
+	/**************************************************************************************************************************
+	  Roll external arguments
+	EXTERNAL ARGUMENT   DESCRIPTION            DEFAULT  VALID VALUES    EFFECT
+	  FP1               right thumb            0        0,1,2,3,4,5     0 - inactive
+	                                                                    1 - captured successfully
+	                                                                    2 - capturing the finger
+	                                                                    3 - An error occurred.
+	  FP2               right index finger     0        0,1,2,3,4,5     0 - inactive
+	                                                                    1 - captured successfully
+	                                                                    2 - capturing the finger
+	                                                                    3 - An error occurred.
+	  FP3               right middle finger    0        0,1,2,3,4,5     0 - inactive
+	                                                                    1 - captured successfully
+	                                                                    2 - capturing the finger
+	                                                                    3 - An error occurred.
+	  FP4               right ring finger      0        0,1,2,3,4,5     0 - inactive
+	                                                                    1 - captured successfully
+	                                                                    2 - capturing the finger
+	                                                                    3 - An error occurred.
+	  FP5               right little finger    0        0,1,2,3,4,5     0 - inactive
+	                                                                    1 - captured successfully
+	                                                                    2 - capturing the finger
+	                                                                    3 - An error occurred.
+	  FP6               left thumb finger      0        0,1,2,3,4,5     0 - inactive
+	                                                                    1 - captured successfully
+	                                                                    2 - capturing the finger
+	                                                                    3 - An error occurred.
+	  FP7               left index finger      0        0,1,2,3,4,5     0 - inactive
+	                                                                    1 - captured successfully
+	                                                                    2 - capturing the finger
+	                                                                    3 - An error occurred.
+	  FP8               left middle finger     0        0,1,2,3,4,5     0 - inactive
+	                                                                    1 - captured successfully
+	                                                                    2 - capturing the finger
+	                                                                    3 - An error occurred.
+	  FP9               left ring finger       0        0,1,2,3,4,5     0 - inactive
+	                                                                    1 - captured successfully
+	                                                                    2 - capturing the finger
+	                                                                    3 - An error occurred.
+	  FP10              left little finger     0        0,1,2,3,4,5     0 - inactive
+	                                                                    1 - captured successfully
+	                                                                    2 - capturing the finger
+	                                                                    3 - An error occurred.
+	                                                                      "FPx":0 - set finger icon to not active Medium Blue (Color #264A80) and not captured
+	                                                                      "FPx":1 - set finger icon to captured successfully Green (Color #5CE224) for 1 second and then to light blue (Color #3C7CF4)
+	                                                                      "FPx":2 - set finger icon to actively being captured Yellow (Color #FFBF40)
+	                                                                      "FPx":3 - set finger icon to roll error Red (Color #e63622)
+	                                                                      "FPx":4 - set finger icon to successfully captured Light Blue (Color #3C7CF4)
+	                                                                      "FPx":5 - set finger icon to caputure complete Green (Color #5CE224)
+
+	  HP1               right hand             0        0,1             0 - Hand is not acive
+	                                                                    1 - Hand is active
+	  HP2               left hand              0        0,1             0 - Hand is not acive
+	                                                                    1 - Hand is active
+	                                                                      "HP2":0 - Set hand to inactive mediam blue (color #264A80)
+	                                                                      "HP1":1 - Set hand to active white (color #FFFFFF)
+
+	  ButtonRetry       Retry Button           0        0,1,2           0 - inactive
+	                                                                    1 - The button is active
+	                                                                    2 - The button is hidden 
+	                                                                    If an error occurs, Propmts to recapture the print. 
+	                                                                    Recapture is an alternate in the capture workflow. The Scanner returns to the capture mode.
+
+	  ButtonConfirm     Confirm button         0        0,1,2           0 - inactive
+	                                                                    1 - The button is active
+	                                                                    2 - The button is hidden  
+	                                                                    The user can accept a low quality image and ignore the system quality check.
+	                                                                    Do this only if you cannot improve the quality of the captured image. 
+	                                                                    After you press the button, the program save the fingerprint image in the record.
+
+	  Result            capture result         0        0 - 10          0 - no error. Prompt to start horizontal roll
+	                                                                    1 - green icon (OK)  LSCAN_STATUS_OK
+	                                                                    2 - General error. The icon indicates a hardware-related or system-related error.
+	                                                                    3 - Clean the platen. ( WRN_OPTICS_SURFACE_DIRTY) Indicate that you must clean the platen or the silicone membrane before you start a new capture sequence.
+	                                                                    4 - Capture error. ( WRN_BAD_SCAN) Error occurs during recording, for example - slipped, off-hook
+	                                                                    5 - Roll error. ( WRN_ROLL_SHIFTED, WRN_ROLL_LIFTED, etc.) Roll result is not acceptable. Reapeat the capture procedure. Roll correctly and keep an even pressure throughout the roll.
+	                                                                    6 - Segmentation error. (Segmentation is not supported in LSE) Error occurs during segmentation of the image.
+	                                                                    7 - Quality-check. Image does not pass the quality check.
+	                                                                    8 - sequence-check. (Sequence is not supported in LSE) Finger reversed or recorded twice.
+	                                                                    9 - Future Error
+	                                                                    10 - Compression Error - (Compression is not supported in LSE)
+	                                                                    11 - no error Prompt to start vertical roll
+
+	resultText    text information            ""                        text information.
+
+	**************************************************************************************************************************
+	  Roll interanl arguments
+	INTERNAL ARGUMENT   DESCRIPTION           DEFAULT   VALID VALUES    EFFECT
+	  peripherality     display peripherality -         true/false      false - normal
+	                                                                    true - incorrect hand placement detected
+	                                                                      "peripheralityLeft":true - (  POSITION_TOO_LEFT) Too far left icon
+	                                                                      "peripheralityRight":true - (  POSITION_TOO_RIGHT) Too far right icon
+	                                                                      "peripheralityTop":true - (  POSITION_TOO_HIGH) Too high icon
+	                                                                      "peripheralityBottom":true - (  POSITION_TOO_LOW) Too low icon
+	                                                                      "peripheralityRight":true,"peripheralityTop":true -  Too far right too high icon
+	************************************************************************************************/
+
+	var myArgs = {"Result":0,"resultText":"","ButtonRetry":0,"ButtonConfirm":0,"HP2":0,"HP1":0,"FP10":0,"FP9":0,"FP8":0,"FP7":0,"FP6":0,"FP1":0,"FP2":0,"FP3":0,"FP4":0,"FP5":0,"peripherality":[] };
+
+	var CONST_PERIPHERALITY = "peripherality";
+
+
+	//parse URL, parse jason that contains the arguments. Save the new argName arguments into myArgs array.
+	function parseUrlArguments() {
+		try {
+			var arr = window.location.href.split("?");
+			if (arr.length == 2) {
+				var jsonStr = decodeURI(arr[1]);			// Get URI string
+				var json= JSON.parse(jsonStr);				// parse each entry
+				json = translatePeripherality(json);		// parse the information from the peripherality arguments
+				
+				for ( var argName in json){ 
+					this.myArgs[argName]= json[argName];	// Replace default argName with new URI arguments
+				}
+			}
+		}
+		catch (ex) {
+			alert(ex);
+		}
+		return null;
+	}
+    
+	
+	
+	// SVG file can call this fuction via window.parent.getArguments();
+	// returns array of URI argument to SVG file for processing
+    function getArguments() {
+        return this.myArgs;
+    }
+    
+	// Set arguments based on various standard "button" settings then generate a new SVG image
+	function setArguments( newArgs) {
+		try {
+			newArgs = translatePeripherality(newArgs); // parse the information from the peripherality arguments
+			
+			for ( var argName in newArgs){ 
+				myArgs[argName]= newArgs[argName];	// read new arguments
+			}
+			svgUpdate();		//Reload svg image according to arguments.
+		}
+		catch (ex) {
+			alert(ex);
+		}
+		return myArgs;
+	}
+	
+	
+	//parse the information from the peripherality arguments
+	function translatePeripherality(newArgs) {
+		var peripherality = new Array();		// Array of up to 4 position tracking LScanObjectQualityState
+		
+		// loop through all the Arguments and find 'peripherality'
+		for ( var argName in newArgs) { 
+			/*	find peripherality in argument array
+				set peripherality string to lower case so it is parsed in svg files
+				Save peripherality argument to local peripherality array
+				The peripherality arguments has three formats:
+					"peripheralitylseft":"true"
+					"peripheralityright":"true"
+					"peripheralitytop":"true"
+					"peripheralitybottom":"true"
+			*/
+			if (argName.indexOf(CONST_PERIPHERALITY) >= 0 && newArgs[argName]) {
+				var x = argName.substring(this.CONST_PERIPHERALITY.length);
+				if (x.length > 0) {
+					peripherality.push(x.toLowerCase());	// Save local copy of peripherality argument 
+				}
+				delete newArgs[argName];
+			}
+		}
+		
+		// Add newly formatted peripherality arguments back into our argument array
+		newArgs[CONST_PERIPHERALITY] = peripherality;
+		return newArgs;
+	}
+	
+
+	// Allow call into the Update function in the SVG file 
+	// Allow for refresh.
+    function svgUpdate() {}
+
+
+	//Reload svg according to arguments
+	// svgReload can be called at any time if the web page with svg image needs to reloaded
+	function svgReload() {
+		var svgobj = document.getElementById('svg').getSVGDocument(); 
+		if (svgobj) {
+			svgobj.location.reload(true);
+		}
+	}
+	
+	// Allow call into the prism object in the SVG file 
+	// Allow for refresh.
+	function getPrismaBBox() {}
+	
+	// Allow call into the coordinates of prism object in the SVG file 
+	// Allow for refresh.
+	function getPrismaCoordinates() {}
+
+   </script>
+
+</head>
+<body>
+  <div class="page_margins">
+    <div class="page">
+      <div id="main">
+      	<object id="svg" class="svgobj" type="image/svg+xml" data="img/image_roll.svg" width="100%" height="100%"></object>
+
+        <div id="controlbtn" class="svgobj"  style="display:none;">
+            <button type="button" id="peripherality" onClick='setArguments({"Result":0,"resultText":"false position","ButtonRetry":1,"ButtonConfirm":1,"HP2":0,"HP1":0,"FP10":0,"FP9":0,"FP8":0,"FP7":0,"FP6":0,"FP1":0,"FP2":0,"FP3":0,"FP4":0,"FP5":0,"peripheralityLeft":true,"peripheralityRight":false,"peripheralityTop":false,"peripheralityBottom":true});'>
+              Set Peripherality
+            </button>
+            <button type="button" onClick='setArguments({"Result":0,"resultText":"roll your finger","ButtonRetry":0,"ButtonConfirm":2,"HP2":0,"HP1":0,"FP10":0,"FP9":0,"FP8":0,"FP7":0,"FP6":0,"FP1":0,"FP2":0,"FP3":0,"FP4":0,"FP5":0,"peripheralityLeft":false,"peripheralityRight":false,"peripheralityTop":false,"peripheralityBottom":false});'>
+              Hide (delete) Button "Confirm"
+            </button>
+            <button type="button" onClick='setArguments({"Result":0,"resultText":"","ButtonRetry":0,"ButtonConfirm":1,"HP2":0,"HP1":0,"FP10":0,"FP9":0,"FP8":0,"FP7":0,"FP6":0,"FP1":0,"FP2":0,"FP3":0,"FP4":0,"FP5":0,"peripheralityLeft":false,"peripheralityRight":false,"peripheralityTop":false,"peripheralityBottom":false});'>
+              Set Button "Confirm"
+            </button>
+            <button type="button" onClick='setArguments({"Result":1,"resultText":"you are done","ButtonRetry":1,"ButtonConfirm":1,"HP2":0,"HP1":0,"FP10":0,"FP9":0,"FP8":0,"FP7":0,"FP6":0,"FP1":0,"FP2":0,"FP3":0,"FP4":0,"FP5":0,"peripheralityLeft":false,"peripheralityRight":false,"peripheralityTop":false,"peripheralityBottom":false});'>
+              Set RESULT icon = 1
+            </button>
+            <button type="button" onClick='setArguments({"Result":2,"resultText":"","ButtonRetry":0,"ButtonConfirm":0,"HP2":0,"HP1":0,"FP10":0,"FP9":0,"FP8":0,"FP7":0,"FP6":0,"FP1":0,"FP2":0,"FP3":0,"FP4":0,"FP5":0,"peripheralityLeft":false,"peripheralityRight":false,"peripheralityTop":false,"peripheralityBottom":false});'>
+              Set RESULT icon = 2
+            </button>
+            <button type="button" onClick='setArguments({"Result":3,"resultText":"clean the prism!","ButtonRetry":0,"ButtonConfirm":0,"HP2":0,"HP1":0,"FP10":0,"FP9":0,"FP8":0,"FP7":0,"FP6":0,"FP1":0,"FP2":0,"FP3":0,"FP4":0,"FP5":0,"peripheralityLeft":false,"peripheralityRight":false,"peripheralityTop":false,"peripheralityBottom":false});'>
+              Set RESULT icon = 3
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

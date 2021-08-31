@@ -1,0 +1,86 @@
+﻿<Window x:Class="Test.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" 
+        Name="TestWindow">
+    <DockPanel>
+        
+        <StackPanel Margin="30,0" DockPanel.Dock="Top">
+            <Label>Service Address</Label>
+            <TextBox Name="AddressTextBox">Web</TextBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0">Service Name</Label>
+                <TextBox Grid.Row="1" Grid.Column="0" Name="ServiceNameTextBox" Text="dev-PrintSetService"></TextBox>
+                <Label Grid.Row="0" Grid.Column="1">Reference Id</Label>
+                <TextBox Grid.Row="1" Grid.Column="1" Name="IdTextBox">1</TextBox>
+            </Grid>
+            
+            <Label>Token</Label>
+            <TextBox Name="TokenTextBox">9ca5c736-acbc-4946-a143-e085684deb30</TextBox>
+            <Label>Mode</Label>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Name="LivescanModeRadioButton" Content="Livescan" IsChecked="True" GroupName="Mode" Margin="20,0"></RadioButton>
+                <RadioButton Name="chkCardScan" Content="Cardscan" IsChecked="False" GroupName="Mode" Margin="20,0"></RadioButton>
+                <RadioButton Name="chkSingleCapture" Content="Single Capture" IsChecked="False" GroupName="Mode" Margin="20,0"></RadioButton>
+            </StackPanel>
+            <Label>Culture</Label>
+            <TextBox Name="CultureNameTextBox">en</TextBox>
+            
+            <Label>Remote App Path</Label>
+
+            <TextBox x:Name="AppPathTextBox" Text="D:\Sources\Capture Device\PrintCapture\trunk\PrintsCapture.RemoteModule\bin\Debug"/>
+            <TextBox Visibility="Collapsed" Name="AppPathTextBoxHome">D:\dev\CaptureApplication.PrintsCapture\trunk\PrintsCapture.RemoteModule\bin\Debug</TextBox>
+            <Button Width="100" Margin="10" Click="RemoteTestButtonClick">Remote test</Button>            
+            <Line></Line>
+            <Label>Tests</Label>
+            <DockPanel>
+                <Button Click="SeqTestButtonClick">Sequence</Button>
+                <Button Click="WizardTestButtonClick">Wizard</Button>
+                <ComboBox
+                    ItemsSource="{Binding ElementName=TestWindow, Path=TestList}"
+                    SelectedValue="{Binding ElementName=TestWindow, Path=SelectedItem}"
+                    >
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="ComboBoxItem">
+                            <Setter Property="IsEnabled" Value="{Binding IsEnabled}"/>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                    
+                            <ComboBox.ItemTemplate>
+                        <DataTemplate DataType="ComboBoxItem">
+                            <Label Content="{Binding Label}" IsEnabled="{Binding IsEnabled}" IsHitTestVisible="{Binding IsEnabled}"></Label>
+                         </DataTemplate>
+                    </ComboBox.ItemTemplate>
+
+                </ComboBox>
+                <TextBlock></TextBlock>
+            </DockPanel>
+            
+            
+
+            <Label>Test Wizard</Label>
+            
+        </StackPanel>
+        
+        <ScrollViewer Margin="30,0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Name="ResulTextBlock" TextWrapping="Wrap">debug info</TextBlock>
+                <Image Name="ResultImage" Grid.Column="1"></Image>
+            </Grid>
+            
+        </ScrollViewer>
+    </DockPanel>
+</Window>

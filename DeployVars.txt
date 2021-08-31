@@ -1,0 +1,9 @@
+Name=PrintsCapture
+SourceFolder=PrintsCapture.RemoteModule\bin\Release
+MainAssembly=PrintsCapture.RemoteModule.exe
+IncludedFiles=PrintsCapture.Ui.exe|*.dll|fr|Plugins
+ExcludedFiles=
+SkipIfVersionExists=true
+FolderInZip=true
+MergeAssembly=false
+MergeInAssembly=*.dll|PrintsCapture.Ui.exe

@@ -1,0 +1,3116 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TouchLab.NET</name>
+    </assembly>
+    <members>
+        <member name="T:TouchLab.NET.Assert">
+            <summary>
+            Provides functionality to assert Native-API calls.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Assert.Succeeded(System.Boolean)">
+            <summary>
+            Asserts the result code of a Native-API call.
+            </summary>
+            <param name="result">
+            The result code.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The result code signals a Native-API error.
+            </exception>
+        </member>
+        <member name="T:TouchLab.NET.AutoPinHandle">
+            <summary>
+            Represents a GC handle that pins and unpins a managed object on construction and dispose.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.AutoPinHandle.#ctor(System.Object)">
+            <summary>
+            Pins the given managed object.
+            </summary>
+            <param name="obj">
+            The object.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            <paramref name="obj"/> is invalid.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.AutoPinHandle.Dispose">
+            <summary>
+            Unpins the managed object.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.AutoPinHandle.op_Explicit(TouchLab.NET.AutoPinHandle)~System.IntPtr">
+            <summary>
+            Gets the address of the pinned managed object of the given instance.
+            </summary>
+            <param name="instance">
+            The instance.
+            </param>
+            <returns>
+            The address of the pinned object.
+            </returns>
+        </member>
+        <member name="F:TouchLab.NET.AutoPinHandle.m_Handle">
+            <summary>
+            The GC handle of the pinned managed object.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ContextObject">
+            <summary>
+            Represents a context object that can be used as a Native-API callback context.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.Disposable">
+            <summary>
+            Represents a disposable object.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Disposable.#ctor">
+            <summary>
+            Initializes a new instance.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Disposable.Finalize">
+            <summary>
+            Finalizes the instance.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Disposable.Dispose">
+            <summary>
+            Releases all resources.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Disposable.Dispose(System.Boolean)">
+            <summary>
+            Releases the resources of the instance, sets <c>IsDisposed</c> to true and raises the <c>Disposed</c> event. 
+            </summary>
+            <remarks>
+            Subsequent calls are ignored.
+            </remarks>
+            <param name="disposing">
+            true to release both managed and unmanaged resources; false to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.Disposable.OnDisposed(System.EventArgs)">
+            <summary>
+            Raises the <c>Disposed</c> event.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+        </member>
+        <member name="P:TouchLab.NET.Disposable.IsDisposed">
+            <summary>
+            Gets a value indicating whether the instance is disposed.
+            </summary>
+        </member>
+        <member name="E:TouchLab.NET.Disposable.Disposed">
+            <summary>
+            Occurs when the instance disposes.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.ContextObject.#ctor">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <exception cref="T:System.Exception">
+            The initialization fails.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.ContextObject.Dispose(System.Boolean)">
+            <summary>
+            Releases the resources of the instance, sets <c>IsDisposed</c> to true and raises the <c>Disposed</c> event. 
+            </summary>
+            <remarks>
+            Subsequent calls are ignored.
+            </remarks>
+            <param name="disposing">
+            true to release both managed and unmanaged resources; false to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.ContextObject.OnCallbackFailed(TouchLab.NET.CallbackFailedEventArgs)">
+            <summary>
+            Raises the <c>CallbackFailed</c> event.
+            </summary>
+            <param name="e">
+            The event arguments
+            </param>
+            <exception cref="T:System.Exception">
+            Any <c>EventHandler</c> throws an exception.
+            </exception>
+        </member>
+        <member name="F:TouchLab.NET.ContextObject.m_Handle">
+            <summary>
+            The garbage collector handle.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.ContextObject.Context">
+            <summary>
+            Gets the context.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="E:TouchLab.NET.ContextObject.CallbackFailed">
+            <summary>
+            Occurs when an API callback fails.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.CallbackFailedEventArgs">
+            <summary>
+            Provides information about a failed API callback.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.CallbackFailedEventArgs.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance with the occured exception.
+            </summary>
+            <param name="exception">
+            The exception.
+            </param>
+        </member>
+        <member name="P:TouchLab.NET.CallbackFailedEventArgs.Exception">
+            <summary>
+            Gets the exception.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ErrorType">
+            <summary>
+            Types of error states that can be reported by all Native-API functions.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ErrorType.NO_ERROR">
+            <summary>
+            No error occured.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ErrorType.RUNTIME">
+            <summary>
+            Error that can only be detected during runtime.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ErrorType.INVALID_ARGUMENT">
+            <summary>
+            An invalid argument was given.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ErrorType.OUT_OF_RANGE">
+            <summary>
+            Error occurs by attempt to access elements out of defined range.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ErrorType.SYSTEM">
+            <summary>
+            Conditions originating during runtime from the operating system 
+            or other low-level application program interfaces which have an associated error code.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ErrorType.LOGIC">
+            <summary>
+            Error in the internal logical of the program, 
+            such as violation of logical preconditions or class invariants.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ErrorType.UNKNOWN">
+            <summary>
+            General error.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.Error">
+            <summary>
+            Represents information about an error.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Error.ErrorType">
+            <summary>
+            Gets or sets the error type
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Error.Message">
+            <summary>
+            Gets or sets the error message.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Error.Code">
+            <summary>
+            Gets of sets the error code.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.EvaluationSegment">
+            <summary>
+            Represents the evaluation of an image segment.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.EvaluationSegment.Left">
+            <summary>
+            Gets the left coordinate of the segment in image coordinates.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.EvaluationSegment.Top">
+            <summary>
+            Gets the top coordinate of the segment in image coordinates.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.EvaluationSegment.Width">
+            <summary>
+            Gets the width of the segment.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.EvaluationSegment.Height">
+            <summary>
+            Gets the height of the segment.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.EvaluationSegment.NFIQ2">
+            <summary>
+            Gets the NIST NFIQ2 score [0...100] of the segment, or 255 if no score is available.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.Evaluation">
+            <summary>
+            Represents the evaluation of an image.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Evaluation.#ctor(System.Int32)">
+            <summary>
+            Initializes an instance with the given handle.
+            </summary>
+            <param name="handle">
+            The handle.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="P:TouchLab.NET.Evaluation.AttackDetectionExecuted">
+            <summary>
+            Gets a value indicating whether the attack detection was executed.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Evaluation.AttackDetected">
+            <summary>
+            Gets a value indicating whether an attack was detected.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Evaluation.Segments">
+            <summary>
+            Gets the evaluation segments.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.DisplayType">
+            <summary>
+            Defines the type of a display part.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.DisplayType.SYSTEMSTATUS">
+            <summary>
+            This display part type is intended to give the user status information about the system itself (not for capture state).
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.DisplayType.STATUS">
+            <summary>
+            This display part type is intended to give the user status information about the current capture process.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.DisplayType.GUIDANCE">
+            <summary>
+            This display part type is intended to guide the user with information about the current capture process. 
+            For LIVETOUCH quattro this is the top area.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.DisplayType.SENSOR">
+            <summary>
+            This display part type is intended to give the user information about the positions to put the finger(s) on the sensor. 
+            For LIVETOUCH quattro this is the bottom area.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.DisplayPartInfo">
+            <summary>
+            Contains detailed information about a single display part.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.DisplayPartInfo.Ident">
+            <summary>
+            Is a unique identification for one display part, this is used in the SDK functions for user guidance to identify the display part to use.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.DisplayPartInfo.DisplayType">
+            <summary>
+            This is a additional type for the display part, a part can aim to be intended for special user output. 
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.DisplayPartInfo.Left">
+            <summary>
+            The left (x) coordinate of the display rectangle of the given display part. 
+            This is relative to the physical display of the scanner device.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.DisplayPartInfo.Top">
+            <summary>
+            The top (y) coordinate of the display rectangle of the given display part. 
+            This is relative to the physical display of the scanner device.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.DisplayPartInfo.Width">
+            <summary>
+            The width of the display rectangle of the given display part. 
+            This is relative to the physical display of the scanner device.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.DisplayPartInfo.Height">
+            <summary>
+            The height of the display rectangle of the given display part. 
+            This is relative to the physical display of the scanner device.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.Display">
+            <summary>
+            Represents the display of a scanner device.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Display.#ctor(TouchLab.NET.Scanner,TouchLab.NET.DisplayPartInfo)">
+            <summary>
+            Initializes an instance with the given scanner and the display information.
+            </summary>
+            <param name="scanner">
+            The scanner.
+            </param>
+            <param name="info">
+            The display information.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="scanner"/> is null.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            <paramref name="scanner"/> is disposed.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Display.Dispose(System.Boolean)">
+            <summary>
+            Releases the resources of the instance, sets <c>IsDisposed</c> to true and raises the <c>Disposed</c> event. 
+            </summary>
+            <remarks>
+            Subsequent calls are ignored.
+            </remarks>
+            <param name="disposing">
+            true to release both managed and unmanaged resources; false to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.Display.EnableImageAvailableEvent(System.Int32,System.Int32)">
+            <summary>
+            Enables the <c>ImageAvailable</c> event and specifies the width and height of the provided image.
+            </summary>
+            <param name="imageWidth">
+            The image width.
+            </param>
+            <param name="imageHeight">
+            The image height.
+            </param>
+            <exception cref="T:System.ObjectDisposedException">
+            The scanner is disposed.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Display.DisableImageAvailableEvent">
+            <summary>
+            Disables the <c>ImageAvailable</c> event.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+            The <c>ImageAvailable</c> event is not enabled.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The scanner is disposed.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Display.SetColor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Sets the color of the display.
+            </summary>
+            <param name="r">
+            Red
+            </param>
+            <param name="g">
+            Green
+            </param>
+            <param name="b">
+            Blue
+            </param>
+            <exception cref="T:System.ObjectDisposedException">
+            The scanner is disposed.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Display.SetContent(System.String)">
+            <summary>
+            Sets the content of the display using the given file path.
+            </summary>
+            <param name="path">
+            The file path.
+            </param>
+            <exception cref="T:System.ObjectDisposedException">
+            The scanner is disposed.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Display.OnImageAvailable(TouchLab.NET.DisplayImageAvailableEventArgs)">
+            <summary>
+            Raises the <c>ImageAvailable</c> event.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+            <exception cref="T:System.Exception">
+            Any event handler throws an exception.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Display.OnImageAvailableCallback(System.IntPtr,System.Int32,System.Int32,System.Single)">
+            <summary>
+            Delegates the image information from the API to the associated instance.
+            </summary>
+            <remarks>
+            Exceptions are delegated to the <c>CallbackFailed</c> event.
+            </remarks>
+            <param name="context">
+            The associated instance.
+            </param>
+            <param name="image">
+            The image handle.
+            </param>
+            <param name="displayPart">
+            The display part ident.
+            </param>
+            <param name="time">
+            The time.
+            </param>
+        </member>
+        <member name="F:TouchLab.NET.Display.m_Scanner">
+            <summary>
+            The scanner instance.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Display.m_Info">
+            <summary>
+            The display part information.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Display.m_ImageAvailableCallback">
+            <summary>
+            The delegate of the native image available callback function.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Display.m_Listener">
+            <summary>
+            The listener handle.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Display.Ident">
+            <summary>
+            Gets the display ident.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Display.DisplayType">
+            <summary>
+            Gets the display type.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Display.Left">
+            <summary>
+            Gets the left coordinate of the display.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Display.Top">
+            <summary>
+            Gets the top coordinate of the display.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Display.Width">
+            <summary>
+            Gets the width of the display.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Display.Height">
+            <summary>
+            Gets the height of the display.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Display.Description">
+            <summary>
+            Gets the description of the display.
+            </summary>
+        </member>
+        <member name="E:TouchLab.NET.Display.ImageAvailable">
+            <summary>
+            Occurs when an image is available.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.DisplayImageAvailableEventArgs">
+            <summary>
+            Represents information about a display image available event.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.DisplayImageAvailableEventArgs.#ctor(TouchLab.NET.Image,System.Single)">
+            <summary>
+            Initializes an instance with the image and the time.
+            </summary>
+            <param name="image">
+            The image.
+            </param>
+            <param name="time">
+            The time.
+            </param>
+        </member>
+        <member name="P:TouchLab.NET.DisplayImageAvailableEventArgs.Image">
+            <summary>
+            Gets the image.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.DisplayImageAvailableEventArgs.Time">
+            <summary>
+            Gets the time.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ImageContentFeedback">
+            <summary>
+            Defines feedback values describing the content of a captured image.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.CONTENT_VALID">
+            <summary>
+            The expected count of fingers/objects detected.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.ROTATED_HAND_COUNTERCLOCKWISE">
+            <summary>
+            Hand or thumb is counterclockwise rotated, 
+            and need be rotated clockwise.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.ROTATED_HAND_CLOCKWISE">
+            <summary>
+            Hand or thumb is clockwise rotated, 
+            and need be rotated counterclockwise.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.ROTATED_THUMBS">
+            <summary>
+            Left thumb is rotated clockwise and right thumb counterclockwise, 
+            both thumbs have to be rotated to become parallel.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.ROTATED_TWO_INDEX_FINGER">
+            <summary>
+            Left index finger is rotated clockwise and right index finger counterclockwise, 
+            both index finger have to be rotated to become parallel.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.HAND_ON_BORDER_BOTTOM">
+            <summary>
+            Hand detected on bottom border, 
+            hand has to be moved upwards.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.HAND_ON_BORDER_TOP">
+            <summary>
+            Hand detected on top border, 
+            hand has to be moved downwards.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.HAND_ON_BORDER_RIGHT">
+            <summary>
+            Hand detected on right border, 
+            hand has to be moved leftwards.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.HAND_ON_BORDER_LEFT">
+            <summary>
+            Hand detected on right border, 
+            hand has to be moved rightwards.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.SPREAD_FINGERS">
+            <summary>
+            Spread fingers detected.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.FINGERTIPS">
+            <summary>
+            Only fingertips detected.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.EXPECTED_HANDSIDE_NOT_FOUND">
+            <summary>
+            Expected hand side was not found.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.TOO_MANY_FINGERS">
+            <summary>
+            More fingers detected than expected in current scenario.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.TOO_MANY_VALID_FINGERS">
+            <remarks>
+            Deprecated and no longer analyzed or reported.
+            </remarks>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.NOT_ENOUGH_FINGERS">
+            <summary>
+            Less valid fingers detected than expected in current scenario.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.NOT_ENOUGH_VALID_FINGERS">
+            <remarks>
+            Deprecated and no longer analyzed or reported.
+            </remarks>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.NO_FINGERS_DETECTED">
+            <summary>
+            No fingers detected.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.UNEXPECTED_CONTENT">
+            <summary>
+            Image content could not be identified correctly - this should not happen.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.READY_TO_ROLL">
+            <summary>
+            Finger detected, but rolling not started.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.ROLLING_STARTED">
+            <summary>
+            Finger has started to roll.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.ROLL_DURATION_TOO_SHORT">
+            <summary>
+            Roll duration too short (roll speed too fast?!).
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.PRESENTATION_ATTACK_DETECTED">
+            <remarks>
+            Deprecated and no longer reported.
+            </remarks>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentFeedback.ROLL_DISTANCE_TOO_SHORT">
+            <summary>
+            Roll distance too short.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ImageFormat">
+            <summary>
+            Defines the image formats.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageFormat.GRAY8">
+            <summary>
+            Grayscale image, with one byte per pixel.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageFormat.ARGB32">
+            <summary>
+            Color image with 4 byte per pixel (alpha, red, green, blue).
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.Image">
+            <summary>
+            Represents a formatted image.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Image.#ctor(System.Int32,System.Int32,System.Byte[],TouchLab.NET.ImageFormat)">
+            <summary>
+            Initializes an instance with the given width, height, data and format.
+            </summary>
+            <param name="width">
+            The width.
+            </param>
+            <param name="height">
+            The height.
+            </param>
+            <param name="data">
+            The data.
+            </param>
+            <param name="format">
+            The format.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.Image.FromGrayscaleImageHandle(System.Int32)">
+            <summary>
+            Initializes a grayscale image using the given handle.
+            </summary>
+            <param name="handle">
+            The handle.
+            </param>
+            <returns>
+            The image.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.Exception">
+            Any invalid operation.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Image.FromImageHandle(System.Int32)">
+            <summary>
+            Initializes an formatted image using the given handle.
+            </summary>
+            <param name="handle">
+            The handle.
+            </param>
+            <returns>
+            The image.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            The image format is not supported.
+            </exception>
+            <exception cref="T:System.Exception">
+            Any invalid operation.
+            </exception>
+        </member>
+        <member name="P:TouchLab.NET.Image.Width">
+            <summary>
+            Gets the width.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Image.Height">
+            <summary>
+            Gets the height.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Image.Data">
+            <summary>
+            Gets the data.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Image.Format">
+            <summary>
+            Gets the format.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ImageAvailableEventArgs">
+            <summary>
+            Represents information about an image available event.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.ImageAvailableEventArgs.#ctor(TouchLab.NET.Image,TouchLab.NET.ImageContentFeedback,TouchLab.NET.Evaluation)">
+            <summary>
+            Initializes an instance with the given image, content feedback and evaluation.
+            </summary>
+            <param name="image">
+            The image.
+            </param>
+            <param name="feedback">
+            The content feedback.
+            </param>
+            <param name="evaluation">
+            The evaluation.
+            </param>
+        </member>
+        <member name="P:TouchLab.NET.ImageAvailableEventArgs.Image">
+            <summary>
+            Gets the image.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.ImageAvailableEventArgs.Feedback">
+            <summary>
+            Gets the feedback.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.ImageAvailableEventArgs.Evaluation">
+            <summary>
+            Gets the evaluation.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.License">
+            <summary>
+            Represents license information.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.License.Product">
+            <summary>
+            Product name.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.License.Version">
+            <summary>
+            Product version.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.License.ExpiryDate">
+            <summary>
+            Expiry date.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.License.Reference">
+            <summary>
+            Reference number.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.License.Signature">
+            <summary>
+            Signature hash.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.License.OptionFlags">
+            <summary>
+            Options.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.LocalLicenseManager">
+            <summary>
+            Represents a manager to manage local licenses.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.LocalLicenseManager.#ctor">
+            <summary>
+            Initializes an instance.
+            </summary>
+            <remarks>
+            Creatable by the API only.
+            </remarks>
+        </member>
+        <member name="M:TouchLab.NET.LocalLicenseManager.GetLicenses">
+            <summary>
+            Gets the local licenses.
+            </summary>
+            <returns>
+            The licenses.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.LocalLicenseManager.AddLicense(System.String)">
+            <summary>
+            Adds a license and stores it in the public ProgramData directory under "JENETRIC GmbH\licenses".
+            </summary>
+            <param name="path">
+            The source path.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.LocalLicenseManager.DeleteLicense(TouchLab.NET.License)">
+            <summary>
+            Deletes a local stored license identified by the given license.
+            </summary>
+            <param name="license">
+            The license.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="T:TouchLab.NET.ScannerLicenseManager">
+            <summary>
+            Represents a manager to manage scanner licenses.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.ScannerLicenseManager.#ctor(TouchLab.NET.Scanner)">
+            <summary>
+            Initializes an instance with the given scanner.
+            </summary>
+            <param name="scanner">
+            The scanner.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="scanner"/> is null.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.ScannerLicenseManager.GetLicenses">
+            <summary>
+            Gets the scanner licenses.
+            </summary>
+            <returns>
+            The licenses.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The scanner is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.ScannerLicenseManager.AddLicense(System.String)">
+            <summary>
+            Adds a license and writes it permanently into the scanner.
+            </summary>
+            <param name="path">
+            The source path.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The scanner is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.ScannerLicenseManager.DeleteLicense(TouchLab.NET.License)">
+            <summary>
+            Deletes a license stored in the scanner.
+            </summary>
+            <param name="license">
+            The license.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The scanner is disposed.
+            </exception>
+        </member>
+        <member name="F:TouchLab.NET.ScannerLicenseManager.m_Scanner">
+            <summary>
+            The scanner.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.MarshalReader">
+            <summary>
+            Represents a reader that reads from a pointer/handle.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.MarshalReader.#ctor(System.IntPtr)">
+            <summary>
+            Initializes an instance with the pointer/handle to read from.
+            </summary>
+            <param name="ptr">
+            The pointer/handle.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            <paramref name="ptr"/> equals <c>IntPtr.Zero</c>.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.MarshalReader.ReadIntPtr">
+            <summary>
+            Reads a pointer/handle and moves the position to the next element.
+            </summary>
+            <returns>
+            The pointer/handle.
+            </returns>
+            <exception cref="T:System.AccessViolationException">
+            The internal pointer/handle is invalid or null.
+            </exception>
+            <exception cref="T:System.Exception">
+            An marshalling error occured.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.MarshalReader.ReadBytes(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Reads an amount of bytes into the given buffer starting at the offset position and moves the position to the next element.
+            </summary>
+            <param name="buffer">
+            The buffer.
+            </param>
+            <param name="offset">
+            The offset.
+            </param>
+            <param name="count">
+            The count.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            Any argument is invalid.
+            </exception>
+            <exception cref="T:System.AccessViolationException">
+            The internal pointer/handle is invalid or null.
+            </exception>
+            <exception cref="T:System.Exception">
+            An marshalling error occured.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.MarshalReader.ReadInt32">
+            <summary>
+            Reads an <c>Int32</c> value and moves the position to the next element.
+            </summary>
+            <returns>
+            The <c>Int32</c> value.
+            </returns>
+            <exception cref="T:System.AccessViolationException">
+            The internal pointer/handle is invalid or null.
+            </exception>
+            <exception cref="T:System.Exception">
+            An marshalling error occured.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.MarshalReader.ReadStringAnsiArray">
+            <summary>
+            Reads an array of ansi strings and moves the position to the next element.
+            </summary>
+            <returns>
+            The ansi string array.
+            </returns>
+            <exception cref="T:System.AccessViolationException">
+            The internal pointer/handle is invalid or null.
+            </exception>
+            <exception cref="T:System.Exception">
+            An marshalling error occured.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.MarshalReader.ReadPtr``1">
+            <summary>
+            Reads and unmarshals a pointer to a structure and moves the position to the next element.
+            </summary>
+            <typeparam name="T">
+            The type of the structure.
+            </typeparam>
+            <returns>
+            The structure.
+            </returns>
+            <exception cref="T:System.AccessViolationException">
+            The internal pointer/handle is invalid or null.
+            </exception>
+            <exception cref="T:System.Exception">
+            An marshalling error occured.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.MarshalReader.ReadPtrArray``1">
+            <summary>
+            Reads and unmarshals an array of pointers to structures and moves the position to the next element. 
+            </summary>
+            <typeparam name="T">
+            The type of the structures.
+            </typeparam>
+            <returns>
+            The array of structures.
+            </returns>
+            <exception cref="T:System.AccessViolationException">
+            The internal pointer/handle is invalid or null.
+            </exception>
+            <exception cref="T:System.Exception">
+            An marshalling error occured.
+            </exception>
+        </member>
+        <member name="F:TouchLab.NET.MarshalReader.m_Ptr">
+            <summary>
+            The pointer/handle.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ScanMode">
+            <summary>
+            Defines the supported scan modes.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_4_FINGERS_RIGHT">
+            <summary>
+            Plain right fingers. Typical number of fingers in result image: 4.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_4_FINGERS_LEFT">
+            <summary>
+            Plain left fingers. Typical number of fingers in result image: 4.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_2_THUMBS">
+            <summary>
+            Both plain thumbs. Typical number of fingers in result image: 2.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_1_THUMB_RIGHT">
+            <summary>
+            Plain right thumb. Typical number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_1_THUMB_LEFT">
+            <summary>
+            Plain left thumb. Typical number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_2_FINGERS_INDEX">
+            <summary>
+            Both plain index fingers. Typical number of fingers in result image: 2
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_1_INDEX_FINGER_RIGHT">
+            <summary>
+            Plain right index finger. Typical number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_1_MIDDLE_FINGER_RIGHT">
+            <summary>
+            Plain right middle finger. Typical number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_1_RING_FINGER_RIGHT">
+            <summary>
+            Plain right ring finger. Typical number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_1_LITTLE_FINGER_RIGHT">
+            <summary>
+            Plain right little finger. Typical number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_1_INDEX_FINGER_LEFT">
+            <summary>
+            Plain left index finger. Typical number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_1_MIDDLE_FINGER_LEFT">
+            <summary>
+            Plain left middle finger. Typical number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_1_RING_FINGER_LEFT">
+            <summary>
+            Plain left ring finger. Typical number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_1_LITTLE_FINGER_LEFT">
+            <summary>
+            Plain left little finger. Typical number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_2_FINGERS_RIGHT_INDEX_MIDDLE">
+            <summary>
+            Plain right index and middle fingers. Typical number of fingers in result image: 2.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_2_FINGERS_RIGHT_RING_LITTLE">
+            <summary>
+            Plain right ring and little fingers. Typical number of fingers in result image: 2.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_2_FINGERS_LEFT_INDEX_MIDDLE">
+            <summary>
+            Plain left index and middle fingers. Typical number of fingers in result image: 2.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.PLAIN_2_FINGERS_LEFT_RING_LITTLE">
+            <summary>
+            Plain left ring and little fingers. Typical number of fingers in result image: 2.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.ROLLED_1_THUMB_RIGHT">
+            <summary>
+            Rolled right thumb. Mandatory number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.ROLLED_1_INDEX_FINGER_RIGHT">
+            <summary>
+            Rolled right index finger. Mandatory number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.ROLLED_1_MIDDLE_FINGER_RIGHT">
+            <summary>
+            Rolled right middle finger. Mandatory number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.ROLLED_1_RING_FINGER_RIGHT">
+            <summary>
+            Rolled right ring finger. Mandatory number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.ROLLED_1_LITTLE_FINGER_RIGHT">
+            <summary>
+            Rolled right little finger. Mandatory number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.ROLLED_1_THUMB_LEFT">
+            <summary>
+            Rolled left thumb. Mandatory number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.ROLLED_1_INDEX_FINGER_LEFT">
+            <summary>
+            Rolled left index finger. Mandatory number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.ROLLED_1_MIDDLE_FINGER_LEFT">
+            <summary>
+            Rolled left middle finger. Mandatory number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.ROLLED_1_RING_FINGER_LEFT">
+            <summary>
+            Rolled left ring finger. Mandatory number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanMode.ROLLED_1_LITTLE_FINGER_LEFT">
+            <summary>
+            Rolled left little finger. Mandatory number of fingers in result image: 1.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.FingerPositions">
+            <summary>
+            Defines the finger positions.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.LEFT_UNKNOWN_FINGER">
+            <summary>
+            Finger position of an unknown finger at the left hand.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.LEFT_THUMB">
+            <summary>
+            Finger position of the left thumb.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.LEFT_INDEX_FINGER">
+            <summary>
+            Finger position of the left index finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.LEFT_MIDDLE_FINGER">
+            <summary>
+            Finger position of the left middle finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.LEFT_RING_FINGER">
+            <summary>
+            Finger position of the left ring finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.LEFT_LITTLE_FINGER">
+            <summary>
+            Finger position of the left little finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.RIGHT_UNKNOWN_FINGER">
+            <summary>
+            Finger position of an unknown finger at the right hand.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.RIGHT_THUMB">
+            <summary>
+            Finger position of the right thumb.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.RIGHT_INDEX_FINGER">
+            <summary>
+            Finger position of the right index finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.RIGHT_MIDDLE_FINGER">
+            <summary>
+            Finger position of the right middle finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.RIGHT_RING_FINGER">
+            <summary>
+            Finger position of the right ring finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerPositions.RIGHT_LITTLE_FINGER">
+            <summary>
+            Finger position of the right little finger.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ImageContentAnalysis">
+            <summary>
+            Defines the supported image content analyses.
+            </summary>
+            <remarks>
+            Usable to enable/disable certain analyses.
+            </remarks>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentAnalysis.NONE">
+            <summary>
+            No image content analyses.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentAnalysis.ALL">
+            <summary>
+            All image content analyses.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentAnalysis.TIP">
+            <summary>
+            Fingertip analysis.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentAnalysis.HAND_SIDE">
+            <summary>
+            Hand side analysis.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentAnalysis.POSITION">
+            <summary>
+            Position analysis.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentAnalysis.ROTATION">
+            <summary>
+            Rotation analysis.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentAnalysis.SPREADING">
+            <summary>
+            Finger spreading analysis.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentAnalysis.ROLL_DURATION">
+            <summary>
+            Roll duration too short analysis.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentAnalysis.PRESENTATION_ATTACK">
+            <summary>
+            Presentation attack analysis.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ImageContentAnalysis.ROLL_DISTANCE">
+            <summary>
+            Roll distance too short analysis.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.Workflow">
+            <summary>
+            Defines supported workflows.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Workflow.WORKFLOW_442">
+            <summary>
+            3 images scanned in following order: <see cref="F:TouchLab.NET.ScanMode.PLAIN_4_FINGERS_RIGHT"/>, <see cref="F:TouchLab.NET.ScanMode.PLAIN_4_FINGERS_LEFT"/>, <see cref="F:TouchLab.NET.ScanMode.PLAIN_2_THUMBS"/>.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Workflow.WORKFLOW_4141">
+            <summary>
+            4 images scanned in following order: <see cref="F:TouchLab.NET.ScanMode.PLAIN_4_FINGERS_RIGHT"/>, <see cref="F:TouchLab.NET.ScanMode.PLAIN_1_THUMB_RIGHT"/>, <see cref="F:TouchLab.NET.ScanMode.PLAIN_4_FINGERS_LEFT"/>, <see cref="F:TouchLab.NET.ScanMode.PLAIN_1_THUMB_LEFT"/>.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Workflow.WORKFLOW_SIGNATURE">
+            <summary>
+            1 image of a signature.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.FingersSet">
+            <summary>
+            Represents a set of fingers.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.LEFT_UNKNOWN_FINGER">
+            <summary>
+            Finger position of an unknown finger at the left hand in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.LEFT_THUMB">
+            <summary>
+            Finger position of the left thumb in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.LEFT_INDEX_FINGER">
+            <summary>
+            Finger position of the left index finger in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.LEFT_MIDDLE_FINGER">
+            <summary>
+            Finger position of the left middle finger in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.LEFT_RING_FINGER">
+            <summary>
+            Finger position of the left ring finger in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.LEFT_LITTLE_FINGER">
+            <summary>
+            Finger position of the left little finger in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.RIGHT_UNKNOWN_FINGER">
+            <summary>
+            Finger position of an unknown finger at the right hand in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.RIGHT_THUMB">
+            <summary>
+            Finger position of the right thumb in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.RIGHT_INDEX_FINGER">
+            <summary>
+            Finger position of the right index finger in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.RIGHT_MIDDLE_FINGER">
+            <summary>
+            Finger position of the right middle finger in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.RIGHT_RING_FINGER">
+            <summary>
+            Finger position of the right ring finger in set of fingers or not.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingersSet.RIGHT_LITTLE_FINGER">
+            <summary>
+            Finger position of the right little finger in set of fingers or not.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ScannerCapabilities">
+            <summary>
+            Represents the capabilities of a scanner device.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScannerCapabilities.SupportsDisplay">
+            <summary>
+            Indicates whether the scanner supports display output.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScannerCapabilities.SupportsTouch">
+            <summary>
+            Indicates whether the scanner supports touch screen input.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScannerCapabilities.SupportsBeep">
+            <summary>
+            Indicates whether the scanner supports beep sounds.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScannerCapabilities.SupportsRolling">
+            <summary>
+            Indicates whether the scanner supports rolling scan modes.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ScanModeCapabilities">
+            <summary>
+            Represents the capabilities of a certain scan mode.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanModeCapabilities.SupportsScanMode">
+            <summary>
+            Indicates whether the scanner device supports the scan mode.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanModeCapabilities.SupportsAutoScan">
+            <summary>
+            Indicates whether the scanner device supports auto scan triggering.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScanModeCapabilities.SupportsManualScan">
+            <summary>
+            Indicates whether the scanner device supports manual scan triggering.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.AnimationFinishedEventArgs">
+            <summary>
+            Represents information about an animation finished event.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.AnimationFinishedEventArgs.#ctor(System.Boolean)">
+            <summary>
+            Initializes an instance with the given aborted state.
+            </summary>
+            <param name="aborted">
+            A value indicating whether the animation was aborted.
+            </param>
+        </member>
+        <member name="P:TouchLab.NET.AnimationFinishedEventArgs.Aborted">
+            <summary>
+            Gets a value indicating whether the animation was aborted.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.Scanner">
+            <summary>
+            Represents a scanner device.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.#ctor(System.Int32)">
+            <summary>
+            Initializes an instance with the handle
+            </summary>
+            <param name="handle">
+            The handle.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.Dispose(System.Boolean)">
+            <summary>
+            Releases the resources of the instance, sets <c>IsDisposed</c> to true and raises the <c>Disposed</c> event. 
+            </summary>
+            <remarks>
+            Subsequent calls are ignored.
+            </remarks>
+            <param name="disposing">
+            true to release both managed and unmanaged resources; false to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.GetContrastControl">
+            <summary>
+            Gets the current contrast control value.
+            </summary>
+            <returns>
+            The contrast control value.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.SetContrastControl(System.Int32)">
+            <summary>
+            Sets the current contrast control value.
+            </summary>
+            <param name="value">
+            The contrast control value.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.GetContrastControlMinimum">
+            <summary>
+            Gets the current contrast control minimum value.
+            </summary>
+            <returns>
+            The contrast control minimum value.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.GetContrastControlMaximum">
+            <summary>
+            Gets the current contrast control maximum value.
+            </summary>
+            <returns>
+            The contrast control maximum value.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.GetContrastControlDefault">
+            <summary>
+            Gets the current contrast control default value.
+            </summary>
+            <returns>
+            The contrast control default value.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.GetScanModeCapabilities(TouchLab.NET.ScanMode)">
+            <summary>
+            Gets the scan mode capabilities of the given scan mode.
+            </summary>
+            <param name="scanMode">
+            The scan mode.
+            </param>
+            <returns>
+            The capabilities.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.GetScanAreaBrightness">
+            <summary>
+            Gets the scan area brightness.
+            </summary>
+            <returns>
+            The scan area brightness.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.SetScanAreaBrightness(System.Int32)">
+            <summary>
+            Sets the scan area brightness.
+            </summary>
+            <param name="value">
+            The scan area brightness.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.Beep">
+            <summary>
+            Let the scanner beep.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.StartPreview(TouchLab.NET.ScanMode,TouchLab.NET.FingerPositions,TouchLab.NET.ImageContentAnalysis)">
+            <summary>
+            Starts the preview using the given scan mode, required fingers and the analyses to disable.
+            </summary>
+            <remarks>
+            The <c>PreviewImageAvailable</c> event is raised for each available preview image.
+            </remarks>
+            <param name="scanMode">
+            The scan mode
+            </param>
+            <param name="requiredFingers">
+            The required fingers.
+            </param>
+            <param name="disabledAnalysis">
+            The unwanted content analyses.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.StopPreview">
+            <summary>
+            Stops the preview.
+            </summary>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.StartManualScan(TouchLab.NET.ScanMode,TouchLab.NET.FingerPositions,TouchLab.NET.ImageContentAnalysis)">
+            <summary>
+            Starts a manual scan using the given scan mode, required fingers and the analyses to disable.
+            </summary>
+            <remarks>
+            The <c>ScanImageAvailable</c> event is raised when the scan has finished.
+            </remarks>
+            <param name="scanMode">
+            The scan mode
+            </param>
+            <param name="requiredFingers">
+            The required fingers.
+            </param>
+            <param name="disabledAnalysis">
+            The unwanted content analyses.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.StartAutoScan(TouchLab.NET.ScanMode,TouchLab.NET.FingerPositions,TouchLab.NET.ImageContentAnalysis)">
+            <summary>
+            Starts an automatic scan using the given scan mode, required fingers and the analyses to disable.
+            </summary>
+            <remarks>
+            The <c>ScanImageAvailable</c> event is raised when the scan has finished.
+            </remarks>
+            <param name="scanMode">
+            The scan mode
+            </param>
+            <param name="requiredFingers">
+            The required fingers.
+            </param>
+            <param name="disabledAnalysis">
+            The unwanted content analyses.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.GetSignatureRecorder(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Gets a signature recorder for the given signature rectangle of the signature input, 
+            the preview image settings and the scan image settings.
+            </summary>
+            <param name="signRectX">
+            The x coordinate of the signature rectangle of the signature input.
+            </param>
+            <param name="signRectY">
+            The y coordinate of the signature rectangle of the signature input.
+            </param>
+            <param name="signRectWidth">
+            The width of the signature rectangle of the signature input.
+            </param>
+            <param name="signRectHeight">
+            The width of the signature rectangle of the signature input.
+            </param>
+            <param name="previewImageWidth">
+            The width of the preview image.
+            </param>
+            <param name="previewImageHeight">
+            The height of the preview image.
+            </param>
+            <param name="previewImagePenWidth">
+            The pen width of the preview image.
+            </param>
+            <param name="scanImageWidth">
+            The width of the scan image.
+            </param>
+            <param name="scanImageHeight">
+            The height of the scan image.
+            </param>
+            <param name="scanImagePenWidth">
+            The pen width of the scan image.
+            </param>
+            <returns>
+            The signature recorder.
+            </returns>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.ShowStartScreen(TouchLab.NET.Workflow)">
+            <summary>
+            Shows an initial animation/image on the scanner's display corresponding to a given workflow type.
+            </summary>
+            <param name="workflow">
+            The workflow type.
+            </param>
+            <remarks>
+            The <c>StartScreenAnimationFinished</c> event is raised when the animation is finished.
+            </remarks>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.ShowEndScreen(TouchLab.NET.Workflow)">
+            <summary>
+            Shows an end-animation/image on the scanner's display corresponding to a given workflow type.
+            </summary>
+            <param name="workflow">
+            The workflow type.
+            </param>
+            <remarks>
+            The <c>EndScreenAnimationFinished</c> event is raised when the animation is finished.
+            </remarks>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.OnStartScreenAnimationFinished(TouchLab.NET.AnimationFinishedEventArgs)">
+            <summary>
+            Raises the <c>StartScreenAnimation</c> event.
+            </summary>
+            <param name="e">
+            The event argument.
+            </param>
+            <exception cref="T:System.Exception">
+            Any event handler throws an exception.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.OnEndScreenAnimationFinished(TouchLab.NET.AnimationFinishedEventArgs)">
+            <summary>
+            Raises the <c>EndScreenAnimation</c> event.
+            </summary>
+            <param name="e">
+            The event argument.
+            </param>
+            <exception cref="T:System.Exception">
+            Any event handler throws an exception.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.OnPreviewImageAvailable(TouchLab.NET.ImageAvailableEventArgs)">
+            <summary>
+            Raises the <c>PreviewImageAvailable</c> event.
+            </summary>
+            <param name="e">
+            The event argument.
+            </param>
+            <exception cref="T:System.Exception">
+            Any event handler throws an exception.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.OnScanImageAvailable(TouchLab.NET.ImageAvailableEventArgs)">
+            <summary>
+            Raises the <c>ScanImageAvailable</c> event.
+            </summary>
+            <param name="e">
+            The event argument.
+            </param>
+            <exception cref="T:System.Exception">
+            Any event handler throws an exception.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.OnStartScreenAnimationFinishedCallback(System.IntPtr,System.Boolean)">
+            <summary>
+            Delegates start screen animation finished information from the Native-API to the associated instance.
+            </summary>
+            <remarks>
+            Exceptions are delegated to the <c>CallbackFailed</c> event.
+            </remarks>
+            <param name="context">
+            The associated instance.
+            </param>
+            <param name="aborted">
+            Indicates whether the animation was aborted.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.OnEndScreenAnimationFinishedCallback(System.IntPtr,System.Boolean)">
+            <summary>
+            Delegates start end animation finished information from the Native-API to the associated instance.
+            </summary>
+            <remarks>
+            Exceptions are delegated to the <c>CallbackFailed</c> event.
+            </remarks>
+            <param name="context">
+            The associated instance.
+            </param>
+            <param name="aborted">
+            Indicates whether the animation was aborted.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.OnPreviewImageAvailableCallback(System.IntPtr,System.Int32,TouchLab.NET.ImageContentFeedback)">
+            <summary>
+            Delegates preview-image-available information from the Native-API to the associated instance.
+            </summary>
+            <remarks>
+            Exceptions are delegated to the <c>CallbackFailed</c> event.
+            </remarks>
+            <param name="context">
+            The associated instance.
+            </param>
+            <param name="image">
+            The image handle.
+            </param>
+            <param name="feedback">
+            The content feedback.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.OnScanImageAvailableCallback(System.IntPtr,System.Int32,TouchLab.NET.ImageContentFeedback,System.Int32)">
+            <summary>
+            Delegates scan-image-available information from the Native-API to the associated instance.
+            </summary>
+            <remarks>
+            Exceptions are delegated to the <c>CallbackFailed</c> event.
+            </remarks>
+            <param name="context">
+            The associated instance.
+            </param>
+            <param name="image">
+            The image handle.
+            </param>
+            <param name="feedback">
+            The content feedback.
+            </param>
+            <param name="evaluation">
+            The evaluation handle.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.ToFingerPositions(TouchLab.NET.ScanMode,TouchLab.NET.FingerPositions@,System.Int32@,System.Int32@,TouchLab.NET.FingerPositions@)">
+            <summary>
+            Gets the finger position information associated with the given scan mode.
+            </summary>
+            <param name="scanMode">
+            The scan mode.
+            </param>
+            <param name="required">
+            The required finger positions.
+            </param>
+            <param name="minRequiredCount">
+            The minimum required count of finger positions.
+            </param>
+            <param name="maxRequiredCount">
+            The maximum required count of finger positions.
+            </param>
+            <param name="allowed">
+            The allowed finger positions.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.ToRequiredFingerPositions(TouchLab.NET.ScanMode)">
+            <summary>
+            Converts the given scan mode to the required finger positions.
+            </summary>
+            <param name="scanMode">
+            The scan mode.
+            </param>
+            <returns>
+            The required finger positions.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.ToAllowedFingerPositions(TouchLab.NET.ScanMode)">
+            <summary>
+            Converts the given scan mode to the allowed finger positions.
+            </summary>
+            <param name="scanMode">
+            The scan mode.
+            </param>
+            <returns>
+            The allowed finger positions.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.ToFingerPositions(TouchLab.NET.FingersSet)">
+            <summary>
+            Converts the given finger set to its finger positions representation.
+            </summary>
+            <param name="fingerSet">
+            The finger set.
+            </param>
+            <returns>
+            The finger positions.
+            </returns>
+        </member>
+        <member name="M:TouchLab.NET.Scanner.GetSupportedDisplayParts(System.Int32)">
+            <summary>
+            Gets the supported display parts from the given scanner handle.
+            </summary>
+            <param name="handle">
+            The scanner handle.
+            </param>
+            <returns>
+            The supported display parts.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="F:TouchLab.NET.Scanner.m_Handle">
+            <summary>
+            The handle.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Scanner.m_StartScreenAnimationFinishedCallback">
+            <summary>
+            The delegate of the native start-screen-animation-finished callback.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Scanner.m_EndScreenAnimationFinishedCallback">
+            <summary>
+            The delegate of the native end-screen-animation-finished callback.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Scanner.m_PreviewImageAvailableCallback">
+            <summary>
+            The delegate of the native preview-image-available callback.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Scanner.m_ScanImageAvailableCallback">
+            <summary>
+            The delegate of the native scan-image-available callback.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Scanner.Handle">
+            <summary>
+            Gets the handle.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="P:TouchLab.NET.Scanner.Name">
+            <summary>
+            Gets the name.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Scanner.Firmware">
+            <summary>
+            Gets the firmware version.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Scanner.Capabilities">
+            <summary>
+            Gets the scanner capabilities.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Scanner.TouchDisplay">
+            <summary>
+            Gets the touch display.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Scanner.Displays">
+            <summary>
+            Gets the displays.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Scanner.LicenseManager">
+            <summary>
+            Gets the license manager.
+            </summary>
+        </member>
+        <member name="E:TouchLab.NET.Scanner.StartScreenAnimationFinished">
+            <summary>
+            Occurs when the start-screen-animation is finished.
+            </summary>
+        </member>
+        <member name="E:TouchLab.NET.Scanner.EndScreenAnimationFinished">
+            <summary>
+            Occurs when the end-screen-animation is finished.
+            </summary>
+        </member>
+        <member name="E:TouchLab.NET.Scanner.PreviewImageAvailable">
+            <summary>
+            Occurs when a preview image is available.
+            </summary>
+        </member>
+        <member name="E:TouchLab.NET.Scanner.ScanImageAvailable">
+            <summary>
+            Occurs when a scan image is available.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.FingerId">
+            <summary>
+            Defines single finger identifiers.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.NONE">
+            <summary>
+            No finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.RIGHT_THUMB">
+            <summary>
+            The right thumb.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.RIGHT_INDEX_FINGER">
+            <summary>
+            The right index finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.RIGHT_MIDDLE_FINGER">
+            <summary>
+            The left middle finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.RIGHT_RING_FINGER">
+            <summary>
+            The right ring finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.RIGHT_LITTLE_FINGER">
+            <summary>
+            The right little finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.LEFT_THUMB">
+            <summary>
+            The left thumb.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.LEFT_INDEX_FINGER">
+            <summary>
+            The left index finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.LEFT_MIDDLE_FINGER">
+            <summary>
+            The left middle finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.LEFT_RING_FINGER">
+            <summary>
+            The left ring finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerId.LEFT_LITTLE_FINGER">
+            <summary>
+            The left little finger.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.FingerSetId">
+            <summary>
+            Defines finger set identifiers.
+            </summary>
+            <remarks>
+            Naming is heavily based on the "friction ridge generalized position" concept as defined in "ANSI/NIST-ITL 1-2011: Update 2015".
+            </remarks>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_THUMB">
+            <summary>
+            Right thumb.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_INDEX_FINGER">
+            <summary>
+            Right index finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_MIDDLE_FINGER">
+            <summary>
+            Right middle finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_RING_FINGER">
+            <summary>
+            Right ring finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_LITTLE_FINGER">
+            <summary>
+            Right little finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_THUMB">
+            <summary>
+            Left thumb.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_INDEX_FINGER">
+            <summary>
+            Left index finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_MIDDLE_FINGER">
+            <summary>
+            Left middle finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_RING_FINGER">
+            <summary>
+            Left ring finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_LITTLE_FINGER">
+            <summary>
+            Left little finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_RIGHT_THUMBS">
+            <summary>
+            Left thumb and right thumb.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_INDEX_MIDDLE">
+            <summary>
+            Right index finger and right middle finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_MIDDLE_RING">
+            <summary>
+            Right middle finger and right ring finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_RING_LITTLE">
+            <summary>
+            Right ring finger and right little finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_INDEX_MIDDLE">
+            <summary>
+            Left index finger and left middle finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_MIDDLE_RING">
+            <summary>
+            Left middle finger and left ring finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_RING_LITTLE">
+            <summary>
+            Left ring finger and left little finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_INDEX_LEFT_INDEX">
+            <summary>
+            Right index finger and left index finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_INDEX_MIDDLE_RING">
+            <summary>
+            Right index finger, right middle finger and right ring finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_MIDDLE_RING_LITTLE">
+            <summary>
+            Right middle finger, right ring finger and right little finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_INDEX_MIDDLE_RING">
+            <summary>
+            Left index finger, left middle finger and left ring finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_MIDDLE_RING_LITTLE">
+            <summary>
+            Left middle finger, left ring finger and left little finger.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_FOUR_FINGERS">
+            <summary>
+            Right four fingers without thumb.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_FOUR_FINGERS">
+            <summary>
+            Left four fingers without thumb.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.RIGHT_FOUR_FINGERS_AND_THUMB">
+            <summary>
+            Right four fingers and right thumb.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.FingerSetId.LEFT_FOUR_FINGERS_AND_THUMB">
+            <summary>
+            Left four fingers and left thumb.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.Segment">
+            <summary>
+            Represents a segment.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Segment.#ctor(TouchLab.NET.Segmentation,System.Int32)">
+            <summary>
+            Initializes an instance with the segmentation and the segment index.
+            </summary>
+            <param name="segmentation">
+            The segmentation.
+            </param>
+            <param name="index">
+            The segment index.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="segmentation"/> is null.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Segment.GetData">
+            <summary>
+            Gets the image data of the segment.
+            </summary>
+            <returns>
+            The image data.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The segmentation instance is disposed.
+            </exception>
+        </member>
+        <member name="F:TouchLab.NET.Segment.m_Segmentation">
+            <summary>
+            The segmentation.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Segment.m_Index">
+            <summary>
+            The index.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Segment.FingerSet">
+            <summary>
+            Gets the finger set.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Segment.OriginX">
+            <summary>
+            Gets the x coordinate of the segment in the origin image.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Segment.OriginY">
+            <summary>
+            Gets the y coordinate of the segment in the origin image.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Segment.Width">
+            <summary>
+            Gets the width of the segment.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Segment.Height">
+            <summary>
+            Gets the height of the segment.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.Segmentation">
+            <summary>
+            Represents the segmentation of an image.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.Segmentation.#ctor(System.Int32)">
+            <summary>
+            Initializes an instance with the segmentation handle.
+            </summary>
+            <param name="handle">
+            The handle.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.Segmentation.Dispose(System.Boolean)">
+            <summary>
+            Releases the resources of the instance, sets <c>IsDisposed</c> to true and raises the <c>Disposed</c> event. 
+            </summary>
+            <remarks>
+            Subsequent calls are ignored.
+            </remarks>
+            <param name="disposing">
+            true to release both managed and unmanaged resources; false to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.Segmentation.FromImage(TouchLab.NET.Image,TouchLab.NET.FingerSetId,TouchLab.NET.FingerId)">
+            <summary>
+            Segments the given image using the given finger set and missing finger information.
+            </summary>
+            <param name="image">
+            The image.
+            </param>
+            <param name="fingerSet">
+            The finger set.
+            </param>
+            <param name="missingFingers">
+            The missing fingers.
+            </param>
+            <returns>
+            The segmentation.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="image"/> is null.
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            The image format is not supported.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="F:TouchLab.NET.Segmentation.m_Handle">
+            <summary>
+            The segmentation handle.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.Segmentation.m_Segments">
+            <summary>
+            The segments.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Segmentation.Handle">
+            <summary>
+            Gets the handle.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">
+            The instance is disposed.
+            </exception>
+        </member>
+        <member name="P:TouchLab.NET.Segmentation.Count">
+            <summary>
+            Gets the count of segments.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.Segmentation.Item(System.Int32)">
+            <summary>
+            Gets the segment at the given zero-based index.
+            </summary>
+            <param name="index">
+            The index.
+            </param>
+            <returns>
+            The segment.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            The index is invalid.
+            </exception>
+        </member>
+        <member name="T:TouchLab.NET.TouchAction">
+            <summary>
+            Defines values describing a touch action.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.TouchAction.NONE">
+            <summary>
+            Represents no action.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.TouchAction.DOWN">
+            <summary>
+            Represents the touch down action.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.TouchAction.UP">
+            <summary>
+            Represents the touch up action.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.SignaturePreviewAvailableEventArgs">
+            <summary>
+            Represents information about a signature preview available event.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.SignaturePreviewAvailableEventArgs.#ctor(TouchLab.NET.Image,TouchLab.NET.TouchAction,System.Single,System.Single,System.UInt32)">
+            <summary>
+            Initializes an instance with the given preview image, the touch action, the touch x coordinate, the touch y coordinate and the touch time.
+            </summary>
+            <param name="image">
+            The preview image.
+            </param>
+            <param name="action">
+            The touch action.
+            </param>
+            <param name="x">
+            The touch x coordinate.
+            </param>
+            <param name="y">
+            The touch y coordinate.
+            </param>
+            <param name="time">
+            The touch time [ms].
+            </param>
+        </member>
+        <member name="P:TouchLab.NET.SignaturePreviewAvailableEventArgs.Image">
+            <summary>
+            Gets the preview image.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.SignaturePreviewAvailableEventArgs.Action">
+            <summary>
+            Gets the touch action.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.SignaturePreviewAvailableEventArgs.X">
+            <summary>
+            Gets the touch x coordinate.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.SignaturePreviewAvailableEventArgs.Y">
+            <summary>
+            Gets the touch y coordinate.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.SignaturePreviewAvailableEventArgs.Time">
+            <summary>
+            Gets the touch time [ms].
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.SignatureScanAvailableEventArgs">
+            <summary>
+            Represents information about a signature scan available event.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.SignatureScanAvailableEventArgs.#ctor(TouchLab.NET.Image)">
+            <summary>
+            Initializes an instance with the given scan image.
+            </summary>
+            <param name="image">
+            The scan image.
+            </param>
+        </member>
+        <member name="P:TouchLab.NET.SignatureScanAvailableEventArgs.Image">
+            <summary>
+            Gets the scan image.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.SignatureRecorder">
+            <summary>
+            Represents a recorder for signatures.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.SignatureRecorder.#ctor(TouchLab.NET.Scanner,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes an instance with the given scanner, 
+            the signature rectangle position and size, 
+            the preview image size,
+            the preview image pen size, 
+            the scan image size and the scan image pen size.
+            </summary>
+            <param name="scanner">
+            The scanner.
+            </param>
+            <param name="signRectX">
+            The x coordinate of the signature rectangle.
+            </param>
+            <param name="signRectY">
+            The y coordinate of the signature rectangle.
+            </param>
+            <param name="signRectWidth">
+            The width of the signature rectangle.
+            </param>
+            <param name="signRectHeight">
+            The height of the signature rectangle.
+            </param>
+            <param name="previewImageWidth">
+            The width of the preview image.
+            </param>
+            <param name="previewImageHeight">
+            The height of the preview image.
+            </param>
+            <param name="previewImagePenWidth">
+            The pen width of the preview image.
+            </param>
+            <param name="scanImageWidth">
+            The width of the scan image.
+            </param>
+            <param name="scanImageHeight">
+            The height of the scan image.
+            </param>
+            <param name="scanImagePenWidth">
+            The pen width of the scan image.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="scanner"/> is null.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            <paramref name="scanner"/> is disposed.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.SignatureRecorder.Dispose(System.Boolean)">
+            <summary>
+            Releases the resources of the instance, sets <c>IsDisposed</c> to true and raises the <c>Disposed</c> event. 
+            </summary>
+            <remarks>
+            Subsequent calls are ignored.
+            </remarks>
+            <param name="disposing">
+            true to release both managed and unmanaged resources; false to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.SignatureRecorder.Start">
+            <summary>
+            Starts the recording.
+            </summary>
+            <remarks>
+            
+            </remarks>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The scanner is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.SignatureRecorder.Stop">
+            <summary>
+            Stops the recording.
+            </summary>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The scanner is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.SignatureRecorder.Reset">
+            <summary>
+            Resets the recording.
+            </summary>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The scanner is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.SignatureRecorder.OnPreviewAvailable(TouchLab.NET.SignaturePreviewAvailableEventArgs)">
+            <summary>
+            Raises the <c>PreviewAvailable</c> event.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+            <exception cref="T:System.Exception">
+            Any event handler throws an exception.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.SignatureRecorder.OnScanAvailable(TouchLab.NET.SignatureScanAvailableEventArgs)">
+            <summary>
+            Raises the <c>ScanAvailable</c> event.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+            <exception cref="T:System.Exception">
+            Any event handler throws an exception.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.SignatureRecorder.OnPreviewAvailableCallback(System.IntPtr,System.Int32,TouchLab.NET.TouchAction,System.Single,System.Single,System.UInt32)">
+            <summary>
+            Delegates preview-available information from the Native-API to the associated instance.
+            </summary>
+            <remarks>
+            Exceptions are delegated to the <c>CallbackFailed</c> event.
+            </remarks>
+            <param name="context">
+            The associated instance.
+            </param>
+            <param name="image">
+            The image handle.
+            </param>
+            <param name="action">
+            The touch action.
+            </param>
+            <param name="x">
+            The touch x coordinate relative to the signature rectangle.
+            </param>
+            <param name="y">
+            The touch y coordinate relative to the signature rectangle.
+            </param>
+            <param name="time">
+            The touch time [ms].
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.SignatureRecorder.OnScanAvailableCallback(System.IntPtr,System.Int32)">
+            <summary>
+            Delegates scan-available information from the Native-API to the associated instance.
+            </summary>
+            <remarks>
+            Exceptions are delegated to the <c>CallbackFailed</c> event.
+            </remarks>
+            <param name="context">
+            The associated instance.
+            </param>
+            <param name="image">
+            The image handle.
+            </param>
+        </member>
+        <member name="F:TouchLab.NET.SignatureRecorder.m_Scanner">
+            <summary>
+            The scanner.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.SignatureRecorder.m_PreviewAvailableCallback">
+            <summary>
+            The delegate of the native preview-available-callback.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.SignatureRecorder.m_ScanAvailableCallback">
+            <summary>
+            The delegate of the native scan-available-callback.
+            </summary>
+        </member>
+        <member name="E:TouchLab.NET.SignatureRecorder.PreviewAvailable">
+            <summary>
+            Occurs when a preview is available.
+            </summary>
+        </member>
+        <member name="E:TouchLab.NET.SignatureRecorder.ScanAvailable">
+            <summary>
+            Occurs when a scan is available.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.TouchDisplay">
+            <summary>
+            Represents a scanner touch display.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.TouchDisplay.#ctor(TouchLab.NET.Scanner)">
+            <summary>
+            Initializes an instance with the associated scanner object.
+            </summary>
+            <param name="scanner">
+            The scanner.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="scanner"/> is null.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.TouchDisplay.Dispose(System.Boolean)">
+            <summary>
+            Releases the resources of the instance, sets <c>IsDisposed</c> to true and raises the <c>Disposed</c> event. 
+            </summary>
+            <remarks>
+            Subsequent calls are ignored.
+            </remarks>
+            <param name="disposing">
+            true to release both managed and unmanaged resources; false to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.TouchDisplay.SetBackgroundImage(System.String)">
+            <summary>
+            Sets the background image using the given file path.
+            </summary>
+            <param name="path">The file path</param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The associated scanner object is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.TouchDisplay.RegisterButton(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Registers a touch button described by the given coordinates and dimensions.
+            </summary>
+            <param name="x">
+            The X coordinate of the button rectangle.
+            </param>
+            <param name="y">
+            The y coordinate of the button rectangle.
+            </param>
+            <param name="width">
+            The width of the button rectangle.
+            </param>
+            <param name="height">
+            The height of the button rectangle.
+            </param>
+            <returns>
+            The registered button.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The associated scanner object is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.TouchDisplay.UnregisterButtons">
+            <summary>
+            Unregisters all buttons.
+            </summary>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The associated scanner object is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.TouchDisplay.EnableButtonMonitoring(System.Boolean)">
+            <summary>
+            Enables/disables the button monitoring.
+            </summary>
+            <param name="enable">
+            Signaling whether to enable or to disable.
+            </param>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            The associated scanner object is disposed.
+            </exception>
+        </member>
+        <member name="F:TouchLab.NET.TouchDisplay.m_Scanner">
+            <summary>
+            The scanner object.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.TouchDisplay.m_Monitoring">
+            <summary>
+            The monitoring state.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.TouchDisplayButton">
+            <summary>
+            Represents a button of the touch display.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.TouchDisplayButton.#ctor(TouchLab.NET.Scanner,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes an instance with the scanner object and the given coordinates and dimensions.
+            </summary>
+            <param name="scanner">
+            The scanner.
+            </param>
+            <param name="x">The x coordinate of the button rectangle.
+            </param>
+            <param name="y">The y coordinate of the button rectangle.
+            </param>
+            <param name="width">
+            The width of the button rectangle.
+            </param>
+            <param name="height">
+            The height of the button rectangle.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="scanner"/> is null.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+            <paramref name="scanner"/> is disposed.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.TouchDisplayButton.OnTouched(System.EventArgs)">
+            <summary>
+            Raises the <c>Touched</c> event.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.TouchDisplayButton.OnButtonTouchedCallback(System.IntPtr)">
+            <summary>
+            Delegates the button touched information from the Native-API to the associated instance.
+            </summary>
+            <remarks>
+            Exceptions are delegated to the <c>CallbackFailed</c> event.
+            </remarks>
+            <param name="context">
+            The associated instance.
+            </param>
+        </member>
+        <member name="F:TouchLab.NET.TouchDisplayButton.m_ButtonTouchedCallback">
+            <summary>
+            The delegate of the native button touched callback function.
+            </summary>
+        </member>
+        <member name="E:TouchLab.NET.TouchDisplayButton.Touched">
+            <summary>
+            Occurs when the button is touched.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ScannerType">
+            <summary>
+            Type of the scanner, the hardware-model.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScannerType.UNKNOWN">
+            <summary>
+            The hardware-model is not known.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScannerType.LT_QUATTRO">
+            <summary>
+            Identifies the hardware-model 'LIVETOUCH quattro'.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ScannerType.LT_QUATTRO_COMPACT">
+            <summary>
+            Identifies the hardware-model 'LIVETOUCH quattro Compact'.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ProductVersion">
+            <summary>
+            Types a product version that can be used by all Native-API functions.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ProductVersion.Major">
+            <summary>
+            Major version part.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ProductVersion.Minor">
+            <summary>
+            Minor version part.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ProductVersion.Patch">
+            <summary>
+            Patch version part.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.ProductVersion.Build">
+            <summary>
+            Build version part.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.ScannerInfo">
+            <summary>
+            Represents information about a scanner device.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.ScannerInfo.Serial">
+            <summary>
+            Gets or sets the serial number.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.ScannerInfo.ScannerType">
+            <summary>
+            Gets or sets the scanner type.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.ScannerInfo.ScannerTypeName">
+            <summary>
+            Gets or sets the scanner type name.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.ScannerInfo.ScannerTypeIdent">
+            <summary>
+            Gets or sets the scanner type ident.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.TouchLabException">
+            <summary>
+            Represents an API exception.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.TouchLabException.#ctor(TouchLab.NET.Error)">
+            <summary>
+            Initializes an instance with the given error.
+            </summary>
+            <param name="error">
+            The error.
+            </param>
+        </member>
+        <member name="P:TouchLab.NET.TouchLabException.Error">
+            <summary>
+            Gets the error.
+            </summary>
+        </member>
+        <member name="T:TouchLab.NET.TouchLabApi">
+            <summary>
+            Represents the TouchLab API.
+            </summary>
+        </member>
+        <member name="M:TouchLab.NET.TouchLabApi.#ctor">
+            <summary>
+            Initializes the Native-API.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            The Native-API version is not supported.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.TouchLabApi.Dispose(System.Boolean)">
+            <summary>
+            Releases the resources of the instance, sets <c>IsDisposed</c> to true and raises the <c>Disposed</c> event. 
+            </summary>
+            <remarks>
+            Subsequent calls are ignored.
+            </remarks>
+            <param name="disposing">
+            true to release both managed and unmanaged resources; false to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="M:TouchLab.NET.TouchLabApi.GetScannerList">
+            <summary>
+            Gets the list of connected scanners.
+            </summary>
+            <returns>
+            The connected scanners.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.TouchLabApi.OpenScanner(System.String)">
+            <summary>
+            Opens a scanner using the given serial number.
+            </summary>
+            <param name="serial">
+            The serial number
+            </param>
+            <returns>
+            The scanner.
+            </returns>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.TouchLabApi.OnScannerListChanged(System.EventArgs)">
+            <summary>
+            Raises the <c>ScannerListChanged</c> event.
+            </summary>
+            <param name="e">
+            The event arguments.
+            </param>
+            <exception cref="T:System.Exception">
+            Any event handler throws an exception.
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.TouchLabApi.OnScannerListChangedCallback(System.IntPtr,System.Int32,System.IntPtr@)">
+            <summary>
+            Delegates the scanner-list-changed information to the associated instance.
+            </summary>
+            <param name="context">
+            The associated instance.
+            </param>
+            <param name="count">
+            The count of serial numbers.
+            </param>
+            <param name="serials">
+            The serial numbers.
+            </param>
+            <remarks>
+            Exceptions are delegated to the <c>CallbackFailed</c> event.
+            </remarks>
+        </member>
+        <member name="M:TouchLab.NET.TouchLabApi.IsSupported(TouchLab.NET.ProductVersion)">
+            <summary>
+            Gets a value indicating whether the given product version is supported.
+            </summary>
+            <param name="info">
+            The product version.
+            </param>
+            <returns>
+            true, if supported, false otherwise.
+            </returns>
+            <exception cref="T:System.Exception">
+            todo:
+            </exception>
+        </member>
+        <member name="M:TouchLab.NET.TouchLabApi.GetLastError">
+            <summary>
+            Gets information about the last error.
+            </summary>
+            <returns>
+            The last error.
+            </returns>
+        </member>
+        <member name="F:TouchLab.NET.TouchLabApi.m_Instance">
+            <summary>
+            The singleton instance.
+            </summary>
+        </member>
+        <member name="F:TouchLab.NET.TouchLabApi.m_ScannerListChangedCallback">
+            <summary>
+            The delegate of the native scanner-list-changed callback.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.TouchLabApi.Instance">
+            <summary>
+            Gets the singleton instance.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            The Native-API version is not supported.
+            </exception>
+            <exception cref="T:TouchLab.NET.TouchLabException">
+            The Native-API reports an error.
+            </exception>
+        </member>
+        <member name="P:TouchLab.NET.TouchLabApi.Version">
+            <summary>
+            Gets the Native-API version.
+            </summary>
+        </member>
+        <member name="P:TouchLab.NET.TouchLabApi.LicenseManager">
+            <summary>
+            Gets the license manager for local licenses.
+            </summary>
+        </member>
+        <member name="E:TouchLab.NET.TouchLabApi.ScannerListChanged">
+            <summary>
+            Occurs when the scanner list has changed.
+            </summary>
+        </member>
+    </members>
+</doc>

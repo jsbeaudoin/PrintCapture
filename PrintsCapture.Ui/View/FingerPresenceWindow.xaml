@@ -1,0 +1,60 @@
+﻿<Window x:Class="PrintsCapture.Ui.View.FingerPresenceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        xmlns:language="clr-namespace:PrintsCapture.Ui.Language"        
+        xmlns:viewModel="clr-namespace:PrintsCapture.Ui.ViewModel"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}"
+        Title="{x:Static language:Text.FingerPresenceWindowTitle}" Width="365" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" 
+        SizeToContent="Height"
+        Name="Window">
+    <Window.Resources>
+        
+        <Style TargetType="{x:Type TextBox}">
+
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                    Value="{Binding RelativeSource={RelativeSource Self}, 
+                           Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="ToggleButton">
+            <Setter Property="Margin" Value="0,15"></Setter>
+            <Setter Property="Height" Value="45"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+            
+        </Style>
+        
+    </Window.Resources>
+    <StackPanel Margin="26,0,31,0">
+
+        <TextBlock Name="FingerNameLabel" TextAlignment="Center" Height="34" VerticalAlignment="Top" Text="{Binding PrintName}" />
+        <ToggleButton Name="PresentButton" Content="{x:Static language:Text.HandPartPresent}" Click="ReasonButtonClicked" />
+
+        <TextBlock Height="34" Margin="0" Name="MissingFingerHeaderTextBlock" TextAlignment="Center" VerticalAlignment="Top" Text="{x:Static language:Text.MissingFinger}" />
+        <StackPanel Orientation="Horizontal" Margin="0,15" HorizontalAlignment="Center" Width="286" VerticalAlignment="Center" >
+            <TextBlock VerticalAlignment="Center" Text="{x:Static language:Text.MissingSince}" />
+
+            <TextBox Name="MissingDateTextBox" Width="100" Margin="15,0,0,0">
+                <Binding Path="MissingDate">
+                    <Binding.ValidationRules>
+                        <ExceptionValidationRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="{x:Static language:Text.DateFormatHelper}"></TextBlock>
+        </StackPanel>
+        
+        <ItemsControl ItemsSource="{Binding Reasons}"  >
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="viewModel:MissingReasonViewModel">
+                    <ToggleButton Content="{Binding Label }" IsChecked="{Binding IsSelected}" Tag="{Binding Code}" Click="ReasonButtonClicked"  />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+                    
+        </ItemsControl>               
+        
+        <Button Content="{x:Static language:Text.Accept}" Height="45" Margin="0,40,0,10" Name="AcceptButton" IsDefault="True" VerticalAlignment="Bottom" Click="BtnAcceptClick" />
+    </StackPanel>
+</Window>

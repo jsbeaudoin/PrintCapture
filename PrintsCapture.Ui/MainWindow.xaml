@@ -1,0 +1,260 @@
+﻿<Window x:Class="PrintsCapture.Ui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lng="clr-namespace:PrintsCapture.Ui.Language"
+        xmlns:userControls="clr-namespace:PrintsCapture.Ui.UserControls"
+        
+        xmlns:enum="clr-namespace:PrintsCapture.Prints.Enum;assembly=PrintsCapture.Prints"
+                        
+        xmlns:language="clr-namespace:PrintsCapture.Ui.Language"        
+        xmlns:class="clr-namespace:PrintsCapture.Ui.Class"
+        xmlns:commonLng="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+        xmlns:converter="clr-namespace:XL_ID.Utilities.Wpf.Converter;assembly=XL_ID.Utilities.Wpf"
+
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}"
+              Name="CurrentForm"
+        Title="{x:Static lng:Text.ApplicationTitle}" 
+        Loaded="WindowLoaded" Tag="{x:Static class:PrintCaptureApp.MainWindowTag}"
+        Closing="RibbonWindowClosing" Topmost="True"  WindowState="Maximized"
+              Activated="MainWindowActivated" Width="843" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        
+        
+        <LinearGradientBrush x:Key="ToggleOnBrush" EndPoint="0,1"
+        	StartPoint="0,0">
+            <GradientStop Color="#FF106011"
+        		Offset="0" />
+            <GradientStop Color="#FF1DB43B"
+        		Offset="0.496" />
+            <GradientStop Color="#FF62FE7A"
+        		Offset="1" />
+        </LinearGradientBrush>
+        <ControlTemplate x:Key="CheckOnTemplate" TargetType="{x:Type RibbonCheckBox}">
+            <StackPanel Orientation="Horizontal" Margin="0,1">
+                <TextBlock Text="{TemplateBinding Label}" VerticalAlignment="Center"></TextBlock>
+                <Border Margin="5,0" Background="{StaticResource ToggleOnBrush}" CornerRadius="5">
+                    <TextBlock Margin="3,0" Foreground="White" Text="{x:Static language:Text.On}"/>
+                </Border>
+            </StackPanel>            
+        </ControlTemplate>
+        <LinearGradientBrush x:Key="ToggleOffBrush"
+        	EndPoint="0,1"
+        	StartPoint="0,0">
+            <GradientStop Color="#FF81230E" />
+            <GradientStop Color="#FFF15910"
+        		Offset="0.365" />
+            <GradientStop Color="#FFF5A782"
+        		Offset="1" />
+        </LinearGradientBrush>
+        <ControlTemplate x:Key="CheckOffTemplate" TargetType="{x:Type RibbonCheckBox}">
+            <StackPanel Orientation="Horizontal" Margin="0,1">
+                <TextBlock Text="{TemplateBinding Label}" VerticalAlignment="Center"></TextBlock>
+                <Border Margin="5,0" Background="{StaticResource ToggleOffBrush}" CornerRadius="5">
+                    <TextBlock Margin="3,0"  Text="{x:Static language:Text.Off}"/>
+                </Border>
+            </StackPanel>
+        </ControlTemplate>
+        <Style x:Key="ToggleOnOff" TargetType="{x:Type RibbonCheckBox}">
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Template" Value="{StaticResource CheckOnTemplate}"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Template" Value="{StaticResource CheckOffTemplate}" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style x:Key="RibbonGroupStyle" TargetType="RibbonGroup">
+            <Style.Triggers>
+                <Trigger Property="IsCollapsed" Value="True">
+                    <Setter Property="Background" Value="White"></Setter>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style TargetType="{x:Type RibbonSeparator}"
+           x:Key="VerticalSeparatorStyle">
+            <Setter Property="LayoutTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="90"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Margin" Value="5,0"></Setter>
+        </Style>
+        <converter:InverseBooleanConverter x:Key="InvertBool"></converter:InverseBooleanConverter>
+        <converter:StringUriToBitmapImageConverter x:Key="StringToSourceConverter"></converter:StringUriToBitmapImageConverter>
+    </Window.Resources>
+
+    <DockPanel>
+        <Ribbon  DockPanel.Dock="Top" Loaded="RibbonLoaded"  >
+            <!--<Ribbon.QuickAccessToolBar>
+                <RibbonQuickAccessToolBar Visibility="Collapsed" >
+                    <RibbonButton  ToolTipDescription="{x:Static lng:Text.Scan}" Click="ScanRibbonButtonClick" SmallImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/LivescanCapture32x32.png"></RibbonButton>
+                    
+                    <RibbonButton ToolTipDescription="{x:Static lng:Text.End}" Click="EndCaptureButtonClick"
+                                  SmallImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/Accept32x32.png" ToolTip="{Binding PrintGridViewModel.EndorsementFinger.StatusMessage}"></RibbonButton>
+                    <RibbonButton ToolTipDescription="{x:Static lng:Text.Configure}" Click="ConfigureButtonClick" IsEnabled="{Binding InCaptureMode, Converter={StaticResource InvertBool}}" SmallImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/Setting32x32.png"></RibbonButton>
+                </RibbonQuickAccessToolBar>
+            </Ribbon.QuickAccessToolBar>-->
+            
+            <Ribbon.ApplicationMenu >
+                <RibbonApplicationMenu Visibility="Collapsed"></RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+            <RibbonTab Header="{x:Static language:Text.Application}" IsSelected="True">
+                <RibbonGroup Header="{x:Static lng:Text.PrintSession}" Style="{StaticResource RibbonGroupStyle}" >
+                    
+                    <RibbonButton Label="{x:Static lng:Text.Scan}" Click="ScanRibbonButtonClick" LargeImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/LivescanCapture32x32.png"></RibbonButton>
+                    <RibbonButton Label="{x:Static lng:Text.ResumeCapture}" Name="ResumeRibbonButton" Click="ResumeRibbonButtonClick" LargeImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/LivescanCapture32x32.png" IsEnabled="{Binding InCaptureMode}"></RibbonButton>
+                    <RibbonButton Label="{x:Static lng:Text.Reposition}" Name="RepositionRibbonButton" Click="RepositionRibbonButtonClick" LargeImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/Reposition32x32.png" IsEnabled="{Binding InCaptureMode}"></RibbonButton>
+                    <RibbonButton Label="{x:Static lng:Text.Reset}" Click="ResetCaptureRibbonButtonClick" Name="ResetCaptureRibbonButton" LargeImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/Reset32x32.png" IsEnabled="{Binding InCaptureMode}"></RibbonButton>
+                    <RibbonButton Label="{x:Static lng:Text.End}"
+                                  Click="EndCaptureButtonClick" LargeImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/Accept32x32.png" ToolTip="{Binding PrintGridViewModel.EndorsementFinger.StatusMessage}">
+                    </RibbonButton>
+                </RibbonGroup>
+                <RibbonGroup Header="{x:Static lng:Text.CaptureMode}" IsEnabled="{Binding InCaptureMode, Converter={StaticResource InvertBool}}"  Style="{StaticResource RibbonGroupStyle}">
+                    <RibbonToggleButton Name="Std14ToggleButton" Label="{x:Static lng:Text.CaptureStandard14}" SmallImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/14Circled16x16.png" Checked="CaptureModeToggleChecked" Tag="{x:Static enum:PrintCaptureGroup.Standard14}" HorizontalAlignment="Stretch" ></RibbonToggleButton>
+                    <RibbonToggleButton Name="FlatToggleButton" Label="{x:Static lng:Text.CaptureFlatOnly}"  SmallImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/4Circled16x16.png" Checked="CaptureModeToggleChecked" Tag="{x:Static enum:PrintCaptureGroup.FlatOnly}" HorizontalAlignment="Stretch"></RibbonToggleButton>
+                    <RibbonToggleButton Name="StdAndPalmToggleButton" Label="{x:Static lng:Text.CaptureStandardAndPalm}" SmallImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/20Circled16x16.png" Checked="CaptureModeToggleChecked" Tag="{x:Static enum:PrintCaptureGroup.StandardAndPalm}" HorizontalAlignment="Stretch" ></RibbonToggleButton>
+                </RibbonGroup>
+
+                <RibbonGroup Header="{x:Static lng:Text.Device}" Style="{StaticResource RibbonGroupStyle}" LargeImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/Setting32x32.png" >
+                    
+                    <RibbonButton Label="{x:Static lng:Text.Configure}" Name="ConfigureCaptureRibbonButton" Click="ConfigureButtonClick" IsEnabled="{Binding InCaptureMode, Converter={StaticResource InvertBool}}" 
+                                  LargeImageSource="{Binding ScannerImage}"></RibbonButton>
+                    
+                    <TextBlock Text="{x:Static lng:Text.CurrentDevice}" FontWeight="Bold"></TextBlock>
+                    <TextBlock Text="{Binding ScannerName}"></TextBlock>
+                    <TextBlock Name="ScannerInfoTitle"  FontWeight="Bold"></TextBlock>
+                    <TextBlock Text="{Binding ScannerInfo}"></TextBlock>
+                </RibbonGroup>
+
+                <RibbonGroup Name="EndorsementRibbonGroup" Header="{x:Static lng:Text.EndorsementFinger}" Style="{StaticResource RibbonGroupStyle}" LargeImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/LivescanCapture32x32.png">
+                    
+                    <Border MouseUp="ScanImageMouseUp" ToolTip="{Binding PrintGridViewModel.EndorsementFinger.StatusMessage}">
+                        <Image Source="{Binding PrintGridViewModel.EndorsementFinger.Image}" ></Image>
+                    </Border>
+
+                    <RibbonButton Label="{x:Static lng:Text.ScanEndorsement}" Name="ScanEndorsementButton" IsEnabled="{Binding InCaptureMode}" Click="ScanEndorsementButtonClick" SmallImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/LivescanCapture32x32.png"></RibbonButton>
+                    <TextBlock Text="{Binding PrintGridViewModel.EndorsementFinger.EndorsementFingerName}"></TextBlock>                    
+                    
+                    <Border MouseUp="ScanImageMouseUp" ToolTip="{Binding PrintGridViewModel.EndorsementFinger.StatusMessage}">
+                        <Image Height="22" Source="{Binding PrintGridViewModel.EndorsementFinger.StatusImage}" HorizontalAlignment="Center"></Image>
+                    </Border>                    
+                    <RibbonButton Label="{x:Static lng:Text.ConsentText}" Name="ConsentTextButton" Click="ConsentButtonClick" LargeImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/ConsentText32x32.png"></RibbonButton>                       
+                </RibbonGroup>
+
+                <RibbonGroup Header="Information"  Style="{StaticResource RibbonGroupStyle}" LargeImageSource="pack://application:,,,/PrintsCapture.Ui;component/Images/Info32x32.png">
+                    <TextBlock Text="{Binding IdLine1}"></TextBlock>
+                    <TextBlock Text="{Binding IdLine2}"></TextBlock>                                        
+                </RibbonGroup>
+                
+            </RibbonTab>
+            <RibbonTab Header="{x:Static language:Text.Options}" Name="OptionRibbonTab" >
+                <RibbonGroup Header="{x:Static language:Text.Sequence}" Style="{StaticResource RibbonGroupStyle}">
+                    
+                    <StackPanel Orientation="Horizontal">
+                    <RibbonCheckBox Label="{x:Static language:Text.ValidationEnabledLabel}" Style="{StaticResource ToggleOnOff}" IsChecked="{Binding Rules.IsSequenceEnabled}"></RibbonCheckBox>
+                        <RibbonCheckBox Margin="5,0"  Label="{x:Static language:Text.SequencePosition}" Name="SeqPositionCheckBox" Style="{StaticResource ToggleOnOff}" IsChecked="{Binding Rules.IsSequencePositionEnabled}"></RibbonCheckBox>
+                    </StackPanel>
+                    
+                    <StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="{x:Static language:Text.Threshold}" ></TextBlock>
+                            <TextBlock FontWeight="Bold" Text="{Binding Rules.SequenceThreshold, StringFormat=' ({0})'}" HorizontalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="2,0" Text="{Binding Minimum, ElementName=SequenceThresholdSlider}" VerticalAlignment="Center"></TextBlock>
+                            <Slider Name="SequenceThresholdSlider" ToolTip="{x:Static language:Text.ThresholdTooltip}" VerticalAlignment="Center" TickFrequency="5" Minimum="0" Maximum="100" Width="240" IsSnapToTickEnabled="True" Value="{Binding Rules.SequenceThreshold}" ></Slider>
+                            <TextBlock Margin="2,0" Text="{Binding Maximum, ElementName=SequenceThresholdSlider}" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                </RibbonGroup>
+                <RibbonGroup Header="{x:Static language:Text.Quality}" Style="{StaticResource RibbonGroupStyle}">                    
+                    <RibbonCheckBox Label="{x:Static language:Text.ValidationEnabledLabel}" Style="{StaticResource ToggleOnOff}" IsChecked="{Binding Rules.IsQualityEnabled}"></RibbonCheckBox>                    
+
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="{x:Static language:Text.Threshold}"></TextBlock>
+                            <TextBlock FontWeight="Bold" Text="{Binding Rules.QualityThreshold, StringFormat=' ({0})'}" ></TextBlock>
+                        </StackPanel>
+                        
+                        
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="2,0" Text="{Binding Minimum, ElementName=QualityThresholdSlider}" VerticalAlignment="Center"></TextBlock>
+                            <Slider Name="QualityThresholdSlider" ToolTip="{x:Static language:Text.ThresholdTooltip}" VerticalAlignment="Center" TickFrequency="1" Minimum="1" Maximum="5" Width="100" IsSnapToTickEnabled="True" Value="{Binding Rules.QualityThreshold}" HorizontalAlignment="Stretch" ></Slider>
+                            <TextBlock Margin="2,0" Text="{Binding Maximum, ElementName=QualityThresholdSlider}" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                        
+                    </StackPanel>
+
+                </RibbonGroup>
+
+                <RibbonGroup Style="{StaticResource RibbonGroupStyle}" Header="{x:Static commonLng:CommonText.Crop}" Visibility="Collapsed">
+                    <StackPanel>                        
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="{x:Static language:Text.Threshold}"></TextBlock>
+                            <TextBlock FontWeight="Bold" Text="{Binding Rules.CropTolerance, StringFormat='({0})'}" ></TextBlock>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="2,0" Text="{Binding Minimum, ElementName=CropToleranceSlider}" VerticalAlignment="Center"></TextBlock>
+                            <Slider Name="CropToleranceSlider" VerticalAlignment="Center" TickFrequency="5" Minimum="0" Maximum="75" Width="100" IsSnapToTickEnabled="True" Value="{Binding Rules.CropTolerance}" ></Slider>
+                            <TextBlock Margin="2,0" Text="{Binding Maximum, ElementName=CropToleranceSlider}" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                        
+                    </StackPanel>
+                </RibbonGroup>
+                
+                <RibbonGroup Header="{x:Static language:Text.Overrides}" Style="{StaticResource RibbonGroupStyle}">
+                    <RibbonCheckBox Label="{x:Static language:Text.OverrideFlatLabel}" Style="{StaticResource ToggleOnOff}" IsChecked="{Binding Rules.IsOverrideFlatForbidden, Converter={StaticResource InvertBool}}"></RibbonCheckBox>
+                    <RibbonCheckBox Label="{x:Static language:Text.OverrideRolledLabel}" Style="{StaticResource ToggleOnOff}" IsChecked="{Binding Rules.IsOverrideRolledForbidden, Converter={StaticResource InvertBool}}" ></RibbonCheckBox>                    
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock VerticalAlignment="Center" Text="{x:Static language:Text.OverrideRetryNeededLabel}"></TextBlock>
+                        <TextBox Margin="10,0,0,0" Width="30" FontSize="10" Text="{Binding Rules.RetryNeededForOverride}"></TextBox>
+                    </StackPanel>
+                </RibbonGroup>                
+            </RibbonTab>
+            <RibbonTab Header="{x:Static language:Text.TroubleShooting}" Name="DebugRibbonTab">
+                <RibbonGroup>
+                    <RibbonCheckBox Label="{x:Static language:Text.OverrideAlwayDisplayed}" Style="{StaticResource ToggleOnOff}" IsChecked="{Binding Rules.IsOverrideAlwaysShown}"></RibbonCheckBox>
+                    <RibbonCheckBox Label="{x:Static language:Text.DataCompressionLabel}" Style="{StaticResource ToggleOnOff}" IsChecked="{Binding Rules.IsDataCompressed}"></RibbonCheckBox>
+                    <RibbonSeparator Style="{StaticResource VerticalSeparatorStyle}"  ></RibbonSeparator>
+                    <RibbonButton Label="{x:Static language:Text.RestartService}" Click="RestartServiceButtonClick"></RibbonButton>
+                    <RibbonSeparator Style="{StaticResource VerticalSeparatorStyle}"  ></RibbonSeparator>
+                    <RibbonButton Label="{x:Static language:Text.SavePrints}" Click="SavePrintsButtonClick"></RibbonButton>
+                    <RibbonSeparator Style="{StaticResource VerticalSeparatorStyle}"  ></RibbonSeparator>
+                    <RibbonButton Label="Reset Settings" Click="ResetSettingsButtonClick"></RibbonButton>
+                    <RibbonSeparator Style="{StaticResource VerticalSeparatorStyle}"  ></RibbonSeparator>
+                    <RibbonButton Label="Test sequence" Click="TestSequenceButtonClick"></RibbonButton>
+                </RibbonGroup>
+            </RibbonTab>
+        </Ribbon>
+        <Grid>
+            <Label FontSize="14" Foreground="Blue" Content="{Binding UserInstructionLabel}" Height="28" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Top" />
+            <userControls:PrintGridControl x:Name="PrintGridControl" Margin="12,30,30,45" 
+                                           PrintList="{Binding ViewModel.PrintGridViewModel, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                           PrintImageClick="PrintGridControlOnPrintImageClick" PrintContextMenuClick="PrintGridControlOnContextClick" />
+            
+            <StatusBar Height="40" VerticalAlignment="Bottom" Padding="5">
+                <StatusBarItem MouseDoubleClick="ServiceStatusItemDoubleCLick">
+                    <Image Height="16" Source="{Binding ServiceStatusImage}" Stretch="Uniform"></Image>
+                </StatusBarItem>
+                <StatusBarItem>
+                    <Label Content="{Binding ServiceMessage}"></Label>
+                </StatusBarItem>
+                <StatusBarItem Margin="10,0,0,0">
+                    <Label Content="{Binding Rules.RuleStatusText}"></Label>
+                </StatusBarItem>
+                
+                <StatusBarItem HorizontalAlignment="Right">
+                    <TextBlock Name="VersionTextBlock" MouseDown="VersionTextMouseDown"></TextBlock>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>                
+
+    </DockPanel>
+</Window>

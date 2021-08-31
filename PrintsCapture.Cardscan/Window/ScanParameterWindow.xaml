@@ -1,0 +1,43 @@
+﻿<Window x:Class="PrintsCapture.Cardscan.Window.ScanParameterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:language="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"        
+        xmlns:converter1="clr-namespace:XL_ID.Utilities.Wpf.Converter;assembly=XL_ID.Utilities.Wpf"
+        Title="{x:Static language:CommonText.ScanParameterWindowTitle}"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converter1:InverseBooleanConverter x:Key="InverseBooleanConverter"></converter1:InverseBooleanConverter>
+    </Window.Resources>
+    <Grid>
+        <StackPanel Margin="0,0,0,60">
+            <Label FontSize="20" Content="{Binding DeviceName}"></Label>            
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{x:Static language:CommonText.SerialLabel}"></Label>
+                <Label Content="{Binding DeviceSerial}"></Label>
+            </StackPanel>
+            <Label Content="{x:Static language:CommonText.Resolution}"></Label>
+            <ComboBox Margin="15, 0" ItemsSource="{Binding Resolutions}" SelectedValue="{Binding DeviceResolution}"></ComboBox>
+            <Label Margin="0,10, 0, 0" Content="{x:Static language:CommonText.ScanZone}"></Label>
+            <TextBlock Margin="15,5"><Run Text="{x:Static language:CommonText.ScanSizeRelation}"/></TextBlock>
+            <DockPanel Margin="15, 0">
+                <RadioButton IsChecked="{Binding IsCustom, Converter={StaticResource InverseBooleanConverter}}" Tag="1" Content="{x:Static language:CommonText.Preset}" ></RadioButton>
+                <ComboBox Name="PresetComboBox" Margin="15,0" ItemsSource="{Binding Presets}" DisplayMemberPath="Label" SelectedValuePath="Code" SelectedValue="{Binding PresetCode}"></ComboBox>
+            </DockPanel>
+            <DockPanel Margin="15,10" >
+                <RadioButton IsChecked="{Binding IsCustom}"  VerticalAlignment="Center" Tag="0" Content="{x:Static language:CommonText.Custom}"></RadioButton>
+                
+                    <StackPanel Margin="15,0" Orientation="Horizontal">
+                    <Label Content="{x:Static language:CommonText.Offset}"></Label>
+                        <TextBox Width="30" Text="{Binding CustomOffset}"></TextBox>
+                        <Label>%</Label>
+                    <Label Margin="15,0,0,0" Content="{x:Static language:CommonText.Size}"></Label>
+                        <TextBox Width="30" Text="{Binding CustomSize}"></TextBox>
+                        <Label>%</Label>
+                    </StackPanel>
+                
+            </DockPanel>
+        </StackPanel>
+
+        <Button Margin="0,10" Width="100" Height="30" VerticalAlignment="Bottom" Click="CloseButtonClick" Content="{x:Static language:CommonText.ScanZoneButton}"></Button>
+    </Grid>
+</Window>

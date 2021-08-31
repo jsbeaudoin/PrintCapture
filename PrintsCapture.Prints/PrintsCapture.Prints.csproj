@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8EDB9DDE-268E-4CC6-8C60-4C2576D08740}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PrintsCapture.Prints</RootNamespace>
+    <AssemblyName>PrintsCapture.Prints</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Package|AnyCPU'">
+    <OutputPath>bin\Package\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.0.1\lib\net40\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UniBIO.Services.Communication, Version=1.1.22.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Communication\UniBIO.Services.Communication.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="XL-ID.Utilities, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XL-ID.Utilities.1.4.17\lib\net40\XL-ID.Utilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XL-ID.Utilities.SearchFilters, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XL-ID.Utilities.SearchFilters.1.0.3\lib\net40\XL-ID.Utilities.SearchFilters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Class\BitmapSourceLookup.cs" />
+    <Compile Include="Class\CustomLabels.cs" />
+    <Compile Include="Class\PrintClickedEventArgs.cs" />
+    <Compile Include="Class\PrintCondition.cs" />
+    <Compile Include="Class\PrintSegment.cs" />
+    <Compile Include="Class\SegmentChange.cs" />
+    <Compile Include="Class\HandnessFinder.cs" />
+    <Compile Include="Enum\HandPartStatus.cs" />
+    <Compile Include="Extension\BaseSequenceCheckExtension.cs" />
+    <Compile Include="RcmpValidation\CharacterValidation.cs" />
+    <Compile Include="Sequence\ISequencePrints.cs" />
+    <Compile Include="Sequence\PrintSwapper.cs" />
+    <Compile Include="Sequence\BaseSeqCheckService.cs" />
+    <Compile Include="Sequence\CaptureDeviceInfo.cs" />
+    <Compile Include="Class\CaptureSize.cs" />
+    <Compile Include="Class\OverrideReason.cs" />
+    <Compile Include="Class\PhysicalHandPart.cs" />
+    <Compile Include="Class\PrintAppPath.cs" />
+    <Compile Include="Class\PrintSettings.cs" />
+    <Compile Include="Class\SequenceCheckResult.cs" />
+    <Compile Include="Delegates\PrintModificationDelegates.cs" />
+    <Compile Include="Enum\CaptureKind.cs" />
+    <Compile Include="Enum\Hand.cs" />
+    <Compile Include="Enum\HandPart.cs" />
+    <Compile Include="Enum\HandPartKind.cs" />
+    <Compile Include="Enum\HandScanKind.cs" />
+    <Compile Include="Enum\PrintCaptureGroup.cs" />
+    <Compile Include="Enum\PrintError.cs" />
+    <Compile Include="Enum\PrintResolution.cs" />
+    <Compile Include="Enum\PrintStatus.cs" />
+    <Compile Include="Class\PrintInfo.cs" />
+    <Compile Include="Class\PrintList.cs" />
+    <Compile Include="Class\PrintModificationDispatcher.cs" />
+    <Compile Include="Class\PrintRules.cs" />
+    <Compile Include="Class\PrintModifiedEventArgs.cs" />
+    <Compile Include="Enum\PrintZoomAction.cs" />
+    <Compile Include="Enum\TemplateError.cs" />
+    <Compile Include="Extension\BitmapExtension.cs" />
+    <Compile Include="Extension\ListExtension.cs" />
+    <Compile Include="Extension\PrintInfoExtension.cs" />
+    <Compile Include="Language\CommonText.Designer.cs">
+      <DependentUpon>CommonText.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sequence\PrintSetWarning.cs" />
+    <Compile Include="Sequence\SequenceCheckExceptionEventArgs.cs" />
+    <Compile Include="Sequence\SequenceCheckServiceException.cs" />
+    <Compile Include="Sequence\ServiceConnectionStateEventArgs.cs" />
+    <Compile Include="ViewModel\EndorsableFingerViewModel.cs" />
+    <Compile Include="ViewModel\PrintElementViewModel.cs" />
+    <Compile Include="ViewModel\SegmentInfoViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Language\CommonText.fr.resx" />
+    <EmbeddedResource Include="Language\CommonText.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonText.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LeftHandModel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RightHandModel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CaptureFlatTwoThumb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CaptureLeftFlatHand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CaptureLeftFlatThumb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CaptureRightFlatHand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CaptureRightFlatThumb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HandModel.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

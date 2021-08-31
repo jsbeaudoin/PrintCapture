@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="PrintsCapture.Ui.UserControls.HandConditionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ce="clr-namespace:PrintsCapture.Prints.Enum;assembly=PrintsCapture.Prints"             
+             xmlns:language="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+             mc:Ignorable="d" Name="HandDisplayControl"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="150" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style x:Key="FingerTip">
+            <Setter Property="Border.Background" Value="Green"></Setter>
+            <Setter Property="Border.Margin" Value="3"></Setter>
+        </Style>
+        
+        <Style x:Key="HandPart">
+            <Setter Property="Border.Background" Value="Gray"></Setter>
+            <Setter Property="Border.Margin" Value="0"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <UserControl.BindingGroup>
+        <BindingGroup></BindingGroup>
+    </UserControl.BindingGroup>
+    <Grid Name="FingerQualityGrid" >
+
+        <Path Data="M0,0 M2,107 V 29 C 6,22 14,22 18,29 V 54 V 15 C 22,7 30,7 34,15 V 48 V 10 C 38,3 46,3 50,10 V48 V15 C 54,8 62,8 66,15 V83 L 80,68 C 88,61  92,64  94, 75 L 70,107 C 47,130 16,130 2,107 z M240,125"
+              Stroke="Black" StrokeThickness="5"  Fill="White" Stretch="Fill"  />
+
+        <Path Data="M0,0 M2,70 V 29 C 6,22 14,22 18,29 V 70 H 2 M 0,0 M240,125"
+              Fill="Transparent" StrokeThickness="5" Stretch="Fill" Tag="{x:Static ce:HandAndPart.LeftLittle}" MouseDown="FingerMouseDown" />
+
+
+        <Path Data="M0,0 M18,70 V 15 C 22,7 30,7 34,15 V 70 M240,125"
+              Fill="Transparent" StrokeThickness="5" Stretch="Fill" Tag="{x:Static ce:HandAndPart.LeftRing}" MouseDown="FingerMouseDown" />
+
+        <Path Data="M0,0 M34,70 V 10 C 38,3 46,3 50,10 V70 M240,125"
+              Fill="Transparent" StrokeThickness="5" Stretch="Fill" Tag="{x:Static ce:HandAndPart.LeftMiddle}" MouseDown="FingerMouseDown" />
+
+        <Path Data="M0,0 M50,70 V15 C 54,8 62,8 66,15 V70 M240,125"
+              Fill="Transparent" StrokeThickness="5" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.LeftIndex}" MouseDown="FingerMouseDown" />
+
+        <Path Data="M0,0 M66,83 L80,68 C 88,61 92,64 94,75 L 66,107 M240,125"
+              Fill="Transparent" StrokeThickness="5" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.LeftThumb}" MouseDown="FingerMouseDown" />
+        
+        
+        <!--  Data="M0,0 M2,107   V 29 C 6  ,22  14,22  18,29 V 54 V 15 C  22,7  30,7  34,15 V 48 V 10 C  38,3  46,3  50,10 V48 V15 C  54,8  62,8  66,15 V83 L  80,68 C  88,61   92,64   94,75 L  70,107 C  47,130  16,130  2,107 z" -->
+
+        <Path Data="M0,0 M238,107 V 29 C 234,22 226,22 222,29 V 54 V 15 C 218,7 210,7 206,15 V 48 V 10 C 202,3 194,3 190,10 V48 V15 C 186,8 178,8 174,15 V83 L 160,68 C 152,61  148,64  146,75 L 170,107 C 193,130 224,130 238,107 zM240,125"
+              Stroke="Black" StrokeThickness="5" Stretch="Fill"  Fill="White"  />
+
+        <Path Data="M0,0 M238,70 V 29 C 234,22 226,22 222,29 V 70 M240,125"
+              Fill="Transparent" StrokeThickness="3" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightLittle}" MouseDown="FingerMouseDown" />
+
+        <Path Data="M0,0 M222,70 V 15 C 218,7 210,7 206,15 V 70 M240,125"
+              Fill="Transparent" StrokeThickness="5" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightRing}" MouseDown="FingerMouseDown" />
+
+        <Path Data="M0,0 M206,70 V 10 C 202,3 194,3 190,10 V 70 M240,125"
+              Fill="Transparent" StrokeThickness="5" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightMiddle}" MouseDown="FingerMouseDown" />
+
+        <Path Data="M0,0 M190,70 V15 C 186,8 178,8 174,15 V 70 M240,125"
+              Fill="Transparent" StrokeThickness="5" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightIndex}" MouseDown="FingerMouseDown" />
+
+
+        <Path Data="M0,0 M174,83  L 160,68 C 152,61  148,64  146,75 L 174,107 M240,125"
+              Fill="Transparent" StrokeThickness="5" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightThumb}" MouseDown="FingerMouseDown" />
+
+
+        <Grid Name="MissingGrid">
+            <Path Data="M0,0 M4,50 V 30 C 6,24 14,24 18,28 V 50 H 4 M 0,0 M240,125 " 
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill" Tag="{x:Static ce:HandAndPart.LeftLittle}" IsHitTestVisible="False" />
+
+            <Path Data="M0,0 M20,40 V 15 C 22,9 30,9 34,13 V 40 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill" Tag="{x:Static ce:HandAndPart.LeftRing}" IsHitTestVisible="False" />
+
+            <Path Data="M0,0 M36,40 V 12 C 36,5 46,5 50,9 V40 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill" Tag="{x:Static ce:HandAndPart.LeftMiddle}" IsHitTestVisible="False" />
+
+            <Path Data="M0,0 M52,40 V15 C 54,10 62,10 66,15 V40 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.LeftIndex}" IsHitTestVisible="False" />
+
+            <Path Data="M0,0 M66,83 L80,68 C 88,61 92,64 94,75 L 66,110 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.LeftThumb}" IsHitTestVisible="False" />
+
+
+            <Path Data="M0,0 M236,50 V 29 C 234,24 226,24 222,29 V 50 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightLittle}" IsHitTestVisible="False" />
+
+            <Path Data="M0,0 M220,40 V 15 C 218,9 210,9 206,15 V 40 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightRing}" IsHitTestVisible="False" />
+
+            <Path Data="M0,0 M204,40 V 10 C 202,5 194,5 190,10 V 40 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightMiddle}" IsHitTestVisible="False" />
+
+            <Path Data="M0,0 M188,40 V15 C 184,10 178,10 174,15 V 40 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightIndex}" IsHitTestVisible="False" />
+
+
+            <Path Data="M0,0 M174,83 L 160,68 C 152,61 148,64 146,75 L 174,110 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightThumb}" IsHitTestVisible="False" />
+
+            <Path Data="M0,0 M180,74 H 220 C 222,78 222,84 220,90 H180 C 178,84 178,78 180,74 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightUpperPalm}" IsHitTestVisible="False" />
+
+
+            <Path Data="M0,0 M180,94 H 220 C 222,98 222,104 220,115 C 205,120 195,117 180,110 C 178,104 178,98 180,94 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightLowerPalm}" IsHitTestVisible="False" />
+
+            <Path Data="M0,0 M232,100 V 74 C 230,70 226,70 224,74 V 110 C 227,113 230,113 232,100 M240,125"
+              Fill="Transparent" StrokeThickness="1" Stretch="Fill"  Tag="{x:Static ce:HandAndPart.RightHypothenar}" IsHitTestVisible="False" />
+
+
+        </Grid>
+        
+        <Popup Name="DatePopup" Closed="DatePopupClosed" Placement="MousePoint">
+            <Border BorderBrush="Black" BorderThickness="1" Background="White">
+                <StackPanel Margin="3">
+                    <Label Content="{Binding CurrentFinger}" FontSize="16" FontWeight="Bold"></Label>
+
+                    <CheckBox IsChecked="{Binding IsPresent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{x:Static language:CommonText.WizardNotMissing}"></CheckBox>
+                    <Label Margin="0,5,0,0" Content="{x:Static language:CommonText.WizardMissingDetails}"></Label>
+                    
+                    <CheckBox IsChecked="{Binding IsAmputated, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{x:Static language:CommonText.WizardReasonMissing}" ></CheckBox>
+                    <CheckBox IsChecked="{Binding IsBandaged, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Content="{x:Static language:CommonText.WizardReasonBandaged}"></CheckBox>
+                    <CheckBox IsChecked="{Binding IsPhysicalLimitation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Content="{x:Static language:CommonText.WizardReasonInjured}"></CheckBox>
+                    <!--<CheckBox IsChecked="{Binding IsForeignReason, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="{x:Static language:CommonText.WizardReasonForeign}" ></CheckBox>-->
+
+                    <Label Margin="0,5,0,0" Content="{x:Static language:CommonText.MissingSince }"></Label>
+                    <TextBox Name="MissingSinceTextbox" Text="{Binding CurrentDate, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"></TextBox>
+                    <TextBlock Text="{Binding CurrentDateMessage}" Foreground="Red" TextWrapping="Wrap" MaxWidth="100" ></TextBlock>
+
+                    <Button Margin="0,5,0,2" Click="CloseButtonClicked">Close</Button>
+                </StackPanel>
+            </Border>
+        </Popup>
+        
+    </Grid>
+</UserControl>

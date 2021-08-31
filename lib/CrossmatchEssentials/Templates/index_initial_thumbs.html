@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>Guardian User Guidance Interface Initial Thumbs</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+
+
+<script language="JavaScript" type="text/JavaScript">
+
+	/***********************************************************************************************
+		This web page will use JavaScript to overlay the img/initial_animation*.svg images of the 
+		thumbs on top of the img/image_background.svg image of the Guardian's blue light platen.
+
+		The body of this web page is at the bottom of this file.
+		The javascript will parse the html arguments and load the appropriate svg images.
+		The svg images use ecmascript to perform the image animation.
+	************************************************************************************************/
+
+	/**************************************************************************************************************************
+	  Thumb external arguments
+	EXTERNAL ARGUMENT   DESCRIPTION	           DEFAULT  VALID VALUES    EFFECT
+	  FP1               right thumb            0        0,1             0 - right thumb is missing or damaged
+	                                                                    1 - thumb is valid/present/exists/available
+	  FP6               left thumb             0        0,1             0 - left thumb is missing or damaged
+	                                                                    1 - thumb is valid/present/exists/available
+
+	  ButtonRetry       Retry Button           2        0,1,2           0 - inactive
+	                                                                    1 - The button is active
+	                                                                    2 - The button is hidden 
+	                                                                    If an error occurs, Propmts to recapture the print. 
+	                                                                    Recapture is an alternate in the capture workflow. The Scanner returns to the capture mode.
+
+	  ButtonConfirm     Confirm button         1        0,1,2           0 - inactive
+	                                                                    1 - The button is active
+	                                                                    2 - The button is hidden  
+	                                                                    The user can accept a low quality image and ignore the system quality check.
+	                                                                    Do this only if you cannot improve the quality of the captured image. 
+	                                                                    After you press the button, the program save the fingerprint image in the record.
+
+	  Result            capture result         0        0 - 10          1 - green icon (OK)  LSCAN_STATUS_OK
+	                                                                    2 - General error. The icon indicates a hardware-related or system-related error.
+	                                                                    3 - Clean the platen. ( WRN_OPTICS_SURFACE_DIRTY) Indicate that you must clean the platen or the silicone membrane before you start a new capture sequence.
+	                                                                    4 - Capture error. ( WRN_BAD_SCAN) Error occurs during recording, for example - slipped, off-hook
+	                                                                    5 - Roll error. ( WRN_ROLL_SHIFTED, WRN_ROLL_LIFTED, etc.) Roll result is not acceptable. Reapeat the capture procedure. Roll correctly and keep an even pressure throughout the roll.
+	                                                                    6 - Segmentation error. (Segmentation is not supported in LSE) Error occurs during segmentation of the image.
+	                                                                    7 - Quality-check. Image does not pass the quality check.
+	                                                                    8 - sequence-check. (Sequence is not supported in LSE) Finger reversed or recorded twice.
+	                                                                    9 - Future Error
+	                                                                    10 - Compression Error - (Compression is not supported in LSE)
+	**************************************************************************************************************************/
+
+	var myArgs = {"FP6":0,"FP1":0,"Result":0,"ButtonRetry":2,"ButtonConfirm":1};		//default arguments.
+	var mirrored = false;
+	
+	var hiddenFinger=[];
+	  
+	Object.prototype.equals = function(x)
+	{
+		var p;
+		for(p in this) {
+			if(typeof(x[p])=='undefined') {return false;}
+		}
+	 
+		for(p in this) {
+			if (this[p]) {
+				switch(typeof(this[p])) {
+					case 'object':
+						if (!this[p].equals(x[p])) { return false; } 
+						break;
+					case 'function':
+						if (typeof(x[p])=='undefined' ||
+							(p != 'equals' && this[p].toString() != x[p].toString()))
+							return false;
+						break;
+					default:
+						if (this[p] != x[p]) { return false; }
+				}
+			} 
+			else {
+				if (x[p])
+					return false;
+			}
+		}
+	 
+		for(p in x) {
+			if(typeof(this[p])=='undefined') {return false;}
+		}
+
+		return true;
+	}
+	
+	
+	//begin loading page.
+	function onLoad() {
+		parseUrlArguments();
+		activateSvg();
+	}
+
+
+	//parse URL, parse jason that contains the arguments. Save the new argName arguments into myArgs array.
+	function parseUrlArguments() {
+		try {
+			var arr = window.location.href.split("?");
+			if (arr.length == 2) {
+				var jsonStr = decodeURI(arr[1])				// Get URI string
+				var json= JSON.parse(jsonStr);				// parse each entry
+
+				for ( var argName in json){ 
+					this.myArgs[argName]= json[argName];	// Replace default argName with new URI arguments
+				}
+			}
+		}
+		catch (ex) {
+			alert(ex);
+		}
+		return null;
+	}
+	
+	
+	// activate svg according to argName.
+	function activateSvg() {
+		if ( (this.myArgs.FP6==0 && this.myArgs.FP1==0 ) || 
+		     (this.myArgs.FP6>0 && this.myArgs.FP1>0 ) ) 
+		{
+			setImageActive("thumbs_16");	// Default to both thumbs if both arguments are zero or both are greater than zero
+		}
+		else
+		{
+			// Push thumb values of all invalid or missing thumb into hiddenFinger array
+			// Entries added to the hiddenFinger array must have the save values in the fingerNumerationArr array
+			// Add entries to the hiddenFinger array in any order
+			// setHiddenFinger will remove hiddenFinger entries from the fingerNumerationArr array.
+			if ( this.myArgs.FP6==0 )
+				hiddenFinger.push(6);		// add new entry to array to hide thumb #6 (left thumb)
+			if ( this.myArgs.FP1==0 )
+				hiddenFinger.push(1);		// add new entry to array to hide thumb #1 (right thumb)
+			setHiddenFinger();
+		}
+	}
+	
+	
+	// Set arguments based on various standard "button" settings then generate a new SVG image
+	function setArguments(newArgs) {
+		try {
+			var argsChanged = false;
+			if(!myArgs.equals(newArgs)) {
+				  myArgs = new Object();	
+				  for ( var argName in newArgs) { 
+					if ( myArgs[argName] !== newArgs[argName] ) {
+						myArgs[argName] = newArgs[argName];
+						argsChanged = true;
+					}
+				  }
+				  if (argsChanged)
+					activateSvg();
+			}
+
+		}
+		catch (ex) {
+			alert(ex);
+		}
+		//return myArgs;
+	}
+	
+	// SVG file will call this fuction via window.parent.getArguments();
+	// returns array of URI argument to SVG file for processing
+	function getArguments() {
+		return this.myArgs;
+	}
+	
+	
+	//Check for hidden thumb and create image name
+	// Removes hiddenFinger entries from the fingerNumerationArr array.
+	function setHiddenFinger() {
+		// Array of hand finger numbers - #1=right thumb; #6=left thumb
+		var fingerNumerationArr = [1,6];	// order match naming convention of object id="thumbs_16"
+			
+		// check if hiddenFingers array entries match array of possible fingers in fingerNumerationArr
+		//
+		var l = fingerNumerationArr.length-1;	// get size of array
+		for (l; l >= 0; l--) {
+			// loop through fingerNumerationArr array starting at the end and decriment to the start
+			if ( hiddenFinger.indexOf(fingerNumerationArr[l]) >= 0 ){
+				// Found a match in the missing/hidden thumb in array
+				// slice() will remove the 1 entry from the array at possition l
+				// fingerNumerationArr will have one less entry. 
+				// the removed fingerNumerationArr entry is for missing thumb.
+				fingerNumerationArr.splice(l,1);
+			}
+		}
+		// Now have fingerNumerationArr only has entries for fingers that are valid and present.
+		
+		// Create name for object id. object id will be mapped to initial_animation_ svg file');
+		// object id in the format of thumbs_16 or thumbs_1 or thumbs_6.
+		
+		if (fingerNumerationArr.length == 1) {
+			// have only one thumb
+			if (fingerNumerationArr[0] == 6) 
+					this.mirrored = true;	// 6 - left thumb
+			else 	this.mirrored = false;	// 1 - right thumb
+		}
+		setImageActive('thumbs_'+fingerNumerationArr.join(''));
+	}
+
+
+	//Set image active.
+	function setImageActive(ObjectIDName) {
+		// first, deactivate all Image object elements that start with "thumbs"
+		// There are 5 svg elements in the main body with the class="svgobj thumbs" 
+		//  svgObj[0] id="thumbs_16"  svgObj[3] id="thumbs_1"    svgObj[4] id="thumbs_6"   
+		var svgObj = document.getElementsByClassName('thumbs');
+		if (svgObj.length > 0) {
+			var i, l=svgObj.length;
+			for (i=0; i < l; i++ ) {
+				svgObj[i].style.display = "none";		// hide all elements
+			}
+		}
+		
+		
+		// Find the one svg image object element that matches our thumb
+		svgObj = document.getElementById(ObjectIDName);
+		if (svgObj) {
+			// If we have a matching image object element, then it will be displayed
+			svgObj.style.display = "inline";	// display the one svg element we need
+			svgReload(ObjectIDName);			// load SVG images. SVG image files uses ecmascript to do animation
+		}
+	}
+
+	//Reload svg according to arguments svg name.
+	function svgReload(svg) {
+		var svgobj=document.getElementById(svg).getSVGDocument(); 
+		if (svgobj) {
+			svgobj.location.reload(true);		// Display the page with object that are enabled
+		}
+	}
+
+	
+	// SVG file will call this fuction via window.parent.getMirrored();
+	// SVG file must determine if the image should be transform/mirror before it is animated
+	function getMirrored() {
+		return this.mirrored;
+	}
+
+	
+   </script>
+
+</head>
+<body onload="onLoad();">
+  <div class="page_margins">
+    <div class="page">
+      <div id="main">
+      	<object id="svg_background" class="svgobj" type="image/svg+xml" data="img/image_background.svg" width="100%" height="100%"></object>
+		
+      	<object id="thumbs_16" class="svgobj thumbs" style="display:none;" type="image/svg+xml" data="img/initial_animation_thumbs.svg" width="100%" height="100%"></object>
+      	<object id="thumbs_61" class="svgobj thumbs" style="display:none;" type="image/svg+xml" data="img/initial_animation_thumbs.svg" width="100%" height="100%"></object>
+      	<object id="thumbs_" class="svgobj thumbs" style="display:none;" type="image/svg+xml" data="img/initial_animation_thumbs.svg" width="100%" height="100%"></object>
+      	<object id="thumbs_1" class="svgobj thumbs" style="display:none;" type="image/svg+xml" data="img/initial_animation_thumb.svg" width="100%" height="100%"></object>
+      	<object id="thumbs_6" class="svgobj thumbs" style="display:none;" type="image/svg+xml" data="img/initial_animation_thumb.svg" width="100%" height="100%"></object>
+
+        <div id="controlbtn" class="svgobj"  style="display:none;">
+            <button type="button" onClick='setArguments({"FP6":0,"FP1":1});'>
+              Set Hidden Finger 6
+            </button>
+            <button type="button" onClick='setArguments({"FP6":1,"FP1":0});'>
+              Set Hidden Finger 1
+            </button>
+            <button type="button" onClick='setArguments({"FP6":0,"FP1":0});'>
+              Set Hidden Finger 6 and 1
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

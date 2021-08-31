@@ -1,0 +1,415 @@
+﻿<UserControl x:Class="PrintsCapture.Ui.UserControls.PrintGridControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:language="clr-namespace:PrintsCapture.Ui.Language"             
+             xmlns:converter2="clr-namespace:XL_ID.Utilities.Wpf.Converter;assembly=XL_ID.Utilities.Wpf"
+             DataContext="{Binding PrintList, RelativeSource={RelativeSource Self}}"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="900">
+    <UserControl.Resources>
+
+        <ContextMenu x:Key="PrintsContextMenu" x:Shared="true" >
+            <MenuItem Header="{x:Static language:Text.ScanAgain}" Click="ScanAgainContextMenuClick" IsEnabled="{Binding IsCaptureInProgress}" 
+                      Visibility="{Binding ScanVisibility}"/>            
+            <MenuItem Header="{x:Static language:Text.EditPrint}" Click="EditPrintContextMenuClick" IsEnabled="{Binding IsCaptureInProgress}" 
+                      Visibility="{Binding EditVisibility}"/>
+        </ContextMenu>
+        
+        <Style x:Key="FingerprintBox">
+            <Setter Property="Control.BorderBrush" Value="#FF363636" />
+            <Setter Property="Control.BorderThickness" Value="1" />
+            <Setter Property="Border.Background" Value="Transparent"></Setter>
+            <Setter Property="Control.Cursor" Value="{x:Static Cursors.Hand}"></Setter>
+            <Setter Property="Control.ContextMenu" Value="{DynamicResource PrintsContextMenu}"></Setter>
+            <Style.Triggers>
+                <Trigger Property="Border.IsEnabled" Value="False">
+                    <Setter Property="Border.Background" Value="LightGray" />
+                </Trigger>
+                
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="StatusImage">
+            <Setter Property="Image.Cursor" Value="{x:Static Cursors.Hand}"></Setter>
+            <Style.Triggers>
+                <Trigger Property="Image.IsEnabled" Value="False">
+                    <Setter Property="Image.Visibility" Value="Hidden" />
+
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="PrintImage">
+            <Setter Property="Image.Stretch" Value="Uniform"></Setter>
+
+            <Style.Triggers>
+                <Trigger Property="Image.IsEnabled" Value="False">
+                    <Setter Property="Image.Visibility" Value="Hidden" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="PrintMissingText">
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="TextBlock.Padding" Value="3,3,3,3"></Setter>
+            <Setter Property="TextBlock.VerticalAlignment" Value="Stretch"></Setter>
+            <Setter Property="TextBlock.HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="TextBlock.Foreground" Value="Chocolate"></Setter>
+            <Setter Property="TextBlock.Cursor" Value="{x:Static Cursors.Hand}"></Setter>
+        </Style>
+
+        <Style x:Key="SequenceStyle">
+            <Setter Property="Label.HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="Label.VerticalAlignment" Value="Bottom"></Setter>
+            <Setter Property="Label.FontSize" Value="8"></Setter>
+            <Setter Property="Label.FontWeight" Value="Bold"></Setter>
+            <Setter Property="Label.Margin" Value="0,0,10,0"></Setter>
+        </Style>
+
+        <Style x:Key="PrintPresentTextStyle">
+            <Setter Property="TextBlock.Foreground" Value="DarkTurquoise"></Setter>
+            <Setter Property="TextBlock.Cursor" Value="{x:Static Cursors.Hand}"></Setter>
+        </Style>
+        
+        <converter2:NullBoolToVisibilityConverter x:Key="BoolVisibility"/>
+        <converter2:InstanceToBoolConverter x:Key="NullToFalse"/>
+        <converter2:NullableBoolToBoolConverter x:Key="NullBoolToBool" />
+        <converter2:EmptyStringToVisibilityConverter x:Key="EmptyStringInvisibility" />
+        <converter2:BoolToGridRowHeightConverter x:Key="BoolToGridRowHeightConverter"></converter2:BoolToGridRowHeightConverter>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="35" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="12" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="{Binding ShowMissingLine, Converter={StaticResource BoolToGridRowHeightConverter}, ConverterParameter='40'}"/>
+            <RowDefinition Height="{Binding ShowMissingLine, Converter={StaticResource BoolToGridRowHeightConverter}, ConverterParameter='26'}"/>
+            <RowDefinition Height="{Binding ShowRolledPrint, Converter={StaticResource BoolToGridRowHeightConverter}, ConverterParameter='*'}" />
+            <RowDefinition Height="{Binding ShowRolledPrint, Converter={StaticResource BoolToGridRowHeightConverter}, ConverterParameter='26'}" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="26" />
+            <RowDefinition Height="{Binding ShowPalmPrint, Converter={StaticResource BoolToGridRowHeightConverter}, ConverterParameter='Auto'}" />
+            <RowDefinition Height="{Binding ShowPalmPrint, Converter={StaticResource BoolToGridRowHeightConverter}, ConverterParameter='*'}" />
+            <RowDefinition Height="{Binding ShowPalmPrint, Converter={StaticResource BoolToGridRowHeightConverter}, ConverterParameter='26'}" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="5" FontWeight="Bold" Content="{x:Static language:Text.PrintLeftHand}" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+        <Label Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="5" FontWeight="Bold" Content="{x:Static language:Text.PrintRightHand}" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+
+        <Label Grid.Row="1" Grid.Column="1" Content="{x:Static language:Text.PrintFingerLittle}" />
+        <Label Grid.Row="1" Grid.Column="1" Style="{StaticResource SequenceStyle}" Content="{Binding RolledLeftLittle.SequenceScore}" Visibility="{Binding RolledLeftLittle.SequenceAnalyzed, Converter={StaticResource BoolVisibility}}" />
+
+        <Label Grid.Row="1" Grid.Column="2" Content="{x:Static language:Text.PrintFingerRing}" />
+        <Label Grid.Row="1" Grid.Column="2" Style="{StaticResource SequenceStyle}" Content="{Binding RolledLeftRing.SequenceScore}" Visibility="{Binding RolledLeftRing.SequenceAnalyzed, Converter={StaticResource BoolVisibility}}" />
+
+        <Label Grid.Row="1" Grid.Column="3" Content="{x:Static language:Text.PrintFingerMiddle}" />
+        <Label Grid.Row="1" Grid.Column="3" Style="{StaticResource SequenceStyle}" Content="{Binding RolledLeftMiddle.SequenceScore}" Visibility="{Binding RolledLeftMiddle.SequenceAnalyzed, Converter={StaticResource BoolVisibility}}"/>
+
+        <Label Grid.Row="1" Grid.Column="4" Content="{x:Static language:Text.PrintFingerIndex}" />
+        <Label Grid.Row="1" Grid.Column="4" Style="{StaticResource SequenceStyle}" Content="{Binding RolledLeftIndex.SequenceScore}" Visibility="{Binding RolledLeftIndex.SequenceAnalyzed, Converter={StaticResource BoolVisibility}}" />
+
+        <Label Grid.Row="1" Grid.Column="5" Content="{x:Static language:Text.PrintFingerThumb}" />
+        <Label Grid.Row="1" Grid.Column="5" Style="{StaticResource SequenceStyle}" Content="{Binding RolledLeftThumb.SequenceScore}" Visibility="{Binding RolledLeftThumb.SequenceAnalyzed, Converter={StaticResource BoolVisibility}}" />
+
+        <Label Grid.Row="1" Grid.Column="7" Content="{x:Static language:Text.PrintFingerThumb}" />
+        <Label Grid.Row="1" Grid.Column="7" Style="{StaticResource SequenceStyle}" Content="{Binding RolledRightThumb.SequenceScore}" Visibility="{Binding RolledRightThumb.SequenceAnalyzed, Converter={StaticResource BoolVisibility}}" />
+
+        <Label Grid.Row="1" Grid.Column="8" Content="{x:Static language:Text.PrintFingerIndex}" />
+        <Label Grid.Row="1" Grid.Column="8" Style="{StaticResource SequenceStyle}" Content="{Binding RolledRightIndex.SequenceScore}"  Visibility="{Binding RolledRightIndex.SequenceAnalyzed, Converter={StaticResource BoolVisibility}}" />
+
+        <Label Grid.Row="1" Grid.Column="9" Content="{x:Static language:Text.PrintFingerMiddle}" />
+        <Label Grid.Row="1" Grid.Column="9" Style="{StaticResource SequenceStyle}" Content="{Binding RolledRightMiddle.SequenceScore}"  Visibility="{Binding RolledRightMiddle.SequenceAnalyzed, Converter={StaticResource BoolVisibility}}" />
+
+        <Label Grid.Row="1" Grid.Column="10" Content="{x:Static language:Text.PrintFingerRing}" />
+        <Label Grid.Row="1" Grid.Column="10" Style="{StaticResource SequenceStyle}" Content="{Binding RolledRightRing.SequenceScore}"  Visibility="{Binding RolledRightRing.SequenceAnalyzed, Converter={StaticResource BoolVisibility}}" />
+
+        <Label Grid.Row="1" Grid.Column="11" Content="{x:Static language:Text.PrintFingerLittle}" />
+        <Label Grid.Row="1" Grid.Column="11" Style="{StaticResource SequenceStyle}" Content="{Binding RolledRightLittle.SequenceScore}"  Visibility="{Binding RolledRightLittle.SequenceAnalyzed, Converter={StaticResource BoolVisibility}}" />
+
+        <Border Grid.Row="4" Grid.Column="0" Margin="3" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Background="White">
+            <Grid>
+                <Label Content="{x:Static language:Text.PrintRolled}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Label.LayoutTransform>
+                        <RotateTransform Angle="90"/>
+                    </Label.LayoutTransform>
+                </Label>
+            </Grid>
+        </Border>
+
+
+        <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource FingerprintBox}" ToolTip="{Binding RolledLeftLittle.StatusMessage}" >
+            <TextBlock Text="{x:Static language:Text.HandPartPresent}" Style="{StaticResource PrintPresentTextStyle}" Tag="{Binding RolledLeftLittle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"
+                       Visibility="{Binding RolledLeftLittle.MissingText, Converter={StaticResource EmptyStringInvisibility}, ConverterParameter='invert'}"></TextBlock>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="1"  Text="{Binding RolledLeftLittle.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledLeftLittle.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding RolledLeftLittle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"/>
+
+        <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledLeftRing.StatusMessage}">
+            <TextBlock Text="{x:Static language:Text.HandPartPresent}" Style="{StaticResource PrintPresentTextStyle}" Tag="{Binding RolledLeftRing}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"
+                       Visibility="{Binding RolledLeftRing.MissingText, Converter={StaticResource EmptyStringInvisibility}, ConverterParameter='invert'}"></TextBlock>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="2"  Text="{Binding RolledLeftRing.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledLeftRing.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+            Tag="{Binding RolledLeftRing}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"  />
+
+        <Border Grid.Row="2" Grid.Column="3" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledLeftMiddle.StatusMessage}">
+            <TextBlock Text="{x:Static language:Text.HandPartPresent}" Style="{StaticResource PrintPresentTextStyle}" Tag="{Binding RolledLeftMiddle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"
+                       Visibility="{Binding RolledLeftMiddle.MissingText, Converter={StaticResource EmptyStringInvisibility}, ConverterParameter='invert'}"></TextBlock>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="3"  Text="{Binding RolledLeftMiddle.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledLeftMiddle.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding RolledLeftMiddle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="2" Grid.Column="4" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledLeftIndex.StatusMessage}">
+            <TextBlock Text="{x:Static language:Text.HandPartPresent}" Style="{StaticResource PrintPresentTextStyle}" Tag="{Binding RolledLeftIndex}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"
+                       Visibility="{Binding RolledLeftIndex.MissingText, Converter={StaticResource EmptyStringInvisibility}, ConverterParameter='invert'}"></TextBlock>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="4"  Text="{Binding RolledLeftIndex.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledLeftIndex.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding RolledLeftIndex}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="2" Grid.Column="5" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledLeftThumb.StatusMessage}">
+            <TextBlock Text="{x:Static language:Text.HandPartPresent}" Style="{StaticResource PrintPresentTextStyle}" Tag="{Binding RolledLeftThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"
+                       Visibility="{Binding RolledLeftThumb.MissingText, Converter={StaticResource EmptyStringInvisibility}, ConverterParameter='invert'}"></TextBlock>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="5"  Text="{Binding RolledLeftThumb.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledLeftThumb.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding RolledLeftThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="2" Grid.Column="7" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledRightThumb.StatusMessage}">
+            <TextBlock Text="{x:Static language:Text.HandPartPresent}" Style="{StaticResource PrintPresentTextStyle}" Tag="{Binding RolledRightThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"
+                       Visibility="{Binding RolledRightThumb.MissingText, Converter={StaticResource EmptyStringInvisibility}, ConverterParameter='invert'}"></TextBlock>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="7"  Text="{Binding RolledRightThumb.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledRightThumb.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding RolledRightThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="2" Grid.Column="8" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledRightIndex.StatusMessage}">
+            <TextBlock Text="{x:Static language:Text.HandPartPresent}" Style="{StaticResource PrintPresentTextStyle}" Tag="{Binding RolledRightIndex}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"
+                       Visibility="{Binding RolledRightIndex.MissingText, Converter={StaticResource EmptyStringInvisibility}, ConverterParameter='invert'}"></TextBlock>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="8"  Text="{Binding RolledRightIndex.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledRightIndex.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding RolledRightIndex}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="2" Grid.Column="9" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledRightMiddle.StatusMessage}">
+            <TextBlock Text="{x:Static language:Text.HandPartPresent}" Style="{StaticResource PrintPresentTextStyle}" Tag="{Binding RolledRightMiddle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"
+                       Visibility="{Binding RolledRightMiddle.MissingText, Converter={StaticResource EmptyStringInvisibility}, ConverterParameter='invert'}"></TextBlock>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="9"  Text="{Binding RolledRightMiddle.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledRightMiddle.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding RolledRightMiddle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="2" Grid.Column="10" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledRightRing.StatusMessage}">
+            <TextBlock Text="{x:Static language:Text.HandPartPresent}" Style="{StaticResource PrintPresentTextStyle}" Tag="{Binding RolledRightRing}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"
+                       Visibility="{Binding RolledRightRing.MissingText, Converter={StaticResource EmptyStringInvisibility}, ConverterParameter='invert'}"></TextBlock>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="10"  Text="{Binding RolledRightRing.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledRightRing.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding RolledRightRing}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="2" Grid.Column="11" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledRightLittle.StatusMessage}">
+            <TextBlock Text="{x:Static language:Text.HandPartPresent}" Style="{StaticResource PrintPresentTextStyle}" Tag="{Binding RolledRightLittle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"
+                       Visibility="{Binding RolledRightLittle.MissingText, Converter={StaticResource EmptyStringInvisibility}, ConverterParameter='invert'}"></TextBlock>
+        </Border>
+        <TextBlock Grid.Row="2" Grid.Column="11"  Text="{Binding RolledRightLittle.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledRightLittle.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding RolledRightLittle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <!-- *************************************************************************************************** -->
+
+        <Border Grid.Row="4" Grid.Column="1" Style="{StaticResource FingerprintBox}" ToolTip="{Binding RolledLeftLittle.StatusMessage}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledLeftLittle}">
+            <Image  Style="{StaticResource PrintImage}" Source="{Binding RolledLeftLittle.Image}"    />
+        </Border>
+        <TextBlock Grid.Row="4" Grid.Column="1"  Text="{Binding RolledLeftLittle.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledLeftLittle.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding RolledLeftLittle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"/>
+
+        <Border Grid.Row="4" Grid.Column="2" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledLeftRing.StatusMessage}" Tag="{Binding RolledLeftRing}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding RolledLeftRing.Image}"  />
+        </Border>
+        <TextBlock Grid.Row="4" Grid.Column="2"  Text="{Binding RolledLeftRing.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledLeftRing.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+            Tag="{Binding RolledLeftRing}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp"  />
+
+        <Border Grid.Row="4" Grid.Column="3" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledLeftMiddle.StatusMessage}" Tag="{Binding RolledLeftMiddle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding RolledLeftMiddle.Image}"  />
+        </Border>
+        <TextBlock Grid.Row="4" Grid.Column="3"  Text="{Binding RolledLeftMiddle.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledLeftMiddle.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding RolledLeftMiddle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="4" Grid.Column="4" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledLeftIndex.StatusMessage}" Tag="{Binding RolledLeftIndex}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" >
+            <Image Style="{StaticResource PrintImage}" Source="{Binding RolledLeftIndex.Image}" />
+        </Border>
+        <TextBlock Grid.Row="4" Grid.Column="4"  Text="{Binding RolledLeftIndex.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledLeftIndex.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding RolledLeftIndex}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="4" Grid.Column="5" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledLeftThumb.StatusMessage}" Tag="{Binding RolledLeftThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" >
+            <Image Style="{StaticResource PrintImage}" Source="{Binding RolledLeftThumb.Image}" />
+        </Border>
+        <TextBlock Grid.Row="4" Grid.Column="5"  Text="{Binding RolledLeftThumb.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledLeftThumb.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding RolledLeftThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="4" Grid.Column="7" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledRightThumb.StatusMessage}" Tag="{Binding RolledRightThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding RolledRightThumb.Image}"  />
+        </Border>
+        <TextBlock Grid.Row="4" Grid.Column="7"  Text="{Binding RolledRightThumb.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledRightThumb.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding RolledRightThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="4" Grid.Column="8" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledRightIndex.StatusMessage}" Tag="{Binding RolledRightIndex}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding RolledRightIndex.Image}"  />
+        </Border>
+        <TextBlock Grid.Row="4" Grid.Column="8"  Text="{Binding RolledRightIndex.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledRightIndex.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding RolledRightIndex}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="4" Grid.Column="9" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledRightMiddle.StatusMessage}" Tag="{Binding RolledRightMiddle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" >
+            <Image Style="{StaticResource PrintImage}" Source="{Binding RolledRightMiddle.Image}" />
+        </Border>
+        <TextBlock Grid.Row="4" Grid.Column="9"  Text="{Binding RolledRightMiddle.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledRightMiddle.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding RolledRightMiddle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="4" Grid.Column="10" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledRightRing.StatusMessage}" Tag="{Binding RolledRightRing}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding RolledRightRing.Image}"  />
+        </Border>
+        <TextBlock Grid.Row="4" Grid.Column="10"  Text="{Binding RolledRightRing.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledRightRing.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding RolledRightRing}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="4" Grid.Column="11" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding RolledRightLittle.StatusMessage}" Tag="{Binding RolledRightLittle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding RolledRightLittle.Image}"  />
+        </Border>
+        <TextBlock Grid.Row="4" Grid.Column="11"  Text="{Binding RolledRightLittle.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding RolledRightLittle.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding RolledRightLittle}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Image Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" Source="{Binding RolledLeftLittle.StatusImage}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledLeftLittle}" Style="{StaticResource StatusImage}"   ToolTip="{Binding RolledLeftLittle.StatusMessage}" />
+        <Image Grid.Row="5" Grid.Column="2" HorizontalAlignment="Center" Source="{Binding RolledLeftRing.StatusImage}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledLeftRing}" Style="{StaticResource StatusImage}"     ToolTip="{Binding RolledLeftRing.StatusMessage}"  />
+        <Image Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center" Source="{Binding RolledLeftMiddle.StatusImage}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledLeftMiddle}" Style="{StaticResource StatusImage}"    ToolTip="{Binding RolledLeftMiddle.StatusMessage}"  />
+        <Image Grid.Row="5" Grid.Column="4" HorizontalAlignment="Center" Source="{Binding RolledLeftIndex.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledLeftIndex}" Style="{StaticResource StatusImage}"   ToolTip="{Binding RolledLeftIndex.StatusMessage}"   />
+        <Image Grid.Row="5" Grid.Column="5" HorizontalAlignment="Center" Source="{Binding RolledLeftThumb.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledLeftThumb}" Style="{StaticResource StatusImage}"    ToolTip="{Binding RolledLeftThumb.StatusMessage}"  />
+
+        <Image Grid.Row="5" Grid.Column="7" HorizontalAlignment="Center" Source="{Binding RolledRightThumb.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledRightThumb}" Style="{StaticResource StatusImage}"    ToolTip="{Binding RolledRightThumb.StatusMessage}"  />
+        <Image Grid.Row="5" Grid.Column="8" HorizontalAlignment="Center" Source="{Binding RolledRightIndex.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledRightIndex}"  Style="{StaticResource StatusImage}"    ToolTip="{Binding RolledRightIndex.StatusMessage}" />
+        <Image Grid.Row="5" Grid.Column="9" HorizontalAlignment="Center" Source="{Binding RolledRightMiddle.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledRightMiddle}"  Style="{StaticResource StatusImage}"   ToolTip="{Binding RolledRightMiddle.StatusMessage}"  />
+        <Image Grid.Row="5" Grid.Column="10" HorizontalAlignment="Center" Source="{Binding RolledRightRing.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledRightRing}" Style="{StaticResource StatusImage}"    ToolTip="{Binding RolledRightRing.StatusMessage}"  />
+        <Image Grid.Row="5" Grid.Column="11" HorizontalAlignment="Center" Source="{Binding RolledRightLittle.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding RolledRightLittle}"  Style="{StaticResource StatusImage}"   ToolTip="{Binding RolledRightLittle.StatusMessage}"  />
+
+        <Border Grid.Row="6" Grid.Column="0" Margin="3" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Background="White">
+            <Grid>
+                <Label Content="{x:Static language:Text.PrintFlat}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Label.LayoutTransform>
+                        <RotateTransform Angle="90"/>
+                    </Label.LayoutTransform>
+                </Label>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" Style="{StaticResource FingerprintBox}"   ToolTip="{Binding FlatLeftFingers.StatusMessage}" Tag="{Binding FlatLeftFingers}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding FlatLeftFingers.Image}"   />
+        </Border>
+        <TextBlock Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" Text="{Binding FlatLeftFingers.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding FlatLeftFingers.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding FlatLeftFingers}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Grid Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="3" Visibility="{Binding TwoThumbsVisibility}" ToolTip="{Binding FlatTwoThumbs.StatusMessage}" >
+            <Border Style="{StaticResource FingerprintBox}"  Tag="{Binding FlatTwoThumbs}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" >
+                <Image Style="{StaticResource PrintImage}" Source="{Binding FlatTwoThumbs.Image}" />
+            </Border>
+            <TextBlock Text="{Binding FlatTwoThumbs.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding FlatTwoThumbs.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                       Tag="{Binding FlatTwoThumbs}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+        </Grid>
+
+        <Grid Grid.Row="6" Grid.Column="5" Visibility="{Binding LeftThumbVisibility}" ToolTip="{Binding FlatLeftThumb.StatusMessage}">
+            <Border  Style="{StaticResource FingerprintBox}" Tag="{Binding FlatLeftThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+                <Image Style="{StaticResource PrintImage}" Source="{Binding FlatLeftThumb.Image}"   />
+            </Border>
+            <TextBlock  Text="{Binding FlatLeftThumb.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding FlatLeftThumb.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                        Tag="{Binding FlatLeftThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+        </Grid>
+
+        <Grid Grid.Row="6" Grid.Column="7" Visibility="{Binding RightThumbVisibility}" ToolTip="{Binding FlatRightThumb.StatusMessage}" >
+            <Border  Style="{StaticResource FingerprintBox}" Tag="{Binding FlatRightThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+                <Image Style="{StaticResource PrintImage}" Source="{Binding FlatRightThumb.Image}"   />
+            </Border>
+            <TextBlock  Text="{Binding FlatRightThumb.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding FlatRightThumb.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                        Tag="{Binding FlatRightThumb}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+        </Grid>
+
+        <Border Grid.Row="6" Grid.Column="8" Grid.ColumnSpan="4" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding FlatRightFingers.StatusMessage}" Tag="{Binding FlatRightFingers}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding FlatRightFingers.Image}"   />
+        </Border>
+        <TextBlock Grid.Row="6" Grid.Column="8" Grid.ColumnSpan="4" Text="{Binding FlatRightFingers.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding FlatRightFingers.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding FlatRightFingers}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Image Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="4"  HorizontalAlignment="Center" Source="{Binding FlatLeftFingers.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding FlatLeftFingers}"  Style="{StaticResource StatusImage}"   ToolTip="{Binding FlatLeftFingers.StatusMessage}"  />
+        <Image Grid.Row="7" Grid.Column="5" HorizontalAlignment="Center" Source="{Binding FlatLeftThumb.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding FlatLeftThumb}"  Style="{StaticResource StatusImage}"   ToolTip="{Binding FlatLeftThumb.StatusMessage}" Visibility="{Binding LeftThumbVisibility}" />
+
+        <Image Grid.Row="7" Grid.Column="5" Grid.ColumnSpan="3" HorizontalAlignment="Center" Source="{Binding FlatTwoThumbs.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding FlatTwoThumbs}"  Style="{StaticResource StatusImage}"   ToolTip="{Binding FlatTwoThumbs.StatusMessage}" Visibility="{Binding TwoThumbsVisibility}" />
+
+        <Image Grid.Row="7" Grid.Column="7" HorizontalAlignment="Center" Source="{Binding FlatRightThumb.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding FlatRightThumb}"  Style="{StaticResource StatusImage}"   ToolTip="{Binding FlatRightThumb.StatusMessage}" Visibility="{Binding RightThumbVisibility}"/>
+        <Image Grid.Row="7" Grid.Column="8" Grid.ColumnSpan="4"  HorizontalAlignment="Center" Source="{Binding FlatRightFingers.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding FlatRightFingers}"  Style="{StaticResource StatusImage}"   ToolTip="{Binding FlatRightFingers.StatusMessage}"  />
+
+        <Label Grid.Row="8" Grid.Column="1" Content="{x:Static language:Text.PrintPalmHypothenar}" />
+        <Label Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Content="{x:Static language:Text.PrintPalmLower}" />
+        <Label Grid.Row="8" Grid.Column="4" Grid.ColumnSpan="2" Content="{x:Static language:Text.PrintPalmUpper}" />
+
+        <Label Grid.Row="8" Grid.Column="7" Grid.ColumnSpan="2" Content="{x:Static language:Text.PrintPalmUpper}" />
+        <Label Grid.Row="8" Grid.Column="9" Grid.ColumnSpan="2" Content="{x:Static language:Text.PrintPalmLower}" />
+        <Label Grid.Row="8" Grid.Column="11" Content="{x:Static language:Text.PrintPalmHypothenar}" />
+
+        <Border Grid.Row="9" Grid.Column="0" Margin="3" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Background="White">
+            <Grid>
+                <Label Content="{x:Static language:Text.Palms}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Label.LayoutTransform>
+                        <RotateTransform Angle="90"/>
+                    </Label.LayoutTransform>
+                </Label>
+            </Grid>
+        </Border>
+
+
+        <Border Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding PalmLeftHypothenar.StatusMessage}" Tag="{Binding PalmLeftHypothenar}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" >
+            <Image Style="{StaticResource PrintImage}" Source="{Binding PalmLeftHypothenar.Image}"  />
+        </Border>
+        <TextBlock Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Text="{Binding PalmLeftHypothenar.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding PalmLeftHypothenar.MissingText, Converter={StaticResource EmptyStringInvisibility}}" 
+                   Tag="{Binding PalmLeftHypothenar}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding PalmLeftLower.StatusMessage}" Tag="{Binding PalmLeftLower}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" >
+            <Image Style="{StaticResource PrintImage}" Source="{Binding PalmLeftLower.Image}" />
+        </Border>
+        <TextBlock Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding PalmLeftLower.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding PalmLeftLower.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding PalmLeftLower}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding PalmLeftUpper.StatusMessage}" Tag="{Binding PalmLeftUpper}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" >
+            <Image Style="{StaticResource PrintImage}" Source="{Binding PalmLeftUpper.Image}" />
+        </Border>
+        <TextBlock Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="2" Text="{Binding PalmLeftUpper.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding PalmLeftUpper.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding PalmLeftUpper}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="2" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding PalmRightUpper.StatusMessage}" Tag="{Binding PalmRightUpper}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding PalmRightUpper.Image}"  />
+        </Border>
+        <TextBlock Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="2" Text="{Binding PalmRightUpper.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding PalmRightUpper.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding PalmRightUpper}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="9" Grid.Column="9" Grid.ColumnSpan="2" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding PalmLeftLower.StatusMessage}" Tag="{Binding PalmRightLower}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding PalmRightLower.Image}"  />
+        </Border>
+        <TextBlock Grid.Row="9" Grid.Column="9" Grid.ColumnSpan="2" Text="{Binding PalmRightLower.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding PalmRightLower.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding PalmRightLower}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Border Grid.Row="9" Grid.Column="11" Grid.ColumnSpan="1" Style="{StaticResource FingerprintBox}"  ToolTip="{Binding PalmLeftHypothenar.StatusMessage}" Tag="{Binding PalmRightHypothenar}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp">
+            <Image Style="{StaticResource PrintImage}" Source="{Binding PalmRightHypothenar.Image}"  />
+        </Border>
+        <TextBlock Grid.Row="9" Grid.Column="11" Grid.ColumnSpan="1" Text="{Binding PalmRightHypothenar.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding PalmRightHypothenar.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
+                   Tag="{Binding PalmRightHypothenar}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
+
+        <Image Grid.Row="10" Grid.Column="1" HorizontalAlignment="Center" Source="{Binding PalmLeftHypothenar.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding PalmLeftHypothenar}"  Style="{StaticResource StatusImage}"   ToolTip="{Binding PalmLeftHypothenar.StatusMessage}" />
+        <Image Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Source="{Binding PalmLeftLower.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding PalmLeftLower}"  Style="{StaticResource StatusImage}"   ToolTip="{Binding PalmLeftLower.StatusMessage}" />
+        <Image Grid.Row="10" Grid.Column="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Source="{Binding PalmLeftUpper.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding PalmLeftUpper}" Style="{StaticResource StatusImage}"   ToolTip="{Binding PalmLeftUpper.StatusMessage}" />
+
+        <Image Grid.Row="10" Grid.Column="7" Grid.ColumnSpan="2" HorizontalAlignment="Center" Source="{Binding PalmRightUpper.StatusImage}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding PalmRightUpper}"  Style="{StaticResource StatusImage}"  ToolTip="{Binding PalmRightUpper.StatusMessage}" />
+        <Image Grid.Row="10" Grid.Column="9" Grid.ColumnSpan="2" HorizontalAlignment="Center" Source="{Binding PalmRightLower.StatusImage}"  MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding PalmRightLower}"  Style="{StaticResource StatusImage}"  ToolTip="{Binding PalmRightLower.StatusMessage}"  />
+        <Image Grid.Row="10" Grid.Column="11" HorizontalAlignment="Center" Source="{Binding PalmRightHypothenar.StatusImage}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" Tag="{Binding PalmRightHypothenar}"  Style="{StaticResource StatusImage}"  ToolTip="{Binding PalmRightHypothenar.StatusMessage}" />
+    </Grid>
+
+</UserControl>

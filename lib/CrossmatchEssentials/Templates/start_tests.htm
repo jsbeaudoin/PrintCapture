@@ -1,0 +1,486 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>CrossMatch GUI Trigger</title>
+  <style type="text/css">
+    html
+    {
+      padding: 0;
+      margin: 0;
+    }
+    body
+    {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+    div
+    {
+      margin: 40px;
+    }
+    button
+    {
+      width: 20em;
+    }
+    input
+    {
+      text-align: center;
+      width: 5em;
+    }
+    a.label
+    {
+      display: inline-block;
+      width: 10em;
+    }
+    p
+    {
+      padding: 0;
+      margin: 0;
+    }
+    div.test
+    {
+      border-style: solid;
+      border-color: Black;
+      border-width: thin;
+    }
+    div.extra
+    {
+      display: none;
+    }
+  </style>
+
+  <script language="JavaScript" type="text/JavaScript">
+    /* dataSet definition */
+    var dataSet = {
+      "confusion": false,
+      "peripherality": [],
+      "rotation": 0,
+      "badshape": false,
+      "tracking": false,
+      "pressure": [],
+      "acquired": false
+    };
+
+    function IndicatePressure() {
+      dataSet = new Object();
+      dataSet.pressure0 = parseInt(document.getElementById("argPressure0").value);
+      dataSet.pressure1 = parseInt(document.getElementById("argPressure1").value);
+      dataSet.pressure2 = parseInt(document.getElementById("argPressure2").value);
+      dataSet.pressure3 = parseInt(document.getElementById("argPressure3").value);
+      BrowseStdFlats();
+    }
+
+    function ChangeConfusion() {
+      dataSet = new Object();
+      dataSet.confusion = true;
+      BrowseStdFlats();
+    }
+
+    function ChangePeripherality() {
+      dataSet = new Object();
+      dataSet.peripheralityLeft = false;
+      dataSet.peripheralityTop = false;
+      dataSet.peripheralityRight = false;
+      switch (document.getElementById("argPeripherality").value) {
+        case "left":
+          dataSet.peripheralityLeft = true;
+          break;
+        case "top":
+          dataSet.peripheralityTop = true;
+          break;
+        case "right":
+          dataSet.peripheralityRight = true;
+          break;
+        case "all":
+          dataSet.peripheralityLeft = true;
+          dataSet.peripheralityTop = true;
+          dataSet.peripheralityRight = true;
+          break;
+      }
+      BrowseStdFlats();
+    }
+
+    function ChangeRotation() {
+      dataSet = new Object();
+      dataSet.rotation = parseInt(document.getElementById("argRotation").value); ;
+      BrowseStdFlats();
+    }
+
+    function ChangeBadshape() {
+      dataSet = new Object();
+      dataSet.badshape = true;
+      BrowseStdFlats();
+    }
+
+    function ChangeTracking() {
+      dataSet = new Object();
+      dataSet.tracking = true;
+      BrowseStdFlats();
+    }
+
+    function ShowSuccess() {
+      dataSet = new Object();
+      dataSet.acquired = true;
+      BrowseStdFlats();
+    }
+
+    function RollResults() {
+      var hp = radioValue(document.getElementsByName("rolls"));
+      dataSet = new Object();
+      dataSet.HP1 = hp === "HP1" ? 1 : 0;
+      dataSet.HP2 = hp === "HP2" ? 1 : 0;
+      dataSet.Result = parseInt(document.getElementById("argResult").value);
+      BrowseStdRolls();
+    }
+
+    function RollPosition() {
+      dataSet = new Object();
+      dataSet.peripheralityLeft = false;
+      dataSet.peripheralityTop = false;
+      dataSet.peripheralityRight = false;
+      dataSet.peripheralityBottom = false;
+      switch (document.getElementById("argRollPosition").value) {
+        case "right":
+          dataSet.peripheralityRight = true;
+          break;
+        case "left":
+          dataSet.peripheralityLeft = true;
+          break;
+        case "top":
+          dataSet.peripheralityTop = true;
+          break;
+        case "bottom":
+          dataSet.peripheralityBottom = true;
+          break;
+        case "all":
+          dataSet.peripheralityLeft = true;
+          dataSet.peripheralityTop = true;
+          dataSet.peripheralityRight = true;
+          break;
+      }
+      BrowseStdRolls();
+    }
+
+    function AddExtra() {
+      var show = radioValue(document.getElementsByName("extra"));
+      if (show === 'true') {
+        dataSet.FP1 = parseInt(document.getElementById("FP1").value);
+        dataSet.FP2 = parseInt(document.getElementById("FP2").value);
+        dataSet.FP3 = parseInt(document.getElementById("FP3").value);
+        dataSet.FP4 = parseInt(document.getElementById("FP4").value);
+        dataSet.FP5 = parseInt(document.getElementById("FP5").value);
+        dataSet.FP6 = parseInt(document.getElementById("FP6").value);
+        dataSet.FP7 = parseInt(document.getElementById("FP7").value);
+        dataSet.FP8 = parseInt(document.getElementById("FP8").value);
+        dataSet.FP9 = parseInt(document.getElementById("FP9").value);
+        dataSet.FP10 = parseInt(document.getElementById("FP10").value);
+        dataSet.ButtonRetry = parseInt(document.getElementById("ButtonRetry").value);
+        dataSet.ButtonConfirm = parseInt(document.getElementById("ButtonConfirm").value);
+      }
+    }
+
+    function BrowseInitFlats() {
+      var mode = radioValue(document.getElementsByName("flats"));
+      window.location.href = "../index_initial" + mode + ".html?" + JSON.stringify(dataSet);
+    }
+
+    function BrowseStdFlats() {
+      AddExtra();
+      var mode = radioValue(document.getElementsByName("flats"));
+      window.location.href = "../index_standard" + mode + ".html?" + JSON.stringify(dataSet);
+    }
+
+    function BrowseInitRolls() {
+      window.location.href = "../index_initial_roll.html?" + JSON.stringify(dataSet);
+    }
+
+    function BrowseStdRolls() {
+      AddExtra();
+      window.location.href = "../index_standard_roll.html?" + JSON.stringify(dataSet);
+    }
+
+    function radioValue(rObj) {
+      for (var i = 0; i < rObj.length; i++) {
+        if (rObj[i].checked) {
+          return rObj[i].value;
+        }
+      }
+      throw "Select a test position!";
+    }
+
+    function ShowExtra() {
+      var show = radioValue(document.getElementsByName("extra"));
+      document.getElementById("extra").style.display = (show === 'true') ? "inline" : "none";
+    }
+  </script>
+
+</head>
+<body onload="ShowExtra();">
+  <div>
+    <a>This page is intended to be used for testing the templates</a>
+  </div>
+  <div class="test">
+    <p>
+      <a class="label">Use extra parameters</a>
+      <input type="radio" name="extra" value="true" onclick="ShowExtra()" />
+      <a class="label">Ignore extra parameters</a>
+      <input type="radio" name="extra" value="false" checked="checked" onclick="ShowExtra()" />
+    </p>
+    <div id="extra" class="extra">
+      <p>
+        <a class="label">Right thumb</a>
+        <select id="FP1">
+          <option value="0">missing</option>
+          <option value="1" selected="selected">present/captured</option>
+          <option value="2">active</option>
+          <option value="3">error</option>
+          <option value="4">captured</option>
+          <option value="5">success</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Right index finger</a>
+        <select id="FP2">
+          <option value="0">missing</option>
+          <option value="1" selected="selected">present/captured</option>
+          <option value="2">active</option>
+          <option value="3">error</option>
+          <option value="4">captured</option>
+          <option value="5">success</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Right middle finger</a>
+        <select id="FP3">
+          <option value="0">missing</option>
+          <option value="1" selected="selected">present/captured</option>
+          <option value="2">active</option>
+          <option value="3">error</option>
+          <option value="4">captured</option>
+          <option value="5">success</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Right ring finger</a>
+        <select id="FP4">
+          <option value="0">missing</option>
+          <option value="1" selected="selected">present/captured</option>
+          <option value="2">active</option>
+          <option value="3">error</option>
+          <option value="4">captured</option>
+          <option value="5">success</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Right little finger</a>
+        <select id="FP5">
+          <option value="0">missing</option>
+          <option value="1" selected="selected">present/captured</option>
+          <option value="2">active</option>
+          <option value="3">error</option>
+          <option value="4">captured</option>
+          <option value="5">success</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Left thumb</a>
+        <select id="FP6">
+          <option value="0">missing</option>
+          <option value="1" selected="selected">present/captured</option>
+          <option value="2">active</option>
+          <option value="3">error</option>
+          <option value="4">captured</option>
+          <option value="5">success</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Left index finger</a>
+        <select id="FP7">
+          <option value="0">missing</option>
+          <option value="1" selected="selected">present/captured</option>
+          <option value="2">active</option>
+          <option value="3">error</option>
+          <option value="4">captured</option>
+          <option value="5">success</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Left middle finger</a>
+        <select id="FP8">
+          <option value="0">missing</option>
+          <option value="1" selected="selected">present/captured</option>
+          <option value="2">active</option>
+          <option value="3">error</option>
+          <option value="4">captured</option>
+          <option value="5">success</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Left ring finger</a>
+        <select id="FP9">
+          <option value="0">missing</option>
+          <option value="1" selected="selected">present/captured</option>
+          <option value="2">active</option>
+          <option value="3">error</option>
+          <option value="4">captured</option>
+          <option value="5">success</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Left little finger</a>
+        <select id="FP10">
+          <option value="0">missing</option>
+          <option value="1" selected="selected">present/captured</option>
+          <option value="2">active</option>
+          <option value="3">error</option>
+          <option value="4">captured</option>
+          <option value="5">success</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Retry button</a>
+        <select id="ButtonRetry">
+          <option value="0">inactive</option>
+          <option value="1">active</option>
+          <option value="2" selected="selected">hidden</option>
+        </select>
+      </p>
+      <p>
+        <a class="label">Confirm button</a>
+        <select id="ButtonConfirm">
+          <option value="0">inactive</option>
+          <option value="1">active</option>
+          <option value="2" selected="selected">hidden</option>
+        </select>
+      </p>
+    </div>
+  </div>
+  <div class="test">
+    <div>
+      <p>
+        <a class="label">Right hand</a><input type="radio" name="flats" value="_right" checked="checked" /></p>
+      <p>
+        <a class="label">Left hand</a><input type="radio" name="flats" value="_left" /></p>
+      <p>
+        <a class="label">Both thumbs</a><input type="radio" name="flats" value="_thumbs" /></p>
+    </div>
+    <div>
+      <p>
+        <button type="button" id="initialFlats" onclick="BrowseInitFlats();">
+          Initial Screen
+        </button>
+      </p>
+      <p>
+        <button type="button" id="pressure" onclick="IndicatePressure();">
+          Indicate Pressure
+        </button>
+        <select id="argPressure0">
+          <option value="-1" selected="selected">too little</option>
+          <option value="0">exactly right</option>
+          <option value="1">too much</option>
+        </select>
+        <select id="argPressure1">
+          <option value="-1" selected="selected">too little</option>
+          <option value="0">exactly right</option>
+          <option value="1">too much</option>
+        </select>
+        <select id="argPressure2">
+          <option value="-1" selected="selected">too little</option>
+          <option value="0">exactly right</option>
+          <option value="1">too much</option>
+        </select>
+        <select id="argPressure3">
+          <option value="-1" selected="selected">too little</option>
+          <option value="0">exactly right</option>
+          <option value="1">too much</option>
+        </select>
+      </p>
+      <p>
+        <button type="button" id="confusion" onclick="ChangeConfusion();">
+          Set Confusion
+        </button>
+      </p>
+      <p>
+        <button type="button" id="peripherality" onclick="ChangePeripherality();">
+          Set Peripherality
+        </button>
+        <select id="argPeripherality">
+          <option value="left">too far left</option>
+          <option value="top" selected="selected">too high</option>
+          <option value="right">too far right</option>
+          <option value="all">too wide spread</option>
+        </select>
+      </p>
+      <p>
+        <button type="button" id="rotation" onclick="ChangeRotation();">
+          Set Rotation
+        </button>
+        <select id="argRotation">
+          <option value="35" selected="selected">clockwise</option>
+          <option value="-35">counter clockwise</option>
+        </select>
+      </p>
+      <p>
+        <button type="button" id="badshape" onclick="ChangeBadshape();">
+          Set Badshape
+        </button>
+      </p>
+      <p>
+        <button type="button" id="tracking" onclick="ChangeTracking();">
+          Set Tracking
+        </button>
+      </p>
+      <p>
+        <button type="button" id="success" onclick="ShowSuccess();">
+          Show Success
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="test">
+    <div>
+      <p>
+        <a class="label">Right fingers</a><input type="radio" name="rolls" value="HP1" checked="checked" /></p>
+      <p>
+        <a class="label">Left fingers</a><input type="radio" name="rolls" value="HP2" /></p>
+    </div>
+    <div>
+      <p>
+        <button type="button" id="initialRolls" onclick="BrowseInitRolls();">
+          Initial Screen
+        </button>
+      </p>
+      <p>
+        <button type="button" id="rollresult" onclick="RollResults()">
+          Show Roll Results
+        </button>
+        <select id="argResult">
+          <option value="0" selected="selected">no error/default</option>
+          <option value="1">successful</option>
+          <option value="2">generic error</option>
+          <option value="3">optics dirty</option>
+          <option value="4">capture error</option>
+          <option value="5">ernoll error/shifted</option>
+          <option value="6">segmentation error</option>
+          <option value="7">quality error</option>
+          <option value="8">sequence error</option>
+          <option value="9">compression error</option>
+        </select>
+      </p>
+      <p>
+        <button type="button" id="rollposition" onclick="RollPosition();">
+          Set Roll Peripherality
+        </button>
+        <select id="argRollPosition">
+          <option value="right">too far right</option>
+          <option value="left">too far left</option>
+          <option value="top" selected="selected">too high</option>
+          <option value="bottom">too low</option>
+          <option value="all">too wide spread</option>
+        </select>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

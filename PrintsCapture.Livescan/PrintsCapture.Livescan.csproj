@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{395F4AE8-B4C0-4A44-9D6A-6BD7B41532C0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PrintsCapture.Livescan</RootNamespace>
+    <AssemblyName>PrintsCapture.Livescan</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Package|AnyCPU'">
+    <OutputPath>bin\Package\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.0.1\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="XL-ID.Utilities, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XL-ID.Utilities.1.4.17\lib\net40\XL-ID.Utilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XL_ID.Utilities.Wpf, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XL-ID.Utilities.Wpf.1.0.9\lib\net40\XL_ID.Utilities.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class\CaptureOrder.cs" />
+    <Compile Include="Class\ConditionBrushe.cs" />
+    <Compile Include="Class\LiveScanLog.cs" />
+    <Compile Include="Class\WizardCapture.cs" />
+    <Compile Include="LivescanSettings.cs" />
+    <Compile Include="Converter\QualityToGaugeConverter.cs" />
+    <Compile Include="Converter\SequenceCheckToGaugeConverter.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="SharedControls\HandQualityDisplay.xaml.cs">
+      <DependentUpon>HandQualityDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\ComboBoxItemViewModel.cs" />
+    <Compile Include="ViewModel\ConditionElementViewModel.cs" />
+    <Compile Include="ViewModel\ConditionPopupViewModel.cs" />
+    <Compile Include="ViewModel\EndorsementSelectViewModel.cs" />
+    <Compile Include="Class\HandPartQualityDisplay.cs" />
+    <Compile Include="Class\HandPartQualityAndStateDisplay.cs" />
+    <Compile Include="ViewModel\FingerStatusViewModel.cs" />
+    <Compile Include="ViewModel\LivescanConfigurationViewModel.cs" />
+    <Compile Include="Class\DeviceProperty.cs" />
+    <Compile Include="ViewModel\PrintResultViewModel.cs" />
+    <Compile Include="ViewModel\WizardProcessViewModel.cs" />
+    <Compile Include="View\ConfigurationWindow.xaml.cs">
+      <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\LivePreviewViewModel.cs" />
+    <Compile Include="Class\LivescanCapture.cs" />
+    <Compile Include="View\EndorsementSelectWindow.xaml.cs">
+      <DependentUpon>EndorsementSelectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PreviewWindow.xaml.cs">
+      <DependentUpon>PreviewWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\WizardCaptureWindow.xaml.cs">
+      <DependentUpon>WizardCaptureWindow.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="SharedControls\HandQualityDisplay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ConfigurationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\EndorsementSelectWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PreviewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\WizardCaptureWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PrintsCapture.Device\PrintsCapture.Device.csproj">
+      <Project>{a5b8f0a9-1024-43ae-b856-acc6688dc4be}</Project>
+      <Name>PrintsCapture.Device</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrintsCapture.Prints\PrintsCapture.Prints.csproj">
+      <Project>{8edb9dde-268e-4cc6-8c60-4c2576d08740}</Project>
+      <Name>PrintsCapture.Prints</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <Resource Include="Images\capella.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LivescanVirtual.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gauge1On5_trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gauge2On5_trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gauge3On5_trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gauge4On5_trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gauge5On5_Trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Part_Bandaged.png" />
+    <Resource Include="Images\Part_ForeignReason.png" />
+    <Resource Include="Images\Part_PhysicalLimitation.png" />
+    <Resource Include="Images\Part_Amputated.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Part_Present.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\livescan.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LivescanIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\UniDAC-logo-new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Fingerprint Scanner Gris.png" />
+    <Resource Include="Images\fingerprint_reade 32x32r1.png" />
+    <Resource Include="Images\fingerprint_reader.png" />
+    <Resource Include="Images\media_playback_start.png" />
+    <Resource Include="Images\media_playback_stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\FingerprintScanner.png" />
+    <Content Include="Images\RightHandModel.png" />
+    <Resource Include="Images\bandage.png" />
+    <Content Include="Images\CaptureLeftFlatHand.png" />
+    <Content Include="Images\CaptureLeftFlatThumb.png" />
+    <Content Include="Images\CaptureRightFlatHand.png" />
+    <Content Include="Images\CaptureRightFlatThumb.png" />
+    <Content Include="Images\LeftHandModel.png" />
+    <Resource Include="Images\Next.png" />
+    <Resource Include="Images\Xlid_Logo.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

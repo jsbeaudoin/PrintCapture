@@ -1,0 +1,110 @@
+By downloading, copying, installing or using the software you agree to this license.
+If you do not agree to this license, do not download, install,
+copy or use the software.
+
+JENETRIC GmbH TOUCHLAB Software Development Kit License Agreement
+
+This TOUCHLAB Software Development Kit License Agreement (“TOUCHLAB SDK License”) allows the Licensee, identified above, to use the proprietary JENETRIC GmbH SDK software (in object code format) and any accompanying developers’ tools, documentation, and instructions (collectively, the “ TOUCHLAB SDK”) provided for a JENETRIC GmbH product, to: i) derive and develop derivative software applications; ii) use the developed derivative software applications internally solely for purposes of evaluation and demonstration of the associated JENETRIC GmbH biometric product, and iii) demonstrate to third parties the derivative software applications developed by Licensee, so long as the Licensee uses the TOUCHLAB SDK strictly in accordance with the covenants, terms and conditions of this TOUCHLAB SDK License. The TOUCHLAB SDK is licensed, not sold, to the Licensee by JENETRIC GmbH, or its licensed resellers (“Licensor”), and is protected by GERMANY copyright and trade secret laws, as well as by other intellectual property laws and international treaties.  By installing, copying, or using the TOUCHLAB SDK, the Licensee agrees to be bound hereby on a continuing basis. If the Licensee does not agree to the terms of this TOUCHLAB SDK License, Licensor is unwilling to license the TOUCHLAB SDK to Licensee.   In such event, Licensee may not use the TOUCHLAB SDK, and Licensee should promptly contact the location from which the JENETRIC GmbH product and TOUCHLAB SDK were acquired for instructions on return of the unused product and TOUCHLAB SDK for a refund.
+
+1.	GRANT OF RIGHTS AND RESTRICTIONS.  Licensor grants to Licensee, and Licensee accepts, a limited, non-exclusive, non-transferable, and revocable license to use the TOUCHLAB SDK on the following conditions, and Licensee covenants and agrees as follows:
+
+(A)  Derivative software applications developed by Licensee in compliance with this TOUCHLAB SDK License, using the TOUCHLAB SDK and/or incorporating software files and/or object code expressly designated by Licensor as redistributable, may be used by Licensee, to the extent permitted herein, provided that:
+(i) Those files or object code which have been expressly designated as redistributable may be reproduced and incorporated into individual instances of Licensee’s developed derivative application software, provided: (a) the redistributable files/code are exact copies, without modification; (b) the redistributable files/code are not used or offered for redistribution apart from their integration into Licensee’s developed derivative software applications; and (c) Licensee’s developed derivative software applications provides Licensee’s end-users with no further software development capability; and
+(ii)  Licensee’s developed derivative software applications are intended only for integration into, or functionality with an associated JENETRIC GmbH -brand biometric product in each instance; and
+(iii)  All instances of Licensee’s developed derivative software applications shall include a valid copyright notice and wherever said notice appears it shall state: "Portions developed with JENETRIC GmbH TOUCHLAB SDK.  All Rights Reserved."  Except for the foregoing notice, Licensee shall not use the Licensor’s names or trademarks or logos without separate written license from the Licensor; and
+(iv)  The TOUCHLAB SDK itself, in whole or in part (excepting designated redistributable files/code, as above) is not transferred by Licensee to any third party; and
+(v)  The factory installed and/or embedded software resident in an associated JENETRIC GmbH product (e.g., factory-loaded microcode inside circuitry, device operating system software, etc., ) is not modified in any way; and
+(vi)  Licensee will only use the JENETRIC GmbH TOUCHLAB SDK software and the TOUCHLAB SDK with JENETRIC GmbH products and other JENETRIC GmbH hardware.
+
+(B)	Licensee is hereby authorized to use one (1) copy of the TOUCHLAB SDK software on one (1) computer terminal by one (1) developer at any given time, and to otherwise maintain one (1) additional copy strictly for backup or archival purposes.  Licensee shall not reverse engineer, decompile, disassemble, or copy the TOUCHLAB SDK, nor shall Licensee modify, create a derivative work, or otherwise use the TOUCHLAB SDK, except as expressly stated in this License for authorized purposes. Licensee shall not copy or adapt the written materials accompanying the TOUCHLAB SDK, without the express written permission of Licensor. Licensee shall not remove, obscure, or alter any notice of patent, trademark, service-mark, copyright, or other proprietary rights of Licensor in the TOUCHLAB SDK. Licensee shall promptly notify Licensor of any unauthorized use of the TOUCHLAB SDK that comes to Licensee's attention.
+
+(C)  Licensor's demonstration software applications provided with the TOUCHLAB SDK are limited to demonstrate the functionality of biometric systems.  The demonstration software application programs provided with the TOUCHLAB SDK are for promotional use only, shall be so labeled or marked , and shall not be duplicated for, or distributed or sublicensed to, any third party; nor used for vending services to others based on the developed application programs.
+
+(D) Licensor retains all right, title and interest in and to the TOUCHLAB SDK and all components thereof, and reserves all rights not expressly granted to the Licensee hereunder. 
+
+2.	 TRANSFERABILITY.  Licensee is not permitted to transfer or assign this TOUCHLAB SDK License to any other person or entity, and any attempt to do so shall be void.  Licensee shall not otherwise sublicense, assign, loan, rent, transfer, give or otherwise dispose of its interest in the TOUCHLAB SDK or any of its components, or vend services to third parties based on the TOUCHLAB SDK other than as expressly permitted hereunder for authorized purposes.
+
+3.	DISCLAIMER OF WARRANTY.  The TOUCHLAB SDK is licensed by Licensor to Licensee "AS IS" and “WITH ALL FAULTS” (unless, and then only to the extent that an express warranty and/or maintenance obligation is otherwise in effect between Licensor and Licensee by separate written agreement between the parties).  TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THERE ARE NO WARRANTIES, EXPRESS OR IMPLIED (INCLUDING ANY AND ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT), MADE IN THIS GRANT OF LICENSE. 
+
+4.	DISCLAIMER OF CONSEQUENTIAL DAMAGES.  TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT WILL LICENSOR BE LIABLE TO LICENSEE OR LICENSEE’S END USERS FOR ANY SPECIAL, INCIDENTAL, INDIRECT, OR CONSEQUENTIAL DAMAGES WHATSOEVER (INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR LOST PROFITS, LOST INFORMATION, LOSS OF PRIVACY, BUSINESS INTERRUPTION, OR OTHER PECUNIARY LOSS) ARISING OUT OF OR IN ANY WAY RELATED TO THE USE OF OR INABILITY TO USE THE SDK, EVEN IF LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+5.	LIMITATION OF LIABILITY.  NOTWITHSTANDING ANY DAMAGES THAT LICENSEE MAY INCUR FOR ANY REASON WHATSOEVER (INCLUDING, BUT NOT LIMITED TO, ALL DAMAGES REFERENCED IN SECTION 4, ABOVE, AND ALL DIRECT OR GENERAL DAMAGES), THE ENTIRE LIABILITY OF LICENSOR UNDER THIS TOUCHLAB SDK LICENSE, AND LICENSEE’S EXCLUSIVE REMEDY HEREUNDER SHALL BE LIMITED TO THE GREATER OF THE AMOUNT ACTUALLY PAID BY LICENSEE FOR THE SDK, OR US$5.00. THE FOREGOING LIMITATIONS, EXCLUSIONS AND DISCLAIMERS IN SECTIONS 3, 4 AND 5 APPLY TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, EVEN IF ANY REMEDY FAILS ITS ESSENTIAL PURPOSE.
+
+6.	TERMINATION OF LICENSE.  Licensee acknowledges and agrees that the TOUCHLAB SDK contains valuable trade secrets and proprietary information which are the sole property of Licensor and that violation of Licensee's license obligations hereunder will cause Licensor immediate irreparable harm for which monetary damages are inadequate.  In such event, Licensor shall be entitled to seek injunctive and equitable relief, in addition to all other remedies available under law to prevent any such violation, or to secure enforcement of this License. Without prejudice to any other rights or remedies, Licensor may terminate this License immediately in the event Licensee fails to comply with the covenants, terms, and conditions of this License.  In such event, Licensee must immediately cease all use of the TOUCHLAB SDK, destroy all copies thereof, and provide certification of such destruction as may be requested by Licensor.  In the event of termination or expiration of this TOUCHLAB SDK License for any reason, Sections 1(D), 2, 3, 4, 5, and any other provision hereof which may be reasonably interpreted as surviving the termination or expiration of this TOUCHLAB SDK License shall survive.  Neither party shall be liable to the other for damages of any sort resulting solely from terminating this TOUCHLAB SDK License in accordance with its terms.
+
+7.	SEVERABILITY; APPLICABLE LAW.  If any provision of this Agreement is found to be unlawful, void, or unenforceable, then that provision shall be severed from this Agreement and will not affect the validity or enforceability of any of the remaining provisions.  This Agreement is governed by the laws of Germany  Licensee shall comply with all applicable laws, rules and regulations of governmental authorities, now or hereafter in effect, including, without limitation, the U.S. Export Administration Act, other U.S. export controls as well as European export regulation according to the regulation (EC) No 428/2009 and applicable additional national export regulations.  Licensee agrees that Licensee will not export or re-export TOUCHLAB SDK to any country, person, or entity subject to U.S. export restrictions.
+
+8.	COMPLIANCE WITH LICENSES.  Licensee agrees that, upon request from Licensor or Licensor's authorized representative, Licensee will within thirty (30) days fully document and certify that its use of TOUCHLAB SDK and any and all other JENETRIC GmbH software at the time of the request is in conformity with Licensee’s valid licenses from Licensor.
+
+9. Copyrights
+
+TOUCHLAB SDK
+Copyright (C) 2018 JENETRIC GmbH
+http://www.jenetric.de
+
+Using the OpenCV libraries version 2.4.9 (BSD license):
+Copyright (C) 2000-2008, Intel Corporation, all rights reserved.
+Copyright (C) 2009-2010, Willow Garage Inc., all rights reserved.
+Third party copyrights are property of their respective owners.
+http://opencv.org
+
+Using the Qt toolkit version 5.3.2 (LGPL version 2.1 license):
+Copyright (C) 2014, Digia Plc and/or its subsidiary(-ies) and other contributors, all rights reserved.
+Third party copyrights are property of their respective owners.
+http://qt-project.org
+
+Using the GTK+ libraries version 3.6.4 (LGPL version 2.1 license):
+Copyright (C) 2007-2015, GTK+ team, all rights reserved.
+Third party copyrights are property of their respective owners.
+http://www.gtk.org
+
+Using the FFmpeg libraries version 2.4.9 (LGPL version 2.1 license):
+Copyright (C) 2015, FFmpeg, all rights reserved.
+Third party copyrights are property of their respective owners.
+https://www.ffmpeg.org
+
+Using the Mozilla libraries version 2.0 (Mozilla Public License):
+Copyright (C) 1998-2015, mozilla.org, all rights reserved.
+Third party copyrights are property of their respective owners.
+http://mozilla.org/MPL/2.0
+
+Using the Boost library version 1.61 (Boost Software License 1.0)):
+http://www.boost.org
+
+Using the libzip library version 1.2.0 (libzip license):
+Copyright (C) 1999-2017 Dieter Baron and Thomas Klausner
+http://www.nih.at/libzip
+
+Using the zlib library version 1.2.11 (zlib license):
+Copyright (C) 1995-2017 Jean-loup Gailly and Mark Adler
+http://zlib.net
+
+JCNFIQ2 adapter
+Copyright (C) 2018 JENETRIC GmbH
+http://www.jenetric.de
+
+Using the NFIQ2 algorithm (public domain):
+Copyright (C) 2004-2017, National Institute of Standards and Technology (NIST), all rights reserved.
+Third party copyrights are property of their respective owners.
+https://www.nist.gov/pba/licensing
+https://www.nist.gov/services-resources/software/development-nfiq-20
+https://github.com/usnistgov/NFIQ2
+
+Using the Biometric Data Interchange (BIOMDI) project (public domain):
+Copyright (C) 2004-2017, National Institute of Standards and Technology (NIST), all rights reserved.
+Third party copyrights are property of their respective owners.
+https://www.nist.gov/pba/licensing
+https://www.nist.gov/services-resources/software/biomdi-software-tools-supporting-standard-biometric-data-interchange
+https://github.com/usnistgov/NFIQ2
+
+Using the FingerJetFX OSE -- Fingerprint Feature Extractor, Open Source Edition version 5.2.0 (GPL/LGPL version 3 license):
+Copyright (C) 2011, DigitalPersona, Inc., all rights reserved.
+Third party copyrights are property of their respective owners.
+https://github.com/FingerJetFXOSE/FingerJetFXOSE
+https://github.com/usnistgov/NFIQ2
+
+Using the OpenCV libraries version 2.4.13.2 (BSD license):
+Copyright (C) 2000-2008, Intel Corporation, all rights reserved.
+Copyright (C) 2009-2010, Willow Garage Inc., all rights reserved.
+Third party copyrights are property of their respective owners.
+http://opencv.org

@@ -1,0 +1,4 @@
+**PrintsCapture**
+
+Version 1.0.52.5
+- Big fix pour désactiver l'accélérateur graphique pour corriger un bug qui survient avec les DigID sur des processeurs Intel de 11ième génération.

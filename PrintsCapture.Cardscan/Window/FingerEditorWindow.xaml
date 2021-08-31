@@ -1,0 +1,185 @@
+﻿<Window x:Class="PrintsCapture.Cardscan.Window.FingerEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:language="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+        Title="FingerEditor" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ControlTemplate x:Key="ImageDragger">
+            <Grid>
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <Rectangle Name="Zone" Fill="Transparent"  />
+                </Border>
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ImageSelector">
+            <Grid>
+                <Border BorderThickness="1" BorderBrush="Black" MouseEnter="ImageSelectorMouseEnter" MouseLeave="ImageSelectorMouseLeave">
+                    <Rectangle Name="Zone" Fill="Green" Opacity="0.4"  />
+                </Border>
+                <Thumb Name="ResizeBottomRight" Width="8" Height="8" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-3,-3" MouseEnter="ThumbResizerMouseEnter" MouseLeave="ThumbResizerMouseLeave"></Thumb>
+            </Grid>
+        </ControlTemplate>
+    </Window.Resources>
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Rectangle Grid.Row="0" Grid.Column="0" Fill="White"></Rectangle>
+
+        <Button Grid.Row="0" Grid.Column="0" Margin="15" VerticalAlignment="Bottom" Click="SaveButtonClick" Content="{x:Static language:CommonText.Save}" ></Button>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="10">
+            <TextBlock HorizontalAlignment="Center" Name="FingerNameLabel" TextWrapping="Wrap">---</TextBlock>                                               
+
+            <Grid Name="ModeGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Button IsEnabled="False" Grid.Row="2" Grid.Column="0" Margin="5" Name="ZoomInButton" ToolTip="{x:Static language:CommonText.ZoomInTooltip}" Click="ZoomButtonClick">
+                    <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/ZoomIn.png"/>
+                </Button>
+
+                <Button Name="ZoomOutButton" Grid.Row="2" Grid.Column="1" Margin="5" ToolTip="{x:Static language:CommonText.ZoomOutTooltip}" Click="ZoomButtonClick">
+                    <Image  Stretch="None"  Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/ZoomOut.png"/>
+                </Button>
+
+                <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+                
+                <RadioButton Margin="5" Grid.Row="0" Grid.Column="0" IsChecked="True" GroupName="ModeList"  Tag="edit" Checked="ModeCheckedChange" HorizontalContentAlignment="Stretch" ToolTip="{x:Static language:CommonText.EditModeTooltip}" VerticalAlignment="Bottom" Content="{x:Static language:CommonText.EditPrint}" > 
+                    <!--<Image Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/EditPrint.png" Width="40" Height="24" Stretch="None"  ></Image>-->
+                </RadioButton>
+
+                <RadioButton Margin="5" Grid.Row="0" Grid.Column="1" IsChecked="False" GroupName="ModeList" Tag="rotate" Checked="ModeCheckedChange" HorizontalContentAlignment="Stretch" VerticalAlignment="Bottom" ToolTip="{x:Static language:CommonText.PivotModeTooltip}" Content="{x:Static language:CommonText.Pivot}" >
+                    <!-- Style="{StaticResource {x:Type ToggleButton}}" <Image Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/RotatePrint.png" Width="40" Height="24" Stretch="None"  ></Image>-->
+                </RadioButton>
+                
+                <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"></Separator>
+            </Grid>
+
+
+            <Grid Name="OperationGrid" Visibility="Visible">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="150"/>
+                </Grid.RowDefinitions>
+
+                <RadioButton Margin="5" Grid.Row="1" Grid.Column="0" IsChecked="True" GroupName="ToolList" Style="{StaticResource {x:Type ToggleButton}}" Tag="move" Checked="ToolCheckedChange" HorizontalContentAlignment="Stretch" ToolTip="{x:Static language:CommonText.MoveTooltip}" >
+                    <Image Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/move.png" Width="24" Height="24" Stretch="None"  ></Image>
+                </RadioButton>
+
+                <RadioButton Name="RectangleSelectButton" Margin="5" Grid.Row="1" Grid.Column="1" IsChecked="False" GroupName="ToolList" Style="{StaticResource {x:Type ToggleButton}}" Tag="select" Checked="ToolCheckedChange" HorizontalContentAlignment="Stretch" ToolTip="{x:Static language:CommonText.SelectTooltip}" >
+                    <Image Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/RectangleSelect.png" Width="24" Height="24" Stretch="None"  ></Image>
+                </RadioButton>
+
+                <Button Grid.Row="2" Grid.Column="1" Margin="5" Click="EmptyZoneClick" IsEnabled="{Binding IsChecked, ElementName=RectangleSelectButton}" ToolTip="{x:Static language:CommonText.EmptyZoneTooltip}">
+                    <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/crop.png"/>
+                </Button>
+
+                <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"></Separator>
+
+                <Button Grid.Row="4" Grid.Column="0" Margin="5" ToolTip="{x:Static language:CommonText.CropCenterTooltip}" Click="CropCenterClick">
+                    <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/CropAndCenter.png"/>
+                </Button>
+
+                <Button Grid.Row="4" Grid.Column="1" Margin="5" ToolTip="{x:Static language:CommonText.BackgroundWhiteningTooltip}" Click="BackgroundToWhiteButtonClick">
+                    <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/Background.png"/>
+                </Button>
+
+                <StackPanel Grid.Row="8" Grid.Column="0" HorizontalAlignment="Center" >
+                    <Image Height="30" ToolTip="{x:Static language:CommonText.BrightnessTooltip}" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/brightness.png" Stretch="None" ></Image>
+                    <Slider Name="BrightnessSlider" Orientation="Vertical" AutoToolTipPrecision="2"  TickFrequency="10" TickPlacement="TopLeft" Value="100" Minimum="0" Maximum="200" Height="100" ValueChanged="BrightnessSlider_OnValueChanged" SmallChange="1" LargeChange="5" IsSnapToTickEnabled="True"></Slider>
+                </StackPanel>
+
+                <Label Grid.Row="8" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding Value, ElementName=BrightnessSlider, StringFormat=2N}"></Label>
+
+                <StackPanel Grid.Row="8" Grid.Column="1" HorizontalAlignment="Center" >
+                    <Image Height="30" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/contrast.png" ToolTip="{x:Static language:CommonText.ContrastTooltip}" Stretch="None"></Image>
+                    <Slider Name="ContrastSlider" Orientation="Vertical" AutoToolTipPrecision="2"  TickFrequency="10" TickPlacement="TopLeft" Value="100" Minimum="0" Maximum="200" Height="100" ValueChanged="ContrastSlider_OnValueChanged" SmallChange="1" LargeChange="5" IsSnapToTickEnabled="True"></Slider>
+                </StackPanel>
+
+                <Label Grid.Row="8" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="{Binding Value, ElementName=ContrastSlider, StringFormat=2N}"></Label>
+
+            </Grid>
+
+            <Grid Name="PivotOperationGrid" Visibility="Collapsed">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="0" Grid.Column="0" Margin="5" Tag="-10" ToolTip="{x:Static language:CommonText.Pivot10LeftTooltip}" Click="PivotButtonClick">
+                    <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/Pivot10_left.png"/>
+                </Button>
+
+                <Button Grid.Row="0" Grid.Column="1" Margin="5" Tag="10" ToolTip="{x:Static language:CommonText.Pivot10RightTooltip}" Click="PivotButtonClick">
+                    <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/Pivot10_right.png"/>
+                </Button>
+
+                <Button Grid.Row="1" Grid.Column="0" Margin="5" Tag="-90" ToolTip="{x:Static language:CommonText.Pivot90LeftTooltip}" Click="PivotButtonClick">
+                    <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/Pivot90_left.png"/>
+                </Button>
+
+                <Button Grid.Row="1" Grid.Column="1" Margin="5" Tag="90" ToolTip="{x:Static language:CommonText.Pivot90RightTooltip}" Click="PivotButtonClick">
+                    <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/Pivot90_right.png"/>
+                </Button>
+
+                <Button Grid.Row="2" Grid.Column="0" Margin="5" ToolTip="{x:Static language:CommonText.MirrorVerticalTooltip}" Click="MirrorHorizontalButtonClick">
+                    <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/MirrorVertical.png"/>
+                </Button>
+
+                <Button Grid.Row="2" Grid.Column="1" Margin="5" ToolTip="{x:Static language:CommonText.MirrorHorizontalTooltip}" Click="MirrorVerticalButtonClick">
+                    <Image Stretch="None" Source="pack://application:,,,/PrintsCapture.Cardscan;component/Images/MirrorHorizontal.png"/>
+                </Button>
+
+            </Grid>
+
+            <Separator></Separator>
+
+            <Button Margin="5" Click="RestoreButtonClick" ToolTip="{x:Static language:CommonText.RestoreTooltip}" Content="{x:Static language:CommonText.Restore}"></Button>
+
+            <Button Margin="5" Click="CancelButtonClick" Content="{x:Static language:CommonText.Cancel}" ></Button>
+
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="0" Grid.Column="1" Name="ImageViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" Background="Gainsboro">
+            <Grid>
+                <Image Name="EditedImage" Stretch="Uniform" VerticalAlignment="Top" HorizontalAlignment="Left" ></Image>
+            </Grid>
+        </ScrollViewer>        
+
+    </Grid>
+</Window>

@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	x="0px" y="0px" 
+	width="100%" height="100%" 
+	viewBox="0 0 800 480" 
+	enable-background="new 0 0 800 480" 
+	xml:space="preserve"
+	onload="onLoad();">
+	 
+	<script xmlns="http://www.w3.org/1999/xhtml" src="../script/getscreenbbox.js"></script>
+	
+    <script type="application/ecmascript">
+      <![CDATA[
+
+		/*  Crossmatch Guardian User Guidance Color Scheme
+			#D1D2D4 - Light gray background
+			#525E66 - Dark gray of prism boarder
+			#0479BF - Prism light blue fill
+			#0F5E8F - Prism dark blue outline
+			#ECECED - Initial animated hand outline
+			#FFFFFF opacity="0.5"  - Initial animated hand fill
+			
+			#FFBF40 - Yellow pressure corona, finger status and message bar
+			#5CE224	- Prism capture complete green, finger status and message bar
+			#E63622 - finger status and message bar
+
+			"FPx":0 - Color #264A80 - Medium blue
+			"FPx":1 - Color #3C7CF4 - light blue
+			"FPx":2 - Color #FFBF40 - Yellow
+			"FPx":3 - Color #e63622 - Red
+			"FPx":4 - Color #3C7CF4 - light blue
+			"FPx":5 - Color #5CE224 - Green
+		*/
+
+
+		/********************************************************************************
+		getPrismaBBox will get the primsma object that will contain rolled preview images.
+		********************************************************************************/
+		function getPrismaBBox() {
+		
+			// Get object for the area that rolled images will be displayed.
+			var prisma = document.getElementById('PrismaPath');
+			try {
+				var cb = getScreenBBox_impl(prisma);
+				return([parseInt(cb.x.toFixed(0)), parseInt(cb.y.toFixed(0)), parseInt(cb.width.toFixed(0)), parseInt(cb.height.toFixed(0))]);
+			  }
+			catch(ex) {
+				alert(ex);
+			}
+			return(0);
+		}
+
+
+		/********************************************************************************
+		getPrismaCoordinates will get the Coordinates of the primsma object that
+		contains rolled preview images.
+		returns coordArr[] with the 4 prism box used to display rolled images.
+		********************************************************************************/
+		function getPrismaCoordinates() {
+			var prismaBox = getPrismaBBox();
+			var coordArr = new Array();
+			coordArr[0] = [prismaBox[0],prismaBox[1]];
+			coordArr[1] = [prismaBox[0]+prismaBox[2],prismaBox[1]];
+			coordArr[2] = [prismaBox[0]+prismaBox[2],prismaBox[1]+prismaBox[3]];
+			coordArr[3] = [prismaBox[0],prismaBox[1]+prismaBox[3]];
+			return (coordArr);
+		}
+		
+		
+		/********************************************************************************
+		//begin loading page.
+		********************************************************************************/
+		function onLoad() {
+			window.parent.parseUrlArguments();
+			Update();
+			
+			window.parent.svgUpdate = function() {Update();}
+			window.parent.getPrismaBBox = function() {return getPrismaBBox();}
+			window.parent.getPrismaCoordinates = function() {return getPrismaCoordinates();}
+		}
+
+
+		/* Update will get roll image
+		*/
+		function Update() {
+			try {
+
+				// Get URI argument from html			
+				var args = window.parent.getArguments();
+			
+				//change the default graphic, if the args is correct
+				if (args == null)
+					return;			// Return - nothing to do
+	
+	
+				/* Check each Parameter and display data */
+		  
+				// Diplay Result icon. Limit to the icon # 0 to 8 and 11 in graphic array.
+				if (args.Result >= 0 && args.Result <= 11) {	
+					SetResult(args.Result);
+				}
+				
+				// Display Results text
+				if (args.resultText && args.resultText.length > 0) {
+					SetMessage(args.resultText,args.Result);
+				}
+				else {
+					args.resultText = '';
+					SetMessage('',0);		// Clear text
+				}
+
+				// Change hand icon color prompt
+				SetHP(args.HP2,2);		// set Left Hand color
+				SetHP(args.HP1,1);		// Set right hand color
+			
+				// Change finger icon color prompt
+				SetFP(args.FP1,1);		// Set right thumb color
+				SetFP(args.FP2,2);		// Set right index finger color
+				SetFP(args.FP3,3);		// Set right middle finger color
+				SetFP(args.FP4,4);		// Set right ring finger color
+				SetFP(args.FP5,5);		// Set right little finger color
+
+				SetFP(args.FP6,6);		// Set left thumb color
+				SetFP(args.FP7,7);		// Set left index finger color
+				SetFP(args.FP8,8);		// Set left middle finger color
+				SetFP(args.FP9,9);		// Set left ring finger color
+				SetFP(args.FP10,10);	// Set left little finger color
+				
+		  
+				// Enable buttons
+				SetButton(args.ButtonRetry, "Retry");
+				SetButton(args.ButtonConfirm, "Confirm");
+		  
+				// Analyse Peripherality
+				if(args.peripherality && args.peripherality.length > 0) {
+					SetPeripherality(args.peripherality);
+					return;
+				}
+
+			}
+			catch(ex) {
+				alert(ex);
+			}
+		}
+
+
+		/********************************************************************************
+			Called by Update
+			SetResult will show or hide the Result Icons by Result-Parameter
+		Input:
+		  result icon number
+			0 - Prompt to start horizontal roll displayed at start of roll capture
+			1 - green Icon (OK) displayed when roll capture is complete
+			2 - General error
+			3 - Clean Platen
+			4 - Recording error
+			5 - Roll error
+			6 - Segmentation error displayed if flat captured images can not be segmented
+			7 - Quality-Check error
+			8 - Sequence-Check error displayed when roll does not match flat capture
+			11 - Prompt to start vertical roll displayed at start of roll capture
+		********************************************************************************/
+		function SetResult(result) {
+		  	var i;
+			// loop to hide all of the Result Icons and show only the correct one
+			for (i = 0; i <= 11; i++) {
+				// All the Result icon images are in the format IDIconResult_X where X is the Argument number 
+				var resultIcon = document.getElementById('IDIconResult_' + i);
+				if (resultIcon) {
+					if (i == result)
+						resultIcon.setAttribute("display","inline");	// Display icon
+					else
+						resultIcon.setAttribute("display","none");		// hide icon
+				}
+			}
+		}
+
+
+		/********************************************************************************
+			Called by Update
+			SetMessage will display text string and change background color
+		Inputs:
+			messageText is string displayed to the left of the rusults icon
+			color will determine the color of text and background
+					0 - Yellow text on dark gray background
+					1 - Dark blue text on green background
+					else - White text on red background
+		********************************************************************************/
+		function SetMessage(messageText, color) {
+	  		var messageBar = document.getElementById('MessageBar');
+			var messageTxt = document.getElementById('MessageText');
+			var txt = messageTxt.firstChild;
+			
+			if (messageBar && messageTxt) {
+				switch(color) {
+					case 0:	//no Error
+						messageBar.setAttribute("fill","#525E66");	//Dark gray of prism boarder
+						messageTxt.setAttribute("fill","#FFBF40");	//yellow
+						break;
+						
+					case 1: //OK when result == 1
+						messageBar.setAttribute("fill","#5CE224");	//green
+						messageTxt.setAttribute("fill","#072B61");	//dark blue
+						break;
+					
+					default: //Error used for results > 1
+						messageBar.setAttribute("fill","#E63622");	//red
+						messageTxt.setAttribute("fill","#ffffff");	//white
+						break;
+				}
+				
+				txt.nodeValue = messageText;
+				messageTxt.setAttribute("display","inline");
+			}
+		}
+
+
+		/********************************************************************************
+		  called by Update
+		  SetHP will change the color of the hand based on the capture state
+		
+		INPUT: ColorState  0 - inactive set color to #264A80 (medium blue)  *Default
+		                   1 - active set color to #ffffff (white)
+					       else - inactive 
+		       hand 2 - left hand
+		            1 - right hand
+		********************************************************************************/
+		function SetHP(ColorState, hand) {
+			if(hand < 1 || hand > 2)
+				return;	// not a valid hand
+				
+			var handIcon = document.getElementById('IDHandPath_' + hand);
+			switch(ColorState) {			
+				case 1:
+					//active
+					handIcon.setAttribute("fill","#ffffff");	// White
+					break;
+					
+				case 0:
+				default:
+					//inactive
+					handIcon.setAttribute("fill","#264A80");	// Medium blue
+					break;
+			}
+		}
+
+
+		/********************************************************************************
+		  called by Update
+		  SetFP will change the color of the active finger icon
+		  Update will call SetFP once for each finger. 
+
+		INPUT: ColorState  0 - Color #264A80 - Medium Blue  - Finger is not active and not captured
+		                   1 - Color #5CE224 - Green for 1 second and then #3C7CF4 light blue - fingerprint successfully captured
+		                   2 - Color #FFBF40 - Yellow - Fingerprint is actively being captured
+		                   3 - Color #e63622 - Red - Fingerprint has roll error
+		                   4 - Color #3C7CF4 - light blue - fingerprint successfully captured
+		                   5 - Color #5CE224 - Green - Fingerprint successfully caputured
+					  
+		      finger index into figner number 1 is right thumb to 10 is left little finger
+				     index, X must match the IDStateFinger_X graphic array
+		********************************************************************************/
+		function SetFP(ColorState, finger) {
+			if(finger < 1 || finger > 10)
+				return;	// not a valid finger
+			
+			var fingerPositionIcon = document.getElementById('IDStateFinger_' + finger);
+			var fingerColor =  fingerPositionIcon.getAttribute("fill");
+
+			switch(ColorState) {
+				case 0:
+					//not yet scanned
+					fingerPositionIcon.setAttribute("fill","#264A80");
+					break;
+					
+				case 1:
+					// already scanned
+					// TODO: Fine out why this timeout code does not work with layoutserver
+					fingerPositionIcon.setAttribute("fill","#5CE224");
+						setTimeout( function() {
+							fingerPositionIcon.setAttribute("fill","#3C7CF4");
+						},1000);
+						
+					break;
+
+				case 2:
+					//actual
+					fingerPositionIcon.setAttribute("fill","#FFBF40");
+					break;
+					
+				case 3:
+					//Roll error
+					fingerPositionIcon.setAttribute("fill","#e63622");
+					break;
+					
+				case 4:
+					// already scanned
+					fingerPositionIcon.setAttribute("fill","#3C7CF4");
+					break;
+
+				case 5:
+					// already scanned
+					fingerPositionIcon.setAttribute("fill","#5CE224");
+					break;
+					
+				default:
+					fingerPositionIcon.setAttribute("fill","#264A80");
+					break;
+			}
+		}
+
+
+		/********************************************************************************
+		  called by Update
+		  SetButton will change the button icon to the active or inactive state
+		  The button names are:
+			IDButtonRetryActive
+			IDButtonRetryInactive
+			IDButtonConfirmActive
+			IDButtonConfirmInactive
+		INPUTS:
+			state 	0 - inactive button is grayed out
+					1 - active button is raised
+					2 - button is hidden
+			button  - string containing the name of the button. Used to get graphics element
+					 must be set to "Retry" or "Confirm".
+		********************************************************************************/
+		function SetButton(state, button) {
+	  		var ActiveButtonIcon = document.getElementById('IDButton' + button + 'Active');
+	  		var InactiveButtonIcon = document.getElementById('IDButton' + button + 'Inactive');
+			
+			switch(state) {
+				case 0:
+					//inactive
+					ActiveButtonIcon.setAttribute("display","none");
+					InactiveButtonIcon.setAttribute("display","inline");
+					if (button == "Confirm") {
+						MoveRetryButton(0);
+					}
+					break;
+					
+				case 1:
+					//active
+					ActiveButtonIcon.setAttribute("display","inline");
+					InactiveButtonIcon.setAttribute("display","none");
+					if (button == "Confirm") {
+						MoveRetryButton(0);
+					}
+					break;
+					
+				case 2:
+					//hidden
+					ActiveButtonIcon.setAttribute("display","none");
+					InactiveButtonIcon.setAttribute("display","none");
+					//if the Button "Confirm" is unvisible, move the Retry-Button to right
+					if (button == "Confirm") {
+						MoveRetryButton(1);
+					}
+					break;
+
+				default:
+					//inactive
+					ActiveButtonIcon.setAttribute("display","none");
+					InactiveButtonIcon.setAttribute("display","inline");
+					break;
+			}
+		}
+
+
+		/********************************************************************************
+		  called by SetButton
+		  MoveRetryButton will preposition Retry button if Confirm button is hidden
+
+		INPUTL
+			position - Retry button position
+			           0 - initial possition as defined by SVG graphics
+					   1 - move button to left
+		********************************************************************************/
+		function MoveRetryButton(position) {
+			var retryBtn1 = document.getElementById('IDButtonRetryActive');
+			var retryBtn2 = document.getElementById('IDButtonRetryInactive');
+			
+			if (position == 1) {
+				retryBtn1.setAttribute("transform","translate(113,0)");
+				retryBtn2.setAttribute("transform","translate(113,0)");
+			} 
+			else {
+				retryBtn1.setAttribute("transform","translate(0,0)");	// original position
+				retryBtn2.setAttribute("transform","translate(0,0)");
+			}
+		}
+
+
+		/********************************************************************************
+		 called by Update
+		 SetPeripherality is called when one of the perifpherality arguments is set to true
+		  This function will display the peripherality icon
+		INPUT: peripherality[] - contains up to three entries
+		                       = left - 	OBJECT_POSITION_TOO_LEFT
+		                       = right - 	OBJECT_POSITION_TOO_RIGHT
+		                       = top - 		OBJECT_POSITION_TOO_HIGH
+		                       = bottom -	OBJECT_POSITION_TOO_LOW
+		 calculate position = 1 if too far left
+		                    = 2 if too far right
+		                    = 3 if too far left and too right
+		                    = 4 if too high
+		                    = 5 if too far left and too high
+		                    = 6 if too far right and too high
+		                    = 7 if too far left, too far right and too high
+							= 8 too far to too low
+							= 9 if too far left and too low
+							=10 if too far right and too low
+							=11 if too far left, too far right and too low
+		********************************************************************************/
+		function SetPeripherality(peripherality) {
+			var position = 0;
+			if(peripherality.indexOf("left") != -1) position+= 1;
+			if(peripherality.indexOf("right") != -1) position+= 2;
+			if(peripherality.indexOf("top") != -1) position+= 4;
+			if(peripherality.indexOf("bottom") != -1) position+= 8;
+			
+			switch(position) {
+				case 1: //too far left
+				case 2: //too far right
+				case 4: //too high
+				case 5: //too far left and too high
+				case 6:	//too far right and too high
+				case 8:	//too low
+				case 9:	//too far left and too low
+				case 10: //too far right and too low
+					ShowPeripheralityIcon(position);
+					break;
+					
+				case 3:	// too far left and too far right
+					ShowPeripheralityIcon(1);	// display too far left
+					break;
+				
+				case 7:	// too far left and too far right and too high
+					ShowPeripheralityIcon(5);	// display too far left and too high
+					break;
+					
+				case 11:// too far left and too far right and too low
+					ShowPeripheralityIcon(9);	// display too far left and too low
+					break;
+				
+				default:
+					break;
+			}
+			
+		}
+
+		/********************************************************************************
+		 called by SetPeripherality
+		 ShowPeripheralityIcon will display the IDIconPeripherality_X icon
+		INPUT: position = 1 to 10 to match svg array of graphics in IDIconPeripherality_ 
+		********************************************************************************/
+		function ShowPeripheralityIcon(peripherality) {
+		  	var i;
+
+			// Display only one icon
+			for (i = 0; i <= 10; i++) {
+				var peripheralityIcon = document.getElementById('IDIconPeripherality_' + i);
+				if (peripheralityIcon) {
+					if (i == peripherality)
+						peripheralityIcon.setAttribute("display","inline");	// Display
+					else
+						peripheralityIcon.setAttribute("display","none");	// Hide
+				}
+			}
+		}
+      ]]>
+
+	</script>
+	 
+	 
+	 
+	 
+<g id="Background">
+	<rect fill="#D1D2D4" width="800" height="480" x="0" y="0"/>
+	<path id="LeftHandBar" fill="#525E66" d="M187.648,459H0v21h217.611c0,0-6.655-9.775-12.49-14.069C199.133,461.524,193.08,459,187.648,459z"/>
+	<path id="RightHandBar" fill="#525E66" d="M612.352,459H800v21H582.389c0,0,6.655-9.775,12.49-14.069C600.866,461.524,606.92,459,612.352,459z"/>
+	<rect id="ButtonBar" x="406.899" y="22.368" fill="#525E66" width="393.08" height="87.063"/>
+	<rect id="MessageBar" x="0.084" y="22.368" fill="#525E66" width="393.08" height="87.063"/>
+	<text id="MessageText" fill="#FFBF40" font-family="'Arial'" font-size="36" x="334" y="80" text-anchor="end" display="none">roll vertically</text>
+	<g id="Prisma">
+		<path id="PrismaPath" fill="#FFFFFF" d="M575.5,424.998c0,4.95-4.05,9-9,9h-333c-4.95,0-9-4.05-9-9v-271c0-4.95,4.05-9,9-9h333c4.95,0,9,4.05,9,9
+			V424.998z"/>
+	</g>
+</g> <!-- END Background -->
+
+
+<g id="Layout">
+
+	<g id="IDHandRight">
+		<path id="IDHandPath_1" fill="#264A80" d="M736.019,433.807c-0.95,0-63.646,0-64.076,0 c-1.192,0-2.854-0.063-3.188-2.386c-0.187-1.206-2.271-15.831-2.521-17.7c-0.559-4.168-6.854-9.582-8.809-11.521 c-1.942-1.945-8.385-8.611-10.396-10.486c-2.017-1.877-4.771-6.508-6.247-8.958c-3.784-6.279-7-15.87-8.404-20.334 c-1.946-6.188-3.38-8.878-5.325-12.666c-2.793-5.451-5.252-6.742-8.026-14.147c-0.667-1.78-4.438-7.865-5.5-10.11 c-1.211-2.565,0.34-2.137-1.179-3.729c-1.818-1.895-9.481-13.841-9.014-15.101c0.48-1.267,2.727-4.212,6.898-5.282 c4.167-1.064,9.812,0.485,13.938,3.164c3.097,2.017,9.063,6.291,13.379,15.813c0.861,1.902,11.152,14.851,16.699,16.311 c1.663,0.438,2.862-2.047,3.028-3.106c0.286-1.854,1.479-18.559,1.354-21.342c0-9.815,0.96-19.271,1.134-24.2 c0.115-3.213,1.081-40.598,1.241-45.129c0.16-4.521,0.169-15.173,0.896-19.18c0.728-4.002,1.012-12.268,9.65-11.985 c3.066,0.1,9,1.955,9.521,12.031c0.175,3.369,2.017,37.944,1.938,39.99c-0.065,2.044,1.521,21.879,1.771,26.688 c0.302,5.933,0.582,11.051,2.337,11.108c2.771,0.103,3.155-15.254,3.155-15.254c0.254-6.717,0.65-22.088,0.881-23.384 c0.726-4.186,2.769-41.021,3.739-45.531c0.838-3.898,0.543-13.446,10.182-13.181c11.323,0.311,9.854,13.375,9.933,15.684 c0.114,3.46,0.399,19.333-0.13,26.101c-0.389,4.994,0.063,16.187-0.173,20.662c-0.735,4.799-1.246,32.855-1.246,32.855 s-0.21,3.847,1.251,3.911c2.043,0.089,2.887-7.046,3.073-8.958c0.201-2.023,2.563-17.737,2.601-19.373 c0.032-1.633,2.493-14.646,3.28-17.662c0.794-3.006,3.212-19.845,3.62-21.892c0.404-2.05,1.044-16.169,12.188-15.112 c9.91,0.941,8.398,11.864,8.384,12.649c-0.029,1.331-1.759,17.984-2.271,21.417c-0.512,3.431-0.905,16.348-1.259,18.638 c-0.35,2.292-2.904,16.942-3.257,19.055c-0.349,2.112-1.701,14.354-2.023,16.163c-0.438,2.463-0.616,5.612,0.146,6.087 c0.76,0.478,1.021,0.214,1.845-1.915c0.744-1.925,4.352-13.122,4.846-15.152c0.5-2.031,4.664-16.612,5.327-18.813 c0.671-2.206,2.828-10.509,3.329-12.205c0.501-1.692,3.829-13.222,11.964-10.89c8.138,2.328,5.577,10.831,5.148,14.023 c-0.505,3.74-1.979,11.354-2.643,14.402c-0.658,3.051-2.211,14.99-2.702,18.209c-0.488,3.22-3.027,12.27-3.397,14.66 c-0.496,3.22-2.13,11.438-2.13,14.313c0,2.885-2.709,19.646-3.896,24.895c-1.187,5.247-6.771,24.206-8.464,28.438 c-1.692,4.232-6.268,16.425-7.278,18.621c-1.017,2.2-2.509,6.908-2.709,9.818c-0.129,1.849-0.089,16.532-0.313,18.925 C737.962,433.33,737.095,433.807,736.019,433.807z"/>
+	</g> 
+	
+	<g id="IDHandLeft">
+		<path id="IDHandPath_2" fill="#264A80" d="M61.817,431.754c-0.225-2.393-0.185-17.076-0.313-18.925 c-0.201-2.91-1.693-7.618-2.709-9.818c-1.012-2.196-5.586-14.389-7.279-18.621c-1.693-4.229-7.276-23.188-8.464-28.438 c-1.187-5.247-3.896-22.01-3.896-24.895c0-2.875-1.634-11.094-2.13-14.313c-0.37-2.396-2.909-11.44-3.399-14.66 c-0.492-3.219-2.044-15.157-2.703-18.209c-0.663-3.052-2.135-10.662-2.64-14.401c-0.429-3.193-2.988-11.695,5.148-14.024 c8.135-2.332,11.463,9.196,11.964,10.89c0.501,1.696,2.658,9.999,3.329,12.205c0.663,2.199,4.827,16.78,5.327,18.813 c0.494,2.031,4.102,13.229,4.846,15.153c0.824,2.129,1.085,2.393,1.845,1.915c0.76-0.475,0.583-3.624,0.144-6.087 c-0.322-1.809-1.677-14.051-2.023-16.163c-0.353-2.111-2.907-16.763-3.257-19.055c-0.353-2.29-0.747-15.207-1.259-18.637 c-0.513-3.437-2.24-20.087-2.27-21.418c-0.018-0.786-1.529-11.708,8.382-12.649c11.144-1.057,11.783,13.062,12.188,15.112 c0.408,2.046,2.826,18.886,3.62,21.892c0.787,3.015,3.248,16.029,3.28,17.662c0.037,1.636,2.399,17.349,2.601,19.373 c0.188,1.912,1.03,9.047,3.073,8.958c1.461-0.064,1.251-3.911,1.251-3.911s-0.511-28.058-1.246-32.856 c-0.234-4.478,0.216-15.668-0.173-20.662c-0.529-6.763-0.244-22.637-0.13-26.099c0.08-2.31-1.391-15.373,9.933-15.684 c9.639-0.265,9.344,9.283,10.181,13.181c0.972,4.51,3.015,41.348,3.74,45.531c0.228,1.296,0.627,16.667,0.881,23.384 c0,0,0.385,15.354,3.155,15.254c1.755-0.061,2.035-5.179,2.337-11.108c0.249-4.813,1.839-24.646,1.771-26.688 c-0.076-2.046,1.766-36.621,1.94-39.99c0.521-10.076,6.455-11.931,9.521-12.031c8.642-0.283,8.926,7.983,9.653,11.985 c0.727,4.004,0.735,14.657,0.896,19.18c0.16,4.533,1.126,41.916,1.241,45.129c0.174,4.93,1.134,14.385,1.134,24.2 c-0.125,2.783,1.067,19.485,1.354,21.342c0.166,1.063,1.365,3.548,3.028,3.106c5.547-1.46,15.838-14.404,16.699-16.311 c4.317-9.521,10.282-13.798,13.379-15.813c4.126-2.679,9.771-4.229,13.938-3.164c4.173,1.07,6.418,4.019,6.898,5.282 c0.471,1.26-7.192,13.206-9.014,15.104c-1.516,1.59,0.034,1.158-1.176,3.727c-1.063,2.245-4.833,8.33-5.5,10.11 c-2.777,7.405-5.236,8.696-8.029,14.147c-1.945,3.788-3.379,6.479-5.325,12.666c-1.404,4.464-4.62,14.055-8.404,20.334 c-1.476,2.45-4.233,7.081-6.247,8.958c-2.011,1.875-8.45,8.541-10.396,10.486c-1.952,1.938-8.25,7.353-8.806,11.521 c-0.249,1.869-2.335,16.494-2.521,17.7c-0.338,2.32-1.996,2.386-3.188,2.386c-0.434,0-63.126,0-64.079,0 C62.843,433.807,61.976,433.33,61.817,431.754z"/>
+	</g> 
+	
+	<g id="IDStateFingerRight">
+		<path id="IDStateFinger_1" fill="#264A80" d="M595.338,151.998c0-3.85,3.15-7,7-7h16c3.853,0,7,3.15,7,7v14c0,3.85-3.147,7-7,7h-16c-3.85,0-7-3.15-7-7 V151.998z"/>
+		<path id="IDStateFinger_2" fill="#264A80" d="M652.069,151.998c0-3.85,3.15-7,7-7h16c3.854,0,7,3.15,7,7v14c0,3.85-3.146,7-7,7h-16c-3.85,0-7-3.15-7-7 V151.998z"/>
+		<path id="IDStateFinger_3" fill="#264A80" d="M687.198,151.998c0-3.85,3.15-7,7-7h16c3.85,0,7,3.15,7,7v14c0,3.85-3.15,7-7,7h-16c-3.85,0-7-3.15-7-7 V151.998z"/>
+		<path id="IDStateFinger_4" fill="#264A80" d="M722.433,151.998c0-3.85,3.15-7,7-7h16c3.854,0,7,3.15,7,7v14c0,3.85-3.146,7-7,7h-16c-3.85,0-7-3.15-7-7 V151.998z"/>
+		<path id="IDStateFinger_5" fill="#264A80" d="M757.668,151.998c0-3.85,3.15-7,7-7h16c3.85,0,7,3.15,7,7v14c0,3.85-3.15,7-7,7h-16c-3.85,0-7-3.15-7-7 V151.998z"/>
+	</g> <!-- END IDStateFingerRight -->
+
+	<g id="IDStateFingerLeft">
+		<path id="IDStateFinger_10" fill="#264A80" d="M12.269,151.998c0-3.85,3.15-7,7-7h16c3.85,0,7,3.15,7,7v14c0,3.85-3.15,7-7,7h-16c-3.85,0-7-3.15-7-7 V151.998z"/>
+		<path id="IDStateFinger_9" fill="#264A80" d="M47.504,151.998c0-3.85,3.15-7,7-7h16c3.85,0,7,3.15,7,7v14c0,3.85-3.15,7-7,7h-16c-3.85,0-7-3.15-7-7 V151.998z"/>
+		<path id="IDStateFinger_8" fill="#264A80" d="M82.739,151.998c0-3.85,3.15-7,7-7h16c3.85,0,7,3.15,7,7v14c0,3.85-3.15,7-7,7h-16c-3.85,0-7-3.15-7-7 V151.998z"/>
+		<path id="IDStateFinger_7" fill="#264A80" d="M117.975,151.998c0-3.85,3.15-7,7-7h16c3.85,0,7,3.15,7,7v14c0,3.85-3.15,7-7,7h-16c-3.85,0-7-3.15-7-7 V151.998z"/>
+		<path id="IDStateFinger_6" fill="#264A80" d="M174.613,151.998c0-3.85,3.15-7,7-7h16c3.85,0,7,3.15,7,7v14c0,3.85-3.15,7-7,7h-16c-3.85,0-7-3.15-7-7 V151.998z"/>
+	</g> <!-- END IDStateFingerLeft -->
+	
+</g> <!-- END Layout -->
+
+
+<g id="Icons">
+	<g id="IDButtonRetry">
+		<g id="IDButtonRetryActive" display="none">
+			<path fill="#001441" d="M684.58,101.265c0,1.559-1.275,2.834-2.835,2.834H578.343c-1.56,0-2.835-1.275-2.835-2.834v-70.73
+				c0-1.559,1.275-2.834,2.835-2.834h103.402c1.56,0,2.835,1.275,2.835,2.834V101.265z"/>
+			<path fill="#C5DAF2" d="M681.746,98.386c0,1.559-1.275,2.834-2.835,2.834H578.335c-1.56,0-2.835-1.275-2.835-2.834V30.535
+				c0-1.559,1.275-2.834,2.835-2.834h100.576c1.56,0,2.835,1.275,2.835,2.834V98.386z"/>
+			<path fill="#5D7AB6" d="M681.746,99.283c0,1.091-0.893,1.984-1.984,1.984h-99.436c-1.092,0-1.984-0.893-1.984-1.984V32.519
+				c0-1.091,0.893-1.984,1.984-1.984h99.436c1.092,0,1.984,0.893,1.984,1.984V99.283z"/>
+			<path fill="#FFFFFF" d="M652.662,64.515c-0.604-11.757-10.174-21.099-21.896-21.099c-5.848,0-11.141,2.321-15.062,6.092
+				l5.027,5.117c2.638-2.472,6.164-3.979,10.033-3.979c7.791,0,14.17,6.107,14.762,13.871h-5.63l9.142,11.691l9.185-11.691
+				L652.662,64.515L652.662,64.515z"/>
+			<path fill="#FFFFFF" d="M607.401,67.328c0.604,11.755,10.174,21.099,21.9,21.099c5.834,0,11.131-2.32,15.059-6.1l-5.028-5.11
+				c-2.641,2.465-6.161,3.981-10.028,3.981c-7.794,0-14.179-6.109-14.763-13.869h5.652l-9.186-11.697l-9.144,11.696H607.401z"/>
+		</g> 
+		
+		<g id="IDButtonRetryInactive">
+			<g id="IDButtonRetryInactive_Icon">
+				<path fill="#D1D2D4" d="M652.662,64.515c-0.604-11.757-10.174-21.099-21.896-21.099c-5.848,0-11.141,2.321-15.062,6.092
+					l5.027,5.117c2.638-2.472,6.164-3.979,10.033-3.979c7.791,0,14.17,6.107,14.762,13.871h-5.63l9.142,11.691l9.185-11.691
+					L652.662,64.515L652.662,64.515z"/>
+				<path fill="#D1D2D4" d="M607.401,67.328c0.604,11.755,10.174,21.099,21.9,21.099c5.834,0,11.131-2.32,15.059-6.1l-5.028-5.11
+					c-2.641,2.465-6.161,3.981-10.028,3.981c-7.794,0-14.179-6.109-14.763-13.869h5.652l-9.186-11.697l-9.144,11.696H607.401z"/>
+			</g>
+			<g id="IDButtonRetryInactive_Background">
+				<path fill="#D1D2D4" d="M681.745,30.2c0.179,0,0.335,0.156,0.335,0.334v70.73c0,0.178-0.156,0.334-0.335,0.334h-103.41
+					c-0.179,0-0.335-0.156-0.335-0.334v-70.73c0-0.178,0.156-0.334,0.335-0.334H681.745 M681.745,27.7h-103.41
+					c-1.56,0-2.835,1.275-2.835,2.834v70.73c0,1.559,1.275,2.834,2.835,2.834h103.41c1.56,0,2.835-1.275,2.835-2.834v-70.73
+					C684.58,28.976,683.305,27.7,681.745,27.7L681.745,27.7z"/>
+			</g>
+		</g>	
+	</g>	<!-- END IDButtonRetry -->
+	
+	<g id="IDButtonConfirm">
+		<g id="IDButtonConfirmActive" display="none">
+			<path fill="#001441" d="M796.229,101.265c0,1.559-1.275,2.834-2.835,2.834H689.991c-1.56,0-2.835-1.275-2.835-2.834v-70.73
+				c0-1.559,1.275-2.834,2.835-2.834h103.402c1.56,0,2.835,1.275,2.835,2.834V101.265z"/>
+			<path fill="#C5DAF2" d="M793.395,98.386c0,1.559-1.275,2.834-2.835,2.834H689.983c-1.56,0-2.835-1.275-2.835-2.834V30.535
+				c0-1.559,1.275-2.834,2.835-2.834H790.56c1.56,0,2.835,1.275,2.835,2.834V98.386z"/>
+			<path fill="#5D7AB6" d="M793.395,99.283c0,1.091-0.893,1.984-1.984,1.984h-99.436c-1.092,0-1.984-0.893-1.984-1.984V32.519
+				c0-1.091,0.893-1.984,1.984-1.984h99.436c1.092,0,1.984,0.893,1.984,1.984V99.283z"/>
+			<polygon display="inline" fill="#FFFFFF" points="752.764,51.337 752.764,60.67 712.833,60.67 
+				712.833,71.26 752.764,71.26 752.764,80.62 770.518,65.973 	"/>
+		</g> 
+		
+		<g id="IDButtonConfirmInactive">
+			<g id="IDButtonConfirmInactive_Icon">
+				<polygon fill="#D1D2D4" points="752.764,51.337 752.764,60.67 712.833,60.67 712.833,71.26 
+					752.764,71.26 752.764,80.62 770.518,65.973 	"/>
+			</g>
+			<g id="IDButtonConfirmInactive_Background">
+				<path fill="#D1D2D4" d="M793.394,30.2c0.179,0,0.335,0.156,0.335,0.334v70.73c0,0.178-0.156,0.334-0.335,0.334h-103.41
+					c-0.179,0-0.335-0.156-0.335-0.334v-70.73c0-0.178,0.156-0.334,0.335-0.334H793.394 M793.394,27.7h-103.41
+					c-1.56,0-2.835,1.275-2.835,2.834v70.73c0,1.559,1.275,2.834,2.835,2.834h103.41c1.56,0,2.835-1.275,2.835-2.834v-70.73
+					C796.229,28.976,794.953,27.7,793.394,27.7L793.394,27.7z"/>
+			</g>
+		</g> 
+	</g> <!-- END IDButtonConfirm -->
+	
+	
+	<g id="IDIconResult">
+		<g id="Statefield">
+			<path fill="#D1D2D4" d="m370.62601,112.437c-9.46899,0 -17.173,-7.70399 -17.173,-17.173l0,-58.748c0,-9.469 7.70401,-17.17301 17.173,-17.17301l58.74802,0c9.46899,0 17.17297,7.704 17.17297,17.17301l0,58.748c0,9.469 -7.70398,17.173 -17.17297,17.173l-58.74802,0z"/>
+			<path fill="#D1D2D4" d="m429.37399,22.343c7.79498,0 14.173,6.378 14.173,14.173l0,58.748c0,7.795 -6.37802,14.173 -14.173,14.173l-58.74802,0c-7.79498,0 -14.17297,-6.378 -14.17297,-14.173l0,-58.748c0,-7.795 6.37799,-14.173 14.17297,-14.173l58.74802,0m0,-6l-58.74802,0c-11.12399,0 -20.17297,9.05 -20.17297,20.173l0,58.748c0,11.124 9.04999,20.173 20.17297,20.173l58.74802,0c11.12299,0 20.173,-9.05 20.173,-20.173l0,-58.748c0,-11.123 -9.04999,-20.173 -20.173,-20.173l0,0z"/>
+		</g>
+	
+		<g id="IDIconResult_0" display="none">
+			<g id="IDIconResult_0_Background" enable-background="new">
+				<path fill="#264A80" d="M441.535,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.708c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.708c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+			<g id="IDIconResult_0_HorizontalRoll">
+				<polygon fill="#FFBF40" points="382.887,78.256 378.371,73.69 384.331,67.841 377.479,60.854 371.517,66.702 366.936,62.075 
+					364.808,80.141 				"/>
+				<path fill="#FFBF40" d="M387.171,65.739c3.497-2.531,6.445-3.534,10.321-3.741c0.231-0.011,0.462,0.006,0.692,0.012v-9.305
+					c-0.23-0.006-0.46-0.017-0.692-0.017c-6.45,0-12.382,2.188-17.114,5.853L387.171,65.739z"/>
+				<polygon fill="#FFBF40" points="417.129,78.256 421.642,73.69 415.683,67.841 422.534,60.854 428.497,66.702 433.08,62.075 
+					435.208,80.141 				"/>
+				<path fill="#FFBF40" d="M412.843,65.739c-3.496-2.531-6.446-3.534-10.321-3.741c-0.231-0.011-0.46,0.006-0.691,0.012v-9.305
+						c0.231-0.006,0.46-0.017,0.691-0.017c6.448,0,12.384,2.188,17.112,5.853L412.843,65.739z"/>
+			</g>
+		</g> <!-- END IDIconResult_0 No Error capture horizontal roll-->
+
+		<g id="IDIconResult_11" display="none">
+			<g id="IDIconResult_11_V_Background" display="inline" enable-background="new    ">
+				<path fill="#264A80" d="M441.535,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.708c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.708c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+			<g id="IDIconResult_11_V_VerticalRoll">
+				<rect x="395.328" y="53.056" fill="#FFBF40" width="9.448" height="10.949"/>
+				<polygon fill="#FFBF40" points="400.052,28.662 387.706,43.946 394.708,43.946 394.708,49.134 405.395,49.134 405.395,43.946 
+					412.398,43.946 			"/>
+				<rect x="395.329" y="67.872" fill="#FFBF40" width="9.448" height="10.949"/>
+				<polygon fill="#FFBF40" points="400.052,103.216 412.398,87.931 405.395,87.931 405.395,82.743 394.708,82.743 394.708,87.931 
+					387.706,87.931 			"/>
+			</g>
+		</g> <!-- END IDIconResult_11_V No Error capture vertical roll-->
+		
+		
+		<g id="IDIconResult_1" display="none">
+			<path display="inline" fill="#5CE224" d="M358.461,38.584c0-7.795,6.379-14.173,14.174-14.173h54.708
+				c7.795,0,14.172,6.378,14.172,14.173v54.707c0,7.795-6.377,14.173-14.172,14.173h-54.708c-7.795,0-14.174-6.378-14.174-14.173
+				V38.584z"/>
+		</g> <!-- END IDIconResult_1 OK!  -->
+
+
+		<g id="IDIconResult_2" display="none">
+			<g id="IDIconResult_2_Background">
+				<path fill="#E63622" d="M441.535,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.708c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.708c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+			<g id="IDIconResult_2_Symbol" >
+				<circle fill="#FFFFFF" cx="400.008" cy="66.161" r="27.273"/>
+				<path fill="#E63622" d="M410.075,81.436c1.063,1.06,2.795,1.06,3.855,0l1.352-1.35c1.063-1.059,1.063-2.794,0-3.853
+					l-25.343-25.344c-1.061-1.06-2.794-1.06-3.855,0l-1.35,1.35c-1.061,1.06-1.061,2.794,0,3.854L410.075,81.436z"/>
+				<path fill="#E63622" d="M389.941,81.436c-1.063,1.06-2.796,1.06-3.855,0l-1.352-1.35c-1.061-1.059-1.061-2.794,0-3.853
+					l25.345-25.344c1.062-1.06,2.793-1.06,3.854,0l1.35,1.35c1.063,1.06,1.063,2.794,0,3.854L389.941,81.436z"/>
+			</g>
+		</g> <!-- END IDIconResult_2 General Error -->
+		
+		<g id="IDIconResult_3" display="none">
+			<g id="IDIconResult_3_Background">
+				<path fill="#E63622" d="M441.536,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.709c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.709c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+			<g id="IDIconResult_3_Symbol">
+				<path fill="#FFFFFF" d="M393.94,62.491c0,1.516-1.241,2.757-2.759,2.757h-7.59c-1.517,0-2.758-1.241-2.758-2.757V51.796
+					c0-1.517,1.241-2.758,2.758-2.758h7.59c1.518,0,2.759,1.241,2.759,2.758V62.491z"/>
+				<circle fill="#CE251C" cx="389.385" cy="55.976" r="1.997"/>
+				<path fill="#FFFFFF" d="M404.884,93.189V70.905c0-2.651-1.738-3.673-2.992-4.399c-1.255-0.726-8.311-4.749-8.311-4.749h-12.386
+					c0,0-7.056,4.023-8.311,4.749s-2.99,1.749-2.99,4.399v22.284H404.884L404.884,93.189z"/>
+				<circle fill="#FFFFFF" cx="399.842" cy="55.766" r="1.809"/>
+				<circle fill="#FFFFFF" cx="406.36" cy="59.189" r="1.613"/>
+				<circle fill="#FFFFFF" cx="412.681" cy="62.415" r="1.613"/>
+				<circle fill="#FFFFFF" cx="418.054" cy="65.362" r="1.613"/>
+				<circle fill="#FFFFFF" cx="406.36" cy="52.344" r="1.614"/>
+				<circle fill="#FFFFFF" cx="412.681" cy="49.36" r="1.613"/>
+				<circle fill="#FFFFFF" cx="418.054" cy="46.171" r="1.613"/>
+				<circle fill="#FFFFFF" cx="423.315" cy="42.936" r="1.438"/>
+				<circle fill="#FFFFFF" cx="412.681" cy="55.587" r="1.439"/>
+				<circle fill="#FFFFFF" cx="418.054" cy="52.343" r="1.438"/>
+				<circle fill="#FFFFFF" cx="418.054" cy="59.19" r="1.438"/>
+				<circle fill="#FFFFFF" cx="423.315" cy="68.79" r="1.438"/>
+				<circle fill="#FFFFFF" cx="423.315" cy="49.359" r="1.145"/>
+				<circle fill="#FFFFFF" cx="423.315" cy="56.431" r="1.146"/>
+				<circle fill="#FFFFFF" cx="423.315" cy="63.202" r="1.146"/>
+				<circle fill="#FFFFFF" cx="428.978" cy="40.01" r="1.145"/>
+				<circle fill="#FFFFFF" cx="428.978" cy="46.171" r="0.887"/>
+				<circle fill="#FFFFFF" cx="428.978" cy="51.391" r="0.887"/>
+				<circle fill="#FFFFFF" cx="428.978" cy="56.43" r="0.887"/>
+				<circle fill="#FFFFFF" cx="428.978" cy="67.446" r="0.887"/>
+				<circle fill="#FFFFFF" cx="428.978" cy="62.058" r="0.887"/>
+				<circle fill="#FFFFFF" cx="428.978" cy="72.982" r="1.145"/>
+			</g>
+		</g> <!-- END IDIconResult_3 Dirty Prism -->
+	
+		<g id="IDIconResult_4" display="none">
+			<g id="IDIconResult_4_Background">
+				<path fill="#E63622" d="M441.535,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.708c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.708c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+			<g id="IDIconResult_4_Symbol" >
+				<path fill="#FFFFFF" d="M431.405,83.292c0,2.281-1.866,4.148-4.148,4.148h-54.496c-2.282,0-4.15-1.867-4.15-4.148V51.984
+					c0-2.281,1.868-4.149,4.15-4.149h54.496c2.282,0,4.15,1.868,4.15,4.149L431.405,83.292L431.405,83.292z"/>
+				<path fill="none" stroke="#FFFFFF" stroke-width="3" stroke-miterlimit="10" d="M431.405,83.292
+					c0,2.281-1.866,4.148-4.148,4.148h-54.496c-2.282,0-4.15-1.867-4.15-4.148V51.984c0-2.281,1.868-4.149,4.15-4.149h54.496
+					c2.282,0,4.15,1.868,4.15,4.149L431.405,83.292L431.405,83.292z"/>
+				<path fill="#FFFFFF" d="M387.255,50.068c0.306,0,0.555-0.249,0.555-0.553V44.99c0-0.305-0.249-0.554-0.555-0.554h-8.45
+					c-0.304,0-0.554,0.249-0.554,0.554v4.525c0,0.305,0.25,0.553,0.554,0.553H387.255z"/>
+				<path fill="none" stroke="#FFFFFF" stroke-width="3" stroke-miterlimit="10" d="M387.255,50.068
+					c0.306,0,0.555-0.249,0.555-0.553V44.99c0-0.305-0.249-0.554-0.555-0.554h-8.45c-0.304,0-0.554,0.249-0.554,0.554v4.525
+					c0,0.305,0.25,0.553,0.554,0.553H387.255z"/>
+				<circle fill="#E63622" cx="411.857" cy="67.845" r="11.848"/>
+			</g>
+		</g> <!-- END IDIconResult_4 Capture Error -->
+	
+		<g id="IDIconResult_5" display="none">
+			<g id="IDIconResult_5_Background">
+				<path fill="#E63622" d="M441.535,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.708c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.708c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+			<g id="IDIconResult_5_Symbol">
+				<path fill="#E43823" d="M390.478,93.179V65.337c0-5.911-4.339-10.699-9.692-10.699c-5.353,0-9.691,4.788-9.691,10.699v27.843"/>
+				<path fill="#E43823" d="M403.754,93.299V60.004c0-5.908-4.337-10.7-9.691-10.7c-5.352,0-9.69,4.791-9.69,10.7v33.295"/>
+				<path fill="none" stroke="#E43823" stroke-width="2" stroke-miterlimit="10" d="M413.487,38.22v10.79
+					c0,3.908,2.708,5.582,6.05,5.582s6.05-1.356,6.05-5.582V37.576"/>
+				<path fill="#E43823" d="M416.438,93.379V55.73c0-5.911-4.337-10.701-9.691-10.701c-5.352,0-9.692,4.79-9.692,10.701v37.648"/>
+				<rect fill="#E43823" x="396.735" y="49.927" width="4.578" height="3.259"/>
+				<path fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" stroke-dasharray="3.9681,2.4801" d="
+					M390.478,88.827v-23.49c0-5.911-4.339-10.699-9.692-10.699c-5.353,0-9.691,4.788-9.691,10.699v24.694"/>
+				<path fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" stroke-dasharray="3.9012,2.4383" d="
+					M403.754,88.987V60.004c0-5.908-4.337-10.7-9.691-10.7c-5.352,0-9.69,4.791-9.69,10.7v30.168"/>
+				<path fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" stroke-dasharray="3.9998,2.4999" d="
+					M416.438,89.007V55.73c0-5.911-4.337-10.701-9.691-10.701c-5.352,0-9.692,4.79-9.692,10.701v34.491"/>
+				<path fill="#FFFFFF" d="M428.923,49.58c0-5.911-4.202-10.701-9.384-10.701c-5.186,0-9.388,4.79-9.388,10.701v43.798h18.771V49.58z"/>
+				<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="371.094" y1="91.236" x2="371.094" y2="93.179"/>
+				<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="384.373" y1="91.355" x2="384.373" y2="93.299"/>
+				<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="397.056" y1="91.435" x2="397.056" y2="93.379"/>
+				<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="390.478" y1="93.179" x2="390.478" y2="91.236"/>
+				<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="403.754" y1="93.299" x2="403.754" y2="91.355"/>
+				<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="416.438" y1="93.379" x2="416.438" y2="91.435"/>
+			</g>
+		</g> <!-- END IDIconResult_5 Rolling Error -->
+	
+		<g id="IDIconResult_6" display="none">
+			<g id="IDIconResult_6_Background">
+				<path fill="#E63622" d="M441.536,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.709c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.709c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+			<g id="IDIconResult_6_Symbol">
+				<path fill="#FFFFFF" d="M418.13,88.932c0,2.299-1.885,4.181-4.182,4.181h-35.893c-2.298,0-4.182-1.882-4.182-4.181V53.039
+					c0-2.3,1.884-4.182,4.182-4.182h35.893c2.297,0,4.182,1.882,4.182,4.182V88.932z"/>
+				<path fill="#E63622" d="M412.833,75.242c0,1.532-1.254,2.787-2.785,2.787H391.71c-1.532,0-2.786-1.255-2.786-2.787V56.908
+					c0-1.533,1.254-2.787,2.786-2.787h18.338c1.535,0,2.785,1.254,2.785,2.787V75.242L412.833,75.242z"/>
+				<path fill="#E63622" d="M426.144,59.327c0,1.532-1.248,2.787-2.787,2.787h-16.363c-1.533,0-2.789-1.255-2.789-2.787V42.964
+					c0-1.532,1.256-2.787,2.789-2.787h16.363c1.535,0,2.787,1.255,2.787,2.787V59.327z"/>
+				<path fill="none" stroke="#FFFFFF" stroke-width="3" stroke-miterlimit="10" d="M426.144,59.327
+					c0,1.532-1.248,2.787-2.787,2.787h-16.363c-1.533,0-2.789-1.255-2.789-2.787V42.964c0-1.532,1.256-2.787,2.789-2.787h16.363
+					c1.535,0,2.787,1.255,2.787,2.787V59.327z"/>
+			</g>
+		</g> <!-- END IDIconResult_6 Segmentation Error -->
+		
+		<g id="IDIconResult_7" display="none">
+			<g id="IDIconResult_7_Background">
+				<path fill="#E63622" d="M441.535,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.708c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.708c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+			<g id="IDIconResult_7_Symbol" >
+				<path fill="#FFFFFF" d="M422.701,88.82l-4.157,4.635l-7.087-6.202c-3.612,2.044-7.635,2.931-11.449,2.931
+					c-14.585,0-23.308-11.586-23.308-25.489c0-13.903,8.723-25.488,23.308-25.488c14.583,0,23.307,11.584,23.307,25.488
+					c0,6.68-2.044,14.04-6.884,18.674L422.701,88.82z M400.553,77.779l4.091-4.703l5.927,5.181c3.069-3.68,4.227-8.656,4.227-13.563
+					c0-9.337-4.362-18.537-14.789-18.537c-10.428,0-14.79,9.2-14.79,18.537c0,9.335,4.362,18.538,14.79,18.538
+					c1.77,0,3.749-0.341,5.451-1.159L400.553,77.779z"/>
+			</g>
+		</g> <!-- END IDIconResult_7 Quality Check Error -->
+	
+		<g id="IDIconResult_8" display="none">
+			<g id="IDIconResult_8_Background">
+				<path fill="#E63622" d="M441.536,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.709c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.709c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+			<g id="IDIconResult_8_Symbol">
+				<path fill="#FFFFFF" d="M374.543,51.614c-0.061-0.091-3.777-6.038,2.043-10.388c1.533-1.148,3.131-1.733,4.746-1.733
+					c3.41,0,5.668,2.567,5.762,2.678L396,53.87l-9.912,12.997L374.543,51.614z"/>
+				<path fill="#FFFFFF" d="M381.333,40c3.217,0,5.379,2.5,5.379,2.5l8.652,11.369l-9.271,12.158l-11.145-14.721
+					c0,0-3.565-5.558,1.941-9.675C378.499,40.426,380.004,40,381.333,40 M381.333,38.987c-1.727,0-3.427,0.617-5.052,1.835
+					c-4.954,3.703-3.596,8.838-2.187,11.034l0.021,0.033l0.024,0.032l11.143,14.72l0.805,1.065l0.813-1.062l9.271-12.158
+					l0.469-0.616l-0.469-0.614l-8.65-11.369l-0.02-0.025l-0.021-0.024C387.379,41.722,384.97,38.987,381.333,38.987L381.333,38.987z"/>
+				<polygon fill="#FFFFFF" points="407.86,92.898 403.868,87.516 413.572,74.488 427.366,92.898 				"/>
+				<path fill="#FFFFFF" d="M413.574,75.334l12.778,17.056h-18.236l-3.615-4.874L413.574,75.334 M413.572,73.64l-0.813,1.089
+					l-9.072,12.183l-0.449,0.604l0.449,0.606l3.613,4.873l0.305,0.41h0.513h18.237h2.029l-1.216-1.623L414.39,74.726L413.572,73.64
+					L413.572,73.64z"/>
+				<path fill="#FFFFFF" d="M373.438,92.898l37.833-50.699c0.116-0.138,2.375-2.707,5.783-2.707c1.615,0,3.213,0.584,4.748,1.734
+					c5.818,4.349,2.102,10.296,2.064,10.355L392.94,92.898H373.438z"/>
+				<path fill="#FFFFFF" d="M417.054,40c1.33,0,2.836,0.426,4.443,1.633c5.508,4.117,1.943,9.675,1.943,9.675l-30.755,41.084H374.45
+					l37.227-49.89C411.677,42.501,413.839,40,417.054,40 M417.054,38.987L417.054,38.987c-3.637,0-6.045,2.735-6.146,2.853
+					l-0.023,0.027l-0.021,0.029l-37.225,49.889l-1.211,1.621h2.023h18.235h0.508l0.304-0.406l30.75-41.083l0.023-0.029l0.02-0.03
+					c1.414-2.196,2.77-7.333-2.185-11.034C420.481,39.604,418.781,38.987,417.054,38.987L417.054,38.987z"/>
+				<path fill="none" stroke="#E63622" stroke-width="1.75" stroke-miterlimit="10" d="M416.819,38.343l-5.666,7.368
+					c-2.051,2.667-0.91,5.36,1.572,7.274c2.49,1.917,5.221,2.543,7.502-0.292l5.877-7.903"/>
+				<path fill="none" stroke="#E63622" stroke-width="1.75" stroke-miterlimit="10" d="M371.633,44.395l5.689,7.353
+					c2.059,2.662,4.953,2.244,7.437,0.323c2.486-1.924,3.782-4.404,1.557-7.282l-6.028-7.79"/>
+			</g>
+		</g> <!-- END IDIconResult_8 Sequence Check Error -->
+		
+		<g id="IDIconResult_9" display="none">
+			<g id="IDIconResult_9_Background">
+				<path fill="#E63622" d="M441.535,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.708c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.708c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+		</g> <!-- END IDIconResult_9 Future Error -->
+
+		
+		<g id="IDIconResult_10" display="none">
+			<g id="IDIconResult_10_Background">
+				<path fill="#E63622" d="M441.535,38.585c0-7.795-6.378-14.173-14.173-14.173h-54.708c-7.795,0-14.173,6.378-14.173,14.173v54.708
+					c0,7.795,6.378,14.173,14.173,14.173h54.708c7.795,0,14.173-6.378,14.173-14.173V38.585z"/>
+			</g>
+			<g id="IDIconResult_10_Symbol">
+				<path fill="#FFFFFF" d="M432.571,91.772c0,0.78-0.638,1.417-1.417,1.417h-62.293c-0.78,0-1.417-0.638-1.417-1.417v-4.383
+					c0-0.78,0.638-1.417,1.417-1.417h62.293c0.779,0,1.417,0.638,1.417,1.417V91.772z"/>
+				<rect x="387.501" y="58.546" fill="#FFFFFF" width="25.021" height="31.033"/>
+				<rect x="387.501" y="48.443" fill="#FFFFFF" width="25.021" height="6.355"/>
+				<rect x="387.501" y="41.49" fill="#FFFFFF" width="25.021" height="3.575"/>
+				<polygon id="ignorieren_3_" fill="#E63622" points="410.353,66.442 404.467,66.442 404.467,38.24 395.57,38.24 395.57,66.442 
+					389.671,66.442 400.012,78.984 		"/>
+			</g>
+		</g> <!-- END IDIconResult_10 compression error OBSOLETE-->			
+
+
+		
+		<g id="IDIconPeripherality_1" display="none"> <!-- Too far left -->
+			<path fill="#E63622" d="M441.527,38.51c0-7.795-6.377-14.173-14.172-14.173h-54.709c-7.795,0-14.173,6.378-14.173,14.173v54.707
+				c0,7.795,6.378,14.173,14.173,14.173h54.709c7.795,0,14.172-6.378,14.172-14.173V38.51L441.527,38.51z"/>
+			<polygon fill="#FFFFFF" points="419.998,56.498 419.998,62.384 399.795,62.384 399.795,71.281 419.998,71.281 
+				419.998,77.18 432.539,66.839 	"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="384.404" y1="99.506" x2="384.404" y2="103.023"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="384.404" y1="93.565" x2="384.404" y2="97.08"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="384.404" y1="87.937" x2="384.404" y2="91.453"/>
+			<path fill="#FFFFFF" d="M394.406,51.197c0-5.911-4.201-10.7-9.384-10.7c-5.186,0-9.388,4.789-9.388,10.7v40.53h18.771
+				L394.406,51.197L394.406,51.197z"/>
+			<path fill="none" stroke="#E43823" stroke-width="2" stroke-miterlimit="10" d="M378.971,39.838v10.789
+				c0,3.908,2.708,5.582,6.05,5.582s6.05-1.354,6.05-5.582V39.193"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="384.404" y1="41.274" x2="384.404" y2="44.79"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="384.404" y1="35.332" x2="384.404" y2="38.848"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="384.404" y1="29.704" x2="384.404" y2="33.221"/>
+		</g>
+		
+		<g id="IDIconPeripherality_2" display="none"> <!-- Too far right -->
+			<path fill="#E63622" d="M358.473,38.51c0-7.795,6.378-14.173,14.173-14.173h54.708c7.795,0,14.174,6.378,14.174,14.173v54.707
+				c0,7.795-6.379,14.173-14.174,14.173h-54.708c-7.795,0-14.173-6.378-14.173-14.173V38.51z"/>
+			<polygon fill="#FFFFFF" points="380.004,56.498 380.004,62.384 400.206,62.384 400.206,71.282 380.004,71.282 
+				380.004,77.18 367.462,66.839 	"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="415.597" y1="99.506" x2="415.597" y2="103.024"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="415.597" y1="93.566" x2="415.597" y2="97.081"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="415.597" y1="87.938" x2="415.597" y2="91.454"/>
+			<path fill="#FFFFFF" d="M405.595,51.198c0-5.911,4.201-10.7,9.383-10.7c5.187,0,9.39,4.789,9.39,10.7v40.53h-18.771
+				L405.595,51.198L405.595,51.198z"/>
+			<path fill="none" stroke="#E43823" stroke-width="2" stroke-miterlimit="10" d="M421.031,39.838v10.789
+				c0,3.908-2.71,5.582-6.052,5.582s-6.049-1.354-6.049-5.582V39.194"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="415.597" y1="41.275" x2="415.597" y2="44.79"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="415.597" y1="35.332" x2="415.597" y2="38.848"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="415.597" y1="29.705" x2="415.597" y2="33.221"/>
+		</g>
+		
+		<g id="IDIconPeripherality_4" display="none"> <!-- Too high -->
+			<path fill="#E63622" d="M441.527,38.51c0-7.795-6.377-14.173-14.172-14.173h-54.71c-7.795,0-14.173,6.378-14.173,14.173v54.707
+				c0,7.795,6.378,14.173,14.173,14.173h54.71c7.795,0,14.172-6.378,14.172-14.173V38.51z"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="433.025" y1="46.794" x2="436.543" y2="46.794"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="427.084" y1="46.794" x2="430.6" y2="46.794"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="421.457" y1="46.794" x2="424.973" y2="46.794"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="396.468" y1="46.794" x2="399.983" y2="46.794"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="390.526" y1="46.794" x2="394.043" y2="46.794"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="375.315" y1="46.794" x2="378.831" y2="46.794"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="369.374" y1="46.794" x2="372.891" y2="46.794"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="363.458" y1="46.794" x2="366.974" y2="46.794"/>
+			<path fill="#FFFFFF" d="M420.004,49.505c0-5.911-4.203-10.7-9.385-10.7c-5.187,0-9.388,4.789-9.388,10.7v43.798h18.771
+				L420.004,49.505L420.004,49.505z"/>
+			<path fill="none" stroke="#E43823" stroke-width="2" stroke-miterlimit="10" d="M404.568,38.147v10.789
+				c0,3.907,2.707,5.581,6.05,5.581c3.342,0,6.051-1.354,6.051-5.581V37.501"/>
+			<polygon fill="#FFFFFF" points="394.996,66.319 389.11,66.319 389.11,41.116 380.213,41.116 380.213,66.319 
+				374.314,66.319 384.655,78.861 	"/>
+		</g>
+		
+		<g id="IDIconPeripherality_5" display="none"> <!-- Too far left and too high -->
+			<path fill="#E63622" d="M358.473,38.51c0-7.795,6.379-14.173,14.174-14.173h54.709c7.795,0,14.172,6.378,14.172,14.173v54.707
+				c0,7.795-6.377,14.173-14.172,14.173h-54.709c-7.795,0-14.174-6.378-14.174-14.173V38.51z"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="375.871" y1="99.272" x2="375.871" y2="97.171"/>
+			<path fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" stroke-dasharray="4.1908,2.1951" d="
+				M375.871,94.978v-44.22c0-4.559,3.219-8.288,7.141-8.288h51.131"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="435.24" y1="42.471" x2="437.34" y2="42.471"/>
+			<polygon fill="#FFFFFF" points="413.053,59.002 408.891,63.164 400.234,54.506 393.941,60.797 402.6,69.456 
+				398.43,73.626 414.609,75.183 	"/>
+			<rect x="433.283" y="38.549" fill="#E63622" width="6.44" height="10.987"/>
+			<rect x="383.043" y="38.549" fill="#E63622" width="6.44" height="10.987"/>
+			<rect x="372.875" y="78.743" fill="#E63622" width="6.44" height="21.676"/>
+			<path fill="#FFFFFF" d="M387.91,44.102c0-5.911-4.203-10.7-9.386-10.7c-5.186,0-9.387,4.789-9.387,10.7V87.9h18.772V44.102z"/>
+			<path fill="none" stroke="#E43823" stroke-width="2" stroke-miterlimit="10" d="M372.475,32.742v10.789
+				c0,3.908,2.707,5.582,6.049,5.582c3.343,0,6.052-1.355,6.052-5.582V32.097"/>
+			<rect x="377.268" y="95.096" fill="#FFFFFF" width="2.512" height="4.177"/>
+			<rect x="377.268" y="89.436" fill="#FFFFFF" width="2.512" height="4.176"/>
+		</g>
+		
+		<g id="IDIconPeripherality_6" display="none"> <!-- Too far right and too high -->
+			<path fill="#E63622" d="M441.527,38.51c0-7.795-6.379-14.173-14.174-14.173h-54.709c-7.795,0-14.172,6.378-14.172,14.173v54.707
+				c0,7.795,6.377,14.173,14.172,14.173h54.709c7.795,0,14.174-6.378,14.174-14.173V38.51z"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="424.129" y1="101.115" x2="424.129" y2="99.014"/>
+			<path fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" stroke-dasharray="4.1908,2.1951" d="
+				M424.129,96.82V52.602c0-4.56-3.219-8.288-7.142-8.288h-51.131"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="364.76" y1="44.314" x2="362.66" y2="44.314"/>
+			<polygon fill="#FFFFFF" points="386.948,60.845 391.109,65.006 399.766,56.349 406.059,62.64 397.4,71.298 
+				401.57,75.469 385.391,77.027 	"/>
+			<rect x="360.275" y="38.549" fill="#E63622" width="6.441" height="10.987"/>
+			<rect x="410.516" y="38.549" fill="#E63622" width="6.441" height="10.987"/>
+			<rect x="420.908" y="80.535" fill="#E63622" width="6.44" height="21.676"/>
+			<path fill="#FFFFFF" d="M412.09,45.944c0-5.911,4.203-10.7,9.385-10.7c5.187,0,9.387,4.789,9.387,10.7v43.798H412.09V45.944z"/>
+			<path fill="none" stroke="#E43823" stroke-width="2" stroke-miterlimit="10" d="M427.525,34.585v10.789
+				c0,3.908-2.707,5.582-6.049,5.582s-6.051-1.354-6.051-5.582V33.94"/>
+			<rect x="420.221" y="96.887" fill="#FFFFFF" width="2.51" height="4.177"/>
+			<rect x="420.221" y="91.227" fill="#FFFFFF" width="2.51" height="4.176"/>
+		</g>
+		
+		
+		<g id="IDIconPeripherality_8" display="none"> <!--  Too low -->
+			<path fill="#E63622" d="M441.527,38.51c0-7.795-6.377-14.173-14.172-14.173h-54.71c-7.795,0-14.173,6.378-14.173,14.173v54.707
+				c0,7.795,6.378,14.173,14.173,14.173h54.71c7.795,0,14.172-6.378,14.172-14.173V38.51z"/>
+			<path fill="#FFFFFF" d="M420.004,66.819c0-5.911-4.203-10.7-9.385-10.7c-5.187,0-9.389,4.789-9.389,10.7V92.61h18.772
+				L420.004,66.819L420.004,66.819z"/>
+			<path fill="none" stroke="#E43823" stroke-width="2" stroke-miterlimit="10" d="M404.567,55.46v10.789
+				c0,3.908,2.708,5.582,6.051,5.582c3.342,0,6.051-1.355,6.051-5.582V54.815"/>
+			<rect x="362.402" y="58.002" fill="#E63622" width="26.75" height="6.625"/>
+			<polygon fill="#FFFFFF" points="374.315,53.985 380.201,53.985 380.201,80.187 389.099,80.187 389.099,53.985 
+				394.997,53.985 384.656,41.443 	"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="433.002" y1="62.261" x2="436.518" y2="62.261"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="427.061" y1="62.261" x2="430.576" y2="62.261"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="421.432" y1="62.261" x2="424.949" y2="62.261"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="396.443" y1="62.261" x2="399.96" y2="62.261"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="390.503" y1="62.261" x2="394.019" y2="62.261"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="375.291" y1="62.261" x2="378.807" y2="62.261"/>
+		
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="369.35" y1="62.261" x2="372.865" y2="62.261"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="363.434" y1="62.261" x2="366.949" y2="62.261"/>
+		</g>
+			
+
+			
+		<g id="IDIconPeripherality_9" display="none"> <!-- Randlage zu_weit_unten_links -->
+			<path fill="#E63622" d="M358.473,38.51c0-7.795,6.378-14.173,14.173-14.173h54.709c7.795,0,14.173,6.378,14.173,14.173v54.707
+				c0,7.795-6.378,14.173-14.173,14.173h-54.709c-7.795,0-14.173-6.378-14.173-14.173V38.51z"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="383.994" y1="26.777" x2="383.994" y2="28.877"/>
+			<path fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" stroke-dasharray="4.1544,2.1761" d="
+				M383.994,31.052V63.4c0,3.44,3.219,6.256,7.141,6.256h44.678"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="436.901" y1="69.656" x2="439.001" y2="69.656"/>
+			<polygon fill="#FFFFFF" points="395.99,42.169 400.15,46.331 391.494,54.989 397.785,61.281 406.443,52.622 
+				410.613,56.793 412.17,40.613 	"/>
+			<rect x="369.494" y="55.293" fill="#E63622" width="21.5" height="24.668"/>
+			<path fill="#FFFFFF" d="M371.721,67.463c0-5.911,4.201-10.7,9.383-10.7c5.187,0,9.39,4.789,9.39,10.7v27.082h-18.772V67.463z"/>
+			<path fill="none" stroke="#E43823" stroke-width="2" stroke-miterlimit="10" d="M387.156,56.105v10.789
+				c0,3.908-2.709,5.582-6.051,5.582s-6.049-1.354-6.049-5.582V55.459"/>
+			<rect x="380.244" y="26.716" fill="#E63622" width="8.416" height="3.578"/>
+			<rect x="435.809" y="68.11" fill="#E63622" width="5.535" height="3.577"/>
+		</g>
+
+		<g id="IDIconPeripherality_10" display="none"> <!-- Randlage zu_weit_unten_rechts -->
+			<path fill="#E63622" d="M441.528,38.51c0-7.795-6.377-14.173-14.172-14.173h-54.709c-7.796,0-14.175,6.378-14.175,14.173v54.707
+				c0,7.795,6.379,14.173,14.175,14.173h54.709c7.795,0,14.172-6.378,14.172-14.173V38.51z"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="416.007" y1="26.778" x2="416.007" y2="28.877"/>
+			<path fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" stroke-dasharray="4.1544,2.1761" d="
+				M416.007,31.053v32.348c0,3.44-3.219,6.256-7.141,6.256h-44.678"/>
+			<line fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-miterlimit="10" x1="363.099" y1="69.656" x2="361" y2="69.656"/>
+			<polygon fill="#FFFFFF" points="404.011,42.169 399.85,46.331 408.507,54.99 402.216,61.281 393.557,52.623 
+				389.387,56.793 387.831,40.614 	"/>
+			<rect x="409.007" y="55.293" fill="#E63622" width="21.5" height="24.668"/>
+			<path fill="#FFFFFF" d="M428.28,67.463c0-5.911-4.201-10.7-9.383-10.7c-5.187,0-9.39,4.789-9.39,10.7v27.082h18.771L428.28,67.463
+				L428.28,67.463z"/>
+			<path fill="none" stroke="#E43823" stroke-width="2" stroke-miterlimit="10" d="M412.845,56.106v10.789
+				c0,3.907,2.709,5.582,6.051,5.582c3.343,0,6.05-1.355,6.05-5.582V55.459"/>
+			<rect x="411.341" y="26.716" fill="#E63622" width="8.416" height="3.578"/>
+			<rect x="358.657" y="68.111" fill="#E63622" width="5.535" height="3.578"/>
+		</g>
+
+	</g> <!-- END IDIconPeripherality -->
+</g> <!-- END Icons -->
+
+</svg>

@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A5B8F0A9-1024-43AE-B856-ACC6688DC4BE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PrintsCapture.Device</RootNamespace>
+    <AssemblyName>PrintsCapture.Device</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Package|AnyCPU'">
+    <OutputPath>bin\Package\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class\AutoScan\CaptureAutoscan.cs" />
+    <Compile Include="Class\CaptureCompletedEventArgs.cs" />
+    <Compile Include="Class\CustomProperty.cs" />
+    <Compile Include="Class\CustomPropertyList.cs" />
+    <Compile Include="Class\DeviceConfigurationViewModel.cs" />
+    <Compile Include="Class\SdkException.cs" />
+    <Compile Include="Class\DevicePrintCaptureQuality.cs" />
+    <Compile Include="Class\DeviceViewModel.cs" />
+    <Compile Include="Class\SoundPlayer.cs" />
+    <Compile Include="DataLayer\DeviceSetting.cs" />
+    <Compile Include="DataLayer\DeviceSettingList.cs" />
+    <Compile Include="DataLayer\SettingValue.cs" />
+    <Compile Include="Enum\DeviceState.cs" />
+    <Compile Include="Enum\PrintQualityLevel.cs" />
+    <Compile Include="Enum\ScanResult.cs" />
+    <Compile Include="Enum\SdkErrorKind.cs" />
+    <Compile Include="Interface\ICaptureDevice.cs" />
+    <Compile Include="Interface\ICaptureSdk.cs" />
+    <Compile Include="Class\PrintCapturedEventArgs.cs" />
+    <Compile Include="Class\RangeElement.cs" />
+    <Compile Include="Class\ValueElement.cs" />
+    <Compile Include="Enum\CustomPropertyValueKind.cs" />
+    <Compile Include="Enum\DeviceOpenStatus.cs" />
+    <Compile Include="Enum\DeviceScanKind.cs" />
+    <Compile Include="Extension\DeviceCaptureExtension.cs" />
+    <Compile Include="Class\DeviceCaptureDriver.cs" />
+    <Compile Include="Extension\DeviceListExtension.cs" />
+    <Compile Include="Interface\ICardscanDevice.cs" />
+    <Compile Include="Interface\ILivescanDevice.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Sounds\Beep.wav" />
+    <Resource Include="Sounds\ErrorBeep.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PrintsCapture.Prints\PrintsCapture.Prints.csproj">
+      <Project>{8edb9dde-268e-4cc6-8c60-4c2576d08740}</Project>
+      <Name>PrintsCapture.Prints</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

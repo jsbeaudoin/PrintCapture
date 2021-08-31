@@ -1,0 +1,144 @@
+﻿<Window x:Class="PrintsCapture.Livescan.View.ConfigurationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        
+        Title="{x:Static lng:CommonText.ConfigurationWindowTitle}" Width="424"   
+        DataContext="{Binding DeviceConfiguration, RelativeSource={RelativeSource Self}}"
+        mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lng="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+        xmlns:livescan="clr-namespace:PrintsCapture.Livescan"       
+        xmlns:converter1="clr-namespace:XL_ID.Utilities.Wpf.Converter;assembly=XL_ID.Utilities.Wpf"
+        Topmost="True"
+        WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+
+    <Window.Resources>
+        <LinearGradientBrush x:Key="ToggleOnBrush" EndPoint="0,1"
+        	StartPoint="0,0">
+            <GradientStop Color="#FF106011"
+        		Offset="0" />
+            <GradientStop Color="#FF1DB43B"
+        		Offset="0.496" />
+            <GradientStop Color="#FF62FE7A"
+        		Offset="1" />
+        </LinearGradientBrush>
+        <ControlTemplate x:Key="CheckOnTemplate">
+            <Border Background="{StaticResource ToggleOnBrush}" CornerRadius="5">
+                <Label Foreground="White" Content="On"/>
+            </Border>
+        </ControlTemplate>
+        <LinearGradientBrush x:Key="ToggleOffBrush"
+        	EndPoint="0,1"
+        	StartPoint="0,0">
+            <GradientStop Color="#FF81230E" />
+            <GradientStop Color="#FFF15910"
+        		Offset="0.365" />
+            <GradientStop Color="#FFF5A782"
+        		Offset="1" />
+        </LinearGradientBrush>
+        <ControlTemplate x:Key="CheckOffTemplate">
+            <Border Background="{StaticResource ToggleOffBrush}" CornerRadius="5">
+                <Label Content="Off"/>
+            </Border>
+        </ControlTemplate>
+        <Style x:Key="ToggleOnOff" TargetType="{x:Type CheckBox}">
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Template" Value="{StaticResource CheckOnTemplate}"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Template" Value="{StaticResource CheckOffTemplate}" />
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="75"></Setter>
+            <Setter Property="Height" Value="23"></Setter>
+        </Style>
+        <Style x:Key="LargeButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="Width" Value="150"></Setter>
+        </Style>
+
+        <converter1:StringUriToBitmapImageConverter x:Key="StringToSourceConverter"></converter1:StringUriToBitmapImageConverter>
+    </Window.Resources>
+    <StackPanel>
+
+        <Label HorizontalAlignment="Center" FontWeight="Bold" Content="{x:Static lng:CommonText.Options}"/>
+        <Image HorizontalAlignment="Center" Height="64" Width="64" Source="{Binding SelectedDevice.Key.ImageUri, Converter={StaticResource StringToSourceConverter},
+            ConverterParameter='pack://application:,,,/PrintsCapture.Livescan;component/Images/LivescanVirtual.png'}"></Image>
+
+
+        <Label Content="{x:Static lng:CommonText.Device}" Height="28" Margin="12,0"  />
+
+        <Grid Margin="50,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="10"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"></RowDefinition>
+                <RowDefinition Height="150"></RowDefinition>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="{x:Static lng:CommonText.Scanner}" Height="28" HorizontalAlignment="Left"  />
+            <ComboBox Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="5" Name="ScannerComboBox" ItemsSource="{Binding DeviceList}" DisplayMemberPath="Label" SelectedValue="{Binding SelectedDevice}" SelectionChanged="ScannerComboBox_SelectionChanged" />
+
+            <Button Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Style="{StaticResource ButtonStyle}" Margin="35,5,15,0" Click="ButtonAutoDetectClick" Height="Auto">Auto-Detect</Button>
+
+            <Label  Grid.Row="3" Grid.Column="0" Content="Options"  />
+            <Border  Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="5" BorderBrush="Black" BorderThickness="1">
+                <ScrollViewer >
+                    <ItemsControl ItemsSource="{Binding DeviceProperties}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="livescan:DeviceProperty">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding Label}" Tag="{Binding}" Width="180" VerticalAlignment="Center" MouseDoubleClick="ParameterDoubleClick"></Label>
+                                    <TextBox Text="{Binding Value}" Width="80" Visibility="{Binding TextBoxVisibility}" VerticalAlignment="Center"></TextBox>
+                                    <CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding CheckBoxVisibility}" VerticalAlignment="Center"></CheckBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+
+            <Label Grid.Row="7" Grid.Column="0" Content="{x:Static lng:CommonText.Resolutions}"  />
+
+            <Label Grid.Row="7" Grid.Column="2" Content="{x:Static lng:CommonText.Fingers}" />
+            <ComboBox Grid.Row="7" Grid.Column="3" ItemsSource="{Binding Resolutions}" SelectedValue="{Binding FingerResolution}" DisplayMemberPath="Label" />
+
+            <Label Grid.Row="7" Grid.Column="5" Content="{x:Static lng:CommonText.Palms}" />
+            <ComboBox Grid.Row="7" Grid.Column="6" ItemsSource="{Binding Resolutions}" DisplayMemberPath="Label" SelectedValue="{Binding PalmResolution}" IsEnabled="{Binding SupportPalms}" />
+
+            <Border  Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="5" BorderThickness="1" BorderBrush="Black">
+                <Expander Header="{x:Static lng:CommonText.AdvancedDeviceOption}">
+                    <StackPanel>
+                        <Button Style="{StaticResource LargeButtonStyle}" Click="ButtonDeviceClose" Margin="0,10" Content="{x:Static lng:CommonText.DeviceClose}"></Button>
+                        <Button Style="{StaticResource LargeButtonStyle}" Click="ButtonDeviceExternalTool" Margin="0,10" Content="{x:Static lng:CommonText.DeviceExternalTool}"></Button>
+                    </StackPanel>
+
+                </Expander>
+            </Border>
+
+        </Grid>
+        <Label Name="DeviceMessagesLabel" Foreground="Red" HorizontalAlignment="Center" FontWeight="Bold"></Label>
+        <Grid Margin="20,20,20,5">
+            <Button Content="{x:Static lng:CommonText.Cancel}" Style="{StaticResource ButtonStyle}" HorizontalAlignment="Left" Name="btnCancel" VerticalAlignment="Bottom" Click="btnCancel_Click" />
+            <Button Content="{x:Static lng:CommonText.Accept}" Style="{StaticResource ButtonStyle}" Name="btnAccept" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="btnAccept_Click" />
+        </Grid>
+
+    </StackPanel>
+</Window>

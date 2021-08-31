@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neurotec.Biometrics.Tools</name>
+    </assembly>
+    <members>
+        <member name="T:Neurotec.Biometrics.Tools.NBiometricTools">
+            Summary
+            Provides method for retrieving information about the library.
+        </member>
+        <member name="F:Neurotec.Biometrics.Tools.NBiometricTools.DllName">
+            <summary>Name of DLL containing unmanaged part of this class.</summary>
+        </member>
+        <member name="M:Neurotec.Biometrics.Tools.NBiometricTools.GetInfo">
+            <summary>Retrieves information about the library.</summary>
+            <returns>Returns NLibraryInfo structure with library information.</returns>
+        </member>
+        <member name="P:Neurotec.Biometrics.Tools.NBiometricTools.NativeModule">
+            <summary>
+            Defines the native type of the object.
+            </summary>
+        </member>
+        <member name="T:Neurotec.Biometrics.Tools.NFClassifier">
+            <summary>
+            Provides functionality for fingerprints classification.
+            </summary>
+            <remarks>
+            The functionality of the NFClassifier can be accessed from
+            the Neurotec.Biometrics.NFClassifier.dll which is a wrapper
+            of the NFClassifier.dll.
+            
+            NFClassifier can classify into one of the following pattern
+            classes: Left slant loop, Right slant loop, Scar, Tented
+            arch, Whorl and Plain arch. If NFClassifier failed to
+            determine pattern class <i>Unknown</i> pattern class is
+            assigned.
+            </remarks>                                                 
+        </member>
+        <member name="M:Neurotec.Biometrics.Tools.NFClassifier.#ctor">
+            <summary>Initializes a new instance of the NFClassifier class.</summary>
+        </member>
+        <member name="M:Neurotec.Biometrics.Tools.NFClassifier.Classify(Neurotec.Images.NGrayscaleImage,System.Double@)">
+            <summary>
+            Classifies fingerprint to the NFPatternClass fingerprint
+            class.
+            </summary>
+            <param name="image">The NGrayscaleImage image.</param>
+            <param name="confidence">Value range are from 1 to 0. Good
+                                     confidence corresponds to 1 and bad
+                                     confidence corresponds to 0.</param>
+            <returns>
+            One of the NFPatternClass value.
+            </returns>                                                   
+        </member>
+        <member name="M:Neurotec.Biometrics.Tools.NFClassifier.Classify(Neurotec.Images.NGrayscaleImage)">
+            <summary>
+            Classifies fingerprint to the NFPatternClass fingerprint
+            class.
+            </summary>
+            <param name="image">The NGrayscaleImage image.</param>
+            <returns>
+            One of the NFPatternClass value.
+            </returns>                                              
+        </member>
+        <member name="P:Neurotec.Biometrics.Tools.NFClassifier.NativeType">
+            <summary>
+            Defines the native type of the object.
+            </summary>
+        </member>
+        <member name="T:Neurotec.Biometrics.Tools.NfiqQuality">
+            <summary>
+            Specifies the quality of a fingerprint image.
+            </summary>
+        </member>
+        <member name="F:Neurotec.Biometrics.Tools.NfiqQuality.Poor">
+            <summary>
+            Poor fingerprint image quality.
+            </summary>
+        </member>
+        <member name="F:Neurotec.Biometrics.Tools.NfiqQuality.Fair">
+            <summary>
+            Fair fingerprint image quality.
+            </summary>
+        </member>
+        <member name="F:Neurotec.Biometrics.Tools.NfiqQuality.Good">
+            <summary>
+            Good fingerprint image quality.
+            </summary>
+        </member>
+        <member name="F:Neurotec.Biometrics.Tools.NfiqQuality.VeryGood">
+            <summary>
+            Very good fingerprint image quality.
+            </summary>
+        </member>
+        <member name="F:Neurotec.Biometrics.Tools.NfiqQuality.Excellent">
+            <summary>
+            Excellent fingerprint image quality.
+            </summary>
+        </member>
+        <member name="T:Neurotec.Biometrics.Tools.Nfiq">
+            <summary>
+            Provides functionality for evaluating the quality of a
+            fingerprint image.
+            </summary>
+            <remarks>
+            The functionality of the Nfiq can be accessed from the
+            Neurotec.Biometrics.Nfiq.dll which is a wrapper of the
+            Nfiq.dll. 
+            </remarks>
+        </member>
+        <member name="M:Neurotec.Biometrics.Tools.Nfiq.Compute(Neurotec.Images.NGrayscaleImage)">
+            <summary>
+            Calculates the quality of a given fingerprint image.
+            </summary>
+            <param name="image">Fingerprint image.</param>
+            <returns>
+            The quality of the fingerprint image.
+            </returns>                                          
+        </member>
+        <member name="P:Neurotec.Biometrics.Tools.Nfiq.NativeType">
+            <summary>
+            Defines the native type of the object.
+            </summary>
+        </member>
+        <member name="P:Neurotec.Biometrics.Tools.Nfiq.NfiqQualityNativeType">
+            <summary>
+            Defines the native type of the fingerprint image quality.
+            </summary>
+        </member>
+    </members>
+</doc>

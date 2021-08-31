@@ -1,0 +1,17 @@
+﻿<Window x:Class="PrintsCapture.Livescan.View.EndorsementSelectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:language="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}"
+        ResizeMode="NoResize"
+        Title="{x:Static language:CommonText.EndorsementTitle}" Height="100" Width="300" WindowStartupLocation="CenterScreen">
+    <DockPanel>        
+        <Button DockPanel.Dock="Bottom" Width="100" Margin="5" Content="{x:Static language:CommonText.Accept}" Click="AcceptButtonClick" ></Button>
+        <ComboBox             
+            DockPanel.Dock="Bottom" 
+                  SelectedValue="{Binding SelectedFinger}" 
+                  ItemsSource="{Binding FingerList}"
+                  DisplayMemberPath="Name"></ComboBox>
+        <TextBlock></TextBlock>
+    </DockPanel>
+</Window>

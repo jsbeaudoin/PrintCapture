@@ -1,0 +1,427 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neurotec.Biometrics.Ffv</name>
+    </assembly>
+    <members>
+        <member name="T:Neurotec.Biometrics.Ffv.NffvStatus">
+            <summary>
+            Enumerates enrollment or verification status values. 
+            </summary>                                           
+        </member>
+        <member name="F:Neurotec.Biometrics.Ffv.NffvStatus.TemplateCreated">
+            Indicates that no status is defined.
+        </member>
+        <member name="F:Neurotec.Biometrics.Ffv.NffvStatus.NoScanner">
+            Indicates that the fingerprint template was created.
+        </member>
+        <member name="F:Neurotec.Biometrics.Ffv.NffvStatus.ScannerTimeout">
+            Indicates that there is no fingerprint scanner connected.
+        </member>
+        <member name="F:Neurotec.Biometrics.Ffv.NffvStatus.UserCanceled">
+            Indicates that the fingerprint scanner has reached the
+            timeout.                                              
+        </member>
+        <member name="F:Neurotec.Biometrics.Ffv.NffvStatus.QualityCheckFailed">
+            Indicates that a user has canceled a fingerprint scanning.
+        </member>
+        <member name="T:Neurotec.Biometrics.Ffv.Nffv">
+            <summary>
+            The main class of the Free Fingerprint Verification SDK.
+            Provides methods and properties for working with user
+            collection and enrolling or verifying user fingerprints.
+            </summary>                                              
+        </member>
+        <member name="F:Neurotec.Biometrics.Ffv.Nffv.DllName">
+            <summary>
+            The name of a dynamic-linked library which contains unmanaged
+            functionality of the Free Fingerprint Verification SDK. 
+            </summary>                                                   
+        </member>
+        <member name="F:Neurotec.Biometrics.Ffv.Nffv.MaxUserCount">
+            <summary>
+            The maximum number of users that can be enrolled to a
+            database.
+            </summary>
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.GetInfo">
+            <summary>Retrieves information about the library.</summary>
+            <returns>Returns NLibraryInfo structure with library information.</returns>
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.GetAvailableScannerModules">
+            <summary>
+            Returns available fingerprint scanner modules for usage in the Free Fingerprint Verification SDK.
+            </summary>
+            <returns>
+            A string that contains the list of scanners separated by semicolons.
+            </returns>
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the Nffv class. During the
+            initialization a new database is created or used previously
+            created.
+            </summary>
+            <param name="dbName">A name of database. This
+                                 database will be used to save
+                                 user fingerprints. The database
+                                 will be saved to a working
+                                 folder as a file.</param>
+            <example>
+            This C# example code demonstrates how to create a new
+            instance of the Nffv calss.
+            <code lang="c#">
+            string dbName = "FingerprintsDatabase.dat";
+            
+            Neurotec.Biometrics.Nffv engine = null;
+            
+            //Creates a new instance of the Nffv class
+            engine = new Neurotec.Biometrics.Nffv(dbName);
+            </code>
+            The same example code for VB.NET:
+            <code lang="vb.net">
+            Dim dbName As String = "FingerprintsDatabase.dat"
+            
+            Dim engine As Global.Neurotec.Biometrics.Nffv = Nothing
+            
+            engine = New Global.Neurotec.Biometrics.Nffv(dbName)
+            </code>
+            </example>
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the Nffv class. During the
+            initialization a new database is created or used previously
+            created.
+            </summary>
+            <param name="dbName">A name of database. This
+                                 database will be used to save
+                                 user fingerprints. The database
+                                 will be saved to a working
+                                 folder as a file.</param>
+            <param name="password">A database password. If you
+                                   don't want to protect a
+                                   database by password, use an
+                                   empty string as a password.</param>
+            <param name="scannerModules">Semicolon-separated scanner module list to initialize</param>
+            <example>
+            This C# example code demonstrates how to create a new
+            instance of the Nffv calss.
+            <code lang="c#">
+            string dbName = "FingerprintsDatabase.dat";
+            string password = "passwd";
+            
+            Neurotec.Biometrics.Nffv engine = null;
+            
+            //Creates a new instance of the Nffv class
+            engine = new Neurotec.Biometrics.Nffv(dbName, password, scannerModules);
+            </code>
+            The same example code for VB.NET:
+            <code lang="vb.net">
+            Dim dbName As String = "FingerprintsDatabase.dat"
+            Dim password As String = "passwd"
+            
+            Dim engine As Global.Neurotec.Biometrics.Nffv = Nothing
+            
+            engine = New Global.Neurotec.Biometrics.Nffv(dbName, password, scannerModules)
+            </code>
+            </example>
+            <remarks>
+            For the list of available fingerprint scanners see chapter
+            Supported Scanners. 
+            </remarks>                                                              
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.GetUserById(System.Int32)">
+            <summary>
+            Returns a user details by the Id from the UserCollection.
+            </summary>
+            <returns>
+            A reference to the NffvUser object that contains an
+            information about a user indicated by Id.
+            </returns>
+            <param name="id">User's identification number in a
+                             collection.</param>                      
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.Enroll(System.Int32,Neurotec.Biometrics.Ffv.NffvStatus@)">
+            <summary>
+            Gets a fingerprint from a scanner and saves it to a database.
+            </summary>
+            <param name="timeout">Specifies the time in milliseconds
+                                  after which the fingerprint scanner
+                                  stops scanning fingerprint. This
+                                  usually happens when a finger is
+                                  removed from a scanner for longer than
+                                  <i>timeout</i> milliseconds.</param>
+            <param name="status">Enrollment status value indicated by
+                                 one of the value enumerated in
+                                 NffvStatus.</param>
+            <returns>
+            A reference to NffvUser object which provides methods for
+            managing enrolled users.
+            
+            If there were problem enrolling a fingerprint, the method
+            \returns a zero pointer.
+            </returns>
+            <example>
+            This C# example demonstrates the usage of the <i>Enroll</i>
+            method:
+            <code lang="c#">
+            //Field that holds a reference to Nffv object
+            Nffv engine;
+            
+            //Internal class that saves the result of fingerprint enrolment
+            \internal class EnrollmentResult
+            {
+                public NffvStatus engineStatus;
+                public NffvUser engineUser;
+            };
+            
+            //Method used for a fingerprint enrollment
+            public void doEnroll(object sender, DoWorkEventArgs args)
+            {
+                EnrollmentResult enrollmentResults = new EnrollmentResult();
+                enrollmentResults.engineUser = engine.Enroll(20000, out enrollmentResults.engineStatus);
+                args.Result = enrollmentResults;
+            }
+            </code>
+            
+            </example>                                                                                  
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.Verify(Neurotec.Biometrics.Ffv.NffvUser,System.Int32,Neurotec.Biometrics.Ffv.NffvStatus@)">
+            <summary>
+            Compares a captured fingerprint with the one that was
+            enrolled to a database before in order to determine whether
+            two match.
+            </summary>
+            <param name="user">A reference to a database record that
+                               should be matched with the scanned
+                               fingerprint.</param>
+            <param name="timeout">Specifies the time in milliseconds
+                                  after which the fingerprint scanner
+                                  stops scanning fingerprint. This
+                                  usually happens when a finger is
+                                  removed from a scanner for longer than
+                                  <i>timeout</i> milliseconds.</param>
+            <param name="status">The verification status value
+                                 indicated by one of the value
+                                 enumerated in NffvStatus.</param>
+            <returns>
+            This function returns a matching score.
+            </returns>
+            <example>
+            This C# sample code demonstrates how to verify two
+            fingerprints.
+            <code lang="c#">
+            Nffv engine;
+            
+            //An internal class that saves the verification result
+            \internal class VerificationResult
+            {
+                public NffvStatus engineStatus;
+                public int score;
+            };
+            
+            public void doVerify(object sender, DoWorkEventArgs args)
+            {
+                VerificationResult verificationResult = new VerificationResult();
+                verificationResult.score = engine.Verify((NffvUser)args.Argument, 20000, out verificationResult.engineStatus);
+                args.Result = verificationResult;
+            }
+            </code>
+            \Note that it isn't a complete code that can be used in your
+            application.
+            
+            For a complete code see the C# Sample application. 
+            </example>                                                                                                        
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.Cancel">
+            <summary>
+            Cancels a fingerprint enrollment or verification operation.
+            </summary>
+            <remarks>
+            This method is useful when the fingerprint enrollment or
+            verification operation take too long. In this case a message
+            box can be shown for a user to cancel this operation.
+            </remarks>
+            <example>
+            This C# code demonstrates how to cancel enrollment or
+            verification operation:
+            <code lang="c#">
+            Nffv engine;
+            
+            engine.Cancel();
+            </code>
+            The same code using VB.NET notation:
+            <code lang="vb.net">
+            Private engine As Nffv
+            
+            engine.Cancel()
+            </code>
+            </example>                                                  
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the Nffv.
+            </summary>                          
+        </member>
+        <member name="P:Neurotec.Biometrics.Ffv.Nffv.NativeModule">
+            <summary>
+            Gets or sets a pointer to the function that retrieves NModule object for the specified module name.
+            </summary>
+            <value>
+            A pointer to the function that retrieves NModule object for the specified module name.
+            </value>                                                                                           
+        </member>
+        <member name="P:Neurotec.Biometrics.Ffv.Nffv.NativeType">
+            <summary>
+            Defines the native type of the object.
+            </summary>
+        </member>
+        <member name="P:Neurotec.Biometrics.Ffv.Nffv.NffvStatusNativeType">
+            <summary>
+            Defines the native type of the FFV status.
+            </summary>
+        </member>
+        <member name="P:Neurotec.Biometrics.Ffv.Nffv.QualityThreshold">
+            <summary>
+            Gets or sets image quality threshold.
+            </summary>
+            <value>
+            The fingerprint quality threshold. The value should be in
+            range [0, 255]. The default value is 100.
+            </value>                                                 
+        </member>
+        <member name="P:Neurotec.Biometrics.Ffv.Nffv.MatchingThreshold">
+            <summary>
+            Gets or sets the minimum similarity value that verification
+            method uses to determine whether the fingerprint matches.
+            </summary>
+            <value>
+            The minimum similarity value that verification function
+            accept for the same finger fingerprints. The default value is
+            0.01 %. 
+            </value>                                                     
+        </member>
+        <member name="P:Neurotec.Biometrics.Ffv.Nffv.Users">
+            <summary>
+            Gets or sets the users of the application.
+            </summary>
+        </member>
+        <member name="T:Neurotec.Biometrics.Ffv.Nffv.UserCollection">
+            <summary>
+            Represents a collection of NffvUsers objects that represent
+            the user fingerprints enrolled to a database.
+            </summary>
+            Note
+            This class is a sealed class, so it has a limited
+            extensibility (other classes cannot inherit from it).      
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.UserCollection.IndexOf(System.Int32)">
+            <summary>
+            \Returns an index of the UserCollection item specified by Id.
+            </summary>
+            <param name="id">The Id of a user to search in a collection.</param>
+            <returns>
+            A collection index of a user specified by Id.
+            </returns>                                                          
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.Nffv.UserCollection.Contains(System.Int32)">
+            <summary>
+            \Returns a Boolean value indicating whether a UserCollection
+            object contains an element with a specified key.
+            </summary>
+            <param name="id">An integer value that specifies the Id for
+                             which to search the element of the
+                             collection.</param>
+            <returns>
+            A Boolean value indicating whether the UserCollection
+            contains an elements with the specified Id.
+            
+            If the return value is True, the collection contains an
+            element with an Id specified. Otherwise, the return value is
+            False.
+            </returns>
+            <example>
+            This C# example demonstrates how to use this method:
+            <code lang="c#">
+            int id = 3;
+            
+            if UserCollection.Contains(id)
+               MsgBox("The desired user is in collection");
+            else
+               MsgBox("The desired user was not find in a collection");
+            </code>
+            The VB.NET code this method:
+            <code lang="vb.net">
+            Dim id As Integer = 3
+            
+            If UserCollection.Contains(id) Then
+                MsgBox("The desired user is in the collection.")
+            Else
+                MsgBox("The desired user was not find in the collection.")
+            End If
+            </code>
+            
+            </example>                                                    
+        </member>
+        <member name="T:Neurotec.Biometrics.Ffv.NffvUser">
+            <summary>
+            Provides methods and properties for working with users. 
+            </summary>                                              
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.NffvUser.GetRecord">
+            <summary>
+            Gets record of user fingerprint enrolled to database.
+            </summary>
+            <returns>
+            User fingerprint record (NFRecord).
+            </returns>                                           
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.NffvUser.GetImage">
+            <summary>
+            Gets a user's fingerprint image which was enrolled to a database.
+            </summary>
+            <returns>
+            NImage containing user fingerprint.
+            </returns>                                                       
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.NffvUser.GetOriginalImage">
+            <summary>
+            Gets original user's fingerprint image which was enrolled to a database.
+            </summary>
+            <returns>
+            NImage containing user fingerprint. 
+            </returns>                                                              
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.NffvUser.GetHBitmap">
+            <summary>
+            \Returns a handle to the bitmap of the last scanned
+            fingerprint.
+            </summary>
+            <returns>
+            A pointer to Bitmap object.
+            </returns>                                         
+        </member>
+        <member name="M:Neurotec.Biometrics.Ffv.NffvUser.GetBitmap">
+            <summary>
+            \Returns the bitmap of the last scanned fingerprint.
+            </summary>
+            <returns>
+            A Bitmap object.
+            </returns>                                          
+        </member>
+        <member name="P:Neurotec.Biometrics.Ffv.NffvUser.NativeType">
+            <summary>
+            Defines the native type of the object.
+            </summary>
+        </member>
+        <member name="P:Neurotec.Biometrics.Ffv.NffvUser.Id">
+            <summary>
+            Gets user Id.
+            </summary>
+            <value>
+            User Id.
+            </value>     
+        </member>
+    </members>
+</doc>

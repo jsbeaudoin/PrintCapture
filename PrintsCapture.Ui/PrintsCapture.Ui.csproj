@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{70746EB1-2C31-450F-A2F1-8304F41A72FC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PrintsCapture.Ui</RootNamespace>
+    <AssemblyName>PrintsCapture.Ui</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Package|AnyCPU'">
+    <OutputPath>bin\Package\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ServiceBus, Version=2.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.ServiceBus.2.7.5\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.0.1\lib\net40\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RemoteModules">
+      <HintPath>..\packages\XL-ID.RemoteModules.0.2.5\lib\Net40\RemoteModules.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UniBIO.Services.Communication, Version=1.1.22.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Communication\UniBIO.Services.Communication.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="XL-ID.Utilities, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XL-ID.Utilities.1.4.17\lib\net40\XL-ID.Utilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XL-ID.Utilities.SearchFilters, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XL-ID.Utilities.SearchFilters.1.0.3\lib\net40\XL-ID.Utilities.SearchFilters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XL_ID.Utilities.Wpf, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XL-ID.Utilities.Wpf.1.0.9\lib\net40\XL_ID.Utilities.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extension\EnumFlagExtension.cs" />
+    <Compile Include="Service\MissingReasonService.cs" />
+    <Compile Include="Service\PalmUserValidationService.cs" />
+    <Compile Include="Class\PluginLoader.cs" />
+    <Compile Include="Exceptions\PluginPathNotFoundException.cs" />
+    <Compile Include="Class\App\PrintCaptureAppLog.cs" />
+    <Compile Include="Class\DelayedOperation.cs" />
+    <Compile Include="Class\App\PrintCaptureApp.cs" />
+    <Compile Include="Class\App\PrintCaptureAppParameter.cs" />
+    <Compile Include="Class\App\PrintCaptureAppSettings.cs" />
+    <Compile Include="Service\PrintOperationService.cs" />
+    <Compile Include="Class\PrintValidationChangedDelayed.cs" />
+    <Compile Include="Class\Wizard\PrintCaptureWizard.cs" />
+    <Compile Include="Converter\PrintCaptureGroupConverter.cs" />
+    <Compile Include="Converter\PrintQualityDescriptor.cs" />
+    <Compile Include="Converter\PrintSequenceScoreDescriptor.cs" />
+    <Compile Include="Converter\QualityToGaugeConverter.cs" />
+    <Compile Include="Converter\RectangleToMarginConverter.cs" />
+    <Compile Include="Converter\SequenceCheckToGaugeConverter.cs" />
+    <Compile Include="Data\RangeDescriptor.cs" />
+    <Compile Include="Exceptions\LiveScanException.cs" />
+    <Compile Include="Extension\DependancyObjectExtension.cs" />
+    <Compile Include="Extension\DialogExtension.cs" />
+    <Compile Include="Extension\ListExtension.cs" />
+    <Compile Include="Language\Text.Designer.cs">
+      <DependentUpon>Text.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Print\PrintAction.cs" />
+    <Compile Include="Class\PrintCaptureDriver.cs" />
+    <Compile Include="Print\ScanCompletedEventArgs.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="UserControls\Class\PrintClickEventArgs.cs" />
+    <Compile Include="UserControls\Class\PrintContextMenuClickArgs.cs" />
+    <Compile Include="UserControls\HandConditionControl.xaml.cs">
+      <DependentUpon>HandConditionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PrintGridControl.xaml.cs">
+      <DependentUpon>PrintGridControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Class\ToggleGroupHandler.cs" />
+    <Compile Include="ViewModel\MissingReasonViewModel.cs" />
+    <Compile Include="ViewModel\PalmQualityControlViewModel.cs" />
+    <Compile Include="ViewModel\RulesViewModel.cs" />
+    <Compile Include="ViewModel\EndorsementConsentViewModel.cs" />
+    <Compile Include="ViewModel\EndorsementFingerCaptureViewModel.cs" />
+    <Compile Include="ViewModel\FingerPresenceViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PrintGridViewModel.cs" />
+    <Compile Include="ViewModel\PrintZoomViewModel.cs" />
+    <Compile Include="ViewModel\Wizard\WizardActionItem.cs" />
+    <Compile Include="ViewModel\Wizard\WizardConclusionPrintViewModel.cs" />
+    <Compile Include="ViewModel\Wizard\WizardConclusionSegmentViewModel.cs" />
+    <Compile Include="ViewModel\Wizard\WizardConclusionViewModel.cs" />
+    <Compile Include="ViewModel\Wizard\WizardOptionViewModel.cs" />
+    <Compile Include="ViewModel\Wizard\WizardPrintViewModel.cs" />
+    <Compile Include="View\EndorsementConsentWindow.xaml.cs">
+      <DependentUpon>EndorsementConsentWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FingerPresenceWindow.xaml.cs">
+      <DependentUpon>FingerPresenceWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PalmQualityControlWindow.xaml.cs">
+      <DependentUpon>PalmQualityControlWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PrintZoomWindow.xaml.cs">
+      <DependentUpon>PrintZoomWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wizard\WizardConclusionWindow.xaml.cs">
+      <DependentUpon>WizardConclusionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wizard\WizardOptionWindow.xaml.cs">
+      <DependentUpon>WizardOptionWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="UserControls\HandConditionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\PrintGridControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\EndorsementConsentWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FingerPresenceWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PalmQualityControlWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PrintZoomWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wizard\WizardConclusionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Wizard\WizardOptionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Language\Text.fr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Language\Text.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Text.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\14circled16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\20circled16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\4Circled16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Accept32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\blank-print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Copy16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\copy32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit-rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gauge1On5_trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gauge2On5_trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gauge3On5_trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gauge4On5_trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Gauge5On5_Trans.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GreenButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LivescanCapture32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OrangeButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Rename16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ReSend32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\reset32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Setting32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\StatusError.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\StatusMIssing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\StatusModified.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\StatusOk.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\StatusSwapped.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\StatusUnknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\swappedGreenButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\swappedRedButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PrintsCapture.Cardscan\PrintsCapture.Cardscan.csproj">
+      <Project>{1399caee-4982-4d21-9255-279666ebb918}</Project>
+      <Name>PrintsCapture.Cardscan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrintsCapture.Device\PrintsCapture.Device.csproj">
+      <Project>{a5b8f0a9-1024-43ae-b856-acc6688dc4be}</Project>
+      <Name>PrintsCapture.Device</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrintsCapture.Livescan\PrintsCapture.Livescan.csproj">
+      <Project>{395f4ae8-b4c0-4a44-9d6a-6bd7b41532c0}</Project>
+      <Name>PrintsCapture.Livescan</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrintsCapture.LocalAwSeqCheck\PrintsCapture.LocalAwSeqCheck.csproj">
+      <Project>{C0B173C4-F5A1-4B7E-AAE0-15C83E60672E}</Project>
+      <Name>PrintsCapture.LocalAwSeqCheck</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrintsCapture.Prints\PrintsCapture.Prints.csproj">
+      <Project>{8edb9dde-268e-4cc6-8c60-4c2576d08740}</Project>
+      <Name>PrintsCapture.Prints</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ConsentText32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Info32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Logo UniDAC civil_small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Logo UniDAC civil_small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ServiceConnected16x16.png" />
+    <Resource Include="Images\ServiceDisconnected16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Reposition32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SaveExpectedPrint16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CardscanDevice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LivescanDevice.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DialogOk32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Wiz-LeftHand.png" />
+    <Resource Include="Images\Wiz-LeftThumb.png" />
+    <Resource Include="Images\Wiz-RightHand.png" />
+    <Resource Include="Images\Wiz-RightThumb.png" />
+    <Resource Include="Images\Wiz-TwoThumbs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Wiz-fingers-LeftIndex.png" />
+    <Resource Include="Images\Wiz-fingers-LeftLittle.png" />
+    <Resource Include="Images\Wiz-fingers-LeftMiddle.png" />
+    <Resource Include="Images\Wiz-fingers-LeftRing.png" />
+    <Resource Include="Images\Wiz-fingers-RightIndex.png" />
+    <Resource Include="Images\Wiz-fingers-RightLittle.png" />
+    <Resource Include="Images\Wiz-fingers-RightMiddle.png" />
+    <Resource Include="Images\Wiz-fingers-RightRing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Wiz-Palm-LeftHypothenar.png" />
+    <Resource Include="Images\Wiz-Palm-LeftLower.png" />
+    <Resource Include="Images\Wiz-Palm-LeftUpper.png" />
+    <Resource Include="Images\Wiz-Palm-RightHypothenar.png" />
+    <Resource Include="Images\Wiz-Palm-RightLower.png" />
+    <Resource Include="Images\Wiz-Palm-RightUpper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ArrowLeft.png" />
+    <Resource Include="Images\ArrowRight.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

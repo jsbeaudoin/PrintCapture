@@ -1,0 +1,129 @@
+﻿<Window x:Class="PrintsCapture.Livescan.View.WizardCaptureWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="clr-namespace:PrintsCapture.Livescan.SharedControls"
+        xmlns:lng="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+        Title="PrintCaptureWizard"  
+        Background="#F0F0F0"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}"
+        Topmost="{Binding TopMostWindow}"
+        WindowState="Maximized" WindowStyle="None" Width="585" WindowStartupLocation="CenterScreen" 
+        >
+    <Window.Resources>
+        
+        <Style x:Key="FingerprintBox">
+            <Setter Property="Control.BorderBrush" Value="#FF363636" />
+            <Setter Property="Control.BorderThickness" Value="1" />
+            <Setter Property="Control.Margin" Value="10"></Setter>
+            <Setter Property="Control.Background" Value="Transparent"></Setter>
+        </Style>
+        <Style x:Key="DeviceMessageText">
+            <Setter Property="TextBlock.Foreground" Value="Black" />
+            <Setter Property="TextBlock.FontSize" Value="30"></Setter>
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style x:Key="WarningBox">
+            <Setter Property="Border.BorderThickness" Value="1"></Setter>
+            <Setter Property="Control.Margin" Value="10"></Setter>
+        </Style>
+        
+    </Window.Resources>
+    <DockPanel Margin="10">
+        
+
+        <DockPanel DockPanel.Dock="Top">
+            <Image DockPanel.Dock="Left" Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/FingerprintScanner.png" Height="72" ></Image>
+            <Image DockPanel.Dock="Right" Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/Xlid_Logo.png" Width="220" VerticalAlignment="Center" ></Image>
+            <Label DockPanel.Dock="Bottom" Content="{Binding DeviceName}" >
+                <Label.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{x:Static lng:CommonText.Configure}" Click="ConfigureMenuClick"></MenuItem>
+                    </ContextMenu>
+                </Label.ContextMenu>
+            </Label>
+            
+            <Label FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Content="{x:Static lng:CommonText.Fingerprints}" ></Label>
+        </DockPanel>
+        
+
+        <Grid DockPanel.Dock="Bottom">
+            <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="{Binding DeviceStateLabel}"></Label>
+            <Label VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="{Binding AppVersionLabel}" MouseDoubleClick="VersionLabelDoubleClick"></Label>
+        </Grid>
+        
+        <Grid DockPanel.Dock="Bottom">
+            <ListBox Name="MessageListBox" HorizontalAlignment="Left" Width="200" MaxHeight="200" ItemsSource="{Binding Messages}" Visibility="Collapsed" />
+            
+            <Button Width="126" Height="60" Margin="5" Click="EndButtonClick" HorizontalAlignment="Right" ToolTip="{x:Static lng:CommonText.Cancel}" >
+                <Image Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/media_playback_stop.png" Stretch="Uniform" Height="48"></Image>
+            </Button>
+            <Button Width="150" Margin="5" Click="FingerStatusButtonClicked" HorizontalAlignment="Left" Visibility="Hidden">Amputation/Bandages</Button>
+        </Grid>
+        
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" HorizontalAlignment="Center" Name="InstructionStackPanel">
+            <Border Style="{StaticResource WarningBox}" DockPanel.Dock="Top" Height="70">
+                <Viewbox Stretch="UniformToFill" Name="InstructionViewBox" >
+                    <TextBlock  TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Instructions}" />
+                </Viewbox>
+            </Border>
+            <Image Source="{Binding InstructionHandImage}" Height="60"/>
+        </StackPanel>
+
+        <Grid>
+            
+
+            <!--<c:HandQualityControl2  x:Name="HandQualityControl" Visibility="Collapsed" ></c:HandQualityControl2>-->
+
+            <Border Style="{StaticResource FingerprintBox}" Margin="0,0,0,20" Visibility="{Binding PrintAndMessageVisibility}" >
+                <!--<Image Name="LivePreviewImage" Stretch="Uniform"></Image>-->
+                <Grid>
+                    <WindowsFormsHost Name="Win32Window" Visibility="{Binding PrintCaptureVisibility}" />
+                    <Border VerticalAlignment="Bottom" Background="Gray"  >
+                        <Image Name="DisplayImage" VerticalAlignment="Bottom" Stretch="Uniform" ></Image>
+                    </Border>
+
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="30"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding DeviceMessageVisibility}" >
+                        <StackPanel  Background="White" >
+                            <TextBlock Text="{Binding DeviceMessage}" Style="{StaticResource DeviceMessageText}" HorizontalAlignment="Center" Visibility="{Binding DeviceMessageVisibility}" />
+                            <Button Margin="8" ToolTip="{x:Static lng:CommonText.ResumeCapture}" 
+                                    Width="175" Height="60"  FontSize="16"
+                                    Visibility="{Binding ResumeButtonVisibility}" Click="ResumeButtonClick" >
+                                <DockPanel>
+                                    <Image DockPanel.Dock="Left" Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/fingerprint_reade 32x32r1.png" Width="32"></Image>
+                                    <TextBlock Text="{x:Static lng:CommonText.StartCapture}" Margin="5" VerticalAlignment="Center"></TextBlock>
+                                </DockPanel>
+                                
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                    
+
+                </Grid>
+
+            </Border>
+
+
+        </Grid>
+
+    </DockPanel>
+    
+    
+
+                
+
+        
+
+        
+        
+
+
+
+        
+
+        
+
+        
+
+    
+    </Window>

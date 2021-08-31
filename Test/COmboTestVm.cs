@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Test
+{
+    public class ComboItemVm
+    {
+        public string Label { get; set; }
+
+        public int Value { get; set; }
+
+        public bool IsEnabled { get; set; }
+    }
+}

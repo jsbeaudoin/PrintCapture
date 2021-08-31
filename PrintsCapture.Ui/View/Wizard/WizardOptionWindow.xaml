@@ -1,0 +1,137 @@
+﻿<Window x:Class="PrintsCapture.Ui.View.WizardOptionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:language="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+        xmlns:shared="clr-namespace:PrintsCapture.Ui.UserControls"       
+        xmlns:converter="clr-namespace:XL_ID.Utilities.Wpf.Converter;assembly=XL_ID.Utilities.Wpf"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}"   
+        WindowState="Maximized" Height="800"
+        Background="#F0F0F0"
+        Closing="WizardOptionWindow_OnClosing"
+        Topmost="{Binding TopMostWindow}"
+        Title="Options"  WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"></converter:InverseBooleanConverter>
+        <converter:NullBoolToVisibilityConverter x:Key="BoolToVisibilityConverter"></converter:NullBoolToVisibilityConverter>
+        <Style x:Key="OptionTextStyle">
+            <Setter Property="Control.FontSize" Value="24"></Setter>
+        </Style>
+        <Style x:Key="MissingButtonStyle">
+            <Setter Property="Control.FontSize" Value="20"></Setter>
+            <Setter Property="Control.Margin" Value="15,10"></Setter>
+            <Setter Property="Control.Width" Value="150"></Setter>
+        </Style>
+        <!-- Width="150" Margin="0,15" FontWeight="Bold" FontSize="15" -->
+        <Style x:Key="StepButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Margin" Value="15"></Setter>
+            <Setter Property="Width" Value="150"></Setter>
+            <Setter Property="Height" Value="80"></Setter>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        
+        <DockPanel DockPanel.Dock="Top" Margin="0,5">
+            <Image DockPanel.Dock="Left" Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/FingerprintScanner.png" Height="72" ></Image>
+            <Image DockPanel.Dock="Right" Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/Xlid_Logo.png" Width="220" VerticalAlignment="Center" ></Image>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  >
+                <TextBlock Text="{x:Static language:CommonText.Fingerprints}" FontSize="24" FontWeight="Bold"></TextBlock>
+                <TextBlock FontSize="24" FontWeight="Bold" Text=" - "></TextBlock>
+                <TextBlock Text="{x:Static language:CommonText.Options}" FontSize="24" FontWeight="Bold"></TextBlock>
+            </StackPanel>
+        </DockPanel>
+
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="60" Margin="10,15" HorizontalAlignment="Center" Visibility="{Binding CaptureModeVisibility}">
+            <ToggleButton Width="150" Content="{x:Static language:CommonText.WizardCaptureFlatOnly}"
+                          IsChecked="{Binding IsCaptureFlat}" Visibility="{Binding IsFlatAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
+                          IsHitTestVisible="{Binding IsCaptureFlat, Converter={StaticResource InverseBooleanConverter}}"
+                          ></ToggleButton>
+
+            <ToggleButton Width="150" Margin="20,0,0,0" Content="{x:Static language:CommonText.WizardCaptureStandard14}"
+                          IsChecked="{Binding IsCapture14}"  Visibility="{Binding IsRolledAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
+                          IsHitTestVisible="{Binding IsCapture14, Converter={StaticResource InverseBooleanConverter}}" 
+                          ></ToggleButton>
+
+            <ToggleButton Width="150" Margin="20,0,0,0" Content="{x:Static language:CommonText.WizardCapturePalmAndRolled}"
+                          IsChecked="{Binding IsCapturePalm}"  Visibility="{Binding IsPalmAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
+                          IsHitTestVisible="{Binding IsCapturePalm, Converter={StaticResource InverseBooleanConverter}}"
+                          ></ToggleButton>
+
+            <ToggleButton Width="150" Margin="20,0,0,0" Content="{x:Static language:CommonText.WizardCaptureOneFinger}"
+                          IsChecked="{Binding IsCaptureOneFinger}"  Visibility="{Binding IsOneFingerAvailable, Converter={StaticResource BoolToVisibilityConverter}}"
+                          IsHitTestVisible="{Binding IsCaptureOneFinger, Converter={StaticResource InverseBooleanConverter}}"
+                          ></ToggleButton>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0,30" Visibility="{Binding InstructionVisibility}">
+            <StackPanel >
+                <TextBlock  Style="{StaticResource OptionTextStyle}" TextAlignment="Center" Text="{x:Static language:CommonText.WizardFirstInstruction}"></TextBlock>
+                <!--<TextBlock  Style="{StaticResource OptionTextStyle}" Margin="30,0">Missing, injured or bandaged. If so click on "Missing Finger(s)".</TextBlock>
+                <TextBlock  Style="{StaticResource OptionTextStyle}" Margin="0,20">If not click on "Next"</TextBlock>-->    
+            </StackPanel>
+            
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0,10" Visibility="{Binding MissingFingersVisibility}">
+            <TextBlock  Style="{StaticResource OptionTextStyle}" Text="{x:Static language:CommonText.WizardSecondInstruction}"></TextBlock>
+
+            <Grid HorizontalAlignment="Center" Width="350">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="32"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="32"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="10"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <Border Grid.Row="0" Grid.Column="0" Background="Red" Tag="XX"></Border>
+                <TextBlock Grid.Row="0" Grid.Column="2" FontSize="20" Text="{x:Static language:CommonText.WizardReasonMissing}"></TextBlock>
+
+                <Border Grid.Row="0" Grid.Column="4" Background="Blue" Tag="PL"></Border>
+                <TextBlock Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" FontSize="20" Text="{x:Static language:CommonText.WizardReasonInjured}"></TextBlock>
+
+                <Border Grid.Row="2" Grid.Column="0" Background="Yellow" Tag="UP"></Border>
+                <TextBlock Grid.Row="2" Grid.Column="2" FontSize="20" Text="{x:Static language:CommonText.WizardReasonBandaged}"></TextBlock>
+
+                <Border Grid.Row="2" Grid.Column="4" Background="Purple" Tag="UP" Visibility="{Binding CardScanOptionVisibility}" ></Border>
+                <TextBlock Grid.Row="2" Grid.Column="6" FontSize="20" Text="{x:Static language:CommonText.WizardReasonForeign}" Visibility="{Binding CardScanOptionVisibility}" ></TextBlock>
+            </Grid>
+                      
+        </StackPanel>
+
+
+
+        <Grid DockPanel.Dock="Top" Width="450" Height="255" Visibility="{Binding MissingFingersVisibility}">
+            <shared:HandConditionControl x:Name="HandPartsControl" ></shared:HandConditionControl>
+        </Grid>
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Style="{StaticResource StepButtonStyle}" Click="MissingFingersButtonClick" Visibility="{Binding InstructionVisibility}"  >
+                <DockPanel>
+                    <!--<Image DockPanel.Dock="Left" Margin="0,0,10,0" Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/Bandage.png" Width="48"></Image>-->
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{x:Static language:CommonText.Yes}" VerticalAlignment="Center" FontSize="20"></TextBlock>
+                </DockPanel>
+            </Button>
+            <Button Style="{StaticResource StepButtonStyle}" Click="AcceptButtonClick" Name="NextButton" Focusable="True" IsDefault="True" TabIndex="0">
+                <DockPanel>
+                    <!--<Image DockPanel.Dock="Right" Margin="10,0,0,0" Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/Next.png" Width="48"></Image>-->
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{x:Static language:CommonText.No}" VerticalAlignment="Center" FontSize="20" Name="NextButtonText"></TextBlock>
+                </DockPanel>
+            </Button>
+        </StackPanel>
+
+        <TextBlock></TextBlock>
+        
+    </DockPanel>
+</Window>
+

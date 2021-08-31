@@ -1,0 +1,395 @@
+﻿<Window x:Class="PrintsCapture.Ui.View.WizardConclusionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:lng="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+        xmlns:viewModel="clr-namespace:PrintsCapture.Prints.ViewModel;assembly=PrintsCapture.Prints"
+        xmlns:converter="clr-namespace:XL_ID.Utilities.Wpf.Converter;assembly=XL_ID.Utilities.Wpf"
+        xmlns:language="clr-namespace:PrintsCapture.Ui.Language"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}"
+        mc:Ignorable="d" WindowState="Maximized"
+        Title="WizardConclusionWindow" Height="800" Width="1000"
+        Topmost="True"
+        WindowStyle="None">
+    <Window.Resources>
+        <converter:NullBoolToVisibilityConverter x:Key="BoolToVisibility"></converter:NullBoolToVisibilityConverter>
+                
+        <Style x:Key="StatusStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="Margin" Value="5,0,5,15"></Setter>
+        </Style>
+        <Style x:Key="TitleStatusStyle" BasedOn="{StaticResource StatusStyle}" TargetType="TextBlock" >
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="FontSize" Value="18"></Setter>
+        </Style>
+        
+
+        
+
+    </Window.Resources>
+    <DockPanel Margin="10">
+        <DockPanel DockPanel.Dock="Top">
+            <Image DockPanel.Dock="Left" Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/Fingerprint Scanner Gris.png" Height="72" ></Image>
+            <Image DockPanel.Dock="Right" Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/Xlid_Logo.png" Width="220" VerticalAlignment="Center" ></Image>
+            <Label FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Content="{x:Static lng:CommonText.Fingerprints}" ></Label>
+        </DockPanel>
+
+        <Grid DockPanel.Dock="Bottom">
+            <CheckBox VerticalAlignment="Bottom" HorizontalAlignment="Left" Checked="AdvancedInfoCheckedChange" Unchecked="AdvancedInfoCheckedChange" Content="{x:Static language:Text.WizardShowAdvanced}" ></CheckBox>
+            <!--<Label VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="{Binding AppVersionLabel}" ></Label>-->
+        </Grid>
+
+        <Grid DockPanel.Dock="Bottom">
+            <!--<Button Width="126" Height="60" Margin="5" Click="EndButtonClick" HorizontalAlignment="Left" ToolTip="{x:Static lng:CommonText.StartCapture}" >
+                <Image Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/media_playback_start.png" Stretch="Uniform" Height="48"></Image>
+            </Button>-->
+
+            <Button Width="126" Height="60" Margin="5"  HorizontalAlignment="Right" ToolTip="{x:Static lng:CommonText.Cancel}" Click="CancelButtonClick" >
+                <Image Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/media_playback_stop.png" Stretch="Uniform" Height="48"></Image>
+            </Button>
+
+            <Button Margin="8" ToolTip="{x:Static language:Text.WizardApplyActions}" 
+                                    Width="175" Height="60"  FontSize="16"                                      
+                                    Click="ApplyActionButtonClick"
+                    >
+                <DockPanel>
+                    <!--<Image DockPanel.Dock="Left" Source="pack://application:,,,/PrintsCapture.Livescan;component/Images/fingerprint_reade 32x32r1.png" Width="32"></Image>-->
+                    <TextBlock Text="{x:Static language:Text.WizardApplyActions}" Margin="5" VerticalAlignment="Center"></TextBlock>
+                </DockPanel>
+
+            </Button>
+
+        </Grid>
+
+        
+        <TextBlock DockPanel.Dock="Top" Text="{x:Static language:Text.Status}" 
+               Style="{StaticResource TitleStatusStyle}"
+               MouseDown="StatusLabelMouseDown"></TextBlock>
+
+        
+
+        <!-- Flat prints Row -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+            
+            <Grid Width="32" Height="32" Margin="2">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-LeftHand.png" />
+                <Border Style="{Binding Left4.DisplayStyle}" Tag="{Binding Left4}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0" Visibility="{Binding SingleThumbsVisibility}">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-LeftThumb.png" />
+                <Border Style="{Binding LeftThumb.DisplayStyle}" Tag="{Binding LeftThumb}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="20" Height="32" Margin="2" Visibility="{Binding TwoThumbsVisibility}">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-TwoThumbs.png" />
+                <Border  Style="{Binding TwoThumbs.DisplayStyle}" Tag="{Binding TwoThumbs}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0" Visibility="{Binding SingleThumbsVisibility}">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-RightThumb.png" />
+                <Border  Style="{Binding RightThumb.DisplayStyle}" Tag="{Binding RightThumb}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+            
+            <Grid Width="32" Height="32" Margin="2">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-RightHand.png" />
+                <Border  Style="{Binding Right4.DisplayStyle}" Tag="{Binding Right4}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+        </StackPanel>
+
+
+
+        <!-- Rolled prints Row -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center"
+                     Visibility="{Binding RolledVisibility}" >
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-fingers-LeftLittle.png" />
+                <Border  Style="{Binding RolledLeftLittle.DisplayStyle}" Tag="{Binding RolledLeftLittle}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-fingers-LeftRing.png" />
+                <Border  Style="{Binding RolledLeftRing.DisplayStyle}" Tag="{Binding RolledLeftRing}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0" >
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-fingers-LeftMiddle.png" />
+                <Border  Style="{Binding RolledLeftMiddle.DisplayStyle}" Tag="{Binding RolledLeftMiddle}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0" >
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-fingers-LeftIndex.png" />
+                <Border  Style="{Binding RolledLeftIndex.DisplayStyle}" Tag="{Binding RolledLeftIndex}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-LeftThumb.png" />
+                <Border  Style="{Binding RolledLeftThumb.DisplayStyle}" Tag="{Binding RolledLeftThumb}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-RightThumb.png" />
+                <Border  Style="{Binding RolledRightThumb.DisplayStyle}" Tag="{Binding RolledRightThumb}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0" >
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-fingers-RightIndex.png" />
+                <Border  Style="{Binding RolledRightIndex.DisplayStyle}" Tag="{Binding RolledRightIndex}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0" >
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-fingers-RightMiddle.png" />
+                <Border  Style="{Binding RolledRightMiddle.DisplayStyle}" Tag="{Binding RolledRightMiddle}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-fingers-RightRing.png" />
+                <Border  Style="{Binding RolledRightRing.DisplayStyle}" Tag="{Binding RolledRightRing}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="10" Height="32" Margin="1,0,0,0">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-fingers-RightLittle.png" />
+                <Border  Style="{Binding RolledRightLittle.DisplayStyle}" Tag="{Binding RolledRightLittle}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+        </StackPanel>
+
+        <!-- Palm OR Endorsement prints Row -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Grid Width="32" Height="32" Margin="2" Visibility="{Binding PalmVisibility}">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-Palm-LeftHypothenar.png" />
+                <Border  Style="{Binding PalmLeftHypothenar.DisplayStyle}" Tag="{Binding PalmLeftHypothenar}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="32" Height="32" Margin="2" Visibility="{Binding PalmVisibility}">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-Palm-LeftUpper.png" />
+                <Border  Style="{Binding PalmLeftUpper.DisplayStyle}" Tag="{Binding PalmLeftUpper}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="32" Height="32" Margin="2" Visibility="{Binding PalmVisibility}">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-Palm-LeftLower.png" />
+                <Border  Style="{Binding PalmLeftLower.DisplayStyle}" Tag="{Binding PalmLeftLower}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="20" Height="32" Margin="2"  Visibility="{Binding EndorsementVisibility}">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-RightThumb.png" />
+                <Border  Style="{Binding Endorsement.DisplayStyle}" Tag="{Binding Endorsement}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="32" Height="32" Margin="2" Visibility="{Binding PalmVisibility}">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-Palm-RightLower.png" />
+                <Border  Style="{Binding PalmRightLower.DisplayStyle}" Tag="{Binding PalmRightLower}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="32" Height="32" Margin="2" Visibility="{Binding PalmVisibility}">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-Palm-RightUpper.png" />
+                <Border  Style="{Binding PalmRightUpper.DisplayStyle}" Tag="{Binding PalmRightUpper}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+            <Grid Width="32" Height="32" Margin="2" Visibility="{Binding PalmVisibility}">
+                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/Wiz-Palm-RightHypothenar.png" />
+                <Border  Style="{Binding PalmRightHypothenar.DisplayStyle}" Tag="{Binding PalmRightHypothenar}" MouseDown="PrintStatusMouseDown" />
+            </Grid>
+
+
+        </StackPanel>
+
+
+
+        <Border Margin="2" Width="700">
+            <Grid>
+
+                <Grid Visibility="{Binding IsStatusDisplayed, Converter={StaticResource BoolToVisibility}, ConverterParameter=1}" >
+
+                    <Grid Margin="20,15" HorizontalAlignment="Right" Visibility="{Binding AdvancedInformationVisibility}" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="10"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{x:Static lng:CommonText.MatchLabel}"></TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding DisplayedPrint.BaseVm.Print.SequenceScore}"></TextBlock>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" FontWeight="Bold" Text="{x:Static lng:CommonText.QualityLabel}"></TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding DisplayedPrint.BaseVm.Print.QualityScore}"></TextBlock>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" FontWeight="Bold" Text="{x:Static lng:CommonText.MinutiaLabel}"></TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding DisplayedPrint.BaseVm.Print.MinutiaCount}" ></TextBlock>
+
+                    </Grid>
+
+
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top" HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="35"></ColumnDefinition>
+                                <ColumnDefinition Width="10"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="10"></ColumnDefinition>
+                                <ColumnDefinition Width="35"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="0" Background="Transparent" MouseDown="LeftArrowMouseDown">
+                                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/ArrowLeft.png" />
+                            </Border>
+
+                            <Border Grid.Column="4" Background="Transparent" MouseDown="RightArrowMouseDown">
+                                <Image Source="pack://application:,,,/PrintsCapture.Ui;component/Images/ArrowRight.png" />
+                            </Border>
+
+                            <StackPanel  Grid.Column="2" >
+                                <TextBlock FontSize="16" FontWeight="Bold" Visibility="{Binding DisplayedPrint.BaseVm.Print.LinkedPrint.IsEndorsement, Converter={StaticResource BoolToVisibility}}" Text="{x:Static lng:CommonText.EndorsementFinger}"></TextBlock>
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding DisplayedPrint.BaseVm.Print.ShortName}"></TextBlock>
+                                <!-- The foloowing block ensure that text is always keep a 2 lines space, event when not an endorsement -->
+                                <TextBlock FontSize="16" FontWeight="Bold" Visibility="{Binding DisplayedPrint.BaseVm.Print.LinkedPrint.IsEndorsement, Converter={StaticResource BoolToVisibility}, ConverterParameter=1}" Text=" "></TextBlock>
+                            </StackPanel>
+                        </Grid>
+                        
+                       
+                        
+                        
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding AdvancedInformationVisibility}">
+                            <TextBlock Text="{Binding DisplayedPrint.ScanMode}"></TextBlock>
+                            <TextBlock Text="@"></TextBlock>
+                            <TextBlock Text="{Binding DisplayedPrint.BaseVm.Print.Resolution}"></TextBlock>
+                        </StackPanel>
+                        <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Visibility="Collapsed">Original : Print position (To Implement for cardscan)</TextBlock>
+
+                        <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" Text="{Binding DisplayedPrint.WizardError}" ></TextBlock>
+
+                        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Text="{x:Static language:Text.Actions}"></TextBlock>
+                            <ComboBox Margin="5,0" Width="200" ItemsSource="{Binding DisplayedPrint.ActionList}" DisplayMemberPath="Label" SelectedValue="{Binding DisplayedPrint.SelectedAction}" ></ComboBox>
+                            <Button Visibility="{Binding DisplayedPrint.EditButtonVisibility}" >Edit Print (To implement for cardscan)</Button>
+                        </StackPanel>
+
+                        <Label DockPanel.Dock="Top" HorizontalAlignment="Center" Foreground="Red" FontWeight="Bold"
+                               Visibility="{Binding DisplayedPrint.OtherReasonInvalidVisibility}"
+                               Content="{x:Static language:Text.WizardOtherReasonInvalid}"></Label>
+
+                        <StackPanel Margin="0,5" DockPanel.Dock="Top" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="{Binding DisplayedPrint.OtherReasonVisibility}">
+                            <Label Content="{x:Static language:Text.WizardSpecifyReason}" ></Label>
+                            <TextBox  Width="200" Text="{Binding DisplayedPrint.OtherReason, UpdateSourceTrigger=PropertyChanged}" 
+                                      CharacterCasing="Upper" ></TextBox>
+                        </StackPanel>
+
+                        <Border Name="ImageBorder"
+                            Background="Transparent" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" SizeChanged="ImageSizeChanged" 
+                  >
+                            <Grid>
+                                <Image Source="{Binding DisplayedPrint.BaseVm.Print.Image}" >
+
+                                </Image>
+
+                                <ItemsControl Name="SegmentsItemsControl" ItemsSource="{Binding DisplayedPrint.PrintSegments}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Grid></Grid>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+
+                                        <DataTemplate DataType="viewModel:SegmentInfoViewModel">
+                                            <Border Margin="{Binding Margin}" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                MouseDown="SegmentMouseDown" Tag="{Binding}" BorderBrush="Black" BorderThickness="2"
+                                                Visibility="{Binding IsRectangleShown, Converter={StaticResource BoolToVisibility}}">
+
+                                                <Grid>
+                                                    <Rectangle Width="{Binding Width}" Height="{Binding Height}"
+                                                        Fill="Aqua" Opacity="0.3" Name="PART_Rect"></Rectangle>
+                                                </Grid>
+
+                                            </Border>
+                                        </DataTemplate>
+
+                                    </ItemsControl.ItemTemplate>
+
+                                </ItemsControl>
+                                <Popup Name="SegmentPopup" Closed="SegmentPopupClosed" Placement="MousePoint" StaysOpen="False">
+                                    <Border Background="White" BorderThickness="1" BorderBrush="Black">
+                                        <StackPanel>
+                                            <Label HorizontalAlignment="Center" Content="{Binding DisplayedPrint.CurrentSegment.BaseVm.Name}"></Label>
+
+                                            <ComboBox Width="200" Margin="5" ItemsSource="{Binding DisplayedPrint.SegmentActionList}" DisplayMemberPath="Label" 
+                                                      SelectedValue="{Binding DisplayedPrint.CurrentSegment.SelectedAction}"></ComboBox>
+
+                                            <Label DockPanel.Dock="Top" HorizontalAlignment="Center" Foreground="Red" FontWeight="Bold"
+                                               Visibility="{Binding DisplayedPrint.CurrentSegment.OtherReasonInvalidVisibility}"
+                                               Content="{x:Static language:Text.WizardOtherReasonInvalid}"></Label>
+
+                                            <StackPanel Margin="5" Visibility="{Binding DisplayedPrint.CurrentSegment.OtherReasonVisibility}">
+                                                <TextBlock Text="{x:Static language:Text.WizardSpecifyReason}"></TextBlock>
+                                                <TextBox Width="200"  Text="{Binding DisplayedPrint.CurrentSegment.OtherReason, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
+                                            </StackPanel>
+
+
+                                            <Grid Margin="20,15" HorizontalAlignment="Center" Visibility="{Binding AdvancedInformationVisibility}" >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition Width="10"></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                </Grid.RowDefinitions>
+
+                                                <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{x:Static lng:CommonText.QualityLabel}"></TextBlock>
+                                                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding DisplayedPrint.CurrentSegment.BaseVm.Quality}"></TextBlock>
+
+                                                <TextBlock Grid.Row="1" Grid.Column="0" FontWeight="Bold" Text="{x:Static lng:CommonText.MinutiaLabel}"></TextBlock>
+                                                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding DisplayedPrint.CurrentSegment.BaseVm.MinutiaCount}" ></TextBlock>
+
+                                            </Grid>
+
+                                        </StackPanel>
+
+
+                                    </Border>
+
+
+                                </Popup>
+                            </Grid>
+
+                        </Border>
+
+
+
+
+
+                    </DockPanel>
+
+                </Grid>
+
+                <StackPanel Visibility="{Binding IsStatusDisplayed, Converter={StaticResource BoolToVisibility}}">
+
+                    <TextBlock Style="{StaticResource StatusStyle}" Text="{Binding StatusText}" ></TextBlock>
+
+                    <Button Width="130" Height="30" Margin="15" Content="{x:Static language:Text.WizardReviewPrints}" Click="ReviewPrintClick" ></Button>
+
+                    <TextBlock Style="{StaticResource StatusStyle}" Text="{Binding StatusActionText}" ></TextBlock>
+
+                </StackPanel>
+
+            </Grid>
+        </Border>
+
+    </DockPanel>
+</Window>
+

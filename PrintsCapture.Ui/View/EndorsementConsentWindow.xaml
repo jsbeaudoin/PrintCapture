@@ -1,0 +1,28 @@
+﻿<Window x:Class="PrintsCapture.Ui.View.EndorsementConsentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lng="clr-namespace:PrintsCapture.Ui.Language"
+        Title="{x:Static lng:Text.EndorsementConsentWindowTitle}" 
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        
+        <StackPanel DockPanel.Dock="Bottom" Margin="10">
+            <Button Content="{x:Static lng:Text.Close}" Width="100" Click="CloseButtonClick"></Button>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Margin="10">     
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">                
+                <ToggleButton Width="150" Margin="10" IsChecked="{Binding IsWaiverSelected}" Content="{x:Static lng:Text.WaiverName}" Checked="ToggleButton_Checked"></ToggleButton>
+                <ToggleButton Width="150" Margin="10" IsChecked="{Binding IsVulnerableSelected}" Content="{x:Static lng:Text.VulnerableSectorName}"></ToggleButton>
+            </StackPanel>
+            <ComboBox Width="150" ItemsSource="{Binding CultureList}" SelectedValue="{Binding CurrentCulture}" DisplayMemberPath="Label" SelectedValuePath="Key"></ComboBox>
+        </StackPanel>
+
+        <Border BorderThickness="1" BorderBrush="Black" Margin="1">
+            <ScrollViewer>
+                <TextBlock Name="ConsentTextBlock" TextWrapping="Wrap" Text="{Binding ConsentText}"></TextBlock>
+            </ScrollViewer>            
+        </Border>
+        
+    </DockPanel>
+</Window>

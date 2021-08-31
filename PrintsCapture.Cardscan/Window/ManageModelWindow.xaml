@@ -1,0 +1,35 @@
+﻿<Window x:Class="PrintsCapture.Cardscan.Window.ManageModelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:language="clr-namespace:PrintsCapture.Prints.Language;assembly=PrintsCapture.Prints"
+        xmlns:window="clr-namespace:PrintsCapture.Cardscan.Window"
+        DataContext="{Binding ViewModel, RelativeSource={RelativeSource Self}}"
+        Title="{x:Static language:CommonText.ScanModelManagementWindowTitle}" Height="208.369" Width="546.025" MinHeight="208" MinWidth="500" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="DlgButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="5" />
+            
+            <Setter Property="Height" Value="44"></Setter>
+            <Setter Property="Width" Value="90"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <StackPanel Margin="5">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="{x:Static language:CommonText.ModelName}"></Label>
+                <Label FontWeight="Bold" Content="{Binding Name }" />
+            </StackPanel>
+            <RadioButton x:Name="OverrideRadioButton" Margin="5" IsChecked="True" Content="{x:Static language:CommonText.ModelSaveCurrent}"/>
+
+            <RadioButton Name="CreateNewRadioButton" Margin="5" Checked="NewModelChecked" Content="{x:Static language:CommonText.ModelCreateNew}" Click="NewModelClicked"></RadioButton>
+            <TextBox Name="NewNameTextBox" Margin="15,5,5,5" Background="BlanchedAlmond" IsEnabled="{Binding IsChecked, ElementName=CreateNewRadioButton}"                      
+                     Text="{Binding NewName}" GotFocus="NewNameTextBox_GotFocus" />
+            
+        </StackPanel>
+
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource DlgButtonStyle}" Click="CancelButtonClick" Content="{x:Static language:CommonText.Cancel}"></Button>
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Style="{StaticResource DlgButtonStyle}" IsDefault="True" Click="SaveButtonClick" Content="{x:Static language:CommonText.Save}"></Button>
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{StaticResource DlgButtonStyle}" IsEnabled="{Binding IsDeleteAllowed}" Click="DeleteButtonClick" Content="{x:Static language:CommonText.Delete}"></Button>
+        
+    </Grid>
+</Window>

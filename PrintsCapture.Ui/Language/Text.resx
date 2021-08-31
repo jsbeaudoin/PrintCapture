@@ -1,0 +1,860 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EndorsementFinger" xml:space="preserve">
+    <value>Endorsement Finger</value>
+  </data>
+  <data name="PhysicalPartNamePattern" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="EndorsementTitle" xml:space="preserve">
+    <value>Endorsement</value>
+  </data>
+  <data name="enumHandLeft" xml:space="preserve">
+    <value>Left Hand</value>
+  </data>
+  <data name="enumHandNone" xml:space="preserve">
+    <value />
+  </data>
+  <data name="enumHandPartCompletePalm" xml:space="preserve">
+    <value>Complete Palm</value>
+  </data>
+  <data name="enumHandPartEndorsement" xml:space="preserve">
+    <value>Endorsement</value>
+  </data>
+  <data name="enumHandPartFourFlats" xml:space="preserve">
+    <value>Four Fingers</value>
+  </data>
+  <data name="enumHandPartHypothenar" xml:space="preserve">
+    <value>Hypothenar</value>
+  </data>
+  <data name="enumHandPartIndex" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="enumHandPartLittle" xml:space="preserve">
+    <value>Little</value>
+  </data>
+  <data name="enumHandPartLowerPalm" xml:space="preserve">
+    <value>Lower Palm</value>
+  </data>
+  <data name="enumHandPartMiddle" xml:space="preserve">
+    <value>Middle</value>
+  </data>
+  <data name="enumHandPartRing" xml:space="preserve">
+    <value>Ring</value>
+  </data>
+  <data name="enumHandPartThumb" xml:space="preserve">
+    <value>Thumb</value>
+  </data>
+  <data name="enumHandPartTwoThumbs" xml:space="preserve">
+    <value>Two Thumbs</value>
+  </data>
+  <data name="enumHandPartUpperPalm" xml:space="preserve">
+    <value>UpperPalm</value>
+  </data>
+  <data name="enumHandRight" xml:space="preserve">
+    <value>Right Hand</value>
+  </data>
+  <data name="enumHandScanKindFlat" xml:space="preserve">
+    <value>Flat</value>
+  </data>
+  <data name="enumHandScanKindRolled" xml:space="preserve">
+    <value>Rolled</value>
+  </data>
+  <data name="Fingers" xml:space="preserve">
+    <value>Fingers</value>
+  </data>
+  <data name="FourFinger" xml:space="preserve">
+    <value>Four Fingers</value>
+  </data>
+  <data name="HandPartBandaged" xml:space="preserve">
+    <value>Bandaged</value>
+  </data>
+  <data name="HandPartForeignReason" xml:space="preserve">
+    <value>Foreign Reason</value>
+  </data>
+  <data name="HandPartPhysicalLimitation" xml:space="preserve">
+    <value>Physical Limitations</value>
+  </data>
+  <data name="HandPartPresent" xml:space="preserve">
+    <value>Present</value>
+  </data>
+  <data name="HandPatAmputated" xml:space="preserve">
+    <value>Amputated</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="PrintFingerIndex" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="PrintFingerLittle" xml:space="preserve">
+    <value>Little</value>
+  </data>
+  <data name="PrintFingerMiddle" xml:space="preserve">
+    <value>Middle</value>
+  </data>
+  <data name="PrintFingerRing" xml:space="preserve">
+    <value>Ring</value>
+  </data>
+  <data name="PrintFingerThumb" xml:space="preserve">
+    <value>Thumb</value>
+  </data>
+  <data name="PrintFlat" xml:space="preserve">
+    <value>Flat</value>
+  </data>
+  <data name="PrintLeftHand" xml:space="preserve">
+    <value>Left Hand Prints</value>
+  </data>
+  <data name="PrintNamePattern" xml:space="preserve">
+    <value>{0} ({1}), {2}</value>
+    <comment>Print (ScanKind), Hand</comment>
+  </data>
+  <data name="PrintPalm" xml:space="preserve">
+    <value>Palm</value>
+  </data>
+  <data name="PrintPalmHypothenar" xml:space="preserve">
+    <value>Hypothenar</value>
+  </data>
+  <data name="PrintPalmLower" xml:space="preserve">
+    <value>Lower Palm</value>
+  </data>
+  <data name="PrintPalmUpper" xml:space="preserve">
+    <value>Upper Palm</value>
+  </data>
+  <data name="PrintRightHand" xml:space="preserve">
+    <value>Right Hand Prints</value>
+  </data>
+  <data name="PrintRolled" xml:space="preserve">
+    <value>Rolled</value>
+  </data>
+  <data name="PrintStatusDouble" xml:space="preserve">
+    <value>Print captured more than once.</value>
+  </data>
+  <data name="PrintStatusInProcess" xml:space="preserve">
+    <value>Print is being processed</value>
+  </data>
+  <data name="PrintStatusMissing" xml:space="preserve">
+    <value>Print is missing</value>
+  </data>
+  <data name="PrintStatusNotCaptured" xml:space="preserve">
+    <value>Print not captured</value>
+  </data>
+  <data name="PrintStatusOverriden" xml:space="preserve">
+    <value>Print error was overriden</value>
+  </data>
+  <data name="PrintStatusProcessed" xml:space="preserve">
+    <value>Print is ready</value>
+  </data>
+  <data name="PrintStatusQualityError" xml:space="preserve">
+    <value>Print quality is bad</value>
+  </data>
+  <data name="PrintStatusSequenceError" xml:space="preserve">
+    <value>Print Sequence check failed</value>
+  </data>
+  <data name="PrintStatusUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="NoPrint" xml:space="preserve">
+    <value>No print</value>
+  </data>
+  <data name="Palms" xml:space="preserve">
+    <value>Palms</value>
+  </data>
+  <data name="PrintsStatusOk" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="PrintStatusInError" xml:space="preserve">
+    <value>In error</value>
+  </data>
+  <data name="PrintStatusPendingEvaluation" xml:space="preserve">
+    <value>Pending evaluation</value>
+  </data>
+  <data name="PrintStatusServiceError" xml:space="preserve">
+    <value>Service error</value>
+  </data>
+  <data name="PrintStatusSubmited" xml:space="preserve">
+    <value>Submitted</value>
+  </data>
+  <data name="PrintStatusTemplateError" xml:space="preserve">
+    <value>Template in error</value>
+  </data>
+  <data name="PrintStatusUnknownError" xml:space="preserve">
+    <value>Unknown error</value>
+  </data>
+  <data name="ScanAgain" xml:space="preserve">
+    <value>Scan print</value>
+  </data>
+  <data name="CorrectErrorBeforeContinue" xml:space="preserve">
+    <value>Cannot continue. Some errors must be corrected.</value>
+  </data>
+  <data name="InvalidCharacters" xml:space="preserve">
+    <value>Text contains invalid characters</value>
+  </data>
+  <data name="Accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="MissingFinger" xml:space="preserve">
+    <value>Missing finger</value>
+  </data>
+  <data name="MissingSince" xml:space="preserve">
+    <value>Missing since</value>
+  </data>
+  <data name="ZoomWindowTitle" xml:space="preserve">
+    <value>Detailed print information</value>
+  </data>
+  <data name="EditPrint" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Overrides" xml:space="preserve">
+    <value>Overrides</value>
+  </data>
+  <data name="PrintQualityBad" xml:space="preserve">
+    <value>Bad</value>
+    <comment>4</comment>
+  </data>
+  <data name="PrintQualityExcellent" xml:space="preserve">
+    <value>Excellent</value>
+    <comment>1</comment>
+  </data>
+  <data name="PrintQualityGood" xml:space="preserve">
+    <value>Good</value>
+    <comment>3</comment>
+  </data>
+  <data name="PrintQualityVeryBad" xml:space="preserve">
+    <value>Very Bad</value>
+    <comment>5</comment>
+  </data>
+  <data name="PrintQualityVeryGood" xml:space="preserve">
+    <value>Very Good</value>
+    <comment>2</comment>
+  </data>
+  <data name="QualityLabel" xml:space="preserve">
+    <value>Quality:</value>
+  </data>
+  <data name="SequenceBad" xml:space="preserve">
+    <value>No match</value>
+  </data>
+  <data name="SequenceCheck" xml:space="preserve">
+    <value>Sequence Check</value>
+  </data>
+  <data name="SequenceGood" xml:space="preserve">
+    <value>Print matches</value>
+  </data>
+  <data name="SequenceLabel" xml:space="preserve">
+    <value>Sequence :</value>
+  </data>
+  <data name="SequenceNA" xml:space="preserve">
+    <value>Does not apply</value>
+  </data>
+  <data name="SequenceScoreGood" xml:space="preserve">
+    <value>Partial Match</value>
+    <comment>&lt; 70</comment>
+  </data>
+  <data name="SequenceScoreLow" xml:space="preserve">
+    <value>Weak Match</value>
+    <comment>&lt; 50</comment>
+  </data>
+  <data name="SequenceScoreNone" xml:space="preserve">
+    <value>No Match</value>
+    <comment>&lt; 10</comment>
+  </data>
+  <data name="SequenceScorePerfectMatch" xml:space="preserve">
+    <value>Complete Match</value>
+    <comment>&gt;= 120</comment>
+  </data>
+  <data name="SequenceScoreVeryGood" xml:space="preserve">
+    <value>Good Match</value>
+    <comment>&lt;120</comment>
+  </data>
+  <data name="SequenceScoreVeryLow" xml:space="preserve">
+    <value>Very Weak Match</value>
+    <comment>&lt; 36</comment>
+  </data>
+  <data name="Threshold" xml:space="preserve">
+    <value>Threshold</value>
+  </data>
+  <data name="ThresholdLabel" xml:space="preserve">
+    <value>Threshold</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="PrintIsZoomed" xml:space="preserve">
+    <value>Click on image to shrink it's size.</value>
+  </data>
+  <data name="PrintStatusInErrorSwapped" xml:space="preserve">
+    <value>In error and print position was changed</value>
+  </data>
+  <data name="PrintStatusSequenceSwappedError" xml:space="preserve">
+    <value>Sequence score was matched to another finger.</value>
+  </data>
+  <data name="PrintStatusValidatedSwapped" xml:space="preserve">
+    <value>Validated, but print position was changed</value>
+  </data>
+  <data name="PrintWasMatchedTo" xml:space="preserve">
+    <value>Print was matched to : {0}</value>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>Send to Service</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="FingerPresenceWindowTitle" xml:space="preserve">
+    <value>Finger Presence</value>
+  </data>
+  <data name="ResolutionLabel" xml:space="preserve">
+    <value>Resolution :</value>
+  </data>
+  <data name="PrintsNotReady" xml:space="preserve">
+    <value>Some prints are not ready :</value>
+  </data>
+  <data name="ValidationTitle" xml:space="preserve">
+    <value>Validation</value>
+  </data>
+  <data name="CaptureFlatOnly" xml:space="preserve">
+    <value>Flats only</value>
+  </data>
+  <data name="CaptureMode" xml:space="preserve">
+    <value>Capture Mode</value>
+  </data>
+  <data name="CaptureStandard14" xml:space="preserve">
+    <value>Flats and rolled</value>
+  </data>
+  <data name="CaptureStandardAndPalm" xml:space="preserve">
+    <value>Flats, rolled and palms</value>
+  </data>
+  <data name="CaptureStart" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="Configure" xml:space="preserve">
+    <value>Configure</value>
+  </data>
+  <data name="CurrentDevice" xml:space="preserve">
+    <value>Current Device</value>
+  </data>
+  <data name="ScanEndorsement" xml:space="preserve">
+    <value>Scan endorsement</value>
+  </data>
+  <data name="PrintMatchWarning" xml:space="preserve">
+    <value>Print could match to {0}. Sequence : {1}</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="DataCompressionLabel" xml:space="preserve">
+    <value>Data compression :</value>
+  </data>
+  <data name="MiscOptions" xml:space="preserve">
+    <value>Misc</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="OverrideFlatLabel" xml:space="preserve">
+    <value>Flats :</value>
+  </data>
+  <data name="OverrideRolledLabel" xml:space="preserve">
+    <value>Rolled :</value>
+  </data>
+  <data name="PositionEnabledLabel" xml:space="preserve">
+    <value>Position attribution :</value>
+  </data>
+  <data name="Quality" xml:space="preserve">
+    <value>Quality</value>
+  </data>
+  <data name="QualityScorePattern" xml:space="preserve">
+    <value>Quality : {0}</value>
+  </data>
+  <data name="QualityThreshold" xml:space="preserve">
+    <value>Quality threshold</value>
+  </data>
+  <data name="Sequence" xml:space="preserve">
+    <value>Sequence</value>
+  </data>
+  <data name="SequenceErrorBadScore" xml:space="preserve">
+    <value>Error when score is low</value>
+  </data>
+  <data name="SequenceOptions" xml:space="preserve">
+    <value>Sequence Options</value>
+  </data>
+  <data name="SequencePosition" xml:space="preserve">
+    <value>Can change print position</value>
+  </data>
+  <data name="SequenceThreshold" xml:space="preserve">
+    <value>Sequence Threshold</value>
+  </data>
+  <data name="ThresholdScorePattern" xml:space="preserve">
+    <value>Threshold : {0}</value>
+  </data>
+  <data name="ThresholdTooltip" xml:space="preserve">
+    <value>Adjust threshold level</value>
+  </data>
+  <data name="ValidationEnabledLabel" xml:space="preserve">
+    <value>Validation :</value>
+  </data>
+  <data name="PrintPositionChangedTo" xml:space="preserve">
+    <value>Print position was changed to {0}</value>
+  </data>
+  <data name="PositionChangedFrom" xml:space="preserve">
+    <value>Original scanned position was {0}</value>
+  </data>
+  <data name="MsgPrintSyncError" xml:space="preserve">
+    <value>Print override or missing attribute different on server for {0}.</value>
+  </data>
+  <data name="MsgSwapDifferent" xml:space="preserve">
+    <value>Print position differs for {0}. Desactivate the position and reactivate it again.</value>
+  </data>
+  <data name="MsgWsqCompressionFailed" xml:space="preserve">
+    <value>Compression into Wsq failed for {0}. Resend the print.</value>
+  </data>
+  <data name="RestartService" xml:space="preserve">
+    <value>Restart Service</value>
+  </data>
+  <data name="SavePrints" xml:space="preserve">
+    <value>Save Prints</value>
+  </data>
+  <data name="ServiceOperationFailed" xml:space="preserve">
+    <value>Operation '{0}' failed.</value>
+  </data>
+  <data name="ServiceOperationGetPrintSet" xml:space="preserve">
+    <value>Get Print Set</value>
+  </data>
+  <data name="ServiceOperationNotCompleted" xml:space="preserve">
+    <value>Operation could not be done on server side. See logs for details.</value>
+  </data>
+  <data name="ServiceOperationRemoveOverride" xml:space="preserve">
+    <value>Remove Override</value>
+  </data>
+  <data name="ServiceOperationSetOverride" xml:space="preserve">
+    <value>Set Override</value>
+  </data>
+  <data name="ServiceOperationSwapPrints" xml:space="preserve">
+    <value>Swap Prints</value>
+  </data>
+  <data name="TroubleShooting" xml:space="preserve">
+    <value>Troubleshooting</value>
+  </data>
+  <data name="CloseApplicationTitle" xml:space="preserve">
+    <value>Close Application</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>Print capture application</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CaptureEnd" xml:space="preserve">
+    <value>End Capture</value>
+  </data>
+  <data name="CaptureEndInstruction" xml:space="preserve">
+    <value>In case of errors, rescan or override prints. Press "End" when done.</value>
+  </data>
+  <data name="CaptureEndorsement" xml:space="preserve">
+    <value>Capture Endorsement Finger</value>
+  </data>
+  <data name="CaptureStartInstruction" xml:space="preserve">
+    <value>Flag missing prints and press "Scan" button to start.</value>
+  </data>
+  <data name="CloseConfirmationPrompt" xml:space="preserve">
+    <value>Print session will end. No print will be saved.</value>
+  </data>
+  <data name="CompressionLabel" xml:space="preserve">
+    <value>Compression :</value>
+  </data>
+  <data name="ConfirmationTitle" xml:space="preserve">
+    <value>Confirmation</value>
+  </data>
+  <data name="ConsentText" xml:space="preserve">
+    <value>Consent Text</value>
+  </data>
+  <data name="CouldNotSetDeviceInformation" xml:space="preserve">
+    <value>Could not set device information on service.</value>
+  </data>
+  <data name="DatePickerWatermark" xml:space="preserve">
+    <value>Select a date</value>
+  </data>
+  <data name="Device" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="DpiDescriptionLabel" xml:space="preserve">
+    <value>Dpi :</value>
+  </data>
+  <data name="EnableSequenceCheck" xml:space="preserve">
+    <value>Enable sequence check</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="EndConfirmationPrompt" xml:space="preserve">
+    <value>The print session will end. The prints will be saved.</value>
+  </data>
+  <data name="EndorsementConsentText" xml:space="preserve">
+    <value>This is the english endorsement text.</value>
+  </data>
+  <data name="EndorsementConsentWindowTitle" xml:space="preserve">
+    <value>Endorsement consent text for third party</value>
+  </data>
+  <data name="EndorsementNamePattern" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="EndorsementNotSetPrompt" xml:space="preserve">
+    <value>The print session will end. No endorsement finger was captured. The prints will be saved.</value>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="IncludePalm" xml:space="preserve">
+    <value>Include palm prints</value>
+  </data>
+  <data name="LivePreviewTitle" xml:space="preserve">
+    <value>Scan Preview Window</value>
+  </data>
+  <data name="NoDevice" xml:space="preserve">
+    <value>No Device</value>
+  </data>
+  <data name="OperationAnalysis" xml:space="preserve">
+    <value>Print analyse in progress ...</value>
+  </data>
+  <data name="OperationCompleted" xml:space="preserve">
+    <value>Print analysis completed</value>
+  </data>
+  <data name="OperationNoPrint" xml:space="preserve">
+    <value>No print to analyse</value>
+  </data>
+  <data name="OverrideDisableFlat" xml:space="preserve">
+    <value>Disable override of flat prints</value>
+  </data>
+  <data name="OverrideDisablePalm" xml:space="preserve">
+    <value>Disable override of palm prints</value>
+  </data>
+  <data name="OverrideDisableRolled" xml:space="preserve">
+    <value>Disable override of rolled prints</value>
+  </data>
+  <data name="PresenceWindowTitle" xml:space="preserve">
+    <value>Absence / Presence</value>
+  </data>
+  <data name="PreviousPrint" xml:space="preserve">
+    <value>Previous print</value>
+  </data>
+  <data name="PrintSession" xml:space="preserve">
+    <value>Print Session</value>
+  </data>
+  <data name="QualityBad" xml:space="preserve">
+    <value>Bad quality</value>
+  </data>
+  <data name="QualityEvaluated" xml:space="preserve">
+    <value>Quality was evaluated</value>
+  </data>
+  <data name="QualityGood" xml:space="preserve">
+    <value>Good quality</value>
+  </data>
+  <data name="ResetConfirmationPrompt" xml:space="preserve">
+    <value>Session and all prints will be reseted.</value>
+  </data>
+  <data name="ResolutionInfo" xml:space="preserve">
+    <value>Resolution : {0}</value>
+  </data>
+  <data name="ResolutionNotSet" xml:space="preserve">
+    <value>Verify Resolution for fingerprints. Configure correctly and try again.</value>
+  </data>
+  <data name="Resolutions" xml:space="preserve">
+    <value>Resolutions</value>
+  </data>
+  <data name="ResumeCapture" xml:space="preserve">
+    <value>Resume Capture</value>
+  </data>
+  <data name="Scanner" xml:space="preserve">
+    <value>Scanner</value>
+  </data>
+  <data name="SelectEndorsement" xml:space="preserve">
+    <value>Select finger for endorsement</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>Duplicate</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Serial number</value>
+  </data>
+  <data name="SetFinger" xml:space="preserve">
+    <value>Set finger</value>
+  </data>
+  <data name="CardScan" xml:space="preserve">
+    <value>CardScan</value>
+  </data>
+  <data name="Livescan" xml:space="preserve">
+    <value>LiveScan</value>
+  </data>
+  <data name="ServiceConnectedMessage" xml:space="preserve">
+    <value>Connected</value>
+  </data>
+  <data name="ServiceDisconnectedMessage" xml:space="preserve">
+    <value>Disconnected</value>
+  </data>
+  <data name="Reposition" xml:space="preserve">
+    <value>Reposition</value>
+  </data>
+  <data name="SetExpectedFingers" xml:space="preserve">
+    <value>Set expected fingers</value>
+  </data>
+  <data name="HandPartMissingImage" xml:space="preserve">
+    <value>Missing Image</value>
+  </data>
+  <data name="VulnerableSectorConsent" xml:space="preserve">
+    <value>This consent is to be used by a person applying for a position with a person or organization responsible for the well-being of one or more children or vulnerable persons, if the position is a position of authority or trust relative to those children or vulnerable persons and the applicant wishes to consent to a search being made in criminal conviction records to determine if the applicant has been convicted of a sexual offence listed in the schedule to the Criminal Records Act and has been pardoned or if the applicant has an existing Criminal Record of conviction which may be disclosed in accordance with Federal Laws.
+
+I, {1} am an applicant for a position with a person or organization responsible for the well-being of one or more children or vulnerable persons. I consent to a search being made in the automated criminal records retrieval system maintained by the Royal Canadian Mounted Police to find out if I have an existing Criminal Record of conviction which may be disclosed in accordance with Federal Laws or If I have been convicted of, and been granted a pardon for, any of the sexual offences that are listed in the schedule to the Criminal Records Act.
+
+I understand that, as a result of giving this consent, if I am identified by fingerprint search as being the person named in a criminal record, including a criminal record for which one of the sexual offences listed in the schedule to the Criminal Records Act in respect of which a pardon was granted or issued, that record may be provided by the Commissioner of the Royal Canadian Mounted Police to the Minister of Public Safety and Emergency Preparedness, who may then disclose all or part of the information contained in that record to the police agency identified above. That police force will then disclose that information to me. If I further consent to disclosure of that information to the person or organization referred to above that requested the verification, that information will be disclosed to that person or organization.</value>
+  </data>
+  <data name="VulnerableSectorName" xml:space="preserve">
+    <value>Vulnerable sector</value>
+  </data>
+  <data name="WaiverConsent" xml:space="preserve">
+    <value>I understand that, as a result of giving this consent, if I am identified by fingerprint search as being the person named in a criminal record, including a criminal record for which one of the sexual offences listed in the schedule to the Criminal Records Act in respect of which a pardon was granted or issued, that record may be provided by the Commissioner of the Royal Canadian Mounted Police to the Minister of Public Safety and Emergency Preparedness, who may then disclose all or part of the information contained in that record to the police agency identified above. That police force will then disclose that information to me. If I further consent to disclosure of that information to the person or organization referred to above that requested the verification, that information will be disclosed to that person or organization.</value>
+  </data>
+  <data name="WaiverName" xml:space="preserve">
+    <value>Waiver</value>
+  </data>
+  <data name="NoOverride" xml:space="preserve">
+    <value>No override</value>
+  </data>
+  <data name="OverrideAlwayDisplayed" xml:space="preserve">
+    <value>Override options always visible</value>
+  </data>
+  <data name="DefineOverride" xml:space="preserve">
+    <value>Define override</value>
+  </data>
+  <data name="PrintSegments" xml:space="preserve">
+    <value>Print parts</value>
+  </data>
+  <data name="OverrideRetryNeededLabel" xml:space="preserve">
+    <value>Retry :</value>
+  </data>
+  <data name="DateFormatHelper" xml:space="preserve">
+    <value>yyyy-mm-dd</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="PalmQualityControlTitle" xml:space="preserve">
+    <value>Palm Quality Control</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="OverrideReasonCannotBeBlank" xml:space="preserve">
+    <value>Override reason cannot be blank. Specify a reason.</value>
+  </data>
+  <data name="AcceptStar" xml:space="preserve">
+    <value>Accept *</value>
+  </data>
+  <data name="ScanKindFlat" xml:space="preserve">
+    <value>Flat</value>
+  </data>
+  <data name="ScanKindRolled" xml:space="preserve">
+    <value>Rolled</value>
+  </data>
+  <data name="WizardActionScan" xml:space="preserve">
+    <value>Scan again</value>
+  </data>
+  <data name="WizardApplyActions" xml:space="preserve">
+    <value>Apply actions</value>
+  </data>
+  <data name="WizardNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="WizardOtherReasonInvalid" xml:space="preserve">
+    <value>The reason must be specified. Only standard characters allowed.</value>
+  </data>
+  <data name="WizardPrevious" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="WizardPrintInvalid" xml:space="preserve">
+    <value>Invalid print</value>
+  </data>
+  <data name="WizardPrintOk" xml:space="preserve">
+    <value>Print Ok</value>
+  </data>
+  <data name="WizardPrintWarning" xml:space="preserve">
+    <value>Validation failed</value>
+  </data>
+  <data name="WizardReasonInvalid" xml:space="preserve">
+    <value>When using the 'Other' reason, you must enter the reason.</value>
+  </data>
+  <data name="WizardReviewTitle" xml:space="preserve">
+    <value>Review : There are some incorrect prints</value>
+  </data>
+  <data name="WizardShowAdvanced" xml:space="preserve">
+    <value>Show advanced information</value>
+  </data>
+  <data name="WizardSpecifyReason" xml:space="preserve">
+    <value>Specify reason</value>
+  </data>
+  <data name="WizardStarExplained" xml:space="preserve">
+    <value>* Print was modified or a reason defined to ignore the current error.</value>
+  </data>
+  <data name="WizardReviewPrints" xml:space="preserve">
+    <value>Review prints</value>
+  </data>
+  <data name="WizardStatusCaptureAgain" xml:space="preserve">
+    <value>Errors have been detected! Please rescan :</value>
+  </data>
+  <data name="WizardStatusEndCapture" xml:space="preserve">
+    <value>By clicking "Apply actions", all the prints will be added to your file.</value>
+  </data>
+  <data name="WizardStatusErrorList" xml:space="preserve">
+    <value>You need to correct some prints before you continue.
+
+It is recommanded that you scan the prints again. 
+
+For advanced use, you may click on "Review prints".</value>
+  </data>
+  <data name="WizardStatusNoError" xml:space="preserve">
+    <value>All errors have been corrected.</value>
+  </data>
+  <data name="ErrorHaveBeenDetected" xml:space="preserve">
+    <value>Error(s) have been detected. Please rescan :</value>
+  </data>
+</root>

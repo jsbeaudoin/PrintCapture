@@ -1,0 +1,71 @@
+{
+    "signature": "12586651850213594648146632276468477315",
+    "LIVETOUCH": {
+        "quattro": {
+            "boardRevision_C": {
+                "USER": {
+                    "filename": "4Fvis_user_213_C",
+                    "extension": "bin",
+                    "version": "213",
+                    "minimum": "200",
+                    "checksum": "C305B500"
+                },
+                "FPGA": {
+                    "filename": "topBC_1470_201",
+                    "extension": "rbf",
+                    "version": "1470",
+                    "minimum": "1400",
+                    "checksum": "9BABB75B"
+                },
+                "TFTINI": {
+                    "filename": "QUATTRO",
+                    "extension": "bin",
+                    "version": "1",
+                    "minimum": "0",
+                    "checksum": "B0C3D9B8"
+                }
+            },
+            "boardRevision_D": {
+                "USER": {
+                    "filename": "4Fvis_user_219_D",
+                    "extension": "bin",
+                    "version": "219",
+                    "minimum": "200",
+                    "checksum": "09F3B1A3"
+                },
+                "FPGA": {
+                    "filename": "topD_1470_201",
+                    "extension": "rbf",
+                    "version": "1470",
+                    "minimum": "1400",
+                    "checksum": "446C6056"
+                },
+                "TFTINI": {
+                    "filename": "QUATTRO",
+                    "extension": "bin",
+                    "version": "1",
+                    "minimum": "0",
+                    "checksum": "B0C3D9B8"
+                }
+            }
+        },
+        "quattro_Compact": {
+            "boardRevision_A": {
+                "USER": {
+                    "filename": "b_user_223",
+                    "extension": "bin",
+                    "version": "223",
+                    "minimum": "200",
+                    "checksum": "F12E1F4A"
+                },
+                "FPGA": {
+                    "filename": "b_2028",
+                    "extension": "jam",
+                    "version": "2028",
+                    "minimum": "2028",
+                    "checksum": "56C55D13"
+                }
+            }
+        }
+    }    
+}

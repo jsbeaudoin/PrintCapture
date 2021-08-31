@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>Guardian User Guidance Interface Thumbs</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+
+	
+<script language="JavaScript" type="text/JavaScript">
+
+	/* ***********************************************************************************************
+		This web page will use JavaScript to overlay the img/image_thumbs.svg image of the thumbs
+		on top of the img/image_background.svg image of the Guardian's blue light platen.
+		
+		The body of this web page is at the bottom of this file.
+		The javascript will parse the html arguments and load the svg images.
+		
+		The svg images use ecmascript to perform the image animation.
+	************************************************************************************************/
+
+	/**************************************************************************************************************************
+	  Thumb external arguments
+	EXTERNAL ARGUMENT   DESCRIPTION            DEFAULT  VALID VALUES    EFFECT
+	  FP1               right thumb            1        0,1             0 - right thumb missing or damaged
+	                                                                    1 - finger is not missing and present
+	  FP6               left thumb             1        0,1             0 - left thumb missing or damaged
+	                                                                    1 - finger is not missing and present
+
+	  ButtonRetry       Retry Button           2        0,1,2           0 - inactive
+	                                                                    1 - The button is active
+	                                                                    2 - The button is hidden 
+	                                                                    If an error occurs, Propmts to recapture the print. 
+	                                                                    Recapture is an alternate in the capture workflow. The Scanner returns to the capture mode.
+
+	  ButtonConfirm     Confirm button         1        0,1,2           0 - inactive
+	                                                                    1 - The button is active
+	                                                                    2 - The button is hidden  
+	                                                                    The user can accept a low quality image and ignore the system quality check.
+	                                                                    Do this only if you cannot improve the quality of the captured image. 
+	                                                                    After you press the button, the program save the fingerprint image in the record.
+
+	  Result            capture result         0        0 - 10          1 - green icon (OK)  LSCAN_STATUS_OK
+	                                                                    2 - General error. The icon indicates a hardware-related or system-related error.
+	                                                                    3 - Clean the platen. ( WRN_OPTICS_SURFACE_DIRTY) Indicate that you must clean the platen or the silicone membrane before you start a new capture sequence.
+	                                                                    4 - Capture error. ( WRN_BAD_SCAN) Error occurs during recording, for example - slipped, off-hook
+	                                                                    5 - Roll error. ( WRN_ROLL_SHIFTED, WRN_ROLL_LIFTED, etc.) Roll result is not acceptable. Reapeat the capture procedure. Roll correctly and keep an even pressure throughout the roll.
+	                                                                    6 - Segmentation error. (Segmentation is not supported in LSE) Error occurs during segmentation of the image.
+	                                                                    7 - Quality-check. Image does not pass the quality check.
+	                                                                    8 - sequence-check. (Sequence is not supported in LSE) Finger reversed or recorded twice.
+	                                                                    9 - Future Error
+	                                                                    10 - Compression Error - (Compression is not supported in LSE)
+
+	**************************************************************************************************************************
+	  Thumb interanl arguments
+	INTERNAL ARGUMENT   DESCRIPTION           DEFAULT   VALID VALUES    EFFECT
+	  acquired          display acquired      false     true/false      true - Animate green platen followed by animated hand removal when capture is complete.
+	  qualified         display qualified     false     true/false      true - all 4 fingers have good pressure
+	  confusion         display confusion     false     true/false      false - normal
+	                                                                    true - Animate hand movement detected ( _OBJECT_CONFUSION)
+	  peripherality     display peripherality -         true/false      false - normal
+	                                                                    true - incorrect hand placement detected
+	                                                                      "peripheralityLeft":true - ( _POSITION_TOO_LEFT) Animate hand horizontal slide from left to right of prism
+	                                                                      "peripheralityRight":true - ( _POSITION_TOO_RIGHT) Animate hand horizontal slide from right to left of prism
+	                                                                      "peripheralityTop":true - ( _POSITION_TOO_HIGH) Animate hand vertical slide from back to front of prism
+	  rotation          display rotation      0         -45, 0, 45      0 - normal   
+	                                                                    45 - Animate hand rotation counter clock wise ( _OBJECT_ROTATED_CLOCKWISE)
+	                                                                    -45 Animate hand rotation clock wise ( _OBJECT_ROTATED_COUNTERCLOCKWISE)
+	  badshape          display badshape      false     true/false      false - normal
+	                                                                    true - Animate hand placement side view ( _OBJECT_BAD_SHAPE)
+	  tracking          display tracking      false     true/false      false - normal
+	                                                                    true - Animate hand movement detected ( _OBJECT_TRACKING_NOT_OK)
+	  pressure          display pressure      0         -1, 0, 1        -1 - too little pressure ( _OBJECT_TOO_LIGHT)
+	                                                                    0 - good pressure ( _OBJECT_GOOD)
+	                                                                    1 - too much pressure ( _OBJECT_TOO_DARK)
+	                                                                      "pressure0":-1 - 1st object pressure is too little
+	                                                                      "pressure1":-1 - 2nf object pressure is too little
+	                                                                      "pressure2":1  - 3rd object pressure is too much
+	                                                                      "pressure3":0  - 4th object pressure is just right
+
+	**************************************************************************************************************************/
+
+	var myArgs = {"FP6":1,"FP1":1,"confusion":false,"peripherality":[],"rotation":0,"badshape":false,"tracking":false,"pressure":[],"qualified":false,"acquired":false,"Result":0,"ButtonRetry":2,"ButtonConfirm":1};
+	var firstLooping = false;	// if false, force web page to reload via svgobj.location.reload(true) call
+	
+	var CONST_PERIPHERALITY = "peripherality";
+	var CONST_PRESSURE = "pressure";
+
+	Object.prototype.equals = function(x)
+	{
+		var p;
+		for(p in this) {
+			if(typeof(x[p])=='undefined') {return false;}
+		}
+	 
+		for(p in this) {
+			if (this[p]) {
+				switch(typeof(this[p])) {
+					case 'object':
+						if (!this[p].equals(x[p])) { return false; } 
+						break;
+					case 'function':
+						if (typeof(x[p])=='undefined' ||
+							(p != 'equals' && this[p].toString() != x[p].toString()))
+							return false;
+						break;
+					default:
+						if (this[p] != x[p]) { return false; }
+				}
+			} 
+			else {
+				if (x[p])
+					return false;
+			}
+		}
+	 
+		for(p in x) {
+			if(typeof(this[p])=='undefined') {
+				return false;
+			}
+		}
+	 
+		return true;
+	}
+	
+
+	// SVG file will call this fuction via window.parent.parseUrlArguments();
+	//parse URL, parse jason that contains the arguments. Save the new argName arguments into myArgs array.
+	function parseUrlArguments() {
+		try {
+			var arr = window.location.href.split("?");
+			if (arr.length == 2) {
+				var jsonStr = decodeURI(arr[1]);			// Get URI string
+				var json= JSON.parse(jsonStr);				// parse each entry
+				json = translatePeripheralityAndPressureArgs(json);	// parse the information from the peripherality and pressure arguments
+				for ( var argName in json){
+					this.myArgs[argName]= json[argName];	// Replace default argName with new URI arguments
+				}
+			}
+		}
+		catch (ex) {
+			alert(ex);
+		}
+		return null;
+	}
+    
+
+	// SVG file will call this fuction via window.parent.getArguments();
+	// returns array of URI argument to SVG file for processing
+	function getArguments() {
+		return this.myArgs;
+	}
+	
+	
+	// Set arguments based on various standard "button" settings then generate a new SVG image
+	function setArguments(newArgs) {
+        try {
+			var argsChanged = false;
+			newArgs = translatePeripheralityAndPressureArgs(newArgs); // parse the information from the peripherality and pressure arguments
+		  
+			// If new arguments contain qualified or acquired, we cancel animation?????
+			if (("qualified" in newArgs && newArgs.qualified) || ("acquired" in newArgs && newArgs.acquired) ){
+				setFirstLooping(false);	// set firstLooping = false to force page to reload
+			} 
+			if (!this.firstLooping)
+			{		  
+				// configure and update image with new arguments
+				if(!myArgs.equals(newArgs)) {
+					myArgs = new Object();
+					for ( var argName in newArgs) { 
+						if ( myArgs[argName] !== newArgs[argName] ) {
+							myArgs[argName] = newArgs[argName];
+							argsChanged = true;
+						}
+					}
+					if (argsChanged)
+						svgReload();	//Reload svg image according to arguments.
+				}
+			}
+
+		}
+		catch (ex) {
+			alert(ex);
+		}
+		return myArgs;
+	}
+	
+	
+	//parse the information from the peripherality and pressure arguments
+	//
+	function translatePeripheralityAndPressureArgs(newArgs) {
+		var peripherality = new Array();	// Array of up to 3 position tracking LScanObjectQualityState
+		var pressure = new Array();			// Array of up to 4 contrast tracking LScanObjectQualityState
+
+
+		// loop through all the Arguments and find 'peripherality' and 'pressure'
+		for ( var argName in newArgs) { 
+			/*	find peripherality in argument array
+				set peripherality string to lower case so it is parsed in svg files
+				Save peripherality argument to local peripherality array
+				The peripherality arguments has three formats:
+					"peripheralitylseft":"true"
+					"peripheralityright":"true"
+					"peripheralitytop":"true"
+			*/
+			if (argName.indexOf(CONST_PERIPHERALITY) >= 0 && newArgs[argName]) {
+				var x = argName.substring(this.CONST_PERIPHERALITY.length);
+				if (x.length > 0) {
+					peripherality.push(x.toLowerCase());	// Save local copy of peripherality argument 
+				}
+				delete newArgs[argName];		// remove original argument
+			}
+			
+			/*	find pressure in argument array
+				pressure string is parsed in svg files
+				pressure represents the 4 objects detected on the platen
+				Save pressure argument to local pressure array
+				The pressure arguments has the following formats:
+					"pressure0":1
+					"pressure1":1		- too much pressure ( _OBJECT_TOO_DARK)
+					"pressure2":0		- good pressure ( _OBJECT_GOOD)
+					"pressure3":-1		- too little pressure ( _OBJECT_TOO_LIGHT)
+			*/
+			else if (argName.indexOf(CONST_PRESSURE) >= 0 && typeof newArgs[argName]!='undefined') {
+				var x = argName.substring(this.CONST_PRESSURE.length);
+				if (x.length > 0) {
+					pressure[x] = newArgs[argName];		// Save local copy of pressure argument 
+				}
+				delete newArgs[argName];				// remove original argument
+			}
+		}
+		  
+		// Add newly formatted peripherality and pressure arguments back into our argument array
+		if (peripherality.length > 0) 
+			newArgs[CONST_PERIPHERALITY] = peripherality;
+		if (pressure.length > 0) 
+		  	newArgs[CONST_PRESSURE] = pressure;
+		return newArgs;
+	}
+
+	// SVG file will call this fuction via window.parent.getMirrored();
+	// SVG file must determine if the image should be transform/mirror before it is animated
+	function getMirrored() {
+		return this.mirrored;
+	}
+
+	
+	// SVG file will call this fuction via window.parent.setFirstLooping();
+	// SVG file can transform/mirror image before it is animated
+	//		set isFirstLooping to false to force web page to reload via svgobj.location.reload(true);
+	function setFirstLooping(isFirstLooping) {
+		this.firstLooping = isFirstLooping;
+	}
+
+
+	// Allow call into the Update function in the SVG file 
+	// Allow for refresh.
+	function svgUpdate() {}
+
+
+	//Reload svg according to arguments
+	// svgReload can be called at any time if the web page with svg image needs to reloaded
+	function svgReload() {
+		var svgobj=document.getElementById('svg').getSVGDocument(); 
+		if (svgobj) {
+			if (!this.firstLooping)
+				svgobj.location.reload(true);
+		}
+	}
+	
+	
+	// change prisma color in the image_background svg file.
+	// The image_background.svg definds the ID for the platen to be "Prisma"
+	//   The web page maps the element ID, svg_background, to the img/image_background.svg file
+	//   The img/image_background.svg file contains the svg element ID called "Prisma"
+	function changePrismaColor(newColor) {
+		var prisma = document.getElementById("svg_background").getSVGDocument().getElementById("Prisma");
+		prisma.style.setProperty("fill",newColor, "");
+	}
+
+   </script>
+
+</head>
+<body>
+  <div class="page_margins">
+    <div class="page">
+      <div id="main">
+      	<object id="svg_background" class="svgobj" type="image/svg+xml" data="img/image_background.svg" width="100%" height="100%"></object>
+      	<object id="svg" class="svgobj" type="image/svg+xml" data="img/image_thumbs.svg" width="100%" height="100%"></object>
+        
+        <div id="controlbtn" class="svgobj" style="display:none;">
+            <button type="button" id="pressure" onClick='setArguments({"FP6":1,"FP1":1,"qualified":false,"pressure0":-2,"pressure1":-1});'>
+              Change and Set Pressure
+            </button>
+            <button type="button" id="confusion" onClick='setArguments({"FP6":1,"FP1":1,"confusion":true});'>
+              Set Confusion
+            </button>
+            <button type="button" id="peripherality" onClick='setArguments({"FP6":1,"FP1":1,"peripheralityLeft":false,"peripheralityRight":true,"peripheralityTop":true});'>
+              Set Peripherality
+            </button>
+            <button type="button" id="rotation" onClick='setArguments({"FP6":1,"FP1":1,"rotation":-35});'>
+              Set Rotation
+            </button>
+            <button type="button" id="badshape" onClick='setArguments({"FP6":1,"FP1":1,"badshape":true});'>
+              Set Badshape
+            </button>
+            <button type="button" id="tracking" onClick='setArguments({"FP6":1,"FP1":1,"tracking":true});'>
+              Set Tracking
+            </button>
+            <button type="button" id="qualified" onClick='setArguments({"FP6":1,"FP1":1,"qualified":true});'>
+              Set Qualified
+            </button>
+            <button type="button" id="acquired" onClick='setArguments({"FP6":1,"FP1":1,"acquired":true});'>
+              Set Acquired
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

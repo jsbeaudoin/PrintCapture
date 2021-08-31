@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>CrossMatch GUI Trigger: FLAT FINGERS</title>
+
+<script language="JavaScript" type="text/JavaScript">
+
+	/***********************************************************************************************
+		This web page will use JavaScript to demonstrates the img/index_standard .svg image.
+
+		The body of this web page is at the bottom of this file.
+		The javascript will parse the html arguments and load the svg images.
+		The svg images use ecmascript to perform the image animation.
+	************************************************************************************************/
+    var dataSet = {"confusion":false,"peripherality":[],"rotation":0,"badshape":false,"tracking":false,"pressure":[],"acquired":false};
+	//var pressure = 0;
+	var pressure = -2;
+
+	function Load() {
+		window.moveTo(0,0);
+		window.resizeTo(800,568);
+	}
+	
+	function ToggleFlash() {
+		dataSet.acquired = !dataSet.acquired;
+		Browse();
+	}
+
+    function IncreasePressure(modus) {
+		dataSet = new Object();
+
+		pressure++;
+		if (pressure == 0)
+			dataSet.qualified = true;
+		else
+			dataSet.qualified = false;
+
+		if (pressure > 2) {
+			pressure = -2;
+		} 
+		dataSet.pressure0 = pressure;
+		dataSet.pressure1 = pressure;
+		dataSet.pressure2 = pressure;
+		dataSet.pressure3 = pressure;
+
+		Browse(modus);
+	}
+
+
+	function ChangeConfusion(modus) {
+		dataSet = new Object();
+		dataSet.confusion = true;
+
+		Browse(modus);
+	}
+
+	function ChangePeripherality(modus) {
+		dataSet = new Object();
+		dataSet.peripheralityLeft = false;
+		dataSet.peripheralityRight = false;
+		dataSet.peripheralityTop = true;
+
+		Browse(modus);
+	}
+
+	function ChangeRotation(modus) {
+	  dataSet = new Object();
+		dataSet.rotation = -35;
+		Browse(modus);
+	}
+
+	function ChangeBadshape(modus) {
+		dataSet = new Object();
+		dataSet.badshape = true;
+		Browse(modus);
+	}
+
+	function ChangeTracking(modus) {
+		dataSet = new Object();
+		dataSet.tracking = true;
+		Browse(modus);
+	}
+
+	// Display new flat finger graphics with new parameters
+	function Browse(modus) {
+		window.location.href = "index_standard"+modus+".html?" + JSON.stringify(dataSet);
+	}
+
+
+
+</script>
+<style>
+	tml { padding: 0; margin: 0; }   
+	body { padding: 0; margin: 0; height: 100%; overflow:hidden; }
+	div { margin:40px; }
+</style>
+
+
+</head>
+<body onLoad="Load();">
+  <div>
+  <span><b>Right Hand:</b></span>
+    <button type="button" id="initialScreen" onClick="window.location.href ='index_initial_right.html'">
+      Initial Screen
+    </button>
+    <button type="button" id="pressure" onClick="IncreasePressure('_right');">
+      Change and Set Pressure
+    </button>
+    <button type="button" id="confusion" onClick="ChangeConfusion('_right');">
+      Set Confusion
+    </button>
+    <button type="button" id="peripherality" onClick="ChangePeripherality('_right');">
+      Set Peripherality
+    </button>
+    <button type="button" id="rotation" onClick="ChangeRotation('_right');">
+      Set Rotation
+    </button>
+    <button type="button" id="badshape" onClick="ChangeBadshape('_right');">
+      Set Badshape
+    </button>
+    <button type="button" id="tracking" onClick="ChangeTracking('_right');">
+      Set Tracking
+    </button>
+  </div>
+    <p>  </p>
+
+  <div>
+  <span><b>Left Hand:</b></span>
+    <button type="button" id="initialScreen" onClick="window.location.href ='index_initial_left.html'">
+      Initial Screen
+    </button>
+    <button type="button" id="pressure" onClick="IncreasePressure('_left');">
+      Change and Set Pressure
+    </button>
+    <button type="button" id="confusion" onClick="ChangeConfusion('_left');">
+      Set Confusion
+    </button>
+    <button type="button" id="peripherality" onClick="ChangePeripherality('_left');">
+      Set Peripherality
+    </button>
+    <button type="button" id="rotation" onClick="ChangeRotation('_left');">
+      Set Rotation
+    </button>
+    <button type="button" id="badshape" onClick="ChangeBadshape('_left');">
+      Set Badshape
+    </button>
+    <button type="button" id="tracking" onClick="ChangeTracking('_left');">
+      Set Tracking
+    </button>
+  </div>
+  
+  
+  <div>
+  <span><b>Thumbs: </b></span>
+    <button type="button" id="initialScreen" onClick="window.location.href ='index_initial_thumbs.html'">
+      Initial Screen
+    </button>
+    <button type="button" id="pressure" onClick="IncreasePressure('_thumbs');">
+      Change and Set Pressure
+    </button>
+    <button type="button" id="confusion" onClick="ChangeConfusion('_thumbs');">
+      Set Confusion
+    </button>
+    <button type="button" id="peripherality" onClick="ChangePeripherality('_thumbs');">
+      Set Peripherality
+    </button>
+    <button type="button" id="rotation" onClick="ChangeRotation('_thumbs');">
+      Set Rotation
+    </button>
+    <button type="button" id="badshape" onClick="ChangeBadshape('_thumbs');">
+      Set Badshape
+    </button>
+    <button type="button" id="tracking" onClick="ChangeTracking('_thumbs');">
+      Set Tracking
+    </button>
+  </div>
+  
+</body>
+</html>

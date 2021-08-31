@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<title>Guardian User Guidance Interface Initial Left Hand</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+
+
+<script language="JavaScript" type="text/JavaScript">
+
+	/***********************************************************************************************
+		This web page will use JavaScript to overlay the img/initial_animation*.svg mirror images
+		of right hand on top of the img/image_background.svg image of the Guardian's blue light platen.
+
+		The body of this web page is at the bottom of this file.
+		The javascript will parse the html arguments and load the appropriate svg images.
+		The svg images use ecmascript to perform the image animation.
+	************************************************************************************************/
+
+	/**************************************************************************************************************************
+	  Left hand external arguments
+	EXTERNAL ARGUMENT   DESCRIPTION	           DEFAULT  VALID VALUES    EFFECT
+	  FP10              left little finger     0        0,1             0 - left little finger missing or damaged
+	                                                                    1 - finger is valid/present/exists/available
+	  FP9               left ring finger       0        0,1             0 - left ring finger missing or damaged
+	                                                                    1 - finger is valid/present/exists/available
+	  FP8               left middle finger     0        0,1             0 - left middle finger missing or damaged
+	                                                                    1 - finger is valid/present/exists/available
+	  FP7               left index finger      0        0,1             0 - left index finger missing or damaged
+	                                                                    1 - finger is valid/present/exists/available
+
+	  ButtonRetry       Retry Button           2        0,1,2           0 - inactive
+	                                                                    1 - The button is active
+	                                                                    2 - The button is hidden 
+	                                                                    If an error occurs, Propmts to recapture the print. 
+	                                                                    Recapture is an alternate in the capture workflow. The Scanner returns to the capture mode.
+
+	  ButtonConfirm     Confirm button         1        0,1,2           0 - inactive
+	                                                                    1 - The button is active
+	                                                                    2 - The button is hidden  
+	                                                                    The user can accept a low quality image and ignore the system quality check.
+	                                                                    Do this only if you cannot improve the quality of the captured image. 
+	                                                                    After you press the button, the program save the fingerprint image in the record.
+
+	  Result            capture result         0        0 - 10          1 - green icon (OK)  LSCAN_STATUS_OK
+	                                                                    2 - General error. The icon indicates a hardware-related or system-related error.
+	                                                                    3 - Clean the platen. ( WRN_OPTICS_SURFACE_DIRTY) Indicate that you must clean the platen or the silicone membrane before you start a new capture sequence.
+	                                                                    4 - Capture error. ( WRN_BAD_SCAN) Error occurs during recording, for example - slipped, off-hook
+	                                                                    5 - Roll error. ( WRN_ROLL_SHIFTED, WRN_ROLL_LIFTED, etc.) Roll result is not acceptable. Reapeat the capture procedure. Roll correctly and keep an even pressure throughout the roll.
+	                                                                    6 - Segmentation error. (Segmentation is not supported in LSE) Error occurs during segmentation of the image.
+	                                                                    7 - Quality-check. Image does not pass the quality check.
+	                                                                    8 - sequence-check. (Sequence is not supported in LSE) Finger reversed or recorded twice.
+	                                                                    9 - Future Error
+	                                                                    10 - Compression Error - (Compression is not supported in LSE)
+	**************************************************************************************************************************/
+
+	var myArgs = {"FP7":0,"FP8":0,"FP9":0,"FP10":0,"Result":0,"ButtonRetry":2,"ButtonConfirm":1};		// Default argument array for left hand fingers 7 through 10
+	var mirrored = true;	// true == left hand
+
+	var hiddenFinger=[];
+	
+	Object.prototype.equals = function(x)
+	{
+		var p;
+		for(p in this) {
+			if(typeof(x[p])=='undefined') {return false;}
+		}
+	 
+		for(p in this) {
+			if (this[p]) {
+				switch(typeof(this[p])) {
+					case 'object':
+						if (!this[p].equals(x[p])) { return false; } 
+						break;
+					case 'function':
+						if (typeof(x[p])=='undefined' ||
+							(p != 'equals' && this[p].toString() != x[p].toString()))
+							return false;
+						break;
+					default:
+						if (this[p] != x[p]) { return false; }
+				}
+			} 
+			else {
+				if (x[p])
+					return false;
+			}
+		}
+	 
+		for(p in x) {
+			if(typeof(this[p])=='undefined') {
+			return false;
+			}
+		}
+	 
+		return true;
+	}
+
+
+	//begin loading page.
+	function onLoad() {
+		parseUrlArguments();
+		activateSvg();
+	}
+
+
+	//parse URL, parse jason that contains the arguments. Save the new argName arguments into myArgs array.
+	function parseUrlArguments() {
+		try {
+			var arr = window.location.href.split("?");
+			if (arr.length == 2) {
+				var jsonStr = decodeURI(arr[1]);			// Get URI string
+				var json= JSON.parse(jsonStr);				// parse each entry
+
+				for ( var argName in json){
+					this.myArgs[argName]= json[argName];	// Replace default argName with new URI arguments
+				}
+			}
+		}
+		catch (ex) {
+			alert(ex);
+		}
+		return null;
+	}
+
+
+	// activate svg according to argName.
+	function activateSvg() {
+		if ( (this.myArgs.FP2==0 && this.myArgs.FP3==0 && this.myArgs.FP4==0 && this.myArgs.FP5==0) || 
+		     (this.myArgs.FP2>0 && this.myArgs.FP3>0 && this.myArgs.FP4>0 && this.myArgs.FP5>0) ) 
+		{
+			setImageActive("hand_2345");	// Default to full hand if all finger arguments are zero or all greater than zero
+		}
+		else if ( (this.myArgs.FP7==0 && this.myArgs.FP8==0 && this.myArgs.FP9==0 && this.myArgs.FP10==0) || 
+		     (this.myArgs.FP7>0 && this.myArgs.FP8>0 && this.myArgs.FP9>0 && this.myArgs.FP10>0) ) 
+		{
+			setImageActive("hand_2345");	// Default to full hand if all finger arguments are zero or all greater than zero
+		}
+		else
+		{
+			// Push finger values of all invalid or missing fingers into hiddenFinger array
+			// Entries added to the hiddenFinger array must have the save valued in the fingerNumerationArr array
+			// Add entries to the hiddenFinger array in any order
+			// setHiddenFinger will remove hiddenFinger entries from the fingerNumerationArr array.
+			/*  Don't need to comment out these argument checks
+			if ( this.myArgs.FP2==0 )
+				hiddenFinger.push(2);	// add new entry to array to hide finger #2 (right index)
+			if ( this.myArgs.FP3==0 )
+				hiddenFinger.push(3);	// add new entry to array to hide finger #3 (right middle)
+			if ( this.myArgs.FP4==0 )
+				hiddenFinger.push(4);	// add new entry to array to hide finger #4 (right ring)
+			if ( this.myArgs.FP5==0 )
+				hiddenFinger.push(5);	// add new entry to array to hide finger #5 (right little)
+			*/
+			if ( this.myArgs.FP7==0 )
+				hiddenFinger.push(2);	// add new entry to array to hide finger #7 (left index)
+			if ( this.myArgs.FP8==0 )
+				hiddenFinger.push(3);	// add new entry to array to hide finger #8 (left middle)
+			if ( this.myArgs.FP9==0 )
+				hiddenFinger.push(4);	// add new entry to array to hide finger #9 (left ring)
+			if ( this.myArgs.FP10==0 )
+				hiddenFinger.push(5);	// add new entry to array to hide finger #10 (left little)
+				
+			setHiddenFinger();
+		}
+	}
+
+
+	// Set arguments based on various standard "button" settings then generate a new SVG image
+	function setArguments(newArgs) {
+		try {
+			var argsChanged = false;
+			if(!myArgs.equals(newArgs)) {
+				  myArgs = new Object();	
+				  for ( var argName in newArgs) { 
+					if ( myArgs[argName] !== newArgs[argName] ) {
+						myArgs[argName] = newArgs[argName];
+						argsChanged = true;
+					}
+				  }
+				  if (argsChanged)
+					activateSvg();
+			}
+
+		}
+		catch (ex) {
+			alert(ex);
+		}
+		//return myArgs;
+	}
+
+	// SVG file will call this fuction via window.parent.getArguments();
+	// returns array of URI argument to SVG file for processing
+	function getArguments() {
+		return this.myArgs;
+	}
+
+	//Check for hidden fingers and create image name
+	// Removes hiddenFinger entries from the fingerNumerationArr array.
+	function setHiddenFinger() {
+		// Array of hand finger numbers - #1=thumb; #2=index; #3=middle; #4=ring; #5=little
+		var fingerNumerationArr = [2,3,4,5];	// Hand array order match naming convention of object id="hand_2345"
+			
+		// check if hiddenFingers array entries match array of possible fingers in fingerNumerationArr
+		//
+		var l = fingerNumerationArr.length-1;	// get size of array
+		for (l; l >= 0; l--) {
+			// loop through fingerNumerationArr array starting at the end and decriment to the start
+			if ( hiddenFinger.indexOf(fingerNumerationArr[l]) >= 0 ){
+				// Found a match in the hidden finger in array
+				// slice() will remove the 1 entry from the array at possition l
+				// fingerNumerationArr will have one less entry. 
+				// the removed fingerNumerationArr entry is for missing finger.
+				fingerNumerationArr.splice(l,1);
+			}
+		}
+		// Now have fingerNumerationArr only has entries for fingers that are valid and present.
+		
+		// Create name for object id. object id will be mapped to initial_animation_ svg file');
+		// object id in the format of hand_2345 or hand_23 or hand_2, etc.
+		setImageActive('hand_'+fingerNumerationArr.join(''));
+	
+	}
+
+
+	//Set image active.
+	function setImageActive(ObjectIDName) {
+		// first, deactivate all Image object elements that start with "hand"
+		// There are 15 svg elements in the main body with a object id that contains "hand"
+		//  svgObj[0] id="hand_2345"  svgObj[1] id="hand_2"    svgObj[14] id="hand_345"   
+		var svgObj = document.getElementsByClassName('hand');
+		if (svgObj.length > 0) {
+			var i, l=svgObj.length;
+			for (i=0; i < l; i++ ) {
+				svgObj[i].style.display = "none";	// hide all elements
+			}
+		}
+		
+
+		// Find the one svg image object element that matches our hand
+		svgObj = document.getElementById(ObjectIDName);
+		if (svgObj) {
+			// If we have a matching image object element, then it will be displayed
+			svgObj.style.display = "inline";	// display the one svg element we need
+			svgReload(ObjectIDName);			// load SVG images. SVG image files uses ecmascript to do animation
+		}
+	}
+
+
+	//Reload svg according to arguments svg name.
+	function svgReload(svg) {
+		var svgobj=document.getElementById(svg).getSVGDocument(); 
+		if (svgobj) {
+			svgobj.location.reload(true);		// Display the page with object that are enabled
+		}
+	}
+
+	
+	// SVG file will call this fuction via window.parent.getMirrored();
+	// SVG file must determine if the image should be transform/mirror before it is animated
+	function getMirrored() {
+        return this.mirrored;
+    }
+	
+   </script>
+
+</head>
+<body onload="onLoad();">
+  <div class="page_margins">
+    <div class="page">
+      <div id="main">
+		<object id="svg_background" class="svgobj" type="image/svg+xml" data="img/image_background.svg" width="100%" height="100%"></object>
+      	
+		<object id="hand_2345" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_hand.svg" width="100%" height="100%"></object>
+
+		<object id="hand_2" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F2.svg" width="100%" height="100%"></object>
+		<object id="hand_3" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F3.svg" width="100%" height="100%"></object>
+		<object id="hand_4" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F4.svg" width="100%" height="100%"></object>
+		<object id="hand_5" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F5.svg" width="100%" height="100%"></object>
+
+		<object id="hand_23" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F2-F3.svg" width="100%" height="100%"></object>
+		<object id="hand_24" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F2-F4.svg" width="100%" height="100%"></object>
+		<object id="hand_25" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F2-F5.svg" width="100%" height="100%"></object>
+		<object id="hand_34" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F3-F4.svg" width="100%" height="100%"></object>
+		<object id="hand_35" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F3-F5.svg" width="100%" height="100%"></object>
+		<object id="hand_45" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F4-F5.svg" width="100%" height="100%"></object>
+
+		<object id="hand_234" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F2-F3-F4.svg" width="100%" height="100%"></object>
+		<object id="hand_235" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F2-F3-F5.svg" width="100%" height="100%"></object>
+		<object id="hand_245" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F2-F4-F5.svg" width="100%" height="100%"></object>
+		<object id="hand_345" class="svgobj hand" style="display:none;" type="image/svg+xml" data="img/initial_animation_F3-F4-F5.svg" width="100%" height="100%"></object>
+
+		<div id="controlbtn" class="svgobj"  style="display:none;">
+			<button type="button" onClick='setArguments({"FP2":1,"FP3":1,"FP4":0,"FP5":0});'>
+				Set Missing Finger 4 and 5
+			</button>
+
+			<button type="button" onClick='setArguments({"FP2":0,"FP3":0,"FP4":1,"FP5":1});'>
+				Set Missing Finger 2 and 3
+			</button>
+
+			<button type="button" onClick='setArguments({"FP2":0,"FP3":0,"FP4":0,"FP5":1});'>
+				Set Missing Finger 2, 3 and 4
+			</button>
+		</div>
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>
