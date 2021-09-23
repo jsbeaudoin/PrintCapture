@@ -33,7 +33,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Idintl.LiveScan, Version=2.2.1.1, Culture=neutral, PublicKeyToken=07fbb25ea3040deb, processorArchitecture=MSIL">
+    <Reference Include="Idintl.LiveScan, Version=2.2.2.9, Culture=neutral, PublicKeyToken=07fbb25ea3040deb, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\I3\Idintl.LiveScan.dll</HintPath>
     </Reference>

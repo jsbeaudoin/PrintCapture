@@ -289,6 +289,8 @@ namespace PrintsCapture.Livescan
                         {
                             msg += Environment.NewLine + sdk.LastException.Message;
                         }
+                        //MessageBox.Show(sdk.LastException.Message + Environment.NewLine + sdk.LastException.StackTrace, "PreviewWindowReady");
+                        //MessageBox.Show($"Device Status : {this.livescanDevice.IsOpened}", "PreviewWindowReady");
 
                         this.DeviceMessage(string.Format(CommonText.FailCommand, msg), DeviceMessageKind.Error,  true);
                         return;

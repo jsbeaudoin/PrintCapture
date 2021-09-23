@@ -6,10 +6,8 @@
     using System.Drawing;
     using System.IO;
     using System.Linq;
-    using System.Threading;    
-
+    using System.Threading;
     using Idintl.LiveScan;
-
     using PrintsCapture.Device;
     using PrintsCapture.Device.Enum;
     using PrintsCapture.Device.Interface;
@@ -23,6 +21,7 @@
     public class DeviceApi : ILivescanDevice
     {
         private const string PropSystemSoundMuted = "PROP_SOUND_MUTED";
+        private const string PropSystemRemoveHalos = "PROP_REMOVE_HALOS";
 
         #region Fields
 
@@ -127,6 +126,7 @@
 
             this.Properties = new CustomPropertyList();
             this.Properties.AddBoolProperty(PropSystemSoundMuted, "Muted", false, "System Sound");
+            this.Properties.AddBoolProperty(PropSystemRemoveHalos, "Remove Halo", false, "System Options");
         }
 
         #endregion
@@ -147,7 +147,9 @@
             this.waitForPlaten = false;
             this.IsOpened = true;
             this.i3Device = device;
-            
+
+            //this.i3Device.CaptureOptions.RemoveHalos = true;
+            this.i3Device.CaptureOptions.RemoveHalos = this.Properties.GetBoolValue(PropSystemRemoveHalos);
             this.i3Device.AsyncOpenComplete += this.I3DeviceOnAsyncOpenComplete;
             this.i3Device.AsyncAcquireComplete += this.I3DeviceOnAsyncAcquireComplete;
             this.i3Device.CaptureBegin += this.I3DeviceOnCaptureBegin;
@@ -157,6 +159,7 @@
             this.i3Device.ClearPlaten += this.I3DeviceOnClearPlaten;
             this.i3Device.RollBegin += (sender, args) =>  DeviceSoundPlayer.Play(DeviceSound.Beep);
             this.i3Device.RollRestart += (sender, args) => DeviceSoundPlayer.Play(DeviceSound.Error);
+            
 
             var devId = device.Identification;
             this.ModelName = devId.Model.ToUpperInvariant();
@@ -166,6 +169,7 @@
 
             LogDispatcher.DoLog("OpenAsync called");
             this.i3Device.OpenAsync(true, false);
+            LogDispatcher.DoLog("Remove Halos Option : " + this.i3Device.CaptureOptions.RemoveHalos.ToString());
 
         }        
 
