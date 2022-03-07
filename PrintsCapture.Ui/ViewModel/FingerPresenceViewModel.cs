@@ -65,7 +65,7 @@ namespace PrintsCapture.Ui.ViewModel
                 // validate non null date
                 if (!string.IsNullOrEmpty(value))
                 {
-                    if (!(value.Length == 4 || value.Length == 7 || value.Length == 10))
+                    if (!(value.Length == 7 || value.Length == 10))
                     {
                         throw new ApplicationException(CommonText.ExceptionDateFormat);
                     }

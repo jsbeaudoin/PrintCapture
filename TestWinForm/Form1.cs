@@ -91,7 +91,7 @@ namespace TestWinForm
                 //var result = PrintCaptureApp.Start(config);
 
                 this.Enabled = false;
-                var rm = new RemoteModuleHelper("en", true);
+                var rm = new RemoteModuleHelper("fr", true);
                 
                 rm.CaptureCompleted += (success, resultObject, exception) =>
                 {

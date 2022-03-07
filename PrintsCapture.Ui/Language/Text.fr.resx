@@ -883,4 +883,7 @@ Pour une utilisation avancée, vous pouvez cliquer sur "Voir les empreintes"</va
   <data name="ErrorHaveBeenDetected" xml:space="preserve">
     <value>Une ou plusieurs erreurs ont été détectées. Veuillez refaire la capture :</value>
   </data>
+  <data name="MissingDateInvalidLenght" xml:space="preserve">
+    <value>La date du doigt manquant doigt contenir au minimum l'année et le mois.</value>
+  </data>
 </root>

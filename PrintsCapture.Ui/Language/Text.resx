@@ -857,4 +857,7 @@ For advanced use, you may click on "Review prints".</value>
   <data name="ErrorHaveBeenDetected" xml:space="preserve">
     <value>Error(s) have been detected. Please rescan :</value>
   </data>
+  <data name="MissingDateInvalidLenght" xml:space="preserve">
+    <value>The date of the missing finger finger contain at least the year and the month.</value>
+  </data>
 </root>

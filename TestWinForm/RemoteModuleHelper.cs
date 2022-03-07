@@ -91,7 +91,7 @@ namespace TestWinForm
         {
             this.commandReceived = CommandResultPrints;
             var args = this.GetPrintsCaptureArguments("card");
-            args.Add("capturemode", "2");
+            args.Add("capturemode", "3");
             this.StartRemote(PrintsCaptureModuleName, args);
         }
 
