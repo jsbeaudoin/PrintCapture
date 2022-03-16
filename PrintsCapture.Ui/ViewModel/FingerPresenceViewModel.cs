@@ -34,7 +34,8 @@ namespace PrintsCapture.Ui.ViewModel
             this.MissingDate = missingDate;
             this.PrintName = printName;
         }
-        
+
+        public Visibility ShowMissingdate => Properties.Settings.Default.ShowMissingDate ? Visibility.Visible : Visibility.Collapsed;
 
         public string PrintName { get; set; }
 
