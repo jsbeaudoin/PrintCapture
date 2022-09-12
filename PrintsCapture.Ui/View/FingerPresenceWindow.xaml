@@ -32,10 +32,8 @@
         <TextBlock Name="FingerNameLabel" TextAlignment="Center" Height="34" VerticalAlignment="Top" Text="{Binding PrintName}" />
         <ToggleButton Name="PresentButton" Content="{x:Static language:Text.HandPartPresent}" Click="ReasonButtonClicked" />
 
-        <TextBlock Height="34" Margin="0" Name="MissingFingerHeaderTextBlock" TextAlignment="Center" VerticalAlignment="Top" Text="{x:Static language:Text.MissingFinger}" 
-                   FontWeight="Bold" TextDecorations="Underline"/>
-
-        <StackPanel Orientation="Horizontal" Margin="0,15" HorizontalAlignment="Center" Width="286" VerticalAlignment="Center" Visibility="{Binding ShowMissingdate}">
+        <TextBlock Height="34" Margin="0" Name="MissingFingerHeaderTextBlock" TextAlignment="Center" VerticalAlignment="Top" Text="{x:Static language:Text.MissingFinger}" />
+        <StackPanel Orientation="Horizontal" Margin="0,15" HorizontalAlignment="Center" Width="286" VerticalAlignment="Center" >
             <TextBlock VerticalAlignment="Center" Text="{x:Static language:Text.MissingSince}" />
 
             <TextBox Name="MissingDateTextBox" Width="100" Margin="15,0,0,0">
@@ -57,6 +55,6 @@
                     
         </ItemsControl>               
         
-        <Button Content="{x:Static language:Text.Accept}" Height="45" Margin="0,40,0,10" Name="AcceptButton" IsDefault="True" VerticalAlignment="Bottom" Click="BtnAcceptClick" FontWeight="Bold" />
+        <Button Content="{x:Static language:Text.Accept}" Height="45" Margin="0,40,0,10" Name="AcceptButton" IsDefault="True" VerticalAlignment="Bottom" Click="BtnAcceptClick" />
     </StackPanel>
 </Window>
