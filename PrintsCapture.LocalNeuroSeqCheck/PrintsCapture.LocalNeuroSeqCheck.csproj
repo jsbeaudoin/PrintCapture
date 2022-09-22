@@ -62,9 +62,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="XL-ID.Utilities, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XL-ID.Utilities.1.4.17\lib\net40\XL-ID.Utilities.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="XL-ID.Utilities">
+      <HintPath>..\lib\local\XL-ID.Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

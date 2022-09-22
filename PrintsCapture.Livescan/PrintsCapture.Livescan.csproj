@@ -59,12 +59,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
-    <Reference Include="XL-ID.Utilities, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XL-ID.Utilities.1.4.17\lib\net40\XL-ID.Utilities.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="XL-ID.Utilities">
+      <HintPath>..\lib\local\XL-ID.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="XL_ID.Utilities.Wpf, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XL-ID.Utilities.Wpf.1.0.9\lib\net40\XL_ID.Utilities.Wpf.dll</HintPath>
+      <HintPath>..\lib\local\XL_ID.Utilities.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

@@ -1,0 +1,1268 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>XL-ID.Utilities</name>
+    </assembly>
+    <members>
+        <member name="T:XL_ID.Utilities.Data.DataAccess">
+            <summary>
+            Class to access/modify data with ADODB and queries / statements
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.#ctor(System.String)">
+            <summary>
+            Default contructor, with a valid ADODB connection string
+            </summary>
+            <param name="connectionString"></param>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Constructor with each elements of the connection string
+            </summary>
+            <param name="server"></param>
+            <param name="database"></param>
+            <param name="user"></param>
+            <param name="pwd"></param>
+        </member>
+        <member name="P:XL_ID.Utilities.Data.DataAccess.ConnectionString">
+            <summary>
+            Read-only. Connection string used to access the data.
+            </summary>
+        </member>
+        <member name="P:XL_ID.Utilities.Data.DataAccess.ConnectionError">
+            <summary>
+            Read-only. Error message when connection opening failed.
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.OpenConnection">
+            <summary>
+            Opens manually the connection. OIther method opens and close the connection as needed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.CloseConnection">
+            <summary>
+            Closes manually the connection. Other methods Open and close the connection as needeed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.InTransaction">
+            <summary>
+            Indicate if a transaction is still in progress
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.BeginTransaction">
+            <summary>
+            Begins a transaction
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.CommitTransaction">
+            <summary>
+            Commit and ends the transaction
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.RollbackTransaction">
+            <summary>
+            Rollback and ends the transaction
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.OpenDataTable(System.String,System.Data.SqlClient.SqlTransaction)">
+            <summary>
+            Returns a filled datatable object with a given query
+            </summary>
+            <param name="request"></param>
+            <param name="transaction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.OpenDataTable(System.String,System.Data.SqlClient.SqlTransaction,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Returns a filled datatable object with a given query
+            </summary>
+            <param name="request"></param>
+            <param name="transaction"></param>
+            <param name="sqlParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.OpenDataTable(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Returns a filled datatable object with a given query
+            </summary>
+            <param name="request"></param>
+            <param name="sqlParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.GetRow(System.String,System.Boolean)">
+            <summary>
+            Gets the row for one record.
+            </summary>
+            <param name="request">The sql request to get the row.</param>
+            <param name="throwExceptionIfMissing">Throws an exception if row was not found or more than one row found</param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.ExecuteNonQuery(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Execute an sql statement (INSERT, DELETE, UPDATE, CREATE, ALTER.. all but SELECT)
+            </summary>
+            <param name="request"></param>
+            <param name="sqlParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.ExecuteNonQuery(System.String,System.Data.SqlClient.SqlTransaction,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Execute an sql statement (INSERT, DELETE, UPDATE, CREATE, ALTER.. all but SELECT)
+            </summary>
+            <param name="request"></param>
+            <param name="transaction"></param>
+            <param name="sqlParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.ExecuteInsertStatement(System.String,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Execute an insert statement and return the new key. The key must be an identity field.
+            </summary>
+            <param name="request"></param>
+            <param name="tableName"></param>
+            <param name="sqlParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.UpdateDataTable(System.String,System.Data.DataTable,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Update the database using the modified datatable.
+            </summary>
+            <param name="selectClause"></param>
+            <param name="dataTable"></param>
+            <param name="tableName"></param>
+            <param name="sqlParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.UpdateAndInsertDataTable(System.String,System.Data.DataTable,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+            Update the database using the modified datatable. Returns a list with the supplied key and the idenbtity key value created for each new row.
+            </summary>
+            <param name="selectClause"></param>
+            <param name="dataTable"></param>
+            <param name="sqlParams"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.DataAccess.RetrieveIdentityKey(System.String)">
+            <summary>
+            This fonction return the last Identity used from the table pass in parameter
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XL_ID.Utilities.Data.KeyChange">
+            <summary>
+            Class to keep old and new values of int fields when key are changed
+            </summary>
+        </member>
+        <member name="P:XL_ID.Utilities.Data.KeyChange.OldKey">
+            <summary>
+            Original(Old) value of key
+            </summary>
+        </member>
+        <member name="P:XL_ID.Utilities.Data.KeyChange.NewKey">
+            <summary>
+            Current(New) value of key
+            </summary>
+        </member>
+        <member name="T:XL_ID.Utilities.Data.ParameterList">
+            <summary>
+            Sql statement parameter list to prevent against SQL Injection in queries.
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.ParameterList.AddText(System.String,System.String)">
+            <summary>
+            Add a text parameter
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.ParameterList.AddDateTime(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            Add a DateTime parameter
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.ParameterList.AddInt(System.String,System.Nullable{System.Int32})">
+            <summary>
+            Adds an int parameter
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.ParameterList.Add(System.String,System.Data.SqlDbType,System.Object)">
+            <summary>
+            Adds a parameter
+            </summary>
+            <param name="name"></param>
+            <param name="type"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Data.ParameterList.ToArray">
+            <summary>
+            Returns an array of created parameters
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:XL_ID.Utilities.Image.AutoCropper">
+            <summary>
+            Class to automatically remove border or "blank space" with a noise tolerance
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.#ctor(System.Drawing.Bitmap,System.Drawing.Color,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:XL_ID.Utilities.Image.AutoCropper"/> class.
+            </summary>
+            <param name="baseImage">The base image.</param>
+            <param name="baseColorToCrop">The base color to crop.</param>
+            <param name="colorTolerance">The color tolerance.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.AutoCrop">
+            <summary>
+            Automatically crop the image to remove border or blank spaces.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.GetAutoCropRectangle">
+            <summary>
+            Gets the auto crop rectangle.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.CropAndAlignSmallPalette(System.Drawing.Size,System.Drawing.Color,XL_ID.Utilities.Image.ImageVertAlignment,XL_ID.Utilities.Image.ImageHorAlignment)">
+            <summary>
+            Centers the and crop a Bitmap to an 1 Bip palette image.
+            Optimized for palette processing.
+            </summary>
+            <param name="targetSize">Size of the target image.</param>
+            <param name="dpi">The dpi of the image.</param>
+            <param name="fillColor">Color used to fill the resulting image.</param>
+            <param name="vertAlign">The vertical alignment.</param>
+            <param name="horAlign">The horizontal alignment.</param>
+            <returns>Cropped and centered Bitmap image</returns>
+            <exception cref="T:System.ApplicationException">Only 8 bit palette image accepted</exception>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.CropAndAlign(System.Drawing.Size,System.Drawing.Color,XL_ID.Utilities.Image.ImageVertAlignment,XL_ID.Utilities.Image.ImageHorAlignment)">
+            <summary>
+            Aligns and crop the image.
+            </summary>
+            <param name="targetSize">Size of the target image.</param>       /
+            <param name="fillColor">Color used to fill the resulting image.</param>
+            <param name="vertAlign">The vertical alignment.</param>
+            <param name="horAlign">The horizontal alignment.</param>
+            <returns>Cropped and centered Bitmap image</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.ManualCrop(System.Int32,System.Int32,System.Drawing.Size,System.Drawing.Color)">
+            <summary>
+            Crops the image at given coordinates.
+            </summary>
+            <param name="offsetX">Offset X</param>
+            <param name="offsetY">Offset Y</param>
+            <param name="targetSize">Size of the target image. Warning : If coordinates are incorrect, the size is changed</param>        
+            <param name="fillColor">Color used to fill the resulting image.</param>
+            <returns>Cropped Bitmap image. In case of incorrect position/size, null is returned.</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.GetCropRectangle">
+            <summary>
+            Gets the crop rectangle.
+            </summary>
+            <returns>Crop coordinates</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.GetArrayPosition(System.Int32,System.Int32,System.Drawing.Size)">
+            <summary>
+            Gets the array position of the x y coordinates of an image.
+            </summary>
+            <param name="x">The x.</param>
+            <param name="y">The y.</param>
+            <param name="otherSize">Size to consider.</param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.GetArrayPosition(System.Int32,System.Int32)">
+            <summary>
+            Gets the array position of the x y coordinates of an image.
+            </summary>
+            <param name="x">The x.</param>
+            <param name="y">The y.</param>
+            <returns></returns>
+        </member>
+        <member name="T:XL_ID.Utilities.Image.AutoCropper.ByteRange">
+            <summary>
+            Class to have a Min and Max value for color components
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.ByteRange.#ctor(System.Byte,System.Byte)">
+            <summary>
+            Initializes a new instance of the <see cref="T:XL_ID.Utilities.Image.AutoCropper.ByteRange"/> class.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="tolerance">The tolerance.</param>
+        </member>
+        <member name="P:XL_ID.Utilities.Image.AutoCropper.ByteRange.Min">
+            <summary>
+            Gets the minimum.
+            </summary>
+            <value>
+            The minimum.
+            </value>
+        </member>
+        <member name="P:XL_ID.Utilities.Image.AutoCropper.ByteRange.Max">
+            <summary>
+            Gets the maximum.
+            </summary>
+            <value>
+            The maximum.
+            </value>
+        </member>
+        <member name="T:XL_ID.Utilities.Image.AutoCropper.ColorRange">
+            <summary>
+            Color Range manager
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Image.AutoCropper.ColorRange.b">
+            <summary>
+            The Range for the blue color component
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Image.AutoCropper.ColorRange.r">
+            <summary>
+            The Range for the red color component
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Image.AutoCropper.ColorRange.g">
+            <summary>
+            The Range for the green color component
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.ColorRange.#ctor(System.Drawing.Color,System.Byte)">
+            <summary>
+            Initializes a new instance of the <see cref="T:XL_ID.Utilities.Image.AutoCropper.ColorRange"/> class.
+            </summary>
+            <param name="color">The color.</param>
+            <param name="tolerance">The tolerance.</param>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.AutoCropper.ColorRange.IsNear(System.Drawing.Color)">
+            <summary>
+            Determines whether the specified color is near enough.
+            </summary>
+            <param name="color">The color.</param>
+            <returns>Boolean to indicate if the color is considered near enough.</returns>
+        </member>
+        <member name="T:XL_ID.Utilities.Image.BitmapExtension">
+            <summary>
+            TODO: Update summary.
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.BitmapExtension.CloneBitmap(System.Drawing.Bitmap)">
+            <summary>
+            Creates a deep clone, retaining the ImageFormat, color indexes and resolution of the image
+            </summary>
+            <param name="img"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.BitmapExtension.ToByteArray(System.Drawing.Bitmap,System.Boolean,System.Int32)">
+            <summary>
+            Convert an image to a byte array
+            </summary>
+            <param name="img">The Bitmap to transform</param>
+            <param name="compressToJpeg">Compress to a Jpeg image, else save as a Bitmap</param>
+            <param name="jpegQuality">Jpeg quality</param>
+            <returns>byte array containing the Bitmap</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.BitmapExtension.ToSerialized64Bit(System.Drawing.Bitmap,System.Boolean)">
+            <summary>
+            Serialize a Bitmap to a 64 bits encoded string
+            </summary>
+            <param name="img">The Bitmap image to encode</param>
+            <param name="compressToJpeg">Compress to a Jpeg image, else save as a Bitmap</param>
+            <returns>The serialized 64 bits string</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.BitmapExtension.SaveJpeg(System.Drawing.Bitmap,System.String,System.Int32)">
+            <summary>
+            Saves a Bitmap object as a Jpeg image on the disk
+            </summary>
+            <param name="bmp">The Bitmap object</param>
+            <param name="path">The file path of the new Jpeg file</param>
+            <param name="quality">The compression quality of the Jpeg (1-100, default=90)</param>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.BitmapExtension.SaveJpeg(System.Drawing.Bitmap,System.IO.Stream,System.Int32)">
+            <summary>
+            Saves a Bitmap object as a Jpeg image on the disk
+            </summary>
+            <param name="bmp">The Bitmap object</param>
+            <param name="stream">The Stream where the Jpeg must be stored</param>
+            <param name="quality">The compression quality of the Jpeg (1-100, default=90)</param>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.BitmapExtension.RemoveOrientation(System.Drawing.Bitmap)">
+            <summary>
+            Remove the orientation meta property and rotate the image byte array
+            </summary>
+            <param name="img">The Bitmap object to remove orientation from</param>
+        </member>
+        <member name="T:XL_ID.Utilities.Image.ByteArrayExtension">
+            <summary>
+            Byte array extension methods
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ByteArrayExtension.ToBitmap(System.Byte[])">
+            <summary>
+            Create a Bitmap from a byte array containing the base64 serialized Bitmap
+            </summary>
+            <param name="base64ImageBytes">The base64 serialized Bitmap</param>
+            <returns>A new Bitmap instance</returns>
+        </member>
+        <member name="T:XL_ID.Utilities.Image.ConvertBitmapFormat">
+            <summary>
+            Foramt to convert Bitmap into from convert function
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Image.ConvertBitmapFormat.Unknown">
+            <summary>
+             Unknown values cannot be processed
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Image.ConvertBitmapFormat.Format8bppIndexed">
+            <summary>
+            8 bit indexed, as standard used in fingerprints
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Image.ConvertBitmapFormat.Format1bppIndexed">
+            <summary>
+            1 bit palette
+            </summary>
+        </member>
+        <member name="T:XL_ID.Utilities.Image.ImageUtilities">
+            <summary>
+            Multiple image utilities mainly created to deal with fingerprints images (8bits, raw data).
+            Some methods work with all image types
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Image.ImageUtilities.CropToleranceRecommanded">
+            <summary>
+            Tolerance level recommanded for best result
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.GetRgb(System.Drawing.Bitmap)">
+            <summary>
+            Returns an rgb array of all the pixels of the image for quick analysis of the data
+            </summary>
+            <param name="bmp">The source image</param>
+            <returns>an array with red, green and blue values</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.AutoCrop(System.Drawing.Bitmap)">
+            <summary>
+            Crops automatically an image to remove "empty" borders, as defined by a color.
+            </summary>
+            <param name="image">The image to crop</param>        
+            <returns>A new instance of the cropped Bitmap image</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.AutoCrop(System.Drawing.Bitmap,System.Drawing.Color,System.Int32)">
+            <summary>
+            Crops automatically an image to remove "empty" borders, as defined by a color.
+            </summary>
+            <param name="image">The image to crop</param>
+            <param name="colorToCrop">The color to consider as empty, to define auto cropping bounds</param>
+            <param name="tolerance">% of tolerance. Recommanded value:30</param>        
+            <returns>A new instance of the cropped Bitmap image</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.AutoCropAndAlign(System.Drawing.Bitmap,System.Drawing.Color,System.Int32,XL_ID.Utilities.Image.ImageVertAlignment,XL_ID.Utilities.Image.ImageHorAlignment)">
+            <summary>
+            Crops automatically an image to remove "empty" borders, as defined by a color.
+            </summary>
+            <param name="image">The image to crop</param>
+            <param name="colorToCrop">The color to consider as empty, to define auto cropping bounds</param>
+            <param name="tolerance">% of tolerance. Recommanded value:30</param>        
+            <param name="verticalAlign">Vertical alignment of the cropped image in the canvas</param>
+            <param name="horizontalAlign">Horizontal alignment of the cropped image in the canvas</param>
+            <returns>A new instance of the cropped Bitmap image</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.AutoCropAndAlign(System.Drawing.Bitmap,System.Drawing.Color,System.Int32,System.Drawing.Size,XL_ID.Utilities.Image.ImageVertAlignment,XL_ID.Utilities.Image.ImageHorAlignment)">
+            <summary>
+            Crops automatically an image to remove "empty" borders, as defined by a color.
+            </summary>
+            <param name="image">The image to crop</param>
+            <param name="colorToCrop">The color to consider as empty, to define auto cropping bounds</param>
+            <param name="tolerance">% of tolerance. Recommanded value:30</param>        
+            <param name="newSize">New image size</param>        
+            <param name="verticalAlign">Vertical alignment of the cropped image in the canvas</param>
+            <param name="horizontalAlign">Horizontal alignment of the cropped image in the canvas</param>
+            <returns>A new instance of the cropped Bitmap image</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.AutoCropAndAlign(System.Drawing.Bitmap,System.Drawing.Color,System.Int32,System.Drawing.Size,System.Drawing.Color,XL_ID.Utilities.Image.ImageVertAlignment,XL_ID.Utilities.Image.ImageHorAlignment)">
+            <summary>
+            Crops automatically an image to remove "empty" borders, as defined by a color.
+            </summary>
+            <param name="image">The image to crop</param>
+            <param name="colorToCrop">The color to consider as empty, to define auto cropping bounds</param>
+            <param name="tolerance">% of tolerance. Recommanded value:30</param>
+            <param name="fillColor">Color to fill the image</param>
+            <param name="newSize">New image size</param>        
+            <param name="verticalAlign">Vertical alignment of the cropped image in the canvas</param>
+            <param name="horizontalAlign">Horizontal alignment of the cropped image in the canvas</param>
+            <returns>A new instance of the cropped Bitmap image</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.AutoCropAndCenter(System.Drawing.Bitmap,System.Drawing.Color)">
+            <summary>
+            Crops automatically an image to remove "empty" borders, as defined by a color.
+            </summary>
+            <param name="image">The image to crop</param>
+            <param name="colorToCrop">The color to consider as empty, to define auto cropping bounds</param>
+            <returns>A new instance of the cropped Bitmap image</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.AutoCropAndCenter(System.Drawing.Bitmap,System.Drawing.Color,System.Int32,System.Drawing.Color,System.Drawing.Size)">
+            <summary>
+            Crops automatically an image to remove "empty" borders, as defined by a color.
+            </summary>
+            <param name="image">The image to crop</param>
+            <param name="colorToCrop">The color to consider as empty, to define auto cropping bounds</param>
+            <param name="tolerance">% of tolerance. Recommanded value:30</param>
+            <param name="fillColor">Color to fill the image</param>
+            <param name="newSize">New image size</param>
+            <returns>A new instanced of the cropped Bitmap image</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.Crop(System.Drawing.Bitmap,System.Int32,System.Int32,System.Drawing.Size)">
+            <summary>
+            Crops the given image
+            </summary>
+            <param name="image">The image to crop</param>
+            <param name="x">The left position where cropping starts</param>
+            <param name="y">The top position where cropping starts</param>
+            <param name="newSize">The size to crop</param>
+            <returns>A new instanced of the cropped Bitmap image</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ResizeImage(System.Drawing.Bitmap,System.Drawing.Size)">
+            <summary>
+            Resize the image to the specified width and height.
+            </summary>
+            <param name="image">The image to resize.</param>
+            <param name="newSize">The size to resize to.</param>        
+            <returns>The resized image.</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ResizeImage(System.Drawing.Bitmap,System.Int32,System.Int32)">
+            <summary>
+            Resize the image to the specified width and height.
+            </summary>
+            <param name="image">The image to resize.</param>
+            <param name="width">The width to resize to.</param>
+            <param name="height">The height to resize to.</param>
+            <returns>The resized image.</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ResizeImageProportionnally(System.Drawing.Bitmap,System.Drawing.Size,System.Drawing.Color,XL_ID.Utilities.Image.ImageVertAlignment,XL_ID.Utilities.Image.ImageHorAlignment)">
+            <summary>
+            Proportionnally Resize the image to the specified width and height.
+            </summary>
+            <param name="image">The image to resize.</param>
+            <param name="newSize">The size to resize to.</param>        
+            <param name="fillerColor">The color to fill the "blank" area if desired ratio and image ratio differs</param>
+            <param name="verticalAlign">if desired ratio and image ratio differs, image is aligned this way</param>
+            <param name="horizontalAlign">if desired ratio and image ratio differs, image is aligned this way</param>
+            <returns>The proportionnaly resized image.</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ResizeImageProportionnally(System.Drawing.Bitmap,System.Int32,System.Int32,System.Drawing.Color,XL_ID.Utilities.Image.ImageVertAlignment,XL_ID.Utilities.Image.ImageHorAlignment)">
+            <summary>
+            Proportionnally Resize the image to the specified width and height.
+            </summary>
+            <param name="image">The image to resize.</param>
+            <param name="width">The width to resize to.</param>
+            <param name="height">The height to resize to.</param>
+            <param name="fillerColor">The color to fill the "blank" area if desired ratio and image ratio differs</param>
+            <param name="verticalAlign">if desired ratio and image ratio differs, image is aligned this way</param>
+            <param name="horizontalAlign">if desired ratio and image ratio differs, image is aligned this way</param>
+            <returns>The proportionnaly resized image.</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.BytesPointerToBitmap(System.IntPtr,System.Int32,System.Int32,System.Drawing.Imaging.PixelFormat,System.Int32)">
+            <summary>
+            Convert a Byte array pointer of Raw image data to a bitmap.
+            </summary>
+            <param name="pointer">The byte array pointer.</param>
+            <param name="width">The width of the image.</param>
+            <param name="height">The height of the image.</param>
+            <param name="format">The format.</param>
+            <param name="dpi">The dpi.</param>
+            <returns>Bitmap instance</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ByteArrayToBitmap(System.Byte[],System.Drawing.Size,System.Drawing.Imaging.PixelFormat,System.Int32,System.Drawing.Color[])">
+            <summary>
+            Create a bitmap from a byte Array of Raw data and size information
+            </summary>
+            <param name="byteArray">Raw bytes data of the image</param>
+            <param name="hwSize">Size of the image from the raw data</param>        
+            <param name="format">Pixed format destination</param>
+            <param name="dpi">the image resolution (Dot per inch)</param>
+            <param name="paletteEntries">Optional palette to avoid creating a new palette</param>
+            <returns>A new image of the given pixel format</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ByteArrayToBitmap(System.Byte[],System.Drawing.Size,System.Drawing.Rectangle,System.Drawing.Imaging.PixelFormat,System.Int32)">
+            <summary>
+            Create a bitmap from a byte Array of Raw data and size information
+            WARNING : SUpports only 8 bpp image. For fingerprints only.
+            </summary>
+            <param name="byteArray">Raw bytes data of the image</param>
+            <param name="hwSize">Size of the image from the raw data</param>
+            <param name="rec">target rectangle</param>
+            <param name="format">Pixed format destination</param>
+            <param name="dpi">the image resolution (Dot per inch)</param>
+            <returns>A new image of the given size</returns>        
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ByteArrayToBitmap(System.Byte[],System.Drawing.Size,System.Drawing.Size,System.Drawing.Rectangle,System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Create a bitmap from a byte Array of Raw data and size information
+            WARNING : SUpports only 8 bpp image. For fingerprints only.
+            </summary>
+            <param name="byteArray">Raw bytes data of the image</param>
+            <param name="hwSize">Size of the image from the raw data</param>
+            <param name="rec">target rectangle</param>
+            <param name="format">Pixed format destination</param>
+            <param name="newSize">New image size</param>
+            <returns>A new image of the given size</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.CreateBitmapSourceFromBitmap(System.Drawing.Bitmap,System.Windows.Threading.Dispatcher,System.Boolean)">
+            <summary>
+            Creates the bitmap source from bitmap.
+            </summary>
+            <param name="bitmap">The bitmap.</param>
+            <param name="dispatcher">The dispatcher.</param>
+            <param name="deleteHBitmap">if set to <c>true</c> delete bitmap handle.</param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ConvertToIndexedFormat(System.Drawing.Bitmap,XL_ID.Utilities.Image.ConvertBitmapFormat)">
+            <summary>
+            Copies a bitmap into a 1bpp/8bpp bitmap of the same dimensions, fast
+            </summary>
+            <param name="b">original bitmap</param>
+            <param name="convertFormat">Foramt to convert image</param>
+            <returns>a 1bpp copy of the bitmap</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.Convert(System.Drawing.Bitmap,System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Converts a Bitmap into another pixel format. Does not support 4 bit or 1 bit indexed format
+            </summary>
+            <param name="b">Bitmap Image</param>
+            <param name="destinationFormat">The target Pixel format</param>
+            <returns>New bitmap instance with the given pixel format</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ConvertToRbgBitmap(System.Drawing.Bitmap,System.Drawing.Imaging.PixelFormat)">
+            <summary>
+            Converts Bitmap from a non indexed format to an other unindexed format
+            </summary>
+            <param name="b">Bitmap image</param>
+            <param name="destinationFormat">new Pixel Format</param>
+            <returns>New bitmap instance with the given pixel format</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ConvertToBinary(System.Drawing.Bitmap)">
+            <summary>
+            Convert a Bitmap into byte array, from a memory stream.
+            </summary>
+            <param name="image">Bitmap image to transform</param>
+            <returns>bytes of image</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ConvertToByteArray(System.Drawing.Bitmap)">
+            <summary>
+            Convert a Bitmap image to a simple byte array of data (Raw data, not a Bitmap image)
+            </summary>
+            <param name="bmp">Bitmap image</param>
+            <returns>Raw image bytes (Not a Bitmap)</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.ConvertFromBinary(System.Byte[])">
+            <summary>
+            Converts an array of Bitmap bytes into a Bitmap image
+            </summary>
+            <param name="data">Bitmap array of bytes</param>
+            <returns>Bitmap object instance</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.GetProportionnalSize(System.Drawing.Size,System.Drawing.Size)">
+            <summary>
+            Get the maximum size that can fit into a defined rectangle
+            </summary>
+            <param name="current">Current size</param>
+            <param name="targetSize">Target rectangle size</param>
+            <returns>Maximum Size that could proportionnaly fit into target size</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.ImageUtilities.RemoveOrientation(System.Drawing.Bitmap)">
+            <summary>
+            Removes orientation EXIF flag and pivot the image accordingly
+            </summary>
+            <remarks>
+            Works with 24/32 bits images
+            </remarks>
+            <param name="img">The image from which orientation will be removed</param>
+        </member>
+        <member name="T:XL_ID.Utilities.Image.QualityJpegEncoder">
+            <summary>
+            Class to creates an encoder and save a Bitmap as a Jpeg on the disk
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.QualityJpegEncoder.#ctor(System.Int32)">
+            <summary>
+            Creates an encoder to save Jpeg that have a qualioty value different than the default Bitmap encoder (75).
+            </summary>
+            <param name="quality"></param>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.QualityJpegEncoder.Save(System.Drawing.Bitmap,System.String)">
+            <summary>
+            Saves Bitmap object as a Jpeg image on the disk with the given encoder and quality
+            </summary>
+            <param name="image"></param>
+            <param name="imagePath"></param>
+        </member>
+        <member name="M:XL_ID.Utilities.Image.QualityJpegEncoder.Save(System.Drawing.Bitmap,System.IO.Stream)">
+            <summary>
+            Saves Bitmap object as a Jpeg image on the disk with the given encoder and quality
+            </summary>
+            <param name="image"></param>
+            <param name="stream"></param>
+        </member>
+        <member name="T:XL_ID.Utilities.Log.LogEventHandler">
+            <summary>
+            Delegate that manage the log events. Used by UtilitiesLogger.
+            </summary>
+            <param name="msg">Log message</param>
+            <param name="level">Log level</param>
+            <param name="ex">Exception instance. Null when no exception was raised</param>
+        </member>
+        <member name="T:XL_ID.Utilities.Log.LogEventLevel">
+            <summary>
+            Level of importance of log message
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Log.LogEventLevel.Info">
+            <summary>
+            Informative information and/or debug information
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Log.LogEventLevel.Warning">
+            <summary>
+            Important Information that should be noted
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Log.LogEventLevel.Error">
+            <summary>
+            Error and exception that prevented the proper output of a method/class
+            </summary>
+        </member>
+        <member name="T:XL_ID.Utilities.Log.LogDispatcher">
+            <summary>
+            Class that expose event for log messages. Handling those messages is optional.
+            </summary>
+        </member>
+        <member name="E:XL_ID.Utilities.Log.LogDispatcher.LogReceived">
+            <summary>
+            Event that is triggered when a log is sent from one of the class
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Log.LogDispatcher.DoLog(System.String,XL_ID.Utilities.Log.LogEventLevel,System.Exception)">
+            <summary>
+            Triggers the LogReceived event.
+            </summary>
+            <param name="msg">Log message</param>
+            <param name="level">Log level</param>
+            <param name="ex">Exception instance. Null when no exception was raised</param>
+        </member>
+        <member name="T:XL_ID.Utilities.Native.NativeMethods">
+            <summary>
+            TODO: Update summary.
+            </summary>
+        </member>
+        <member name="T:XL_ID.Utilities.NetWork.NetworkTools">
+            <summary>
+            CLass to handle Network related tasks
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.NetWork.NetworkTools.GetMacAddress">
+            <summary>
+            Retrieves the MacAddress of the LAST Ip-Enabled network adapter.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:XL_ID.Utilities.Security.Encryption">
+            <summary>
+            Strong Encryption class. Used mainly in our web applications.
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Security.Encryption.Decrypt(System.String)">
+            <summary>
+            Decrypt an encryted string to it's original value
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Security.Encryption.DecryptLicense(System.String)">
+            <summary>
+            Decrypt an encrypted licence string
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Security.Encryption.Crypt(System.String)">
+            <summary>
+            Crypt a string
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XL_ID.Utilities.Security.HexEncryption">
+            <summary>
+            Encryption used for UniDAC Username / Password
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Security.HexEncryption.Encrypt(System.String)">
+            <summary>
+            Crypt a text
+            </summary>
+            <param name="text">Text to encrpt</param>
+            <returns>Encrypted text</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Security.HexEncryption.Decrypt(System.String)">
+            <summary>
+            Decrypt a text
+            </summary>
+            <param name="text">Crypted text to decrypt</param>
+            <returns>Decrypted text</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Security.HexEncryption.ConvertStringToHex(System.String)">
+            <summary>
+            Convert string to Hex values
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XL_ID.Utilities.Setting.AppSettings">
+            <summary>
+            AppSettings replaces Settings.Default
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Setting.AppSettings.CompanyFolder">
+            <summary>
+            Folder name for the Company
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.Setting.AppSettings.SettingsExtension">
+            <summary>
+            Extension for settings files saved
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.AppSettings.GetSettings``1(System.String,System.Boolean)">
+            <summary>
+            Get settings class instance
+            </summary>
+            <typeparam name="T">class of the settings object</typeparam>
+            <param name="appName">Name of the application</param>
+            <param name="exceptionWhenNotFound">Throw an expcetion if file is not found</param>
+            <returns>Instance of the object</returns>
+            <exception cref="T:System.ApplicationException">If settings file exists, but cannot be deserialized</exception>
+            <exception cref="T:System.IO.FileNotFoundException">If settings file does not exist and parameter set</exception>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.AppSettings.GetSettings``1(System.String,System.String,System.Boolean)">
+            <summary>
+            Get settings class instance
+            </summary>
+            <typeparam name="T">class of the settings object</typeparam>
+            <param name="appName">Name of the application</param>
+            <param name="settingName">Name of the settings file</param>
+            <param name="exceptionWhenNotFound">Throw an expcetion if file is not found</param>
+            <returns>Instance of the object</returns>
+            <exception cref="T:System.ApplicationException">If settings file exists, but cannot be deserialized</exception>
+            <exception cref="T:System.IO.FileNotFoundException">If settings file does not exist and parameter set</exception>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.AppSettings.DeleteSettings(System.String,System.String)">
+            <summary>
+            Delete a settings file if it exists
+            </summary>
+            <param name="appName">Name of the application</param>
+            <param name="settingName">Name of the setting file</param>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.AppSettings.DeleteSettings``1(System.String)">
+            <summary>
+            Delete a settings file if it exists
+            </summary>
+            <typeparam name="T">Type of the settings to delete</typeparam>
+            <param name="appName">Name of the application</param>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.AppSettings.SaveSettings``1(``0,System.String)">
+            <summary>
+            Save the settings file for a given instance
+            </summary>
+            <typeparam name="T">class of the settings object</typeparam>
+            <param name="settings">instance of the settings object</param>
+            <param name="appName">Name of the application</param>
+            <exception cref="T:System.ApplicationException">If settings file cannot be serialized</exception>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.AppSettings.SaveSettings``1(``0,System.String,System.String)">
+            <summary>
+            Save the settings file for a given instance
+            </summary>
+            <typeparam name="T">class of the settings object</typeparam>
+            <param name="settings">instance of the settings object</param>
+            <param name="appName">Name of the application</param>
+            <param name="settingName">Name of the setting file</param>
+            <exception cref="T:System.ApplicationException">If settings file cannot be serialized</exception>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.AppSettings.SaveSettingsList``1(System.String,System.String,System.Collections.Generic.List{``0})">
+            <summary>
+            Save the settings list as individual file for al list element instance
+            </summary>
+            <remarks>Supports up to 9999 elements, not more. And not recommended above 100.</remarks>
+            <param name="folderName">Sub Folder name (not path) to save settings</param>
+            <param name="settingList">Instance of the setting list to save individually</param>
+            <param name="appName">Name of the application</param>
+            <exception cref="T:System.ApplicationException">If settings file cannot be serialized</exception>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.AppSettings.GetSettingsList``1(System.String,System.String)">
+            <summary>
+            Returns all individual file settings as a list
+            </summary>
+            <typeparam name="T">Class of the settings object</typeparam>
+            <param name="appName">Name of the application</param>
+            <param name="folderName">Sub Folder name (not path) where settings were saved</param>
+            <returns></returns>
+        </member>
+        <member name="T:XL_ID.Utilities.Setting.IniFile">
+            <summary>
+            Create a New INI file to store or load data
+            </summary>
+        </member>
+        <member name="P:XL_ID.Utilities.Setting.IniFile.Path">
+            <summary>
+            Ini file path
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.IniFile.#ctor(System.String)">
+            <summary>
+            INIFile Constructor.
+            </summary>
+            <PARAM name="INIPath"></PARAM>
+        </member>
+        <member name="P:XL_ID.Utilities.Setting.IniFile.Exists">
+            <summary>
+            Property telling if the ini file exists at the path.
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.IniFile.WriteValue(System.String,System.String,System.String)">
+            <summary>
+            Write Data to the INI File
+            </summary>
+            <PARAM name="Section"></PARAM>
+            Section name
+            <PARAM name="Key"></PARAM>
+            Key Name
+            <PARAM name="Value"></PARAM>
+            Value Name
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.IniFile.ReadValue(System.String,System.String)">
+            <summary>
+            Read Data Value From the Ini File
+            </summary>
+            <PARAM name="Section"></PARAM>
+            <PARAM name="Key"></PARAM>
+            <PARAM name="Path"></PARAM>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Setting.IniFile.ReadInt(System.String,System.String)">
+            <summary>
+            Read an integer value from key
+            </summary>
+            <param name="section">Ini section name</param>
+            <param name="key">Ini key</param>
+            <returns>Value associated with the key at the given section</returns>
+            <exception cref="T:System.ApplicationException"></exception>
+        </member>
+        <member name="T:XL_ID.Utilities.Setting.ISettingFile">
+            <summary>
+            Interface for individual folder file saving.
+            </summary>
+        </member>
+        <member name="P:XL_ID.Utilities.Setting.ISettingFile.SettingFileName">
+            <summary>
+            Do not assign this property. It will be assigned when file is saved the first time.
+            </summary>
+        </member>
+        <member name="T:XL_ID.Utilities.SevenZip.Compress.LzmaAlone.LzmaBench">
+            <summary>
+            LZMA Benchmark
+            </summary>
+        </member>
+        <member name="T:XL_ID.Utilities.SevenZip.DataErrorException">
+            <summary>
+            The exception that is thrown when an error in input stream occurs during decoding.
+            </summary>
+        </member>
+        <member name="T:XL_ID.Utilities.SevenZip.InvalidParamException">
+            <summary>
+            The exception that is thrown when the value of an argument is outside the allowable range.
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.SevenZip.ICodeProgress.SetProgress(System.Int64,System.Int64)">
+            <summary>
+            Callback progress.
+            </summary>
+            <param name="inSize">
+            input size. -1 if unknown.
+            </param>
+            <param name="outSize">
+            output size. -1 if unknown.
+            </param>
+        </member>
+        <member name="M:XL_ID.Utilities.SevenZip.ICoder.Code(System.IO.Stream,System.IO.Stream,System.Int64,System.Int64,XL_ID.Utilities.SevenZip.ICodeProgress)">
+            <summary>
+            Codes streams.
+            </summary>
+            <param name="inStream">
+            input Stream.
+            </param>
+            <param name="outStream">
+            output Stream.
+            </param>
+            <param name="inSize">
+            input Size. -1 if unknown.
+            </param>
+            <param name="outSize">
+            output Size. -1 if unknown.
+            </param>
+            <param name="progress">
+            callback progress reference.
+            </param>
+            <exception cref="T:XL_ID.Utilities.SevenZip.DataErrorException">
+            if input stream is not valid
+            </exception>
+        </member>
+        <member name="T:XL_ID.Utilities.SevenZip.CoderPropID">
+            <summary>
+            Provides the fields that represent properties idenitifiers for compressing.
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.DefaultProp">
+            <summary>
+            Specifies default property.
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.DictionarySize">
+            <summary>
+            Specifies size of dictionary.
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.UsedMemorySize">
+            <summary>
+            Specifies size of memory for PPM*.
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.Order">
+            <summary>
+            Specifies order for PPM methods.
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.BlockSize">
+            <summary>
+            Specifies Block Size.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:XL_ID.Utilities.SevenZip.CoderPropID.PosStateBits" -->
+        <!-- Badly formed XML comment ignored for member "F:XL_ID.Utilities.SevenZip.CoderPropID.LitContextBits" -->
+        <!-- Badly formed XML comment ignored for member "F:XL_ID.Utilities.SevenZip.CoderPropID.LitPosBits" -->
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.NumFastBytes">
+            <summary>
+            Specifies number of fast bytes for LZ*.
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.MatchFinder">
+            <summary>
+            Specifies match finder. LZMA: "BT2", "BT4" or "BT4B".
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.MatchFinderCycles">
+            <summary>
+            Specifies the number of match finder cyckes.
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.NumPasses">
+            <summary>
+            Specifies number of passes.
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.Algorithm">
+            <summary>
+            Specifies number of algorithm.
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.NumThreads">
+            <summary>
+            Specifies the number of threads.
+            </summary>
+        </member>
+        <member name="F:XL_ID.Utilities.SevenZip.CoderPropID.EndMarker">
+            <summary>
+            Specifies mode with end marker.
+            </summary>
+        </member>
+        <member name="T:XL_ID.Utilities.SevenZip.SevenZipHelper">
+            <summary>
+            Class to expose most useful functions of sevenzip
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.SevenZip.SevenZipHelper.Compress(System.IO.Stream)">
+            <summary>
+            compress data from a stream
+            </summary>
+            <param name="inStream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.SevenZip.SevenZipHelper.Compress(System.Byte[])">
+            <summary>
+            Compress the data from a byte array
+            </summary>
+            <param name="inputBytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:XL_ID.Utilities.SevenZip.SevenZipHelper.Decompress(System.Byte[])">
+            <summary>
+            Decompress the data
+            </summary>
+            <param name="inputBytes"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XL_ID.Utilities.String.StringTools">
+            <summary>
+            Old lcass used for DataAccess mainly
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.String.StringTools.DoubleQuote(System.String)">
+            <summary>
+            Double the single quotes of identifiers to escape them for sql use
+            </summary>
+            <param name="chaine"></param>
+            <returns></returns>
+        </member>
+        <member name="T:XL_ID.Utilities.Uri.UriSchemaInstaller">
+            <summary>
+            Install the current Exe as the Uri handler for the node
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.Uri.UriSchemaInstaller.Install(System.String,System.String)">
+            <summary>
+            Install the given Schema on the registry
+            </summary>
+            <param name="schemaName">Schema text for web</param>
+            <param name="fixedArguments">Fixed arguments to pass executable</param>
+            <returns>true if succecss, false otherwose</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.Uri.UriSchemaInstaller.IsInstalled(System.String,System.Boolean)">
+            <summary>
+            Gets a value indicating if Url protocol is installed for Given schema
+            </summary>
+            <param name="schemaName">Schema for the url protocol. Ex: alert . In web : alter:x  where x is parameter 1"</param>
+            <param name="verifyPath"></param>
+            <returns>true or false</returns>
+        </member>
+        <member name="T:XL_ID.Utilities.XML.KeyAndValue`2">
+            <summary>
+            Key and Value object. Mostly useful for storing generic key/value pair for serialization.
+            </summary>
+            <typeparam name="TKey">The type of the key.</typeparam>
+            <typeparam name="TValue">The type of the value.</typeparam>
+        </member>
+        <member name="M:XL_ID.Utilities.XML.KeyAndValue`2.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:XL_ID.Utilities.XML.KeyAndValue`2"/> class.
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.XML.KeyAndValue`2.#ctor(`0,`1)">
+            <summary>
+            Initializes a new instance of the <see cref="T:XL_ID.Utilities.XML.KeyAndValue`2"/> class.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="P:XL_ID.Utilities.XML.KeyAndValue`2.Key">
+            <summary>
+            Gets or sets the key.
+            </summary>
+            <value>The key.</value>
+        </member>
+        <member name="P:XL_ID.Utilities.XML.KeyAndValue`2.Value">
+            <summary>
+            Gets or sets the value.
+            </summary>
+            <value>The value.</value>
+        </member>
+        <member name="T:XL_ID.Utilities.XML.ListManager">
+            <summary>
+            TODO: Update summary.
+            </summary>
+        </member>
+        <member name="P:XL_ID.Utilities.XML.ListManager.ListFolderPath">
+            <summary>
+            Folder where lists are stored
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.XML.ListManager.LoadList``1(System.Collections.Generic.List{``0},System.Boolean)">
+            <summary>
+            Loads the list from disk or cache for a given objetc type.
+            </summary>
+            <typeparam name="TObject">The type of the object which is an element of the list.</typeparam>
+            <param name="baseList">The base default list, used if no list is found.</param>
+            <param name="useCache">if set to <c>true</c> use cache to retrieve and/or store the list.</param>
+            <returns>Instance of a list of all the objects since the last Save</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.XML.ListManager.UpdateCache``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Updates the cache list. If the list passed is null, the List is removed from cache.
+            </summary>
+            <typeparam name="TObject">The type of the object.</typeparam>
+            <param name="list">The list.</param>
+        </member>
+        <member name="M:XL_ID.Utilities.XML.ListManager.SaveList``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Saves the list to the drive.
+            </summary>
+            <typeparam name="TObject">The type of the object.</typeparam>
+            <param name="list">The list.</param>
+        </member>
+        <member name="T:XL_ID.Utilities.XML.ObjectSerializer">
+            <summary>
+            The object serializer.
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.XML.ObjectSerializer.GetInstanceFromXml``1(System.String)">
+            <summary>
+            Get instance from serialized information of an xml file
+            </summary>
+            <typeparam name="TObject">The type of the object to serialize.</typeparam>
+            <param name="fileName">Name of the file.</param>
+            <returns>Instance of serialized object</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.XML.ObjectSerializer.SaveInstanceToXml(System.String,System.Object)">
+            <summary>
+            Set serialized information from instance to an xml file
+            </summary>
+            <param name="fileName">Name of the file.</param>
+            <param name="obj">The instance of the object.</param>
+        </member>
+        <member name="T:XL_ID.Utilities.XML.XmlSerializer">
+            <summary>
+            Encapsulation of the XmlSerializer
+            </summary>
+        </member>
+        <member name="M:XL_ID.Utilities.XML.XmlSerializer.Deserialize``1(System.String)">
+            <summary>
+            Deserializes the specified element.
+            </summary>
+            <typeparam name="T">The type of the item.</typeparam>
+            <param name="element">The element to deserialize.</param>
+            <returns>The item</returns>
+        </member>
+        <member name="M:XL_ID.Utilities.XML.XmlSerializer.Serialize``1(``0)">
+            <summary>
+            Serializes the specified item.
+            </summary>
+            <typeparam name="T">The type to serialize.</typeparam>
+            <param name="item">The item to serialize.</param>
+            <returns>The serialized item.</returns>
+        </member>
+    </members>
+</doc>
