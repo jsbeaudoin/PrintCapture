@@ -34,7 +34,7 @@ namespace PrintsCapture.Ui.Class
 
     public class PrintCaptureApp
     {
-        public const string AppVersion = "1.0.52.7";
+        public const string AppVersion = "1.0.52.8";
 
         public const string AppName = "PrintsCapture";
 
@@ -106,6 +106,7 @@ namespace PrintsCapture.Ui.Class
             // Setup prints and rules
             instance.PrintList = appParam.PrintList;
             var rules = PrintCaptureDriver.Settings.Rules;
+            rules.OrderMode = appParam.CaptureOrder;
             rules.Labels.SingleFingerCapturePrompt = appParam.SingleFingerCapturePrompt;
             
             // make sure rules have a valid set

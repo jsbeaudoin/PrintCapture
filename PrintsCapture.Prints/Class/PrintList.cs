@@ -24,7 +24,6 @@ namespace PrintsCapture.Prints
     /// </summary>
     public class PrintList
     {
-        
         public const int EndorsementFingerIndex = 16;
 
         List<PhysicalHandPart> physicalHandPart;
@@ -45,7 +44,7 @@ namespace PrintsCapture.Prints
         private BitmapImage blankPrint;
 
         public PrintList()
-        {                        
+        {
             this.CreateList();
             // TODO : Handle missing only by the printCondition
             this.missingTexts.Add("XX", CommonText.HandPartAmputated);
@@ -103,6 +102,7 @@ namespace PrintsCapture.Prints
                 this.statusImages.Add(PrintStatus.ValidatedSwapped, new BitmapImage(new Uri("pack://application:,,,/PrintsCapture.Ui;component/Images/swappedGreenButton.png")));
                 this.statusImages.Add(PrintStatus.InErrorSwapped, new BitmapImage(new Uri("pack://application:,,,/PrintsCapture.Ui;component/Images/swappedRedButton.png")));
             }));
+            
         }
 
         public PrintRules Rules { get; set; }
@@ -527,23 +527,24 @@ namespace PrintsCapture.Prints
         {
             this.prints = new List<PrintInfo>();
             // define capture group membership to assign to print
-            var flatOnly = PrintCaptureGroup.FlatOnly;            
+            var flatOnly = PrintCaptureGroup.FlatOnly;
+            var flatOrSq = PrintCaptureGroup.FlatOnly | (this.Rules.OrderMode == CaptureOrderMode.Sq ? PrintCaptureGroup.Standard14 : 0);
             var palmOnly = PrintCaptureGroup.StandardAndPalm;
             var flatRolled = flatOnly | PrintCaptureGroup.Standard14;
             var flatRolledPalm = flatRolled | palmOnly;
             var rolledPalm = PrintCaptureGroup.Standard14 | palmOnly;
             var none = PrintCaptureGroup.Unknown;
 
-            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Thumb, Hand.Right),  HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 1));
-            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Index, Hand.Right),  HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 2));
+            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Thumb, Hand.Right), HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 1));
+            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Index, Hand.Right), HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 2));
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.Middle, Hand.Right), HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 3));
-            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Ring, Hand.Right),   HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 4));
+            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Ring, Hand.Right), HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 4));
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.Little, Hand.Right), HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 5));
 
-            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Thumb, Hand.Left),  HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 6));
-            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Index, Hand.Left),  HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 7));
+            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Thumb, Hand.Left), HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 6));
+            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Index, Hand.Left), HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 7));
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.Middle, Hand.Left), HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 8));
-            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Ring,  Hand.Left),  HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 9));
+            this.prints.Add(new PrintInfo(this, this.Part(HandPart.Ring, Hand.Left), HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 9));
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.Little, Hand.Left), HandScanKind.Rolled, HandPartKind.Finger, rolledPalm, 10));
 
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.FourFlats, Hand.Right), HandScanKind.Flat, HandPartKind.Other, flatRolledPalm, 13));
@@ -563,7 +564,7 @@ namespace PrintsCapture.Prints
 
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.Endorsement, Hand.None), HandScanKind.Flat, HandPartKind.Other, none, EndorsementFingerIndex));
 
-            this.prints.Add(new PrintInfo(this, this.Part(HandPart.TwoThumbs, Hand.None), HandScanKind.Flat, HandPartKind.Other, flatOnly, 15));
+            this.prints.Add(new PrintInfo(this, this.Part(HandPart.TwoThumbs, Hand.None), HandScanKind.Flat, HandPartKind.Other, flatOrSq, 15));
 
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.Hypothenar, Hand.Right), HandScanKind.Flat, HandPartKind.Palm, palmOnly, 22));
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.UpperPalm, Hand.Right), HandScanKind.Flat, HandPartKind.Palm, palmOnly, 26));
@@ -572,7 +573,6 @@ namespace PrintsCapture.Prints
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.Hypothenar, Hand.Left), HandScanKind.Flat, HandPartKind.Palm, palmOnly, 24));
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.UpperPalm, Hand.Left), HandScanKind.Flat, HandPartKind.Palm, palmOnly, 28));
             this.prints.Add(new PrintInfo(this, this.Part(HandPart.LowerPalm, Hand.Left), HandScanKind.Flat, HandPartKind.Palm, palmOnly, 27));
-
         }
 
         private PhysicalHandPart Part(HandPart part, Hand hand)
@@ -942,5 +942,42 @@ namespace PrintsCapture.Prints
         {
             return this.prints.Where(x => this.IsPrintToBeVerified(x) && x.IsMissing);            
         }
+
+        private class PrintOrder
+        {
+            public int TwoThumbsFlat = -1;
+
+            public int RightThumbFlat = -1;
+            public int LeftThumbFlat = -1;
+
+            public int RightFourFingers = -1;
+            public int RightThumbRolled = -1;
+            public int RightIndexRolled = -1;
+            public int RightMiddleRolled = -1;
+            public int RightRingRolled = -1;
+            public int RightLittleRolled = -1;
+
+            public int LeftFourFingers = -1;
+            public int LeftThumbRolled = -1;
+            public int LeftIndexRolled = -1;
+            public int LeftMiddleRolled = -1;
+            public int LeftRingRolled = -1;
+            public int LeftLittleRolled = -1;
+
+            public int EndorsementFinger = -1;
+
+            public int RightHypothenarPalm = -1;
+            public int RightLowerPalm = -1;
+            public int RightUpperPalm = -1;
+
+            public int LeftHypothenarPalm = -1;
+            public int LeftLowerPalm = -1;
+            public int LeftUpperPalm = -1;
+
+        }
     }
+
+    
 }
+
+

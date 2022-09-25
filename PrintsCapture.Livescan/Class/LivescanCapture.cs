@@ -568,7 +568,7 @@ namespace PrintsCapture.Livescan
             {                
                 var print = this.captureList[this.captureIndex];
                 print.CaptureCount += 1;
-                
+
                 try
                 {
                     //printImage.Save("C:\\TestI3.bmp", ImageFormat.Bmp);
@@ -576,29 +576,19 @@ namespace PrintsCapture.Livescan
                             Color.White, print.CaptureSize(this.PrintList.Rules.IsFlatCaptureMode));
                     cropped.SetResolution(printImage.HorizontalResolution, printImage.VerticalResolution);
                     print.Image = cropped;
-                    //var saveAction =
-                    //    new Action(
-                    //        () =>
-                    //            print.ImageForProcessing.Save(
-                    //                @"D:\tmp\" + this.captureIndex.ToString() + "-A.bmp",
-                    //                ImageFormat.Bmp));
-                    //Application.Current.Dispatcher.Invoke(saveAction);
-
                 }
                 catch (Exception ex)
                 {
-                    LogDispatcher.DoLog("Livescan-Could not process image", LogEventLevel.Error, ex);                    
-                    this.DeviceMessage(CommonText.CannotProcessImage, DeviceMessageKind.Error,  true);
+                    LogDispatcher.DoLog("Livescan-Could not process image", LogEventLevel.Error, ex);
+                    this.DeviceMessage(CommonText.CannotProcessImage, DeviceMessageKind.Error, true);
                     return;
                 }
-                
-                //print.Image.Save(@"D:\tmp\" + this.captureIndex.ToString() + "-B.bmp");                
 
                 print.Resolution = resolution;
                 print.ProcessStatus = PrintProcessStatus.InProcess;
 
                 PrintModificationDispatcher.PrintModified(print);
-                this.TriggerPrintCaptured(print, false);                 
+                this.TriggerPrintCaptured(print, false);
 
                 this.CaptureNextPrint();
             }
@@ -616,6 +606,7 @@ namespace PrintsCapture.Livescan
                 this.DeviceMessage(msg, DeviceMessageKind.Error,  true);
             }
         }
+
 
         private void PrintModified(object sender, PrintModifiedEventArgs e)
         {
@@ -788,7 +779,7 @@ namespace PrintsCapture.Livescan
                     this.LoadConfiguration(live);
                     deviceList.Add(new ListElementViewModel<ILivescanDevice>(live, live.DisplayName));
                 } ));
-            LiveScanLog.Logger.Debug($"Devie List Count : {deviceList.Count}");
+            LiveScanLog.Logger.Debug($"Device List Count : {deviceList.Count}");
 
             // build viewModel            
             var selected = deviceList.FirstOrDefault(x => x.Key.InternalKey == viewModel.SelectedDeviceKey);

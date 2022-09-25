@@ -63,7 +63,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintsCapture.LocalNbisSeqC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWinForm", "TestWinForm\TestWinForm.csproj", "{32C25961-1E0B-4697-A23E-653032A351D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintsCapture.Direct", "PrintCapture.Direct\PrintsCapture.Direct.csproj", "{D2ABA2CA-8447-4F7C-9388-48673B831962}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintsCapture.Direct", "PrintsCapture.Direct\PrintsCapture.Direct.csproj", "{D2ABA2CA-8447-4F7C-9388-48673B831962}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivescanJenetric", "LivescanJenetric\LivescanJenetric.csproj", "{1E518702-E013-4D12-997C-98AE9EC3413C}"
 EndProject

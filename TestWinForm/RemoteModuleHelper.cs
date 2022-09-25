@@ -83,7 +83,9 @@ namespace TestWinForm
         {
             this.commandReceived = CommandResultPrints;
             var args = this.GetPrintsCaptureArguments("live");
-            args.Add("capturemode", "5");
+            args.Add("capturemode", "4"); // palms & standard
+            args.Add("noendorsement", "1"); // no endorsement finger
+            args.Add("captureorder", "sq");
             this.StartRemote(PrintsCaptureModuleName, args);
         }
 

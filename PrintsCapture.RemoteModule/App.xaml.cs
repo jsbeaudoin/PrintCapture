@@ -389,14 +389,15 @@ namespace PrintsCapture.RemoteModule
                 log += " Decription Line1:" + config.DescriptionLine1;
                 config.DescriptionLine2 = moduleArguments["descriptionline2"];
                 log += "  Decription Line 2:" + config.DescriptionLine2;
-                
-                
+
+
                 // Optional parameters 
                 //  CaptureMode : as an int (enum flag)
                 // debug : 1 = is in debug mode.
                 // debugtab : 1 = Shown
                 // optiontab : 1 = Shown
                 // noendorsement : 1 = No endorsement finger
+                // printset : empty or sq : will change order for SQ
                 config.CaptureModeAllowed = PrintCaptureGroup.FlatOnly;
                 if (moduleArguments.ContainsKey("capturemode"))
                 {
@@ -412,6 +413,12 @@ namespace PrintsCapture.RemoteModule
                     moduleArguments["noendorsement"] == "1")
                 {
                     config.IsEndorsementAllowed = false;
+                }
+
+                config.CaptureOrder = CaptureOrderMode.Standard;
+                if (moduleArguments.ContainsKey("captureorder"))
+                {
+                    config.CaptureOrder = CaptureOrderMode.Sq;
                 }
 
                 if (moduleArguments.ContainsKey("wizard") &&

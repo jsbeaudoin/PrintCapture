@@ -67,5 +67,6 @@ namespace PrintsCapture.Ui.Class
         public BaseSeqCheckService SeqCheckService { get; set; }
 
         public string SeqCheckServiceConnection { get; set; }
+        public CaptureOrderMode CaptureOrder { get; set; }
     }
 }

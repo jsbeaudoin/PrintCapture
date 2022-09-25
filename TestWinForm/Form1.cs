@@ -210,9 +210,12 @@ namespace TestWinForm
                 args.Add("descriptionline2", "");
                 args.Add("wizard", "0");
                 args.Add("lang", "en");
-                args.Add("capturemode", "5");
-                args.Add("login", "0");
-                args.Add("singlecaptureprompt", "PrintCapture Login Title");
+                args.Add("capturemode", "4");
+                args.Add("noendorsement", "1"); // no endorsement finger
+                args.Add("captureorder", "sq");
+
+                //args.Add("login", "0");
+                //args.Add("singlecaptureprompt", "PrintCapture Login Title");
                 args.Add("topmost", "0");
                 args.Add("alwayscanoverride", "1");
 
@@ -225,7 +228,7 @@ namespace TestWinForm
                 }
                 else
                 {
-                    MessageBox.Show("Capture finnished without error", "Direct Capture");
+                    MessageBox.Show("Capture finished without error", "Direct Capture");
                     if (MessageBox.Show("Do you want to save bmp prints?", "Saving Prints", MessageBoxButtons.YesNo,
                             MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     {
@@ -244,6 +247,63 @@ namespace TestWinForm
             {
                 Console.WriteLine(exception);
                 throw;
+            }
+        }
+
+        private void StartDebugButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var args = new Dictionary<string, string>();
+                args.Add("mode", "live");
+                args.Add("culture", "en");
+                args.Add("debug", "1");
+                args.Add("descriptionline1", "");
+                args.Add("descriptionline2", "");
+                args.Add("wizard", "0");
+                args.Add("lang", "en");
+                args.Add("capturemode", "4");
+                args.Add("noendorsement", "1"); // no endorsement finger
+                args.Add("captureorder", "sq");
+
+                //args.Add("login", "0");
+                //args.Add("singlecaptureprompt", "PrintCapture Login Title");
+                args.Add("topmost", "0");
+                args.Add("alwayscanoverride", "1");
+
+                PrintsCapture.Direct.PrintCaptureDllApp.DoCapture(args);
+                PrintsCapture.Direct.PrintCaptureDllApp.CaptureWindowClosed += PrintCaptureCompleted;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
+        }
+
+        private void PrintCaptureCompleted(object sender, EventArgs e)
+        {
+            var result = PrintsCapture.Direct.PrintCaptureDllApp.GetResults();
+
+            if (result == null)
+            {
+                MessageBox.Show("Null result received from DirectCapture", "Direct Capture");
+            }
+            else
+            {
+                MessageBox.Show("Capture finished without error", "Direct Capture");
+                if (MessageBox.Show("Do you want to save bmp prints?", "Saving Prints", MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                {
+                    for (int x = 0; x < result.Prints.Count; x++)
+                    {
+                        var fileName = $"D://Finger{result.Prints[x].Position}.bmp";
+                        var bmp = XL_ID.Utilities.Image.ImageUtilities.ConvertFromBinary(result.Prints[x].ImageData);
+                        bmp.Save(fileName);
+                        bmp.Dispose();
+                    }
+
+                }
             }
         }
     }

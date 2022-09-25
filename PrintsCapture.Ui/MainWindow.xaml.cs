@@ -67,7 +67,7 @@ namespace PrintsCapture.Ui
 
             //PrintCaptureApp.Instance.CaptureCompleted += this.CaptureCompletedCallback;
 
-            var version = Assembly.GetEntryAssembly().GetName().Version;
+            var version = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()).GetName().Version;
             this.VersionTextBlock.Text = $"Version {version.Major}.{version.Minor}.{version.Build}";
             
             this.captureToggleGroup.Add(this.Std14ToggleButton);

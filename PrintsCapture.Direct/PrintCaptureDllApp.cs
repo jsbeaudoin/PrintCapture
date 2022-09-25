@@ -30,6 +30,8 @@ namespace PrintsCapture.Direct
 
         public CapturedPrintData Result { get; private set; }
 
+        public static event EventHandler CaptureWindowClosed;
+
         private PrintCaptureDllApp()
         {
             // make it a singleton then
@@ -128,6 +130,7 @@ namespace PrintsCapture.Direct
                 bool isLoginMode = false;
                 bool topMostWindow = false;
                 bool alwaysCanOverride = false;
+                bool sqMode = false;
 
                 this.logger.Trace("Setting PrintCapture parameters");
                 if (startArguments.ContainsKey("prefix")) fileNamePrefix = startArguments["prefix"];
@@ -143,6 +146,7 @@ namespace PrintsCapture.Direct
                 if (startArguments.ContainsKey("topmost")) topMostWindow = startArguments["topmost"] == "1";
                 if (startArguments.ContainsKey("debug")) debug = startArguments["debug"] == "1";
                 if (startArguments.ContainsKey("login")) isLoginMode = startArguments["login"] == "1";
+                if (startArguments.ContainsKey("captureorder")) sqMode = startArguments["captureorder"] == "sq";
                 if (startArguments.ContainsKey("singlecapturemessage")) singleFingerCaptureLabel = startArguments["singlecapturemessage"];
                 if (startArguments.ContainsKey("alwayscanoverride"))
                     alwaysCanOverride = startArguments["alwayscanoverride"] == "1";
@@ -181,6 +185,7 @@ namespace PrintsCapture.Direct
                         DescriptionLine2 = keyParameter,
                         IcdVersion = icdVersion,
                         Mode = modeParameter == "card" ? "cardscan" : "livescan",
+                        CaptureOrder = sqMode ? CaptureOrderMode.Sq : CaptureOrderMode.Standard,
                         IsOptionAvailable = modeParameter == "card",
                         CaptureModeAllowed = (PrintCaptureGroup)captureMode,
                         IsEndorsementAllowed = string.IsNullOrEmpty(endorsementParameter) || endorsementParameter == "1",
@@ -245,8 +250,9 @@ namespace PrintsCapture.Direct
             }
             
             this.ShutdownWPF();
-        }
 
+            CaptureWindowClosed?.Invoke(sender, null);
+        }
 
     }
 }

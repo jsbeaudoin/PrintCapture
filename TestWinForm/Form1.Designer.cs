@@ -42,8 +42,9 @@ namespace TestWinForm
             this.button3 = new System.Windows.Forms.Button();
             this.fingerprintControl1 = new TestWinForm.UserControl.FingerprintControl();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.StartDebugButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
@@ -128,6 +129,7 @@ namespace TestWinForm
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.StartDebugButton);
             this.groupBox2.Controls.Add(this.button5);
             this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Location = new System.Drawing.Point(365, 42);
@@ -136,6 +138,16 @@ namespace TestWinForm
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Direct Capture";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(8, 49);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(95, 23);
+            this.button5.TabIndex = 8;
+            this.button5.Text = "Direct Start";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button4
             // 
@@ -147,15 +159,15 @@ namespace TestWinForm
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // button5
+            // StartDebugButton
             // 
-            this.button5.Location = new System.Drawing.Point(8, 49);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(95, 23);
-            this.button5.TabIndex = 8;
-            this.button5.Text = "Direct Start";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.StartDebugButton.Location = new System.Drawing.Point(156, 20);
+            this.StartDebugButton.Name = "StartDebugButton";
+            this.StartDebugButton.Size = new System.Drawing.Size(160, 23);
+            this.StartDebugButton.TabIndex = 9;
+            this.StartDebugButton.Text = "Direct Start (With Debug)";
+            this.StartDebugButton.UseVisualStyleBackColor = true;
+            this.StartDebugButton.Click += new System.EventHandler(this.StartDebugButton_Click);
             // 
             // Form1
             // 
@@ -193,6 +205,7 @@ namespace TestWinForm
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button StartDebugButton;
     }
 }
 

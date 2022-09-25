@@ -71,6 +71,7 @@
             sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.FourFlats, HandScanKind.Flat, 500, new Size(1600, 1500), true));
             sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.Endorsement, HandScanKind.Flat, 500, new Size(500, 1000), true));
 
+            sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.TwoThumbs, HandScanKind.Flat, 500, new Size(1600, 1500)));
             sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.FourFlats, HandScanKind.Flat, 500, new Size(1600, 1000)));            
             sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.Endorsement, HandScanKind.Flat, 500, new Size(500, 1000)));
             sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.UpperPalm, HandScanKind.Flat, 500, new Size(2750, 2750)));
@@ -83,6 +84,7 @@
             sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.FourFlats, HandScanKind.Flat, 1000, new Size(3200, 3000), true));            
             sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.Endorsement, HandScanKind.Flat, 1000, new Size(1000, 2000), true));
 
+            sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.TwoThumbs, HandScanKind.Flat, 1000, new Size(3200, 3000)));
             sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.FourFlats, HandScanKind.Flat, 1000, new Size(3200, 2000)));            
             sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.Endorsement, HandScanKind.Flat, 1000, new Size(1000, 2000)));
             sizes.Add(new PrintCaptureSize(HandPartKind.Unknown, HandPart.UpperPalm, HandScanKind.Flat, 1000, new Size(5500, 5500)));

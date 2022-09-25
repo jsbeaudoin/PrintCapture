@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="RemoteModules">
       <HintPath>..\lib\ToCopy\RemoteModules.dll</HintPath>
     </Reference>
@@ -50,6 +51,7 @@
     <Reference Include="UniBIO.Services.Communication">
       <HintPath>..\lib\local\UniBIO.Services.Communication.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
     <Reference Include="XL-ID.Utilities">
       <HintPath>..\lib\local\XL-ID.Utilities.dll</HintPath>
     </Reference>
@@ -104,7 +106,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PrintCapture.Direct\PrintsCapture.Direct.csproj">
+    <ProjectReference Include="..\PrintsCapture.Direct\PrintsCapture.Direct.csproj">
       <Project>{d2aba2ca-8447-4f7c-9388-48673b831962}</Project>
       <Name>PrintsCapture.Direct</Name>
     </ProjectReference>

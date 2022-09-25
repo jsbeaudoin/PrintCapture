@@ -78,6 +78,7 @@
     <Compile Include="Class\PrintSegment.cs" />
     <Compile Include="Class\SegmentChange.cs" />
     <Compile Include="Class\HandnessFinder.cs" />
+    <Compile Include="Enum\CaptureOrderMode.cs" />
     <Compile Include="Enum\HandPartStatus.cs" />
     <Compile Include="Extension\BaseSequenceCheckExtension.cs" />
     <Compile Include="RcmpValidation\CharacterValidation.cs" />
