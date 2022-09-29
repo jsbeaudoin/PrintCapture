@@ -45,9 +45,9 @@ namespace TestWinForm
         {
             var wz = new PrintCaptureWizard();
 
-            var result = wz.ShowWizardDialog("fr",3, true);
+            var result = wz.ShowWizardDialog("fr", 3, true);
 
-            
+
             var firstImage = result?.Prints?.FirstOrDefault();
 
 
@@ -92,34 +92,34 @@ namespace TestWinForm
 
                 this.Enabled = false;
                 var rm = new RemoteModuleHelper("fr", true);
-                
+
                 rm.CaptureCompleted += (success, resultObject, exception) =>
                 {
-                    this.Invoke((Action) (() =>
-                    {
-                        this.Enabled = true;
-                        var fingers = resultObject as CapturedPrintData;
+                    this.Invoke((Action)(() =>
+                   {
+                       this.Enabled = true;
+                       var fingers = resultObject as CapturedPrintData;
 
-                        if (exception != null)
-                        {
-                            MessageBox.Show(string.Format("Error {0}", exception.Message),
-                                "Prints" ,MessageBoxButtons.OK,MessageBoxIcon.Error);
-                        }
+                       if (exception != null)
+                       {
+                           MessageBox.Show(string.Format("Error {0}", exception.Message),
+                               "Prints", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                       }
 
 
-                        if (fingers == null)
-                        {
+                       if (fingers == null)
+                       {
                             //this.SetScanComplete(false);
                             return;
-                        }
-                        
+                       }
+
                         //this.SetScanComplete(success);
                     }));
 
-                
+
                 };
 
-                rm.GetScanPrints();    
+                rm.GetScanPrints();
             }
             catch (Exception exception)
             {
@@ -136,28 +136,12 @@ namespace TestWinForm
 
         private void button4_Click(object sender, EventArgs e)
         {
-            //var args = new Dictionary<string, string>();
-            //args.Add("mode", "live");
-            //args.Add("culture", "en");
-            //args.Add("debug", "1");
-            //args.Add("descriptionline1", "");
-            //args.Add("descriptionline2", "");
-            //args.Add("wizard", "1");
-            //args.Add("icdversion", "178");
-
-
-            //args.Add("lang", "en");
-            ////args.Add("capturemode", "2");
-            //args.Add("capturemode", "8");
-            //args.Add("login", "1");
-            //args.Add("singlecaptureprompt", "Single PrintCapture Title");
-            //args.Add("topmost","1" );
-
-            //var printCapture = new PrintsCapture.Direct.Wizard();
+            var args = GetCaptureParameters();
+            args.Add("singlecaptureprompt", "PrintCapture Login Title");
 
             try
             {
-                //var result = printCapture.Capture(args);
+                /* var result = printCapture.Capture(args);
 
                 var args = new Dictionary<string, string>();
                 args.Add("mode", "live");
@@ -172,10 +156,15 @@ namespace TestWinForm
                 args.Add("singlecaptureprompt", "PrintCapture Login Title");
                 args.Add("topmost", "1");
                 args.Add("alwayscanoverride", "1");
-
+                */
 
                 object[] arguments = { args };
                 var assemblyPath = Application.StartupPath + "\\PrintsCapture.Direct.dll";
+                //PrintsCapture.Direct.PrintCaptureDllApp.DoCapture(args);
+                //PrintsCapture.Direct.PrintCaptureDllApp.CaptureWindowClosed += PrintCaptureCompleted;
+
+                // printCapture.Capture(args); // new PrintsCapture.Direct.Wizard();
+
                 var result = DynaInvoke.InvokeMethodSlow(assemblyPath, "Wizard", "Capture", arguments);
 
                 if (result == null)
@@ -184,7 +173,7 @@ namespace TestWinForm
                 }
                 else
                 {
-                    MessageBox.Show("Capture finnished without error", "Direct Capture");
+                    MessageBox.Show("Capture finished without error", "Direct Capture");
                 }
             }
             catch (Exception exception)
@@ -250,27 +239,52 @@ namespace TestWinForm
             }
         }
 
+        private Dictionary<string, string> GetCaptureParameters()
+        {
+            bool isSqMode = this.chkSqMode.Checked;
+            string captureGroup = "0";
+            bool endorsement = false;
+            if (this.civilCaptureRadio.Checked)
+            {
+                endorsement = true;
+                captureGroup = "3"; // flats only or standard 14
+            }
+            else if (this.criminalNoPalmsCaptureRadio.Checked)
+            {
+                captureGroup = "1"; // standard 14 only
+            }
+            else if (this.criminalPalmCaptureRadio.Checked)
+            {
+                captureGroup = "5"; // palms + standard 14
+            }
+
+            var args = new Dictionary<string, string>();
+            args.Add("mode", "live");
+            args.Add("culture", "en");
+            args.Add("debug", "1");
+            args.Add("descriptionline1", "");
+            args.Add("descriptionline2", "");
+            args.Add("wizard", "0");
+            args.Add("lang", "en");
+            args.Add("capture", captureGroup);
+            args.Add("endorsement", endorsement ? "1" : "0"); // no endorsement finger
+            args.Add("captureorder", isSqMode ? "sq" : "");
+
+            //args.Add("login", "0");
+            //args.Add("singlecaptureprompt", "PrintCapture Login Title");
+            args.Add("topmost", "0");
+            args.Add("alwayscanoverride", "1");
+
+            return args;
+        }
+    
+
         private void StartDebugButton_Click(object sender, EventArgs e)
         {
             try
             {
-                var args = new Dictionary<string, string>();
-                args.Add("mode", "live");
-                args.Add("culture", "en");
-                args.Add("debug", "1");
-                args.Add("descriptionline1", "");
-                args.Add("descriptionline2", "");
-                args.Add("wizard", "0");
-                args.Add("lang", "en");
-                args.Add("capturemode", "4");
-                args.Add("noendorsement", "1"); // no endorsement finger
-                args.Add("captureorder", "sq");
-
-                //args.Add("login", "0");
-                //args.Add("singlecaptureprompt", "PrintCapture Login Title");
-                args.Add("topmost", "0");
-                args.Add("alwayscanoverride", "1");
-
+                var args = GetCaptureParameters();
+                
                 PrintsCapture.Direct.PrintCaptureDllApp.DoCapture(args);
                 PrintsCapture.Direct.PrintCaptureDllApp.CaptureWindowClosed += PrintCaptureCompleted;
             }

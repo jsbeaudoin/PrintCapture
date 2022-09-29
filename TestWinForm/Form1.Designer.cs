@@ -40,15 +40,22 @@ namespace TestWinForm
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.picRemoteModule = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
-            this.fingerprintControl1 = new TestWinForm.UserControl.FingerprintControl();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.StartDebugButton = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.StartDebugButton = new System.Windows.Forms.Button();
+            this.chkSqMode = new System.Windows.Forms.CheckBox();
+            this.captureModeGroup = new System.Windows.Forms.GroupBox();
+            this.civilCaptureRadio = new System.Windows.Forms.RadioButton();
+            this.criminalPalmCaptureRadio = new System.Windows.Forms.RadioButton();
+            this.criminalNoPalmsCaptureRadio = new System.Windows.Forms.RadioButton();
+            this.fingerprintControl1 = new TestWinForm.UserControl.FingerprintControl();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.captureModeGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -95,7 +102,7 @@ namespace TestWinForm
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Location = new System.Drawing.Point(174, 42);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(185, 198);
+            this.groupBox1.Size = new System.Drawing.Size(139, 198);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Remote Module";
@@ -118,19 +125,13 @@ namespace TestWinForm
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // fingerprintControl1
-            // 
-            this.fingerprintControl1.Individual = null;
-            this.fingerprintControl1.Location = new System.Drawing.Point(64, 246);
-            this.fingerprintControl1.Name = "fingerprintControl1";
-            this.fingerprintControl1.Size = new System.Drawing.Size(702, 500);
-            this.fingerprintControl1.TabIndex = 5;
-            this.fingerprintControl1.Load += new System.EventHandler(this.fingerprintControl1_Load);
-            // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.StartDebugButton);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.captureModeGroup);
+            this.groupBox2.Controls.Add(this.chkSqMode);
             this.groupBox2.Controls.Add(this.button5);
+            this.groupBox2.Controls.Add(this.StartDebugButton);
             this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Location = new System.Drawing.Point(365, 42);
             this.groupBox2.Name = "groupBox2";
@@ -138,26 +139,6 @@ namespace TestWinForm
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Direct Capture";
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(8, 49);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(95, 23);
-            this.button5.TabIndex = 8;
-            this.button5.Text = "Direct Start";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(8, 20);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(95, 23);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "DynaInvok Start";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // StartDebugButton
             // 
@@ -168,6 +149,98 @@ namespace TestWinForm
             this.StartDebugButton.Text = "Direct Start (With Debug)";
             this.StartDebugButton.UseVisualStyleBackColor = true;
             this.StartDebugButton.Click += new System.EventHandler(this.StartDebugButton_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(179, 120);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(95, 23);
+            this.button5.TabIndex = 8;
+            this.button5.Text = "Direct Start";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(179, 91);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(95, 23);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "DynaInvok Start";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // chkSqMode
+            // 
+            this.chkSqMode.AutoSize = true;
+            this.chkSqMode.Checked = true;
+            this.chkSqMode.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSqMode.Location = new System.Drawing.Point(15, 24);
+            this.chkSqMode.Name = "chkSqMode";
+            this.chkSqMode.Size = new System.Drawing.Size(69, 17);
+            this.chkSqMode.TabIndex = 10;
+            this.chkSqMode.Text = "Sq Mode";
+            this.chkSqMode.UseVisualStyleBackColor = true;
+            // 
+            // captureModeGroup
+            // 
+            this.captureModeGroup.Controls.Add(this.criminalNoPalmsCaptureRadio);
+            this.captureModeGroup.Controls.Add(this.criminalPalmCaptureRadio);
+            this.captureModeGroup.Controls.Add(this.civilCaptureRadio);
+            this.captureModeGroup.Location = new System.Drawing.Point(15, 47);
+            this.captureModeGroup.Name = "captureModeGroup";
+            this.captureModeGroup.Size = new System.Drawing.Size(142, 78);
+            this.captureModeGroup.TabIndex = 12;
+            this.captureModeGroup.TabStop = false;
+            this.captureModeGroup.Text = "Capture Mode";
+            // 
+            // civilCaptureRadio
+            // 
+            this.civilCaptureRadio.AutoSize = true;
+            this.civilCaptureRadio.Checked = true;
+            this.civilCaptureRadio.Location = new System.Drawing.Point(18, 21);
+            this.civilCaptureRadio.Name = "civilCaptureRadio";
+            this.civilCaptureRadio.Size = new System.Drawing.Size(44, 17);
+            this.civilCaptureRadio.TabIndex = 0;
+            this.civilCaptureRadio.Text = "Civil";
+            this.civilCaptureRadio.UseVisualStyleBackColor = true;
+            // 
+            // criminalPalmCaptureRadio
+            // 
+            this.criminalPalmCaptureRadio.AutoSize = true;
+            this.criminalPalmCaptureRadio.Location = new System.Drawing.Point(18, 44);
+            this.criminalPalmCaptureRadio.Name = "criminalPalmCaptureRadio";
+            this.criminalPalmCaptureRadio.Size = new System.Drawing.Size(122, 17);
+            this.criminalPalmCaptureRadio.TabIndex = 1;
+            this.criminalPalmCaptureRadio.Text = "Criminal (With palms)";
+            this.criminalPalmCaptureRadio.UseVisualStyleBackColor = true;
+            // 
+            // criminalNoPalmsCaptureRadio
+            // 
+            this.criminalNoPalmsCaptureRadio.AutoSize = true;
+            this.criminalNoPalmsCaptureRadio.Location = new System.Drawing.Point(18, 61);
+            this.criminalNoPalmsCaptureRadio.Name = "criminalNoPalmsCaptureRadio";
+            this.criminalNoPalmsCaptureRadio.Size = new System.Drawing.Size(112, 17);
+            this.criminalNoPalmsCaptureRadio.TabIndex = 2;
+            this.criminalNoPalmsCaptureRadio.Text = "Criminal (no palms)";
+            this.criminalNoPalmsCaptureRadio.UseVisualStyleBackColor = true;
+            // 
+            // fingerprintControl1
+            // 
+            this.fingerprintControl1.Individual = null;
+            this.fingerprintControl1.Location = new System.Drawing.Point(64, 246);
+            this.fingerprintControl1.Name = "fingerprintControl1";
+            this.fingerprintControl1.Size = new System.Drawing.Size(702, 500);
+            this.fingerprintControl1.TabIndex = 5;
+            this.fingerprintControl1.Load += new System.EventHandler(this.fingerprintControl1_Load);
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(153, 46);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(190, 34);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Will crash if launched twice without stopping the process.";
             // 
             // Form1
             // 
@@ -187,6 +260,9 @@ namespace TestWinForm
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.captureModeGroup.ResumeLayout(false);
+            this.captureModeGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,6 +282,12 @@ namespace TestWinForm
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button StartDebugButton;
+        private System.Windows.Forms.GroupBox captureModeGroup;
+        private System.Windows.Forms.RadioButton criminalNoPalmsCaptureRadio;
+        private System.Windows.Forms.RadioButton criminalPalmCaptureRadio;
+        private System.Windows.Forms.RadioButton civilCaptureRadio;
+        private System.Windows.Forms.CheckBox chkSqMode;
+        private System.Windows.Forms.Label label2;
     }
 }
 

@@ -76,7 +76,7 @@ namespace PrintsCapture.Ui.Class
 
         public static PrintCaptureApp Instance => instance;
 
-        public static bool HasWizardAcceptedPrint => instance.wizardViewModel?.AcceptPrint != null && instance.wizardViewModel.AcceptPrint.Value;
+        public static bool HasWizardAcceptedPrint { get; private set; } // => instance.wizardViewModel?.AcceptPrint != null && instance.wizardViewModel.AcceptPrint.Value;
 
         public static bool IsWizard => instance?.IsWizardMode ?? false;
 
@@ -88,6 +88,7 @@ namespace PrintsCapture.Ui.Class
 
         public static PrintCaptureApp Start(PrintCaptureAppParameter appParam)
         {
+            HasWizardAcceptedPrint = false;
             PrintCaptureAppLog.Logger.Debug("***********PrintCaptureApp Start***********");
             PrintCaptureAppLog.Logger.Info($"Prints allowed:{appParam.CaptureModeAllowed}, Mode:{appParam.Mode}, Options:{appParam.IsOptionAvailable}");
 
@@ -114,9 +115,12 @@ namespace PrintsCapture.Ui.Class
 
             if (!rules.CaptureGroupAllowed.HasFlag(rules.CaptureGroup))
             {
-                
-                var defaultValue = rules.CaptureGroupAllowed.HasFlag(PrintCaptureGroup.FlatOnly) ? PrintCaptureGroup.FlatOnly
-                    : PrintCaptureGroup.Standard14;
+                var defaultValue = PrintCaptureGroup.FlatOnly; // default: flats. Else rolled and flats EXCEPT for Sq, which include palms by default
+                if (!rules.CaptureGroupAllowed.HasFlag(PrintCaptureGroup.FlatOnly))
+                {
+                    defaultValue = appParam.CaptureOrder == CaptureOrderMode.Sq ? PrintCaptureGroup.StandardAndPalm : PrintCaptureGroup.Standard14;
+                }
+
                 if (!rules.CaptureGroupAllowed.HasFlag(defaultValue))
                 {
                     var firstValue = rules.CaptureGroupAllowed.GetValues().Cast<PrintCaptureGroup>().FirstOrDefault();
@@ -298,6 +302,7 @@ namespace PrintsCapture.Ui.Class
             var startTime = DateTime.Now;
             var pl = instance.PrintList;
             PrintCaptureAppLog.Logger.Debug("Display Wizard");
+            
 
             var wizardVm = new WizardProcessViewModel
             {
@@ -533,6 +538,11 @@ namespace PrintsCapture.Ui.Class
                     e.Cancel = true;
                 }                
             }
+            if (! e.Cancel && acceptPrint == true)
+            {
+                HasWizardAcceptedPrint = true;
+            }
+            
         }
 
         private static void MainWindowOnClosed(object sender, EventArgs eventArgs)

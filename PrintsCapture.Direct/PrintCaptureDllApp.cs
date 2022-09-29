@@ -47,20 +47,6 @@ namespace PrintsCapture.Direct
                 instance.Result = null;
                 instance.StartCapture(args, instanceExists);                
             });
-
-            //if (!instanceExists)
-            //{
-            //    Thread t = new Thread(new ThreadStart(codeToExecute));
-            //    t.SetApartmentState(ApartmentState.STA);
-            //    t.Start();
-
-
-                
-            //} else
-            //{
-            //    //System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-            //    //Application.Current.Shutdown();
-            //}
             
             if (instanceExists)
             {
@@ -113,92 +99,15 @@ namespace PrintsCapture.Direct
                 } else
                 {
                     SplashWindowHelper.Show();
-                    
-                }
-                this.logger.Trace("Starting PrintCapture from DirectCapture class");
-                string fileNamePrefix;
-                string langParameter = string.Empty;
-                string keyParameter = string.Empty;
-                string modeParameter = string.Empty;
-                string nameParameter = string.Empty;
-                string captureModeParameter = string.Empty;
-                string endorsementParameter = string.Empty;
-                string singleFingerCaptureLabel = string.Empty;
-                string icdVersion = string.Empty;
-                bool isWizardMode = false;
-                bool debug = false;
-                bool isLoginMode = false;
-                bool topMostWindow = false;
-                bool alwaysCanOverride = false;
-                bool sqMode = false;
-
-                this.logger.Trace("Setting PrintCapture parameters");
-                if (startArguments.ContainsKey("prefix")) fileNamePrefix = startArguments["prefix"];
-                if (startArguments.ContainsKey("lang")) langParameter = startArguments["lang"];
-                if (startArguments.ContainsKey("culture")) langParameter = startArguments["culture"];
-                if (startArguments.ContainsKey("key")) keyParameter = startArguments["key"];
-                if (startArguments.ContainsKey("name")) nameParameter = startArguments["name"];
-                if (startArguments.ContainsKey("mode")) modeParameter = startArguments["mode"];
-                if (startArguments.ContainsKey("capture")) captureModeParameter = startArguments["capture"];
-                if (startArguments.ContainsKey("endorsement")) endorsementParameter = startArguments["endorsement"];
-                if (startArguments.ContainsKey("icdversion")) icdVersion = startArguments["icdversion"];
-                if (startArguments.ContainsKey("wizard")) isWizardMode = startArguments["wizard"] == "1";
-                if (startArguments.ContainsKey("topmost")) topMostWindow = startArguments["topmost"] == "1";
-                if (startArguments.ContainsKey("debug")) debug = startArguments["debug"] == "1";
-                if (startArguments.ContainsKey("login")) isLoginMode = startArguments["login"] == "1";
-                if (startArguments.ContainsKey("captureorder")) sqMode = startArguments["captureorder"] == "sq";
-                if (startArguments.ContainsKey("singlecapturemessage")) singleFingerCaptureLabel = startArguments["singlecapturemessage"];
-                if (startArguments.ContainsKey("alwayscanoverride"))
-                    alwaysCanOverride = startArguments["alwayscanoverride"] == "1";
-
-                if (string.IsNullOrEmpty(langParameter))
-                {
-                    langParameter = "en"; //English is the default language
-                }
-                else if (langParameter.Length > 2)
-                {
-                    langParameter = langParameter.Substring(0, 2).ToLowerInvariant();
                 }
 
                 try
                 {
-                    PrintCaptureApp.ApplicationCulture = new CultureInfo(langParameter);
-                }
-                catch (Exception ex)
-                {
-                    this.logger.Error(ex, "Cannot set culture to '{0}'", langParameter);
-                }
-
-                int captureMode = 3;
-                if (!string.IsNullOrEmpty(captureModeParameter))
-                {
-                    int.TryParse(captureModeParameter, out captureMode);
-                }
-
-                try
-                {
-                    var param = new PrintCaptureAppParameter
-                    {
-                        CultureName = langParameter,
-                        IsWizardMode = isWizardMode,
-                        DescriptionLine1 = nameParameter,
-                        DescriptionLine2 = keyParameter,
-                        IcdVersion = icdVersion,
-                        Mode = modeParameter == "card" ? "cardscan" : "livescan",
-                        CaptureOrder = sqMode ? CaptureOrderMode.Sq : CaptureOrderMode.Standard,
-                        IsOptionAvailable = modeParameter == "card",
-                        CaptureModeAllowed = (PrintCaptureGroup)captureMode,
-                        IsEndorsementAllowed = string.IsNullOrEmpty(endorsementParameter) || endorsementParameter == "1",
-                        IsDebugAvailable = debug,
-                        IsLoginMode = isLoginMode,
-                        SingleFingerCapturePrompt = singleFingerCaptureLabel,
-                        TopMostWindow = topMostWindow,
-                        AlwaysCanOverrideWizard = alwaysCanOverride
-                    };
+                    var param = PrintCaptureAppParameter.FromParameters(startArguments);
 
                     sequenceCheckService =
                         new LocalSeqCheck(
-                            modeParameter == "card" ? CaptureKind.Cardscan : CaptureKind.Livescan,
+                            param.Mode == "card" ? CaptureKind.Cardscan : CaptureKind.Livescan,
                             param.PrintList);
 
                     param.SeqCheckService = sequenceCheckService;

@@ -59,6 +59,15 @@ namespace PrintsCapture.UniDACLegacy
             {
                 var lowerArg = arg.ToLower();
                 var posStart = arg.IndexOf(":", StringComparison.Ordinal);
+                string argName = "";
+                string argValue = "";
+                if (posStart > 0)
+                {
+                    argName = lowerArg.Substring(0, posStart - 1).Trim();
+                    argValue = lowerArg.Substring(posStart + 1);
+                }
+
+
                 if (lowerArg.StartsWith("prefix:") && posStart > 0)
                 {
                     fileNamePrefix = arg.Substring(posStart + 1);
