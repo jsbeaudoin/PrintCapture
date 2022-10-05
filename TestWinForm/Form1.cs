@@ -12,7 +12,7 @@ using System.Windows.Forms;
 namespace TestWinForm
 {
     using System.Globalization;
-
+    using System.IO;
     using PrintsCapture.Prints;
     using PrintsCapture.Prints.Enum;
     using PrintsCapture.Ui.Class;
@@ -20,6 +20,7 @@ namespace TestWinForm
     using UniBIO.Services.Communication.BiometricService;
 
     using XL_ID.Utilities.Image;
+    using XL_ID.Utilities.XML;
 
     //using PrintsCapture.Login.Class;
 
@@ -275,8 +276,81 @@ namespace TestWinForm
             args.Add("topmost", "0");
             args.Add("alwayscanoverride", "1");
 
+            if (this.previousPrintCheckBox.Checked)
+            {
+                args.Add("prints", GetPreviousPrints());
+            }
+
             return args;
         }
+
+        private string GetPreviousPrints()
+        {
+            List<int> printIndexes = null;
+            if (this.civilCaptureRadio.Checked)
+            {
+                printIndexes = new List<int> { 13,14,15 };
+            }
+            else if (this.criminalNoPalmsCaptureRadio.Checked)
+            {
+                printIndexes = new List<int> { 1,2,3,4,5,6,7,8,9,10,11,12, 13, 14 };
+            }
+            else if (this.criminalPalmCaptureRadio.Checked)
+            {
+                printIndexes = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 22,24,25,26,27,28 };
+            }
+            var imageDpi = this.dpi500.Checked ? 500 : 1000;
+
+            var allPrints = new List<FingerprintData>();
+
+            
+
+            var dlg = new OpenFileDialog { Filter = "Bitmap|*.bmp" };
+            dlg.Title = string.Format("Select print bmp in folder");
+            if (dlg.ShowDialog() != DialogResult.OK)
+            {
+                throw new ApplicationException("Dialog canceled");
+            }
+            var folder = Path.GetDirectoryName(dlg.FileName);
+
+            foreach (var imageIndex in printIndexes)
+            {
+                var printData = new FingerprintData();
+                printData.Position = imageIndex;
+
+                var filePath = $"{folder}\\{imageIndex}.bmp";
+                printData.ImageDataFormat = PrintDataFormat.Bmp;
+                if (File.Exists(filePath))
+                {
+                    var bmp = (Bitmap)Image.FromFile(filePath);
+                    printData.ImageData = ImageUtilities.ConvertToByteArray(bmp);
+                    printData.ImageInfo = new ImageInformation { DPI = imageDpi, ImpressionType = UniBIO.Services.Communication.TransactionService.CaptureType.LiveScan, HLL = bmp.Width, VLL = bmp.Height };
+                    
+                    if (imageIndex == 2)
+                    {
+                        printData.Override = new FingerprintOverride { Description = "TEST OVERRIDE", Position = imageIndex, ReasonCode = 99 };
+                    } else if (imageIndex == 3)
+                    {
+                        printData.Override = new FingerprintOverride { Position = imageIndex, ReasonCode = 2 };
+                    }
+                } else
+                {
+                    printData.Missing = new MissingPrint { Date = "1990-01-01", Position = (PrintPosition) imageIndex, NistCode = "" };
+                }
+                allPrints.Add(printData);
+            }
+
+            var capturedData = new CapturedPrintData
+            {
+                CaptureFlatOnly = this.civilCaptureRadio.Checked,
+                CapturedTime = DateTime.Now,
+                Device = new DeviceInformation { Kind = DeviceKind.LiveScan, Manufacturer = "A", ModelName = "B", SerialNumber = "C" },
+                Dpi = imageDpi,
+                Prints = allPrints
+            };
+
+            return ObjectSerializer.SaveIntanceToString(capturedData);
+    }
     
 
         private void StartDebugButton_Click(object sender, EventArgs e)

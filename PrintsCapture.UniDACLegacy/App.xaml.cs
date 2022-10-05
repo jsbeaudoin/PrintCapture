@@ -302,6 +302,8 @@ namespace PrintsCapture.UniDACLegacy
             }
             
             var printsNoEndorsement = prints.Where(x => !x.IsEndorsement).ToList();
+            var firstNonMissing = printsNoEndorsement.First(x => !x.IsMissing);
+            var dpi = firstNonMissing.Resolution.ToDpi();
 
             using (var devInfoWriter = new StreamWriter(filePath))
             {
@@ -314,6 +316,7 @@ namespace PrintsCapture.UniDACLegacy
                 devInfoWriter.WriteLine("CapturedDate={0}", DateTime.Now.ToString("yyyy-MM-dd"));
 
                 devInfoWriter.WriteLine("CaptureType={0}", captureType);
+                devInfoWriter.WriteLine("Dpi={0}", dpi);
 
                 devInfoWriter.WriteLine();
 

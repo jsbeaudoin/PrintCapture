@@ -182,7 +182,7 @@ namespace PrintsCapture.Ui.Class
                 }
 
                 PrintCaptureAppLog.Logger.Debug("Opening mainform");
-                Application.Current.Dispatcher.Invoke(new Action(OpenMainForm));            
+                Application.Current.Dispatcher.Invoke(new Action(() => OpenMainForm(appParam)));
             }            
 
             return instance;
@@ -493,7 +493,7 @@ namespace PrintsCapture.Ui.Class
 
         }
 
-        private static void OpenMainForm()
+        private static void OpenMainForm(PrintCaptureAppParameter appParams)
         {
             PrintCaptureAppLog.Logger.Debug("Opening main form");
             var win = new MainWindow(instance.mainViewModel)
@@ -521,6 +521,7 @@ namespace PrintsCapture.Ui.Class
                 win.Topmost = false;
                 SplashWindowHelper.Hide();
                 PrintCaptureDriver.Instance.AdaptForCaptureKind(win);
+                win.LoadPreviousPrints(appParams.ImportedPrints);
             };
             win.Show();
         }

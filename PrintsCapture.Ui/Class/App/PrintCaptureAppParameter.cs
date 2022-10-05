@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace PrintsCapture.Ui.Class
 {
@@ -8,6 +9,10 @@ namespace PrintsCapture.Ui.Class
     using PrintsCapture.Prints.Sequence;
     using System.Collections.Generic;
     using System.Globalization;
+    using UniBIO.Services.Communication.BiometricService;
+    using XL_ID.Utilities.Image;
+    using XL_ID.Utilities.SevenZip;
+    using XL_ID.Utilities.XML;
 
     public class PrintCaptureAppParameter
     {
@@ -15,7 +20,7 @@ namespace PrintsCapture.Ui.Class
 
         public static PrintCaptureAppParameter FromParameters(Dictionary<string, string> creationArguments)
         {
-            Logger logger = LogManager.GetCurrentClassLogger();       
+            Logger logger = LogManager.GetCurrentClassLogger();
             string fileNamePrefix = string.Empty;
             string langParameter = string.Empty;
             string keyParameter = string.Empty;
@@ -31,6 +36,7 @@ namespace PrintsCapture.Ui.Class
             bool topMostWindow = false;
             bool alwaysCanOverride = false;
             bool sqMode = false;
+            string previousPrintsSerialized = null;
 
             logger.Trace("Setting PrintCapture parameters");
             if (creationArguments.ContainsKey("prefix")) fileNamePrefix = creationArguments["prefix"];
@@ -50,7 +56,8 @@ namespace PrintsCapture.Ui.Class
             if (creationArguments.ContainsKey("singlecapturemessage")) singleFingerCaptureLabel = creationArguments["singlecapturemessage"];
             if (creationArguments.ContainsKey("alwayscanoverride"))
                 alwaysCanOverride = creationArguments["alwayscanoverride"] == "1";
-            
+            if (creationArguments.ContainsKey("prints")) previousPrintsSerialized = creationArguments["prints"];
+
             if (string.IsNullOrEmpty(langParameter))
             {
                 langParameter = "en"; //English is the default language
@@ -93,6 +100,10 @@ namespace PrintsCapture.Ui.Class
                 TopMostWindow = topMostWindow,
                 AlwaysCanOverrideWizard = alwaysCanOverride
             };
+            if (!string.IsNullOrEmpty(previousPrintsSerialized))
+            {
+                result.LoadPreviousPrints(previousPrintsSerialized);
+            }
             return result;
         }
 
@@ -123,7 +134,7 @@ namespace PrintsCapture.Ui.Class
 
         public bool IsLoginMode { get; set; }
 
-        public bool TopMostWindow { get; set; } 
+        public bool TopMostWindow { get; set; }
 
         public bool AlwaysCanOverrideWizard { get; set; }
 
@@ -131,6 +142,8 @@ namespace PrintsCapture.Ui.Class
         public string IcdVersion { get; set; }
 
         public string SingleFingerCapturePrompt { get; set; }
+
+        internal List<ImportedPrint> ImportedPrints {get; private set; }
 
         public PrintList PrintList
         {
@@ -154,5 +167,57 @@ namespace PrintsCapture.Ui.Class
 
         public string SeqCheckServiceConnection { get; set; }
         public CaptureOrderMode CaptureOrder { get; set; }
+
+        public void LoadPreviousPrints(string serializedData)
+        {
+            CapturedPrintData capturedData = ObjectSerializer.GetInstanceFromString<CapturedPrintData>(serializedData);
+            List<FingerprintData> fingers = capturedData.Prints;
+            this.ImportedPrints = new List<ImportedPrint>();
+            var dpi = capturedData.Dpi;
+            foreach (var finger in fingers)
+            {
+                if (finger.ImageDataFormat == PrintDataFormat.Wsq)
+                {
+                    throw new ApplicationException("Cannot load Wsq prints for new Print Capture!");
+                }
+                var bmpRawData = finger.ImageDataFormat == PrintDataFormat.BmpZip ?
+                            SevenZipHelper.Decompress(finger.ImageData) : finger.ImageData;
+                var printSize = new Size(finger.ImageInfo.HLL, finger.ImageInfo.VLL);
+                var printRect = new Rectangle(new Point(0, 0), printSize);
+                var bmpInstance = ImageUtilities.ByteArrayToBitmap(bmpRawData, printSize, printRect, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, dpi);
+
+                var newPrint = new ImportedPrint { 
+                    IsEndorsement = finger.IsEndorsement, 
+                    NistPosition = finger.Position, 
+                    MissingDate = finger.Missing?.Date,
+                    MissingCode = finger.Missing?.NistCode,
+                    Image = bmpInstance,
+                    Dpi = dpi
+                };
+                this.ImportedPrints.Add(newPrint);
+            }
+        }
     }
+}
+
+internal class ImportedPrint
+{
+    public int NistPosition { get; set; }
+
+    public bool IsEndorsement { get; set; }
+
+    /// <summary>
+    /// Null = not a missing finger
+    /// </summary>
+    public string MissingDate { get; set; }
+
+    public string MissingCode { get; set; }
+
+    public string OverrideCode { get; set; }
+
+    public string OverrideReason { get; set; }
+
+    public int Dpi { get; set; }
+
+    public Bitmap Image { get; set; }
 }

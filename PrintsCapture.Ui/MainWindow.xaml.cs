@@ -107,7 +107,49 @@ namespace PrintsCapture.Ui
             }
         }
 
-        public bool? AcceptPrint { get; set; }        
+        public bool? AcceptPrint { get; set; }
+
+        internal void LoadPreviousPrints(List<ImportedPrint> importedPrints)
+        {
+            if (importedPrints == null)
+            {
+                return;
+            }
+            PrintCaptureApp.SequenceCheck.StartSession();
+
+            var printList = PrintCaptureApp.Instance.PrintList;
+            var missings = importedPrints.Where(x => !string.IsNullOrEmpty(x.MissingDate));
+            foreach (var missingPrint in missings)
+            {
+                var correspondingPrint = printList.Prints.First(x => x.NistPosition == missingPrint.NistPosition);
+                // use logic of service, as it handles segments and such
+                this.printOp.UpdateMissingInfo(correspondingPrint.PhysicalPart, missingPrint.MissingCode, missingPrint.MissingDate);
+            }
+
+            var batch = new List<PrintInfo>();
+            foreach (var print in importedPrints)
+            {
+                var correspondingPrint = printList.Prints.First(x => x.NistPosition == print.NistPosition && x.IsEndorsement == print.IsEndorsement);
+                correspondingPrint.Image = print.Image;
+                correspondingPrint.Resolution = print.Dpi.ToResolution();
+                correspondingPrint.OriginalImage = print.Image;
+                if (! string.IsNullOrEmpty( print.OverrideCode))
+                {
+                    int overrideCode = 0;
+                    int.TryParse(print.OverrideCode, out overrideCode);
+                    correspondingPrint.OverrideCode = overrideCode;
+                    correspondingPrint.OverrideUserReason = print.OverrideReason;
+                    
+                }
+                batch.Add(correspondingPrint);
+            }
+            PrintCaptureApp.SequenceCheck.AddPrintRange(batch);
+
+            foreach (var print in batch)
+            {
+                PrintModificationDispatcher.PrintModified(print);
+            }
+        }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
