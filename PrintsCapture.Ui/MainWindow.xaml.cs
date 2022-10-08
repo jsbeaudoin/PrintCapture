@@ -116,6 +116,8 @@ namespace PrintsCapture.Ui
                 return;
             }
             PrintCaptureApp.SequenceCheck.StartSession();
+            SplashWindowHelper.Show();
+            SplashWindowHelper.SetMessage(Text.LoadingPreviousPrints, false);
 
             var printList = PrintCaptureApp.Instance.PrintList;
             var missings = importedPrints.Where(x => !string.IsNullOrEmpty(x.MissingDate));
@@ -141,7 +143,10 @@ namespace PrintsCapture.Ui
                     correspondingPrint.OverrideUserReason = print.OverrideReason;
                     
                 }
-                batch.Add(correspondingPrint);
+                if (print.Image != null)
+                {
+                    batch.Add(correspondingPrint);
+                }
             }
             PrintCaptureApp.SequenceCheck.AddPrintRange(batch);
 
@@ -149,6 +154,8 @@ namespace PrintsCapture.Ui
             {
                 PrintModificationDispatcher.PrintModified(print);
             }
+
+            SplashWindowHelper.Hide();
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
@@ -312,11 +319,6 @@ namespace PrintsCapture.Ui
             }
         }
 
-
-        
-        
-
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler handler = this.PropertyChanged;
@@ -358,7 +360,7 @@ namespace PrintsCapture.Ui
         private void RestartServiceButtonClick(object sender, RoutedEventArgs e)
         {
             SplashWindowHelper.Show();
-            SplashWindowHelper.SetMessage("Restarting services", false);            
+            SplashWindowHelper.SetMessage("Restarting services", false);
 
             var action = new Action(
                 () =>

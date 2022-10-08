@@ -326,16 +326,16 @@ namespace TestWinForm
                     printData.ImageData = ImageUtilities.ConvertToByteArray(bmp);
                     printData.ImageInfo = new ImageInformation { DPI = imageDpi, ImpressionType = UniBIO.Services.Communication.TransactionService.CaptureType.LiveScan, HLL = bmp.Width, VLL = bmp.Height };
                     
-                    if (imageIndex == 2)
+                    if (imageIndex == 6)
                     {
                         printData.Override = new FingerprintOverride { Description = "TEST OVERRIDE", Position = imageIndex, ReasonCode = 99 };
-                    } else if (imageIndex == 3)
+                    } else if (imageIndex == 7)
                     {
                         printData.Override = new FingerprintOverride { Position = imageIndex, ReasonCode = 2 };
                     }
                 } else
                 {
-                    printData.Missing = new MissingPrint { Date = "1990-01-01", Position = (PrintPosition) imageIndex, NistCode = "" };
+                    printData.Missing = new MissingPrint { Date = "1990-01-01", Position = (PrintPosition) imageIndex, NistCode = "MI" };
                 }
                 allPrints.Add(printData);
             }
