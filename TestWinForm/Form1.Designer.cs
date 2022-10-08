@@ -41,6 +41,10 @@ namespace TestWinForm
             this.picRemoteModule = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.dpi1000 = new System.Windows.Forms.RadioButton();
+            this.dpi500 = new System.Windows.Forms.RadioButton();
+            this.previousPrintCheckBox = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.captureModeGroup = new System.Windows.Forms.GroupBox();
             this.criminalNoPalmsCaptureRadio = new System.Windows.Forms.RadioButton();
@@ -51,16 +55,12 @@ namespace TestWinForm
             this.StartDebugButton = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.fingerprintControl1 = new TestWinForm.UserControl.FingerprintControl();
-            this.previousPrintCheckBox = new System.Windows.Forms.CheckBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.dpi500 = new System.Windows.Forms.RadioButton();
-            this.dpi1000 = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.captureModeGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.captureModeGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -147,6 +147,52 @@ namespace TestWinForm
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Direct Capture";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.dpi1000);
+            this.groupBox3.Controls.Add(this.dpi500);
+            this.groupBox3.Location = new System.Drawing.Point(15, 173);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(142, 38);
+            this.groupBox3.TabIndex = 15;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Dpi";
+            // 
+            // dpi1000
+            // 
+            this.dpi1000.AutoSize = true;
+            this.dpi1000.Location = new System.Drawing.Point(76, 18);
+            this.dpi1000.Name = "dpi1000";
+            this.dpi1000.Size = new System.Drawing.Size(49, 17);
+            this.dpi1000.TabIndex = 1;
+            this.dpi1000.TabStop = true;
+            this.dpi1000.Text = "1000";
+            this.dpi1000.UseVisualStyleBackColor = true;
+            // 
+            // dpi500
+            // 
+            this.dpi500.AutoSize = true;
+            this.dpi500.Checked = true;
+            this.dpi500.Location = new System.Drawing.Point(11, 19);
+            this.dpi500.Name = "dpi500";
+            this.dpi500.Size = new System.Drawing.Size(43, 17);
+            this.dpi500.TabIndex = 0;
+            this.dpi500.TabStop = true;
+            this.dpi500.Text = "500";
+            this.dpi500.UseVisualStyleBackColor = true;
+            // 
+            // previousPrintCheckBox
+            // 
+            this.previousPrintCheckBox.AutoSize = true;
+            this.previousPrintCheckBox.Checked = true;
+            this.previousPrintCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.previousPrintCheckBox.Location = new System.Drawing.Point(15, 150);
+            this.previousPrintCheckBox.Name = "previousPrintCheckBox";
+            this.previousPrintCheckBox.Size = new System.Drawing.Size(122, 17);
+            this.previousPrintCheckBox.TabIndex = 14;
+            this.previousPrintCheckBox.Text = "Load Previous prints";
+            this.previousPrintCheckBox.UseVisualStyleBackColor = true;
+            // 
             // label2
             // 
             this.label2.Location = new System.Drawing.Point(153, 46);
@@ -180,22 +226,22 @@ namespace TestWinForm
             // criminalPalmCaptureRadio
             // 
             this.criminalPalmCaptureRadio.AutoSize = true;
+            this.criminalPalmCaptureRadio.Checked = true;
             this.criminalPalmCaptureRadio.Location = new System.Drawing.Point(18, 44);
             this.criminalPalmCaptureRadio.Name = "criminalPalmCaptureRadio";
             this.criminalPalmCaptureRadio.Size = new System.Drawing.Size(122, 17);
             this.criminalPalmCaptureRadio.TabIndex = 1;
+            this.criminalPalmCaptureRadio.TabStop = true;
             this.criminalPalmCaptureRadio.Text = "Criminal (With palms)";
             this.criminalPalmCaptureRadio.UseVisualStyleBackColor = true;
             // 
             // civilCaptureRadio
             // 
             this.civilCaptureRadio.AutoSize = true;
-            this.civilCaptureRadio.Checked = true;
             this.civilCaptureRadio.Location = new System.Drawing.Point(18, 21);
             this.civilCaptureRadio.Name = "civilCaptureRadio";
             this.civilCaptureRadio.Size = new System.Drawing.Size(44, 17);
             this.civilCaptureRadio.TabIndex = 0;
-            this.civilCaptureRadio.TabStop = true;
             this.civilCaptureRadio.Text = "Civil";
             this.civilCaptureRadio.UseVisualStyleBackColor = true;
             // 
@@ -250,52 +296,6 @@ namespace TestWinForm
             this.fingerprintControl1.TabIndex = 5;
             this.fingerprintControl1.Load += new System.EventHandler(this.fingerprintControl1_Load);
             // 
-            // previousPrintCheckBox
-            // 
-            this.previousPrintCheckBox.AutoSize = true;
-            this.previousPrintCheckBox.Checked = true;
-            this.previousPrintCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.previousPrintCheckBox.Location = new System.Drawing.Point(15, 150);
-            this.previousPrintCheckBox.Name = "previousPrintCheckBox";
-            this.previousPrintCheckBox.Size = new System.Drawing.Size(122, 17);
-            this.previousPrintCheckBox.TabIndex = 14;
-            this.previousPrintCheckBox.Text = "Load Previous prints";
-            this.previousPrintCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.dpi1000);
-            this.groupBox3.Controls.Add(this.dpi500);
-            this.groupBox3.Location = new System.Drawing.Point(15, 173);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(142, 38);
-            this.groupBox3.TabIndex = 15;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Dpi";
-            // 
-            // dpi500
-            // 
-            this.dpi500.AutoSize = true;
-            this.dpi500.Checked = true;
-            this.dpi500.Location = new System.Drawing.Point(11, 19);
-            this.dpi500.Name = "dpi500";
-            this.dpi500.Size = new System.Drawing.Size(43, 17);
-            this.dpi500.TabIndex = 0;
-            this.dpi500.TabStop = true;
-            this.dpi500.Text = "500";
-            this.dpi500.UseVisualStyleBackColor = true;
-            // 
-            // dpi1000
-            // 
-            this.dpi1000.AutoSize = true;
-            this.dpi1000.Location = new System.Drawing.Point(76, 18);
-            this.dpi1000.Name = "dpi1000";
-            this.dpi1000.Size = new System.Drawing.Size(49, 17);
-            this.dpi1000.TabIndex = 1;
-            this.dpi1000.TabStop = true;
-            this.dpi1000.Text = "1000";
-            this.dpi1000.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -315,10 +315,10 @@ namespace TestWinForm
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.captureModeGroup.ResumeLayout(false);
-            this.captureModeGroup.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.captureModeGroup.ResumeLayout(false);
+            this.captureModeGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

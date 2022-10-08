@@ -195,6 +195,8 @@ namespace PrintsCapture.Ui.Class
                     NistPosition = finger.Position, 
                     MissingDate = finger.Missing?.Date,
                     MissingCode = finger.Missing?.NistCode,
+                    OverrideCode = finger.Override == null ? "" : finger.Override.ReasonCode.ToString(),
+                    OverrideReason= finger.Override?.Description,
                     Image = bmpInstance,
                     Dpi = dpi
                 };

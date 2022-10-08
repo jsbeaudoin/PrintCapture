@@ -117,7 +117,7 @@ namespace PrintsCapture.Ui
             }
             PrintCaptureApp.SequenceCheck.StartSession();
             SplashWindowHelper.Show();
-            SplashWindowHelper.SetMessage(Text.LoadingPreviousPrints, false);
+            SplashWindowHelper.SetMessage(Text.LoadingPreviousPrints, false, 1);
 
             var printList = PrintCaptureApp.Instance.PrintList;
             var missings = importedPrints.Where(x => !string.IsNullOrEmpty(x.MissingDate));
@@ -155,7 +155,7 @@ namespace PrintsCapture.Ui
                 PrintModificationDispatcher.PrintModified(print);
             }
 
-            SplashWindowHelper.Hide();
+            SplashWindowHelper.Hide(1);
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
