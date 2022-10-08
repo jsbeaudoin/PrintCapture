@@ -357,6 +357,7 @@ namespace TestWinForm
         {
             try
             {
+                PrintsCapture.Direct.PrintCaptureDllApp.Reset();
                 var args = GetCaptureParameters();
                 
                 PrintsCapture.Direct.PrintCaptureDllApp.DoCapture(args);

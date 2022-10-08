@@ -39,6 +39,7 @@ namespace PrintsCapture.Direct
 
         public static void DoCapture(Dictionary<string, string> args)
         {
+            
             var instanceExists = instance != null;
             var codeToExecute = new Action(() =>
             {
@@ -72,6 +73,11 @@ namespace PrintsCapture.Direct
         {
             //SplashWindowHelper.Close();
             instance?.Shutdown();
+        }
+
+        public static void Reset()
+        {
+            instance = null;
         }
 
         public static CapturedPrintData GetResults()
