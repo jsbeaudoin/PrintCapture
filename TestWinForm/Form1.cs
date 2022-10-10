@@ -269,7 +269,7 @@ namespace TestWinForm
             args.Add("lang", "en");
             args.Add("capture", captureGroup);
             args.Add("endorsement", endorsement ? "1" : "0"); // no endorsement finger
-            args.Add("captureorder", isSqMode ? "sq" : "");
+            args.Add("sqmode", isSqMode ? "1" : "");
 
             //args.Add("login", "0");
             //args.Add("singlecaptureprompt", "PrintCapture Login Title");
