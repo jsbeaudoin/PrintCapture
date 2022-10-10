@@ -36,6 +36,7 @@ namespace PrintsCapture.Ui
 
     using MessageBox = System.Windows.MessageBox;
     using System.Windows.Interop;
+    using XL_ID.Utilities.Wpf.ViewModel;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -116,8 +117,9 @@ namespace PrintsCapture.Ui
                 return;
             }
             PrintCaptureApp.SequenceCheck.StartSession();
-            SplashWindowHelper.Show();
-            SplashWindowHelper.SetMessage(Text.LoadingPreviousPrints, false, 1);
+            int splashWindowId = SplashWindowHelper.CreateSplash(new SplashLabels { Title = "UniDAC", SubTitle = "PrintsCapture " + PrintCaptureApp.AppVersion, Message = Text.LoadingPreviousPrints, CloseLabel = "X" }
+                        , new System.Uri("pack://application:,,,/PrintsCapture.Direct;component/Images/LogoPrintCapture4-300x300.png"));
+            SplashWindowHelper.Show(splashWindowId);
 
             var printList = PrintCaptureApp.Instance.PrintList;
             var missings = importedPrints.Where(x => !string.IsNullOrEmpty(x.MissingDate));
@@ -155,7 +157,7 @@ namespace PrintsCapture.Ui
                 PrintModificationDispatcher.PrintModified(print);
             }
 
-            SplashWindowHelper.Hide(1);
+            SplashWindowHelper.Hide(splashWindowId);
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
