@@ -131,8 +131,11 @@ namespace PrintsCapture.Ui
             }
 
             var batch = new List<PrintInfo>();
+            var printIndex = 0;
             foreach (var print in importedPrints)
             {
+                printIndex += 1;
+                SplashWindowHelper.SetMessage($"Loading prints {printIndex} / {importedPrints.Count}", false, splashWindowId);
                 var correspondingPrint = printList.Prints.First(x => x.NistPosition == print.NistPosition && x.IsEndorsement == print.IsEndorsement);
                 correspondingPrint.Image = print.Image;
                 correspondingPrint.Resolution = print.Dpi.ToResolution();
@@ -150,6 +153,7 @@ namespace PrintsCapture.Ui
                     batch.Add(correspondingPrint);
                 }
             }
+            SplashWindowHelper.SetMessage($"Running Sequence check", false, splashWindowId);
             PrintCaptureApp.SequenceCheck.AddPrintRange(batch);
 
             foreach (var print in batch)

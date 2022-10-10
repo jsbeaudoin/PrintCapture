@@ -323,6 +323,10 @@ namespace TestWinForm
                 if (File.Exists(filePath))
                 {
                     var bmp = (Bitmap)Image.FromFile(filePath);
+                    if (bmp.PixelFormat != System.Drawing.Imaging.PixelFormat.Format8bppIndexed)
+                    {
+                        bmp = ImageUtilities.ConvertToIndexedFormat(bmp, ConvertBitmapFormat.Format8bppIndexed);
+                    }
                     printData.ImageData = ImageUtilities.ConvertToByteArray(bmp);
                     printData.ImageInfo = new ImageInformation { DPI = imageDpi, ImpressionType = UniBIO.Services.Communication.TransactionService.CaptureType.LiveScan, HLL = bmp.Width, VLL = bmp.Height };
                     
@@ -388,7 +392,7 @@ namespace TestWinForm
                     {
                         var fileName = $"D://Finger{result.Prints[x].Position}.bmp";
                         var bmp = XL_ID.Utilities.Image.ImageUtilities.ConvertFromBinary(result.Prints[x].ImageData);
-                        bmp.Save(fileName);
+                        bmp.Save(fileName, System.Drawing.Imaging.ImageFormat.Bmp);
                         bmp.Dispose();
                     }
 
