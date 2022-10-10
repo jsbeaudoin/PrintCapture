@@ -52,7 +52,7 @@ namespace PrintsCapture.Ui.Class
             if (creationArguments.ContainsKey("topmost")) topMostWindow = creationArguments["topmost"] == "1";
             if (creationArguments.ContainsKey("debug")) debug = creationArguments["debug"] == "1";
             if (creationArguments.ContainsKey("login")) isLoginMode = creationArguments["login"] == "1";
-            if (creationArguments.ContainsKey("sqmode")) sqMode = creationArguments["captureorder"] == "1";
+            if (creationArguments.ContainsKey("sqmode")) sqMode = creationArguments["sqmode"] == "1";
             if (creationArguments.ContainsKey("singlecapturemessage")) singleFingerCaptureLabel = creationArguments["singlecapturemessage"];
             if (creationArguments.ContainsKey("alwayscanoverride"))
                 alwaysCanOverride = creationArguments["alwayscanoverride"] == "1";
