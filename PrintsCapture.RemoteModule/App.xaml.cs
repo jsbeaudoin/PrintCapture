@@ -368,8 +368,7 @@ namespace PrintsCapture.RemoteModule
         {
             string log = "command received";
 
-            this.appParameter = new PrintCaptureAppParameter();
-            var config = this.appParameter;
+            this.appParameter = PrintCaptureAppParameter.FromParameters(moduleArguments);            
 
             try
             {
@@ -380,83 +379,19 @@ namespace PrintsCapture.RemoteModule
                     MessageBox.Show("Attach debugger now");
                 }
 
-                this.CheckArguments(moduleArguments, true, "mode", "culture", "descriptionline1", "descriptionline2");
-                config.Mode = moduleArguments["mode"];
-                log += "  mode:" + config.Mode;
-                config.CultureName = moduleArguments["culture"];
-                log += "  culture:" + config.CultureName;
-                config.DescriptionLine1 = moduleArguments["descriptionline1"];
-                log += " Decription Line1:" + config.DescriptionLine1;
-                config.DescriptionLine2 = moduleArguments["descriptionline2"];
-                log += "  Decription Line 2:" + config.DescriptionLine2;
-
-
-                // Optional parameters 
-                //  CaptureMode : as an int (enum flag)
-                // debug : 1 = is in debug mode.
-                // debugtab : 1 = Shown
-                // optiontab : 1 = Shown
-                // noendorsement : 1 = No endorsement finger
-                // printset : empty or sq : will change order for SQ
-                config.CaptureModeAllowed = PrintCaptureGroup.FlatOnly;
-                if (moduleArguments.ContainsKey("capturemode"))
-                {
-                    var capt = 0;
-                    if (int.TryParse(moduleArguments["capturemode"], out capt))
-                    {
-                        config.CaptureModeAllowed = (PrintCaptureGroup)capt;
-                    }
-                }
-
-                config.IsEndorsementAllowed = true;
-                if (moduleArguments.ContainsKey("noendorsement") &&
-                    moduleArguments["noendorsement"] == "1")
-                {
-                    config.IsEndorsementAllowed = false;
-                }
-
-                config.CaptureOrder = CaptureOrderMode.Standard;
-                if (moduleArguments.ContainsKey("captureorder"))
-                {
-                    config.CaptureOrder = CaptureOrderMode.Sq;
-                }
-
-                if (moduleArguments.ContainsKey("wizard") &&
-                    moduleArguments["wizard"] == "1")
-                {
-                    config.IsWizardMode = true;                
-                }
-
-                if (moduleArguments.ContainsKey("debug") && 
-                    moduleArguments["debug"] == "1")
-                {
-                    config.IsDebugAvailable = true;
-                }
-
-                if (moduleArguments.ContainsKey("topmost") && moduleArguments["topmost"] == "1")
-                {
-                    config.TopMostWindow = true;
-                }
-
-                if (moduleArguments.ContainsKey("singlecaptureprompt"))
-                {
-                    config.SingleFingerCapturePrompt = moduleArguments["singlecaptureprompt"];
-                }
-                config.SeqCheckServiceConnection = null;  // Encoding.UTF8.GetString(Convert.FromBase64String(serviceBusConnectString));                
-                config.IsOptionAvailable = this.CheckOptionalBool(moduleArguments, "optiontab", false);
 
                 // DotNet 4.0 ...
-                PrintCaptureApp.ApplicationCulture = new CultureInfo(config.CultureName);
+                PrintCaptureApp.ApplicationCulture = new CultureInfo(this.appParameter.CultureName);
 
                 // DotNet 4.5
                 //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(config.CultureName);
                 //CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(config.CultureName);
 
                 var seq = new LocalAwSeqCheck.LocalSeqCheck(
-                    config.Mode == "live" ? CaptureKind.Livescan : CaptureKind.Cardscan,
-                    config.PrintList);                                        
+                    this.appParameter.Mode == "live" ? CaptureKind.Livescan : CaptureKind.Cardscan,
+                    this.appParameter.PrintList);
 
-                config.SeqCheckService = seq;
+                this.appParameter.SeqCheckService = seq;
                 return true;
             }
             catch (Exception ex)

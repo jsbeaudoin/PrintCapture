@@ -79,14 +79,21 @@ namespace TestWinForm
             this.StartRemote(TakePictureModuleName, args);
         }
 
-        public void GetLivePrints()
+        public void GetLivePrints(Dictionary<string,string> baseArgs)
         {
             this.commandReceived = CommandResultPrints;
-            var args = this.GetPrintsCaptureArguments("live");
-            args.Add("capturemode", "4"); // palms & standard
-            args.Add("noendorsement", "1"); // no endorsement finger
-            args.Add("captureorder", "sq");
-            this.StartRemote(PrintsCaptureModuleName, args);
+            //var args = this.GetPrintsCaptureArguments("live");
+            if (baseArgs.ContainsKey("mode"))
+            {
+                baseArgs["mode"] = "live";
+            }else
+            {
+                baseArgs.Add("mode","live");
+            }
+            //args.Add("capture", "5"); // palms & standard
+            //args.Add("endorsement", "0"); // no endorsement finger
+            //args.Add("sqmode", "1");
+            this.StartRemote(PrintsCaptureModuleName, baseArgs);
         }
 
         public void GetScanPrints()
@@ -191,6 +198,7 @@ namespace TestWinForm
             
             remoteModule = manager.InitializeRemoteModule(seekModule);
 
+
             if (remoteModule == null)
             {
                 this.HandleError(remoteModuleName + " could not be initialized !");
@@ -233,7 +241,6 @@ namespace TestWinForm
 
                 remoteModule.Responding += (sender, args) =>                
                     LogDispatcher.DoLog(" - Client responding");
-                
 
                 remoteModule.Start();
 

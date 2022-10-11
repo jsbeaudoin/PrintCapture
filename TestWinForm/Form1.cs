@@ -120,7 +120,7 @@ namespace TestWinForm
 
                 };
 
-                rm.GetScanPrints();
+                rm.GetLivePrints(GetCaptureParameters());
             }
             catch (Exception exception)
             {
@@ -397,6 +397,49 @@ namespace TestWinForm
                     }
 
                 }
+            }
+        }
+
+        private void btnRemoteModuleLive_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Enabled = false;
+                var rm = new RemoteModuleHelper("fr", true);
+
+                rm.CaptureCompleted += (success, resultObject, exception) =>
+                {
+                    this.Invoke((Action)(() =>
+                    {
+                        this.Enabled = true;
+                        var fingers = resultObject as CapturedPrintData;
+
+                        if (exception != null)
+                        {
+                            MessageBox.Show(string.Format("Error {0}", exception.Message),
+                                "Prints", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+
+
+                        if (fingers == null)
+                        {
+                            //this.SetScanComplete(false);
+                            return;
+                        }
+
+                        //this.SetScanComplete(success);
+                    }));
+
+
+                };
+                var args = GetCaptureParameters();
+                args.Add("debug-process", "1");
+                rm.GetLivePrints(args);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "TEST", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Enabled = true;
             }
         }
     }

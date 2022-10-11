@@ -54,7 +54,7 @@ namespace TestWinForm
             this.button5 = new System.Windows.Forms.Button();
             this.StartDebugButton = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.fingerprintControl1 = new TestWinForm.UserControl.FingerprintControl();
+            this.btnRemoteModuleLive = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
@@ -132,6 +132,7 @@ namespace TestWinForm
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnRemoteModuleLive);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.previousPrintCheckBox);
             this.groupBox2.Controls.Add(this.label2);
@@ -145,7 +146,7 @@ namespace TestWinForm
             this.groupBox2.Size = new System.Drawing.Size(386, 219);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Direct Capture";
+            this.groupBox2.Text = "Test With parameters";
             // 
             // groupBox3
             // 
@@ -273,7 +274,7 @@ namespace TestWinForm
             this.StartDebugButton.Name = "StartDebugButton";
             this.StartDebugButton.Size = new System.Drawing.Size(160, 23);
             this.StartDebugButton.TabIndex = 9;
-            this.StartDebugButton.Text = "Direct Start (With Debug)";
+            this.StartDebugButton.Text = "Live - Direct Start (Debug)";
             this.StartDebugButton.UseVisualStyleBackColor = true;
             this.StartDebugButton.Click += new System.EventHandler(this.StartDebugButton_Click);
             // 
@@ -287,14 +288,15 @@ namespace TestWinForm
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // fingerprintControl1
+            // btnRemoteModuleLive
             // 
-            this.fingerprintControl1.Individual = null;
-            this.fingerprintControl1.Location = new System.Drawing.Point(64, 267);
-            this.fingerprintControl1.Name = "fingerprintControl1";
-            this.fingerprintControl1.Size = new System.Drawing.Size(702, 479);
-            this.fingerprintControl1.TabIndex = 5;
-            this.fingerprintControl1.Load += new System.EventHandler(this.fingerprintControl1_Load);
+            this.btnRemoteModuleLive.Location = new System.Drawing.Point(156, 150);
+            this.btnRemoteModuleLive.Name = "btnRemoteModuleLive";
+            this.btnRemoteModuleLive.Size = new System.Drawing.Size(160, 20);
+            this.btnRemoteModuleLive.TabIndex = 16;
+            this.btnRemoteModuleLive.Text = "Remote Module - Live";
+            this.btnRemoteModuleLive.UseVisualStyleBackColor = true;
+            this.btnRemoteModuleLive.Click += new System.EventHandler(this.btnRemoteModuleLive_Click);
             // 
             // Form1
             // 
@@ -302,7 +304,6 @@ namespace TestWinForm
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(997, 574);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.fingerprintControl1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.pictureBox1);
@@ -333,7 +334,6 @@ namespace TestWinForm
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.PictureBox picRemoteModule;
-        private UserControl.FingerprintControl fingerprintControl1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
@@ -348,6 +348,7 @@ namespace TestWinForm
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton dpi1000;
         private System.Windows.Forms.RadioButton dpi500;
+        private System.Windows.Forms.Button btnRemoteModuleLive;
     }
 }
 

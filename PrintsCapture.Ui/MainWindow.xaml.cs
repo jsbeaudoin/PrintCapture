@@ -37,6 +37,7 @@ namespace PrintsCapture.Ui
     using MessageBox = System.Windows.MessageBox;
     using System.Windows.Interop;
     using XL_ID.Utilities.Wpf.ViewModel;
+    using XL_ID.Utilities.Log;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -65,11 +66,7 @@ namespace PrintsCapture.Ui
                 throw;
             }
             
-
-            //PrintCaptureApp.Instance.CaptureCompleted += this.CaptureCompletedCallback;
-
-            var version = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()).GetName().Version;
-            this.VersionTextBlock.Text = $"Version {version.Major}.{version.Minor}.{version.Build}";
+            this.VersionTextBlock.Text = $"Version {PrintCaptureApp.AppVersion}";
             
             this.captureToggleGroup.Add(this.Std14ToggleButton);
             this.captureToggleGroup.Add(this.FlatToggleButton);
@@ -112,29 +109,47 @@ namespace PrintsCapture.Ui
 
         internal void LoadPreviousPrints(List<ImportedPrint> importedPrints)
         {
+            LogDispatcher.DoLog("LoadPreviousPrints -- called-b");
             if (importedPrints == null)
             {
+                LogDispatcher.DoLog("LoadPreviousPrints -- ended - no previous prints sent");
                 return;
             }
+            LogDispatcher.DoLog("Loading previous prints");
             PrintCaptureApp.SequenceCheck.StartSession();
-            int splashWindowId = SplashWindowHelper.CreateSplash(new SplashLabels { Title = "UniDAC", SubTitle = "PrintsCapture " + PrintCaptureApp.AppVersion, Message = Text.LoadingPreviousPrints, CloseLabel = "X" }
+            LogDispatcher.DoLog("Sequence check started");
+            int splashWindowId = 0;
+            try
+            {
+                splashWindowId = SplashWindowHelper.CreateSplash(new SplashLabels { Title = "UniDAC", SubTitle = "PrintsCapture " + PrintCaptureApp.AppVersion, Message = Text.LoadingPreviousPrints, CloseLabel = "X" }
                         , new System.Uri("pack://application:,,,/PrintsCapture.Direct;component/Images/LogoPrintCapture4-300x300.png"));
+            }
+            catch (Exception ex)
+            {
+                LogDispatcher.DoLog("Error creating Splash screen!", LogEventLevel.Error, ex);
+                throw;
+            }
+            LogDispatcher.DoLog("Splash #2 created");
             SplashWindowHelper.Show(splashWindowId);
+            LogDispatcher.DoLog("Splash #2 showed");
 
             var printList = PrintCaptureApp.Instance.PrintList;
             var missings = importedPrints.Where(x => !string.IsNullOrEmpty(x.MissingDate));
+            LogDispatcher.DoLog("Validating missing");
             foreach (var missingPrint in missings)
             {
                 var correspondingPrint = printList.Prints.First(x => x.NistPosition == missingPrint.NistPosition);
                 // use logic of service, as it handles segments and such
                 this.printOp.UpdateMissingInfo(correspondingPrint.PhysicalPart, missingPrint.MissingCode, missingPrint.MissingDate);
             }
+            LogDispatcher.DoLog("Missings set");
 
             var batch = new List<PrintInfo>();
             var printIndex = 0;
             foreach (var print in importedPrints)
             {
                 printIndex += 1;
+                LogDispatcher.DoLog($"Loading prints {printIndex} / {importedPrints.Count}");
                 SplashWindowHelper.SetMessage($"Loading prints {printIndex} / {importedPrints.Count}", false, splashWindowId);
                 var correspondingPrint = printList.Prints.First(x => x.NistPosition == print.NistPosition && x.IsEndorsement == print.IsEndorsement);
                 correspondingPrint.Image = print.Image;
@@ -153,6 +168,7 @@ namespace PrintsCapture.Ui
                     batch.Add(correspondingPrint);
                 }
             }
+            LogDispatcher.DoLog("Running sequence check");
             SplashWindowHelper.SetMessage($"Running Sequence check", false, splashWindowId);
             PrintCaptureApp.SequenceCheck.AddPrintRange(batch);
 
@@ -161,6 +177,7 @@ namespace PrintsCapture.Ui
                 PrintModificationDispatcher.PrintModified(print);
             }
 
+            LogDispatcher.DoLog("Previous prints loaded");
             SplashWindowHelper.Hide(splashWindowId);
         }
 
