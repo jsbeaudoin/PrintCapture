@@ -181,7 +181,7 @@ namespace PrintsCapture.Ui.Class
             CapturedPrintData capturedData = ObjectSerializer.GetInstanceFromString<CapturedPrintData>(serializedData);
             List<FingerprintData> fingers = capturedData.Prints;
             this.ImportedPrints = new List<ImportedPrint>();
-            var dpi = capturedData.Dpi;
+            
             foreach (var finger in fingers)
             {
                 Bitmap bmpInstance = null;
@@ -195,7 +195,7 @@ namespace PrintsCapture.Ui.Class
                 {
                     var printSize = new Size(finger.ImageInfo.HLL, finger.ImageInfo.VLL);
                     var printRect = new Rectangle(new Point(0, 0), printSize);
-                    bmpInstance = ImageUtilities.ByteArrayToBitmap(bmpRawData, printSize, printRect, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, dpi);
+                    bmpInstance = ImageUtilities.ByteArrayToBitmap(bmpRawData, printSize, printRect, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, finger.ImageInfo.DPI);
                 }
 
                 var newPrint = new ImportedPrint { 

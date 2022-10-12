@@ -311,6 +311,12 @@ namespace TestWinForm
             {
                 throw new ApplicationException("Dialog canceled");
             }
+
+            if (dlg.FileName.EndsWith(".txt"))
+            {
+                return File.ReadAllText(dlg.FileName);
+            }
+
             var folder = Path.GetDirectoryName(dlg.FileName);
 
             foreach (var imageIndex in printIndexes)
