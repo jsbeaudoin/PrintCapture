@@ -206,7 +206,7 @@ namespace PrintsCapture.Ui.Class
                     OverrideCode = finger.Override == null ? "" : finger.Override.ReasonCode.ToString(),
                     OverrideReason= finger.Override?.Description,
                     Image = bmpInstance,
-                    Dpi = dpi
+                    Dpi = finger.ImageInfo.DPI
                 };
                 this.ImportedPrints.Add(newPrint);
             }

@@ -174,6 +174,19 @@ namespace PrintsCapture.Ui
 
             LogDispatcher.DoLog("Previous prints loaded");
             SplashWindowHelper.Hide(splashWindowId);
+
+            // set capture mode depending on prints !!
+            if (!printList.Rules.IsFlatCaptureMode)
+            {
+                if (importedPrints.Any(x => x.NistPosition > 21))
+                {
+                    printList.Rules.CaptureGroup = PrintCaptureGroup.StandardAndPalm;
+                }
+                else
+                {
+                    printList.Rules.CaptureGroup = PrintCaptureGroup.Standard14;
+                }
+            }
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
