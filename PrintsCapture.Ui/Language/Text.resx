@@ -863,4 +863,7 @@ For advanced use, you may click on "Review prints".</value>
   <data name="LoadingPreviousPrints" xml:space="preserve">
     <value>Loading previous prints</value>
   </data>
+  <data name="LoadingPrintsXOfY" xml:space="preserve">
+    <value>Loading prints {0} of {1}</value>
+  </data>
 </root>

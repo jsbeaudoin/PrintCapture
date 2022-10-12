@@ -8,6 +8,7 @@ namespace PrintsCapture.Ui.Class
     using PrintsCapture.Prints.Enum;
     using PrintsCapture.Prints.Sequence;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Globalization;
     using UniBIO.Services.Communication.BiometricService;
     using XL_ID.Utilities.Image;
@@ -45,8 +46,12 @@ namespace PrintsCapture.Ui.Class
             if (creationArguments.ContainsKey("key")) keyParameter = creationArguments["key"];
             if (creationArguments.ContainsKey("name")) nameParameter = creationArguments["name"];
             if (creationArguments.ContainsKey("mode")) modeParameter = creationArguments["mode"];
+            
             if (creationArguments.ContainsKey("capture")) captureModeParameter = creationArguments["capture"];
+            if (creationArguments.ContainsKey("capturemode")) captureModeParameter = creationArguments["capturemode"];
             if (creationArguments.ContainsKey("endorsement")) endorsementParameter = creationArguments["endorsement"];
+            if (creationArguments.ContainsKey("noendorsement") && creationArguments["noendorsement"] == "1") endorsementParameter = "0";
+
             if (creationArguments.ContainsKey("icdversion")) icdVersion = creationArguments["icdversion"];
             if (creationArguments.ContainsKey("wizard")) isWizardMode = creationArguments["wizard"] == "1";
             if (creationArguments.ContainsKey("topmost")) topMostWindow = creationArguments["topmost"] == "1";
@@ -54,13 +59,16 @@ namespace PrintsCapture.Ui.Class
             if (creationArguments.ContainsKey("login")) isLoginMode = creationArguments["login"] == "1";
             if (creationArguments.ContainsKey("sqmode")) sqMode = creationArguments["sqmode"] == "1";
             if (creationArguments.ContainsKey("singlecapturemessage")) singleFingerCaptureLabel = creationArguments["singlecapturemessage"];
-            if (creationArguments.ContainsKey("alwayscanoverride"))
-                alwaysCanOverride = creationArguments["alwayscanoverride"] == "1";
+            if (creationArguments.ContainsKey("alwayscanoverride")) alwaysCanOverride = creationArguments["alwayscanoverride"] == "1";
             if (creationArguments.ContainsKey("prints")) previousPrintsSerialized = creationArguments["prints"];
 
             if (string.IsNullOrEmpty(langParameter))
             {
-                langParameter = "en"; //English is the default language
+                langParameter = "en"; //English is the default language when no parameter passed.
+                if (! string.IsNullOrEmpty(ConfigurationManager.AppSettings["lang"])) // if previously saved in config, load from config
+                {
+                    langParameter = ConfigurationManager.AppSettings["lang"];
+                }
             }
             else if (langParameter.Length > 2)
             {

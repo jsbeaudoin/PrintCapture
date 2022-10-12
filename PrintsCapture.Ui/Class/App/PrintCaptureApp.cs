@@ -111,30 +111,24 @@ namespace PrintsCapture.Ui.Class
             rules.Labels.SingleFingerCapturePrompt = appParam.SingleFingerCapturePrompt;
             
             // make sure rules have a valid set
-            rules.CaptureGroupAllowed = appParam.CaptureModeAllowed;
-
-            if (!rules.CaptureGroupAllowed.HasFlag(rules.CaptureGroup))
+            rules.CaptureGroupAllowed = appParam.CaptureModeAllowed;            
+            var defaultValue = PrintCaptureGroup.FlatOnly; // default: flats. Else rolled and flats EXCEPT for Sq, which include palms by default
+            if (!rules.CaptureGroupAllowed.HasFlag(PrintCaptureGroup.FlatOnly))
             {
-                var defaultValue = PrintCaptureGroup.FlatOnly; // default: flats. Else rolled and flats EXCEPT for Sq, which include palms by default
-                if (!rules.CaptureGroupAllowed.HasFlag(PrintCaptureGroup.FlatOnly))
-                {
-                    defaultValue = appParam.CaptureOrder == CaptureOrderMode.Sq ? PrintCaptureGroup.StandardAndPalm : PrintCaptureGroup.Standard14;
-                }
-
-                if (!rules.CaptureGroupAllowed.HasFlag(defaultValue))
-                {
-                    var firstValue = rules.CaptureGroupAllowed.GetValues().Cast<PrintCaptureGroup>().FirstOrDefault();
-                    PrintCaptureAppLog.Logger.Info($"PrintCaptureApp No capture flag set, setting value {firstValue}");
-                    rules.CaptureGroup = firstValue;
-                }
-                else
-                {
-                    PrintCaptureAppLog.Logger.Info($"PrintCaptureApp No capture flag set, setting value {defaultValue}");
-                    rules.CaptureGroup = defaultValue;
-                }
-                                
+                defaultValue = appParam.CaptureOrder == CaptureOrderMode.Sq ? PrintCaptureGroup.StandardAndPalm : PrintCaptureGroup.Standard14;
             }
-            
+
+            if (!rules.CaptureGroupAllowed.HasFlag(defaultValue))
+            {
+                var firstValue = rules.CaptureGroupAllowed.GetValues().Cast<PrintCaptureGroup>().FirstOrDefault();
+                PrintCaptureAppLog.Logger.Info($"PrintCaptureApp, setting CaptureGroup value {firstValue}");
+                rules.CaptureGroup = firstValue;
+            }
+            else
+            {
+                PrintCaptureAppLog.Logger.Info($"PrintCaptureApp, setting CaptureGroup value {defaultValue}");
+                rules.CaptureGroup = defaultValue;
+            } 
             rules.IsEndorsementAllowed = appParam.IsEndorsementAllowed;
 
             instance.PrintList.Rules = rules;

@@ -129,9 +129,8 @@ namespace PrintsCapture.Ui
                 LogDispatcher.DoLog("Error creating Splash screen!", LogEventLevel.Error, ex);
                 throw;
             }
-            LogDispatcher.DoLog("Splash #2 created");
+            
             SplashWindowHelper.Show(splashWindowId);
-            LogDispatcher.DoLog("Splash #2 showed");
 
             var printList = PrintCaptureApp.Instance.PrintList;
             var missings = importedPrints.Where(x => !string.IsNullOrEmpty(x.MissingDate));
@@ -149,8 +148,9 @@ namespace PrintsCapture.Ui
             foreach (var print in importedPrints)
             {
                 printIndex += 1;
-                LogDispatcher.DoLog($"Loading prints {printIndex} / {importedPrints.Count}");
-                SplashWindowHelper.SetMessage($"Loading prints {printIndex} / {importedPrints.Count}", false, splashWindowId);
+                var msg = string.Format(Text.LoadingPrintsXOfY, printIndex, importedPrints.Count);
+                LogDispatcher.DoLog(msg);
+                SplashWindowHelper.SetMessage(msg, false, splashWindowId);
                 var correspondingPrint = printList.Prints.First(x => x.NistPosition == print.NistPosition && x.IsEndorsement == print.IsEndorsement);
                 correspondingPrint.Image = print.Image;
                 correspondingPrint.Resolution = print.Dpi.ToResolution();
@@ -169,13 +169,8 @@ namespace PrintsCapture.Ui
                 }
             }
             LogDispatcher.DoLog("Running sequence check");
-            SplashWindowHelper.SetMessage($"Running Sequence check", false, splashWindowId);
+            SplashWindowHelper.SetMessage(Text.SequenceCheck, false, splashWindowId);
             PrintCaptureApp.SequenceCheck.AddPrintRange(batch);
-
-            foreach (var print in batch)
-            {
-                PrintModificationDispatcher.PrintModified(print);
-            }
 
             LogDispatcher.DoLog("Previous prints loaded");
             SplashWindowHelper.Hide(splashWindowId);

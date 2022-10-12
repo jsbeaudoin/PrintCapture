@@ -42,19 +42,8 @@ namespace PrintsCapture.UniDACLegacy
 
         private void StartApp(string[] args)
         {
-            string langParameter = string.Empty;
-            string keyParameter = string.Empty;
-            string modeParameter = string.Empty;
-            string nameParameter = string.Empty;
-            string captureModeParameter = string.Empty;
-            string endorsementParameter = string.Empty;
-            string singleFingerCaptureLabel = string.Empty;
-            string icdVersion = string.Empty;
-            bool isWizardMode = false;
-            bool debug = false;
-            bool isLoginMode = false;
-            bool topMostWindow = false;
-
+            Dictionary<string, string> commandArgs = new Dictionary<string, string>();
+            // transfer command line args into Dictionary for unified processing of parameters
             foreach (var arg in args)
             {
                 var lowerArg = arg.ToLower();
@@ -65,127 +54,25 @@ namespace PrintsCapture.UniDACLegacy
                 {
                     argName = lowerArg.Substring(0, posStart - 1).Trim();
                     argValue = lowerArg.Substring(posStart + 1);
-                }
-
-
-                if (lowerArg.StartsWith("prefix:") && posStart > 0)
-                {
-                    fileNamePrefix = arg.Substring(posStart + 1);
-                }
-                else if (lowerArg.StartsWith("lang:") && posStart > 0)
-                {
-                    langParameter = arg.Substring(posStart + 1);
-                }
-                else if (lowerArg.StartsWith("key:") && posStart > 0)
-                {
-                    keyParameter = arg.Substring(posStart + 1);
-                }
-                else if (lowerArg.StartsWith("name:") && posStart > 0)
-                {
-                    nameParameter = arg.Substring(posStart + 1);
-                }
-                else if (lowerArg.StartsWith("mode:") && posStart > 0)
-                {
-                    modeParameter = arg.Substring(posStart + 1);
-                }
-                else if (lowerArg.StartsWith("capture:") && posStart > 0)
-                {
-                    captureModeParameter = arg.Substring(posStart + 1);
-                }
-                else if (lowerArg.StartsWith("endorsement:"))
-                {
-                    endorsementParameter = arg.Substring(posStart + 1);
-                }
-                else if (lowerArg.StartsWith("icdversion:"))
-                {
-                    icdVersion = arg.Substring(posStart + 1);
-                }
-                else if (lowerArg.StartsWith("wizard:"))
-                {
-                    isWizardMode = arg.Substring(posStart + 1) == "1";
-                }
-                else if (lowerArg.StartsWith("topmost:"))
-                {
-                    topMostWindow = arg.Substring(posStart + 1) == "1";
-                }
-                else if (lowerArg.StartsWith("debug:"))
-                {
-                    debug = arg.Substring(posStart + 1) == "1";
-                }
-                else if (lowerArg.StartsWith("login"))
-                {
-                    isLoginMode = arg.Substring(posStart + 1) == "1";
-                } else if (lowerArg.StartsWith("singlecaptureprompt:"))
-                {
-                    singleFingerCaptureLabel = arg.Substring(posStart + 1);
+                    commandArgs.Add(argName, argValue);
                 }
             }
 
-            // get language
-            var lang = ConfigurationManager.AppSettings["lang"];
-
-            if (!string.IsNullOrEmpty(lang))
-            {
-                langParameter = lang;
-            }
-
-            if (string.IsNullOrEmpty(langParameter))
-            {
-                langParameter = "fr";
-            }
-            else if (langParameter.Length > 2)
-            {
-                langParameter = langParameter.Substring(0, 2).ToLowerInvariant();
-            }
-
+            var appParam = PrintCaptureAppParameter.FromParameters(commandArgs);
             try
             {
-                // DotNet 4.0
-                PrintCaptureApp.ApplicationCulture = new CultureInfo(langParameter);
-
-                // DotNet 4.5
-                //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(langParameter);
-            }
-            catch (Exception ex)
-            {
-                LogManager.GetCurrentClassLogger().Error(ex, "Cannot set culture to '{0}'", langParameter);                
-            }                        
-
-            int captureMode = 3;
-            if (!string.IsNullOrEmpty(captureModeParameter))
-            {
-                int.TryParse(captureModeParameter, out captureMode);
-            }
-
-            try
-            {
-                var param = new PrintCaptureAppParameter
-                {
-                    CultureName = langParameter,
-                    IsWizardMode = isWizardMode, 
-                    DescriptionLine1 = nameParameter,
-                    DescriptionLine2 = keyParameter,
-                    IcdVersion = icdVersion,
-                    Mode = modeParameter == "card" ? "cardscan" : "livescan",
-                    IsOptionAvailable = modeParameter == "card",
-                    CaptureModeAllowed = (PrintCaptureGroup)captureMode,
-                    IsEndorsementAllowed = string.IsNullOrEmpty(endorsementParameter) || endorsementParameter == "1",
-                    IsDebugAvailable = debug,
-                    IsLoginMode = isLoginMode,
-                    SingleFingerCapturePrompt = singleFingerCaptureLabel,
-                    TopMostWindow = topMostWindow
-                };
+                if (commandArgs.ContainsKey("prefix")) fileNamePrefix = commandArgs["prefix"];
 
                 sequenceCheckService =
                     new LocalSeqCheck(
-                        modeParameter == "card" ? CaptureKind.Cardscan : CaptureKind.Livescan,
-                        param.PrintList);
+                        appParam.Mode == "cardscan" ? CaptureKind.Cardscan : CaptureKind.Livescan,
+                        appParam.PrintList);
 
-                param.SeqCheckService = sequenceCheckService;                
+                appParam.SeqCheckService = sequenceCheckService;
 
                 Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    var app = PrintCaptureApp.Start(param);
+                    var app = PrintCaptureApp.Start(appParam);
                     if (!PrintCaptureApp.OpenMainFormDialog())
                     {
                         Application.Current.Shutdown();
@@ -200,14 +87,15 @@ namespace PrintsCapture.UniDACLegacy
                     {
                         Application.Current.Shutdown();
                     }
-                    //splash.Close();
-                }));
+                //splash.Close();
+            }));
             }
             catch (Exception ex)
             {
                 SplashWindowHelper.SetErrorMessage("Cannot start : " + ex.Message, 1);
-            }           
+            }
         }
+        
 
         private void AppOnScanCompleted(object sender, ScanCompletedEventArgs e)
         {

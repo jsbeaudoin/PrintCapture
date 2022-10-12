@@ -350,7 +350,7 @@ namespace PrintsCapture.LocalAwSeqCheck
                 // a segment ignored must be set missing before validation and restored as present after
                 foreach (var unexpSegment in segmentsMissing)
                 {
-                    seqChecker.SetFingerMissing((awSequenceCheck.AwareFingerType)unexpSegment.Part.EndorsementIndex, awSequenceCheck.AwareFingerMissingCode.AW_FNG_MISSING);                    
+                    seqChecker.SetFingerMissing((awSequenceCheck.AwareFingerType)unexpSegment.Part.EndorsementIndex, awSequenceCheck.AwareFingerMissingCode.AW_FNG_MISSING);
                 }
 
                 if (!this.SetTemplate(print))
@@ -379,7 +379,7 @@ namespace PrintsCapture.LocalAwSeqCheck
             if (print.IsSlap)
             {
                 this.Logger.Trace("LocalAwSequence - AddOrUpdateTemplate - Recalculating scores");
-                this.RecalculateScores();                
+                this.RecalculateScores();
             }
             else
             {
@@ -418,9 +418,7 @@ namespace PrintsCapture.LocalAwSeqCheck
 
             var thumbBuffer = seqChecker.CroppedFingerRaw(seqCheckFinger, thumbRectangle.Height, thumbRectangle.Width);
             var thumbBitmap = ImageUtilities.ByteArrayToBitmap(thumbBuffer, thumbRectangle.Size, new Rectangle(new Point(0, 0), thumbRectangle.Size), System.Drawing.Imaging.PixelFormat.Format8bppIndexed, info.Resolution.ToDpi());
-            //thumbBitmap.Save("C:\\tmp\\TestMath" + info.NistPosition.ToString() + ".bmp");
             var resizedBitmap = ImageUtilities.AutoCropAndCenter(thumbBitmap, Color.White, info.PrintList.Rules.CropTolerance, Color.White, sizeThumb);
-            //resizedBitmap.Save("C:\\tmp\\TestMath" + info.NistPosition.ToString() + "_resized.bmp");
 
             info.Image = resizedBitmap;
             info.OriginalImage = resizedBitmap;

@@ -763,6 +763,15 @@ namespace PrintsCapture.Ui.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading prints {0} of {1}.
+        /// </summary>
+        public static string LoadingPrintsXOfY {
+            get {
+                return ResourceManager.GetString("LoadingPrintsXOfY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Misc.
         /// </summary>
         public static string MiscOptions {

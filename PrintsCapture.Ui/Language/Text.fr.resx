@@ -889,4 +889,7 @@ Pour une utilisation avancée, vous pouvez cliquer sur "Voir les empreintes"</va
   <data name="LoadingPreviousPrints" xml:space="preserve">
     <value>Chargement des empreintes précédentes</value>
   </data>
+  <data name="LoadingPrintsXOfY" xml:space="preserve">
+    <value>Chargement des empreintes {0} sur {1}</value>
+  </data>
 </root>
