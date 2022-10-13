@@ -146,7 +146,7 @@ namespace PrintsCapture.Ui.Class
 
             // if two thumbs are missing
             if ((physicalPart.HandPart == HandPart.Thumb || physicalPart.HandPart == HandPart.TwoThumbs)
-                && printList.Rules.IsFlatCaptureMode)
+                && printList.Rules.CaptureTwoThumbs)
             {
                 var two = printList.Prints.Single(x => x.HandPart == HandPart.TwoThumbs);
                 var thumbs = printList.PhysicalParts.Where(x => x.HandPart == HandPart.Thumb).ToList();

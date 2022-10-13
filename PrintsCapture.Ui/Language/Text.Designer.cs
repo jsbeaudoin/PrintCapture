@@ -754,7 +754,7 @@ namespace PrintsCapture.Ui.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loading previous prints.
+        ///   Looks up a localized string similar to Loading previous prints. Please wait..
         /// </summary>
         public static string LoadingPreviousPrints {
             get {

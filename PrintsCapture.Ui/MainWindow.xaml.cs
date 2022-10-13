@@ -109,14 +109,14 @@ namespace PrintsCapture.Ui
 
         internal void LoadPreviousPrints(List<ImportedPrint> importedPrints)
         {
-            LogDispatcher.DoLog("LoadPreviousPrints -- called-b");
+            LogDispatcher.DoLog("LoadPreviousPrints -- called");
             if (importedPrints == null)
             {
                 LogDispatcher.DoLog("LoadPreviousPrints -- ended - no previous prints sent");
                 return;
             }
             LogDispatcher.DoLog("Loading previous prints");
-            PrintCaptureApp.SequenceCheck.StartSession();
+            
             LogDispatcher.DoLog("Sequence check started");
             int splashWindowId = 0;
             try
@@ -133,6 +133,24 @@ namespace PrintsCapture.Ui
             SplashWindowHelper.Show(splashWindowId);
 
             var printList = PrintCaptureApp.Instance.PrintList;
+            // set capture mode depending on prints !!
+            
+            if (!printList.Rules.IsFlatCaptureMode)
+            {
+                if (importedPrints.Any(x => x.NistPosition > 21 && x.Image != null))
+                {
+                    this.viewModel.Rules.CaptureMode = PrintCaptureGroup.StandardAndPalm;
+                    printList.Rules.CaptureGroup = PrintCaptureGroup.StandardAndPalm;
+                }
+                else
+                {
+                    this.viewModel.Rules.CaptureMode = PrintCaptureGroup.Standard14;
+                    printList.Rules.CaptureGroup = PrintCaptureGroup.Standard14;
+                }
+            }
+            this.captureToggleGroup.CheckByValue(this.viewModel.Rules.CaptureMode);
+            this.viewModel.InCaptureMode = true;
+
             var missings = importedPrints.Where(x => !string.IsNullOrEmpty(x.MissingCode));
             LogDispatcher.DoLog("Validating missing");
             foreach (var missingPrint in missings)
@@ -142,6 +160,7 @@ namespace PrintsCapture.Ui
                 this.printOp.UpdateMissingInfo(correspondingPrint.PhysicalPart, missingPrint.MissingCode, missingPrint.MissingDate);
             }
             LogDispatcher.DoLog("Missings set");
+            PrintCaptureApp.SequenceCheck.StartSession(); // session must be set AFTER missing are set
 
             var batch = new List<PrintInfo>();
             var printIndex = 0;
@@ -150,7 +169,7 @@ namespace PrintsCapture.Ui
                 printIndex += 1;
                 var msg = string.Format(Text.LoadingPrintsXOfY, printIndex, importedPrints.Count);
                 LogDispatcher.DoLog(msg);
-                SplashWindowHelper.SetMessage(msg, false, splashWindowId);
+                //SplashWindowHelper.SetMessage(msg, false, splashWindowId);
                 var correspondingPrint = printList.Prints.First(x => x.NistPosition == print.NistPosition && x.IsEndorsement == print.IsEndorsement);
                 correspondingPrint.Image = print.Image;
                 correspondingPrint.Resolution = print.Dpi.ToResolution();
@@ -169,24 +188,11 @@ namespace PrintsCapture.Ui
                 }
             }
             LogDispatcher.DoLog("Running sequence check");
-            SplashWindowHelper.SetMessage(Text.SequenceCheck, false, splashWindowId);
+            //SplashWindowHelper.SetMessage(Text.SequenceCheck, false, splashWindowId);
             PrintCaptureApp.SequenceCheck.AddPrintRange(batch);
 
             LogDispatcher.DoLog("Previous prints loaded");
             SplashWindowHelper.Hide(splashWindowId);
-
-            // set capture mode depending on prints !!
-            if (!printList.Rules.IsFlatCaptureMode)
-            {
-                if (importedPrints.Any(x => x.NistPosition > 21))
-                {
-                    printList.Rules.CaptureGroup = PrintCaptureGroup.StandardAndPalm;
-                }
-                else
-                {
-                    printList.Rules.CaptureGroup = PrintCaptureGroup.Standard14;
-                }
-            }
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
@@ -362,7 +368,7 @@ namespace PrintsCapture.Ui
         private void CaptureModeToggleChecked(object sender, RoutedEventArgs e)
         {
             var toggle = (RibbonToggleButton)sender;
-            var captureMode = (PrintCaptureGroup)toggle.Tag;            
+            var captureMode = (PrintCaptureGroup)toggle.Tag;
             this.ViewModel.Rules.CaptureMode = captureMode;
             var list = PrintCaptureApp.Instance.PrintList;
 
@@ -374,7 +380,7 @@ namespace PrintsCapture.Ui
                 {
                     printInfo.PhysicalPart.MissingCode = null;
                     printInfo.PhysicalPart.MissingDate = null;
-                    PrintModificationDispatcher.PrintModified(printInfo);                    
+                    PrintModificationDispatcher.PrintModified(printInfo);
                 }
             }
 
