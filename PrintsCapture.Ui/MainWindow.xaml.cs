@@ -133,7 +133,7 @@ namespace PrintsCapture.Ui
             SplashWindowHelper.Show(splashWindowId);
 
             var printList = PrintCaptureApp.Instance.PrintList;
-            var missings = importedPrints.Where(x => !string.IsNullOrEmpty(x.MissingDate));
+            var missings = importedPrints.Where(x => !string.IsNullOrEmpty(x.MissingCode));
             LogDispatcher.DoLog("Validating missing");
             foreach (var missingPrint in missings)
             {
@@ -155,7 +155,7 @@ namespace PrintsCapture.Ui
                 correspondingPrint.Image = print.Image;
                 correspondingPrint.Resolution = print.Dpi.ToResolution();
                 correspondingPrint.OriginalImage = print.Image;
-                if (! string.IsNullOrEmpty( print.OverrideCode))
+                if (! string.IsNullOrEmpty(print.OverrideCode))
                 {
                     int overrideCode = 0;
                     int.TryParse(print.OverrideCode, out overrideCode);
