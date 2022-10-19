@@ -21,7 +21,7 @@ namespace PrintsCapture.Ui.Class
         private static string FilePath = "";
 
         public const string AppName = "PrintsCapture";
-        public const string SaveFolderName = "configuration";
+        public const string SaveFolderName = "Configuration";
         public const string SettingsExtension = ".config";
 
         static PrintCaptureAppSettings() {
