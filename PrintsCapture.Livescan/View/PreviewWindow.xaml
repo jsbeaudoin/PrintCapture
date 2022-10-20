@@ -95,7 +95,7 @@
         
         <Button Name="ScanAgainButton" Content="{x:Static lng:CommonText.ScanAgain}" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Margin="10,10"  
                 VerticalAlignment="Bottom" IsEnabled="{Binding PreviousPrint, Converter={StaticResource Exists}}"
-                Click="ScanAgainClick"></Button>
+                Click="ScanAgainClick" Visibility="Collapsed"></Button>
 
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" >
             <Canvas Name="LeftHandQuality" HorizontalAlignment="Left" Width="60">
