@@ -52,7 +52,7 @@
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="XL-ID.Utilities">
-      <HintPath>..\packages\XL-ID.Utilities.1.4.17\lib\net40\XL-ID.Utilities.dll</HintPath>
+      <HintPath>..\lib\local\XL-ID.Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,6 @@ public class DynaInvoke
     {
       // load the assemly
       Assembly assembly = Assembly.LoadFrom(AssemblyName);
-
       // Walk through each type in the assembly looking for our class
       foreach (Type type in assembly.GetTypes())
       {

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 using System.Windows.Shapes;
 using PrintsCapture.Device;
@@ -53,6 +54,16 @@ namespace PrintsCapture.Livescan.View
 #if DEBUG
             this.Topmost = false;
 #endif 
+        }
+
+        public System.Windows.Controls.Image GetDisplayImage()
+        {
+            return this.DisplayImage;
+        }
+
+        public WindowsFormsHost GetWin32Window()
+        {
+            return this.Win32Window;
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -124,7 +135,7 @@ namespace PrintsCapture.Livescan.View
             }
         }
 
-        internal void RefreshQualityInformation(IEnumerable<PrintCaptureQuality> qualityList)
+        public void RefreshQualityInformation(IEnumerable<PrintCaptureQuality> qualityList)
         {
             var msg = string.Empty;
             if (qualityList != null)

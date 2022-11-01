@@ -36,6 +36,8 @@ namespace PrintsCapture.Ui
 
     using MessageBox = System.Windows.MessageBox;
     using System.Windows.Interop;
+    using XL_ID.Utilities.Wpf.ViewModel;
+    using XL_ID.Utilities.Log;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -64,11 +66,7 @@ namespace PrintsCapture.Ui
                 throw;
             }
             
-
-            //PrintCaptureApp.Instance.CaptureCompleted += this.CaptureCompletedCallback;
-
-            var version = Assembly.GetEntryAssembly().GetName().Version;
-            this.VersionTextBlock.Text = $"Version {version.Major}.{version.Minor}.{version.Build}";
+            this.VersionTextBlock.Text = $"Version {PrintCaptureApp.AppVersion}";
             
             this.captureToggleGroup.Add(this.Std14ToggleButton);
             this.captureToggleGroup.Add(this.FlatToggleButton);
@@ -107,7 +105,95 @@ namespace PrintsCapture.Ui
             }
         }
 
-        public bool? AcceptPrint { get; set; }        
+        public bool? AcceptPrint { get; set; }
+
+        internal void LoadPreviousPrints(List<ImportedPrint> importedPrints)
+        {
+            LogDispatcher.DoLog("LoadPreviousPrints -- called");
+            if (importedPrints == null)
+            {
+                LogDispatcher.DoLog("LoadPreviousPrints -- ended - no previous prints sent");
+                return;
+            }
+            LogDispatcher.DoLog("Loading previous prints");
+            
+            LogDispatcher.DoLog("Sequence check started");
+            int splashWindowId = 0;
+            try
+            {
+                splashWindowId = SplashWindowHelper.CreateSplash(new SplashLabels { Title = "UniDAC", SubTitle = "PrintsCapture " + PrintCaptureApp.AppVersion, Message = Text.LoadingPreviousPrints, CloseLabel = "X" }
+                        , new System.Uri("pack://application:,,,/PrintsCapture.Direct;component/Images/LogoPrintCapture4-300x300.png"));
+            }
+            catch (Exception ex)
+            {
+                LogDispatcher.DoLog("Error creating Splash screen!", LogEventLevel.Error, ex);
+                throw;
+            }
+            
+            SplashWindowHelper.Show(splashWindowId);
+
+            var printList = PrintCaptureApp.Instance.PrintList;
+            // set capture mode depending on prints !!
+            
+            if (!printList.Rules.IsFlatCaptureMode)
+            {
+                if (importedPrints.Any(x => x.NistPosition > 21 && x.Image != null))
+                {
+                    this.viewModel.Rules.CaptureMode = PrintCaptureGroup.StandardAndPalm;
+                    printList.Rules.CaptureGroup = PrintCaptureGroup.StandardAndPalm;
+                }
+                else
+                {
+                    this.viewModel.Rules.CaptureMode = PrintCaptureGroup.Standard14;
+                    printList.Rules.CaptureGroup = PrintCaptureGroup.Standard14;
+                }
+            }
+            this.captureToggleGroup.CheckByValue(this.viewModel.Rules.CaptureMode);
+            this.viewModel.InCaptureMode = true;
+
+            var missings = importedPrints.Where(x => !string.IsNullOrEmpty(x.MissingCode));
+            LogDispatcher.DoLog("Validating missing");
+            foreach (var missingPrint in missings)
+            {
+                var correspondingPrint = printList.Prints.First(x => x.NistPosition == missingPrint.NistPosition);
+                // use logic of service, as it handles segments and such
+                this.printOp.UpdateMissingInfo(correspondingPrint.PhysicalPart, missingPrint.MissingCode, missingPrint.MissingDate);
+            }
+            LogDispatcher.DoLog("Missings set");
+            PrintCaptureApp.SequenceCheck.StartSession(); // session must be set AFTER missing are set
+
+            var batch = new List<PrintInfo>();
+            var printIndex = 0;
+            foreach (var print in importedPrints)
+            {
+                printIndex += 1;
+                var msg = string.Format(Text.LoadingPrintsXOfY, printIndex, importedPrints.Count);
+                LogDispatcher.DoLog(msg);
+                //SplashWindowHelper.SetMessage(msg, false, splashWindowId);
+                var correspondingPrint = printList.Prints.First(x => x.NistPosition == print.NistPosition && x.IsEndorsement == print.IsEndorsement);
+                correspondingPrint.Image = print.Image;
+                correspondingPrint.Resolution = print.Dpi.ToResolution();
+                correspondingPrint.OriginalImage = print.Image;
+                if (! string.IsNullOrEmpty(print.OverrideCode))
+                {
+                    int overrideCode = 0;
+                    int.TryParse(print.OverrideCode, out overrideCode);
+                    correspondingPrint.OverrideCode = overrideCode;
+                    correspondingPrint.OverrideUserReason = print.OverrideReason;
+                    
+                }
+                if (print.Image != null)
+                {
+                    batch.Add(correspondingPrint);
+                }
+            }
+            LogDispatcher.DoLog("Running sequence check");
+            //SplashWindowHelper.SetMessage(Text.SequenceCheck, false, splashWindowId);
+            PrintCaptureApp.SequenceCheck.AddPrintRange(batch);
+
+            LogDispatcher.DoLog("Previous prints loaded");
+            SplashWindowHelper.Hide(splashWindowId);
+        }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
@@ -270,11 +356,6 @@ namespace PrintsCapture.Ui
             }
         }
 
-
-        
-        
-
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChangedEventHandler handler = this.PropertyChanged;
@@ -287,7 +368,7 @@ namespace PrintsCapture.Ui
         private void CaptureModeToggleChecked(object sender, RoutedEventArgs e)
         {
             var toggle = (RibbonToggleButton)sender;
-            var captureMode = (PrintCaptureGroup)toggle.Tag;            
+            var captureMode = (PrintCaptureGroup)toggle.Tag;
             this.ViewModel.Rules.CaptureMode = captureMode;
             var list = PrintCaptureApp.Instance.PrintList;
 
@@ -299,7 +380,7 @@ namespace PrintsCapture.Ui
                 {
                     printInfo.PhysicalPart.MissingCode = null;
                     printInfo.PhysicalPart.MissingDate = null;
-                    PrintModificationDispatcher.PrintModified(printInfo);                    
+                    PrintModificationDispatcher.PrintModified(printInfo);
                 }
             }
 
@@ -316,7 +397,7 @@ namespace PrintsCapture.Ui
         private void RestartServiceButtonClick(object sender, RoutedEventArgs e)
         {
             SplashWindowHelper.Show();
-            SplashWindowHelper.SetMessage("Restarting services", false);            
+            SplashWindowHelper.SetMessage("Restarting services", false);
 
             var action = new Action(
                 () =>

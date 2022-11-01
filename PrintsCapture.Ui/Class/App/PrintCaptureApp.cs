@@ -34,7 +34,7 @@ namespace PrintsCapture.Ui.Class
 
     public class PrintCaptureApp
     {
-        public const string AppVersion = "1.0.52.7";
+        public const string AppVersion = "1.0.53.3";
 
         public const string AppName = "PrintsCapture";
 
@@ -76,7 +76,7 @@ namespace PrintsCapture.Ui.Class
 
         public static PrintCaptureApp Instance => instance;
 
-        public static bool HasWizardAcceptedPrint => instance.wizardViewModel?.AcceptPrint != null && instance.wizardViewModel.AcceptPrint.Value;
+        public static bool HasWizardAcceptedPrint { get; private set; } // => instance.wizardViewModel?.AcceptPrint != null && instance.wizardViewModel.AcceptPrint.Value;
 
         public static bool IsWizard => instance?.IsWizardMode ?? false;
 
@@ -88,6 +88,7 @@ namespace PrintsCapture.Ui.Class
 
         public static PrintCaptureApp Start(PrintCaptureAppParameter appParam)
         {
+            HasWizardAcceptedPrint = false;
             PrintCaptureAppLog.Logger.Debug("***********PrintCaptureApp Start***********");
             PrintCaptureAppLog.Logger.Info($"Prints allowed:{appParam.CaptureModeAllowed}, Mode:{appParam.Mode}, Options:{appParam.IsOptionAvailable}");
 
@@ -106,30 +107,28 @@ namespace PrintsCapture.Ui.Class
             // Setup prints and rules
             instance.PrintList = appParam.PrintList;
             var rules = PrintCaptureDriver.Settings.Rules;
+            rules.OrderMode = appParam.CaptureOrder;
             rules.Labels.SingleFingerCapturePrompt = appParam.SingleFingerCapturePrompt;
             
             // make sure rules have a valid set
-            rules.CaptureGroupAllowed = appParam.CaptureModeAllowed;
-
-            if (!rules.CaptureGroupAllowed.HasFlag(rules.CaptureGroup))
+            rules.CaptureGroupAllowed = appParam.CaptureModeAllowed;            
+            var defaultValue = PrintCaptureGroup.FlatOnly; // default: flats. Else rolled and flats EXCEPT for Sq, which include palms by default
+            if (!rules.CaptureGroupAllowed.HasFlag(PrintCaptureGroup.FlatOnly))
             {
-                
-                var defaultValue = rules.CaptureGroupAllowed.HasFlag(PrintCaptureGroup.FlatOnly) ? PrintCaptureGroup.FlatOnly
-                    : PrintCaptureGroup.Standard14;
-                if (!rules.CaptureGroupAllowed.HasFlag(defaultValue))
-                {
-                    var firstValue = rules.CaptureGroupAllowed.GetValues().Cast<PrintCaptureGroup>().FirstOrDefault();
-                    PrintCaptureAppLog.Logger.Info($"PrintCaptureApp No capture flag set, setting value {firstValue}");
-                    rules.CaptureGroup = firstValue;
-                }
-                else
-                {
-                    PrintCaptureAppLog.Logger.Info($"PrintCaptureApp No capture flag set, setting value {defaultValue}");
-                    rules.CaptureGroup = defaultValue;
-                }
-                                
+                defaultValue = appParam.CaptureOrder == CaptureOrderMode.Sq ? PrintCaptureGroup.StandardAndPalm : PrintCaptureGroup.Standard14;
             }
-            
+
+            if (!rules.CaptureGroupAllowed.HasFlag(defaultValue))
+            {
+                var firstValue = rules.CaptureGroupAllowed.GetValues().Cast<PrintCaptureGroup>().FirstOrDefault();
+                PrintCaptureAppLog.Logger.Info($"PrintCaptureApp, setting CaptureGroup value {firstValue}");
+                rules.CaptureGroup = firstValue;
+            }
+            else
+            {
+                PrintCaptureAppLog.Logger.Info($"PrintCaptureApp, setting CaptureGroup value {defaultValue}");
+                rules.CaptureGroup = defaultValue;
+            } 
             rules.IsEndorsementAllowed = appParam.IsEndorsementAllowed;
 
             instance.PrintList.Rules = rules;
@@ -177,7 +176,7 @@ namespace PrintsCapture.Ui.Class
                 }
 
                 PrintCaptureAppLog.Logger.Debug("Opening mainform");
-                Application.Current.Dispatcher.Invoke(new Action(OpenMainForm));            
+                Application.Current.Dispatcher.Invoke(new Action(() => OpenMainForm(appParam)));
             }            
 
             return instance;
@@ -297,6 +296,7 @@ namespace PrintsCapture.Ui.Class
             var startTime = DateTime.Now;
             var pl = instance.PrintList;
             PrintCaptureAppLog.Logger.Debug("Display Wizard");
+            
 
             var wizardVm = new WizardProcessViewModel
             {
@@ -436,8 +436,8 @@ namespace PrintsCapture.Ui.Class
             printGridVm.ShowPalmPrint = rules.CaptureMode == PrintCaptureGroup.StandardAndPalm;
             printGridVm.ShowRolledPrint = ! rules.IsFlatCaptureMode;
             printGridVm.ShowMissingLine = rules.IsFlatCaptureMode;
-            printGridVm.CaptureTwoThumbs = rules.IsFlatCaptureMode;
-            
+            printGridVm.CaptureTwoThumbs = rules.IsFlatCaptureMode && !instance.PrintList.Rules.IsSqMode;
+
             // endorsement
             instance.mainViewModel.EndorsableFingers = instance.PrintList.GetEndorsableFingers();            
         }        
@@ -471,7 +471,7 @@ namespace PrintsCapture.Ui.Class
             SequenceCheck.IsDataCompressed = rulesVm.IsDataCompressed;
             instance.PrintList.Rules.CaptureGroup = rulesVm.CaptureMode;
             
-            instance.mainViewModel.PrintGridViewModel.CaptureTwoThumbs = rules.CaptureTwoThumbs;
+            instance.mainViewModel.PrintGridViewModel.CaptureTwoThumbs = rules.CaptureTwoThumbs && !instance.PrintList.Rules.IsSqMode;
 
             instance.mainViewModel.PrintGridViewModel.ShowPalmPrint = rulesVm.CaptureMode
                                                                       == PrintCaptureGroup.StandardAndPalm;
@@ -487,7 +487,7 @@ namespace PrintsCapture.Ui.Class
 
         }
 
-        private static void OpenMainForm()
+        private static void OpenMainForm(PrintCaptureAppParameter appParams)
         {
             PrintCaptureAppLog.Logger.Debug("Opening main form");
             var win = new MainWindow(instance.mainViewModel)
@@ -515,6 +515,7 @@ namespace PrintsCapture.Ui.Class
                 win.Topmost = false;
                 SplashWindowHelper.Hide();
                 PrintCaptureDriver.Instance.AdaptForCaptureKind(win);
+                win.LoadPreviousPrints(appParams.ImportedPrints);
             };
             win.Show();
         }
@@ -532,6 +533,11 @@ namespace PrintsCapture.Ui.Class
                     e.Cancel = true;
                 }                
             }
+            if (! e.Cancel && acceptPrint == true)
+            {
+                HasWizardAcceptedPrint = true;
+            }
+            
         }
 
         private static void MainWindowOnClosed(object sender, EventArgs eventArgs)

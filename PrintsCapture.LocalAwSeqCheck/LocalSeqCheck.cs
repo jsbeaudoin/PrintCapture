@@ -14,8 +14,10 @@ namespace PrintsCapture.LocalAwSeqCheck
     using PrintsCapture.Prints;
     using PrintsCapture.Prints.Enum;
     using PrintsCapture.Prints.Sequence;
+    using PrintsCapture.Prints.Extension;
 
     using UniBIO = UniBIO.Services.Communication.BiometricService;
+    using XL_ID.Utilities.Image;
 
     public class LocalSeqCheck : BaseSeqCheckService, ISequencePrints
     {       
@@ -322,8 +324,14 @@ namespace PrintsCapture.LocalAwSeqCheck
         private void AddOrUpdateTemplate(PrintInfo info)
         {
             this.Logger.Trace("LocalAwSequence - AddOrUpdateTemplate ({0})", PrintList.GetName(info));
+            if (info.HandPart == HandPart.TwoThumbs && info.PrintList.Rules.SplitCapturedThumbs)
+            {
+                this.CutTwoThumbs(info);
+                return;
+            }
+
             var print = this.GetPrint(info);
-            
+
             if (print.Print.IsEndorsement)
             {
                 this.CheckEndorsement(info);
@@ -342,7 +350,7 @@ namespace PrintsCapture.LocalAwSeqCheck
                 // a segment ignored must be set missing before validation and restored as present after
                 foreach (var unexpSegment in segmentsMissing)
                 {
-                    seqChecker.SetFingerMissing((awSequenceCheck.AwareFingerType)unexpSegment.Part.EndorsementIndex, awSequenceCheck.AwareFingerMissingCode.AW_FNG_MISSING);                    
+                    seqChecker.SetFingerMissing((awSequenceCheck.AwareFingerType)unexpSegment.Part.EndorsementIndex, awSequenceCheck.AwareFingerMissingCode.AW_FNG_MISSING);
                 }
 
                 if (!this.SetTemplate(print))
@@ -352,11 +360,11 @@ namespace PrintsCapture.LocalAwSeqCheck
                 }
                 
                 info.QualityScore = this.seqChecker.GetQualityScore(print.Fingertype);
-            }            
+            }
 
             if (!this.CheckSlap(print))
             {
-                this.Logger.Warn("LocalAwSequence - AddOrUpdateTemplate - Slap verifcation failed");
+                this.Logger.Warn("LocalAwSequence - AddOrUpdateTemplate - Slap verification failed");
                 info.ProcessStatus = PrintProcessStatus.TemplateError;
                 info.TemplateErrors.Add(TemplateError.WrongTemplateCount);
                 this.OnPrintModified(info);
@@ -371,7 +379,7 @@ namespace PrintsCapture.LocalAwSeqCheck
             if (print.IsSlap)
             {
                 this.Logger.Trace("LocalAwSequence - AddOrUpdateTemplate - Recalculating scores");
-                this.RecalculateScores();                
+                this.RecalculateScores();
             }
             else
             {
@@ -384,6 +392,84 @@ namespace PrintsCapture.LocalAwSeqCheck
             print.Print.SequenceAnalyzed = true;
 
             this.OnPrintModified(info);
+        }
+
+        /// <summary>
+        /// Gets a thumb from a two-thumbs image
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="isSpecial"></param>
+        /// <returns></returns>
+        private void SetThumbFrom2Thumbs(PrintInfo info, PrintResolution resolution)
+        {
+            bool isSpecial = info.Segments != null && info.HandPart != HandPart.TwoThumbs && info.Segments.Count(x => x.IsExpected && !x.Part.IsMissing) == 1;
+            info.Resolution = resolution;
+
+            var sizeThumb = info.CaptureSize(true);
+            var seqCheckFinger = info.Hand == Hand.Right ? awSequenceCheck.AwareFingerType.AW_PLAIN_THUMBS_RIGHT : awSequenceCheck.AwareFingerType.AW_PLAIN_THUMBS_LEFT;
+            var thumbRectangle = seqChecker.GetCentering(seqCheckFinger, awSequenceCheck.AwareCenteringMethod.AWSEQ_AUTO_CENTERING);
+
+            if (thumbRectangle.IsEmpty)
+            {
+                info.TemplateErrors.Add(TemplateError.WrongTemplateCount);
+                this.OnPrintModified(info);
+                return;
+            }
+
+            var thumbBuffer = seqChecker.CroppedFingerRaw(seqCheckFinger, thumbRectangle.Height, thumbRectangle.Width);
+            var thumbBitmap = ImageUtilities.ByteArrayToBitmap(thumbBuffer, thumbRectangle.Size, new Rectangle(new Point(0, 0), thumbRectangle.Size), System.Drawing.Imaging.PixelFormat.Format8bppIndexed, info.Resolution.ToDpi());
+            var resizedBitmap = ImageUtilities.AutoCropAndCenter(thumbBitmap, Color.White, info.PrintList.Rules.CropTolerance, Color.White, sizeThumb);
+
+            info.Image = resizedBitmap;
+            info.OriginalImage = resizedBitmap;
+            
+            var resultPrint = this.GetPrint(info);
+
+            if (!this.SetTemplate(resultPrint))
+            {
+                this.OnPrintModified(info);
+                return;
+            }
+            resultPrint.Print.ProcessStatus = PrintProcessStatus.Success;
+            resultPrint.Print.SequenceAnalyzed = true;
+            this.OnPrintModified(info);
+
+            //this.CalculateScores(resultPrint);
+            this.CheckSlap(resultPrint);
+        }
+
+        private void CutTwoThumbs(PrintInfo info)
+        {
+            //info.Image.Save("C:\\tmp\\TestMath" + info.NistPosition.ToString() + "_original.bmp");
+
+            bool isSpecial = info.Segments != null && info.Segments.Count(x => x.IsExpected && !x.Part.IsMissing) == 2;
+
+            // set 2thumbs into the sequence check, without really adding it to internal printCaptured collection
+            var captured2Thumbs = new CapturedPrint { Fingertype = awSequenceCheck.AwareFingerType.AW_PLAIN_LEFT_RIGHT_THUMBS, IsSlap = false, IsSpecial = isSpecial, Print = info };
+            if (!this.SetTemplate(captured2Thumbs)) // need to set the template to crop individual thumbs
+            {
+                this.OnPrintModified(info);
+                return;
+            }
+
+            var rightThumb = info.PrintList.Prints.FirstOrDefault(x => x.Hand == Hand.Right && x.HandPart == HandPart.Thumb && x.ScanKind == HandScanKind.Flat);
+            var leftThumb = info.PrintList.Prints.FirstOrDefault(x => x.Hand == Hand.Left && x.HandPart == HandPart.Thumb && x.ScanKind == HandScanKind.Flat);
+
+            if (!rightThumb.IsMissing)
+            {
+                SetThumbFrom2Thumbs(rightThumb, info.Resolution);
+            }
+
+            if (!leftThumb.IsMissing)
+            {
+                SetThumbFrom2Thumbs(leftThumb, info.Resolution);
+            }
+
+            this.seqChecker.ClearFinger(awSequenceCheck.AwareFingerType.AW_PLAIN_LEFT_RIGHT_THUMBS); // remove from sequence check to minimize impacts
+            info.Image = null;
+
+            this.Logger.Trace("LocalAwSequence - AddOrUpdateTemplate - Recalculating scores");
+            this.RecalculateScores();
         }
 
         private int GetNumberSlapInt(awSequenceCheck.AwareFingerType fingertype)
@@ -1209,6 +1295,11 @@ namespace PrintsCapture.LocalAwSeqCheck
                 
                 this.Logger.Trace("LocalAwSequence - CheckSlap - IsSlap and not a special case");
                 if (capturedSlaps.Any(x => x.Parent.NistIndex == this.capturedPrint.Print.NistPosition))
+                {
+                    return;
+                }
+
+                if (this.capturedPrint.Print.HandPart == HandPart.TwoThumbs && this.capturedPrint.Print.PrintList.Rules.SplitCapturedThumbs)
                 {
                     return;
                 }

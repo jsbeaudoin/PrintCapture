@@ -79,7 +79,7 @@ namespace TestWinForm.UserControl
                 
             };
 
-            rm.GetLivePrints();            
+            //rm.GetLivePrints(this.get);            
         }
 
 

@@ -390,7 +390,7 @@ namespace PrintsCapture.LivescanWinForm
                 () =>
                 {
                     // write to Writeable Bitmap !
-                    var im = this.livePreviewWindow.DisplayImage;
+                    var im = this.livePreviewWindow.GetDisplayImage();
                     WriteableBitmap wbmp;
 
                     if (img == null)
@@ -402,7 +402,7 @@ namespace PrintsCapture.LivescanWinForm
                     if (im.Source == null || Math.Abs(im.Source.Width - img.Width) > 0.1
                         || Math.Abs(im.Source.Height - img.Height) > 0.1)
                     {
-                        this.livePreviewWindow.Win32Window.Visibility = Visibility.Hidden;
+                        this.livePreviewWindow.GetWin32Window().Visibility = Visibility.Hidden;
                         
                         var pal =
                             new BitmapPalette(

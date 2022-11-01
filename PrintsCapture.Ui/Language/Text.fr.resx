@@ -886,4 +886,10 @@ Pour une utilisation avancée, vous pouvez cliquer sur "Voir les empreintes"</va
   <data name="MissingDateInvalidLenght" xml:space="preserve">
     <value>La date du doigt manquant doigt contenir au minimum l'année et le mois.</value>
   </data>
+  <data name="LoadingPreviousPrints" xml:space="preserve">
+    <value>Chargement des empreintes précédentes. Patienter svp.</value>
+  </data>
+  <data name="LoadingPrintsXOfY" xml:space="preserve">
+    <value>Chargement des empreintes {0} sur {1}</value>
+  </data>
 </root>

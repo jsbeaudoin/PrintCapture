@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="RemoteModules">
       <HintPath>..\lib\ToCopy\RemoteModules.dll</HintPath>
     </Reference>
@@ -47,17 +48,15 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UniBIO.Services.Communication, Version=1.1.41.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Communication\UniBIO.Services.Communication.dll</HintPath>
+    <Reference Include="UniBIO.Services.Communication">
+      <HintPath>..\lib\local\UniBIO.Services.Communication.dll</HintPath>
     </Reference>
-    <Reference Include="XL-ID.Utilities, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XL-ID.Utilities.1.4.17\lib\net40\XL-ID.Utilities.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="WindowsBase" />
+    <Reference Include="XL-ID.Utilities">
+      <HintPath>..\lib\local\XL-ID.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="XL-ID.Utilities.SearchFilters, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XL-ID.Utilities.SearchFilters.1.0.3\lib\net40\XL-ID.Utilities.SearchFilters.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="XL-ID.Utilities.SearchFilters">
+      <HintPath>..\lib\local\XL-ID.Utilities.SearchFilters.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -107,7 +106,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PrintCapture.Direct\PrintsCapture.Direct.csproj">
+    <ProjectReference Include="..\PrintsCapture.Direct\PrintsCapture.Direct.csproj">
       <Project>{d2aba2ca-8447-4f7c-9388-48673b831962}</Project>
       <Name>PrintsCapture.Direct</Name>
     </ProjectReference>

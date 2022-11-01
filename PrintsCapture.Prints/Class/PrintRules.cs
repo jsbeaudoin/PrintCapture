@@ -51,7 +51,9 @@
         /// <summary>
         /// Capture two thumbs simultaneously instead of one by one
         /// </summary>
-        public bool CaptureTwoThumbs => this.CaptureGroup == PrintCaptureGroup.FlatOnly;
+        public bool CaptureTwoThumbs => this.IsSqMode || (this.CaptureGroup == PrintCaptureGroup.FlatOnly);
+
+        public bool SplitCapturedThumbs => this.IsSqMode && !this.IsFlatCaptureMode;
 
         /// <summary>
         /// Minimum sequence score to be considered "Matched".1 = Doesn't match at all. 40 = some match. 100+ really good match.
@@ -69,7 +71,7 @@
         public bool IsSequenceEnabled { get; set; }
 
         /// <summary>
-        /// When Quality of print is not below or euqal to the threshold, produce a warning instead of an error
+        /// When Quality of print is not below or equal to the threshold, produce a warning instead of an error
         /// </summary>
         public bool IsQualityEnabled { get; set; }
 
@@ -92,6 +94,10 @@
         public int RetryNeededForOverride { get; set; }
 
         public bool IsTemplateQualityVerified { get; set; }
+
+        public CaptureOrderMode OrderMode { get; set; } = CaptureOrderMode.Standard;
+
+        public bool IsSqMode => this.OrderMode == CaptureOrderMode.Sq;
 
         public CustomLabels Labels { get; set; }
     }

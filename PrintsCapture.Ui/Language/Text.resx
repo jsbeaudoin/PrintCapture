@@ -860,4 +860,10 @@ For advanced use, you may click on "Review prints".</value>
   <data name="MissingDateInvalidLenght" xml:space="preserve">
     <value>The date of the missing finger finger contain at least the year and the month.</value>
   </data>
+  <data name="LoadingPreviousPrints" xml:space="preserve">
+    <value>Loading previous prints. Please wait.</value>
+  </data>
+  <data name="LoadingPrintsXOfY" xml:space="preserve">
+    <value>Loading prints {0} of {1}</value>
+  </data>
 </root>

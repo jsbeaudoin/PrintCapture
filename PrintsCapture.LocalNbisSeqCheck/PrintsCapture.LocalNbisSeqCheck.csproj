@@ -48,17 +48,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UniBIO.Services.Communication, Version=1.1.22.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="UniBIO.Services.Communication, Version=1.1.43.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Communication\UniBIO.Services.Communication.dll</HintPath>
+      <HintPath>..\lib\local\UniBIO.Services.Communication.dll</HintPath>
     </Reference>
-    <Reference Include="XL-ID.Utilities, Version=1.4.17.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XL-ID.Utilities.1.4.17\lib\net40\XL-ID.Utilities.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="XL-ID.Utilities">
+      <HintPath>..\lib\local\XL-ID.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="XL-ID.Utilities.SearchFilters, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\XL-ID.Utilities.SearchFilters.1.0.3\lib\net40\XL-ID.Utilities.SearchFilters.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="XL-ID.Utilities.SearchFilters">
+      <HintPath>..\lib\local\XL-ID.Utilities.SearchFilters.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

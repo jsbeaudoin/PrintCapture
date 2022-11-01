@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-    //using System.Windows.Media.Imaging;
 
     using PrintsCapture.Prints.Enum;
 
@@ -43,8 +42,9 @@
             const string FixedPathPart = "pack://application:,,,/PrintsCapture.Livescan;component/Images/";
 
             var imageUri = new Uri(FixedPathPart + imageName);
-            var b = new Bitmap(imageUri);
-
+            Bitmap b = null;
+            //var b = new Bitmap(imageUri);
+            //TODO : Add an image form the resource instead.. ImageUri is for Wpf
             images.Add(new ConditionImage(status, b));
         }
     }

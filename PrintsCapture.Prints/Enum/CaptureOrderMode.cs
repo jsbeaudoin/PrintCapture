@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PrintCapture.LiveScanWinForm
+namespace PrintsCapture.Prints.Enum
 {
-    public class Class1
+    public enum CaptureOrderMode
     {
+        Standard,
+        Sq
     }
 }
