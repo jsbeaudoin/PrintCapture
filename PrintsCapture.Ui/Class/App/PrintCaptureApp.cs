@@ -34,7 +34,7 @@ namespace PrintsCapture.Ui.Class
 
     public class PrintCaptureApp
     {
-        public const string AppVersion = "1.0.53.3";
+        public const string AppVersion = "1.0.53.4";
 
         public const string AppName = "PrintsCapture";
 

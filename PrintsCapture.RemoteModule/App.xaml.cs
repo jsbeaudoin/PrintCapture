@@ -213,10 +213,12 @@ namespace PrintsCapture.RemoteModule
             {
                 if (!PrintCaptureApp.IsWizard || PrintCaptureApp.HasWizardAcceptedPrint)
                 {
+                    this.logger.Info("WritePrintsInformation : Adding serialized GetCapturedPrintData in DATA");
                     dicResult.Add("data", XmlSerializer.Serialize(seq.GetCapturedPrintData()));
                 }
                 else
                 {
+                    this.logger.Info("WritePrintsInformation : Adding null in DATA");
                     dicResult.Add("data", null);
                 }
                 
