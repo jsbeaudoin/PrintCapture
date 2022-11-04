@@ -310,7 +310,8 @@
         <TextBlock Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" Text="{Binding FlatLeftFingers.MissingText}" Style="{StaticResource PrintMissingText}" Visibility="{Binding FlatLeftFingers.MissingText, Converter={StaticResource EmptyStringInvisibility}}"
                    Tag="{Binding FlatLeftFingers}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" />
 
-        <Grid Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="3" Visibility="{Binding TwoThumbsVisibility}" ToolTip="{Binding FlatTwoThumbs.StatusMessage}" >
+        <Grid Grid.Row="6" Grid.Column="5" Grid.ColumnSpan="3" Visibility="{Binding TwoThumbsVisibility}" ToolTip="{Binding 
+            .StatusMessage}" >
             <Border Style="{StaticResource FingerprintBox}"  Tag="{Binding FlatTwoThumbs}" MouseLeftButtonUp="PrintElementMouseLeftButtonUp" >
                 <Image Style="{StaticResource PrintImage}" Source="{Binding FlatTwoThumbs.Image}" />
             </Border>

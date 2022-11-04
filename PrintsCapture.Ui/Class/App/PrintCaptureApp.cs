@@ -34,7 +34,7 @@ namespace PrintsCapture.Ui.Class
 
     public class PrintCaptureApp
     {
-        public const string AppVersion = "1.0.53.4";
+        public const string AppVersion = "1.0.53.5";
 
         public const string AppName = "PrintsCapture";
 
@@ -436,7 +436,6 @@ namespace PrintsCapture.Ui.Class
             printGridVm.ShowPalmPrint = rules.CaptureMode == PrintCaptureGroup.StandardAndPalm;
             printGridVm.ShowRolledPrint = ! rules.IsFlatCaptureMode;
             printGridVm.ShowMissingLine = rules.IsFlatCaptureMode;
-            printGridVm.CaptureTwoThumbs = rules.IsFlatCaptureMode && !instance.PrintList.Rules.IsSqMode;
 
             // endorsement
             instance.mainViewModel.EndorsableFingers = instance.PrintList.GetEndorsableFingers();            
@@ -470,8 +469,6 @@ namespace PrintsCapture.Ui.Class
 
             SequenceCheck.IsDataCompressed = rulesVm.IsDataCompressed;
             instance.PrintList.Rules.CaptureGroup = rulesVm.CaptureMode;
-            
-            instance.mainViewModel.PrintGridViewModel.CaptureTwoThumbs = rules.CaptureTwoThumbs && !instance.PrintList.Rules.IsSqMode;
 
             instance.mainViewModel.PrintGridViewModel.ShowPalmPrint = rulesVm.CaptureMode
                                                                       == PrintCaptureGroup.StandardAndPalm;

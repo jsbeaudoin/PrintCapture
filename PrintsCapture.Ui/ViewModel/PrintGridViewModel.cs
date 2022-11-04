@@ -15,7 +15,8 @@ namespace PrintsCapture.Ui.ViewModel
 
     using PrintsCapture.Prints;
     using PrintsCapture.Prints.Enum;
-    using PrintsCapture.Prints.ViewModel;  
+    using PrintsCapture.Prints.ViewModel;
+    using PrintsCapture.Ui.Class;
 
     /// <summary>
     /// TODO: Update summary.
@@ -72,8 +73,6 @@ namespace PrintsCapture.Ui.ViewModel
 
         private PrintElementViewModel flatTwoThumbs;
 
-        private bool captureTwoThumbs;
-
         private Visibility twoThumbsVisibility;
 
         private bool showMissingLine;
@@ -116,7 +115,7 @@ namespace PrintsCapture.Ui.ViewModel
             this.fingerProperties.Add(PrintInfo.GetKey(Hand.Left, HandPart.Ring, HandScanKind.Rolled), vm => this.RolledLeftRing = vm);
             this.fingerProperties.Add(PrintInfo.GetKey(Hand.Left, HandPart.Little, HandScanKind.Rolled), vm => this.RolledLeftLittle = vm);
 
-            this.DefineThumbsVisibility();
+            this.UpdateThumbsVisibility();
 
             this.DefineMenuVisibility(kind);
         }
@@ -379,7 +378,6 @@ namespace PrintsCapture.Ui.ViewModel
                     return;
                 }
                 this.flatLeftThumb = value;
-                this.DefineThumbsVisibility();
                 this.OnPropertyChanged("FlatLeftThumb");
             }
         }
@@ -400,7 +398,6 @@ namespace PrintsCapture.Ui.ViewModel
                     return;
                 }
                 this.flatRightThumb = value;
-                this.DefineThumbsVisibility();
                 this.OnPropertyChanged("FlatRightThumb");
             }
         }
@@ -421,7 +418,6 @@ namespace PrintsCapture.Ui.ViewModel
                     return;
                 }
                 this.flatTwoThumbs = value;
-                this.DefineThumbsVisibility();
                 this.OnPropertyChanged("FlatTwoThumbs");
             }
         }
@@ -643,27 +639,6 @@ namespace PrintsCapture.Ui.ViewModel
                 this.showPalmPrint = value;
                 this.OnPropertyChanged("ShowPalmPrint");
             }
-        }        
-
-        public bool CaptureTwoThumbs
-        {
-            get
-            {
-                return this.captureTwoThumbs;
-            }
-            set
-            {
-                if (value.Equals(this.captureTwoThumbs))
-                {
-                    return;
-                }
-
-                this.captureTwoThumbs = value;
-
-                this.OnPropertyChanged("CaptureTwoThumbs");     
-           
-                this.DefineThumbsVisibility();             
-            }
         }
 
         public Visibility LeftThumbVisibility
@@ -733,7 +708,12 @@ namespace PrintsCapture.Ui.ViewModel
             }
 
             this.fingerProperties[key](viewModel);
-        }        
+        }
+
+        public void UpdateThumbsVisibility()
+        {
+            this.DefineThumbsVisibility();
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         
@@ -754,29 +734,19 @@ namespace PrintsCapture.Ui.ViewModel
 
         private void DefineThumbsVisibility()
         {
-            if (this.captureTwoThumbs)
+            var rules = PrintCaptureApp.Instance.PrintList.Rules;
+
+            if (rules.CaptureTwoThumbs && ! rules.SplitCapturedThumbs)
             {
                 this.LeftThumbVisibility = Visibility.Collapsed;
                 this.RightThumbVisibility = Visibility.Collapsed;
-                if (this.flatTwoThumbs == null)
-                {
-                    return;
-                }
-                //this.TwoThumbsVisibility = this.flatTwoThumbs.IsMissing ? Visibility.Collapsed : Visibility.Visible;
                 this.TwoThumbsVisibility = Visibility.Visible;
-            }
-            else
+            } else
             {
-                this.TwoThumbsVisibility = Visibility.Collapsed;
-                if (this.flatLeftThumb == null || this.flatRightThumb == null)
-                {
-                    return;
-                }
-                //this.LeftThumbVisibility = this.flatLeftThumb.IsMissing ? Visibility.Collapsed : Visibility.Visible;
-                //this.RightThumbVisibility = this.flatRightThumb.IsMissing ? Visibility.Collapsed : Visibility.Visible;
-
+                // Non Sq Mode, never capture 2 thumbs, unless flats (previous case)
                 this.LeftThumbVisibility = Visibility.Visible;
                 this.RightThumbVisibility = Visibility.Visible;
+                this.TwoThumbsVisibility = Visibility.Collapsed;
             }
         }
     }

@@ -33,7 +33,6 @@ namespace PrintsCapture.Ui.ViewModel
 
         private int cropTolerance;
 
-        private bool captureTwoThumbs;
         private bool isOverrideAlwaysShown;
         private int retryNeededForOverride;
 

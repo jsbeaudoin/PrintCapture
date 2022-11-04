@@ -384,6 +384,8 @@ namespace PrintsCapture.Ui
                 }
             }
 
+            this.ViewModel.PrintGridViewModel.UpdateThumbsVisibility();
+
             //foreach (var part in list.PhysicalParts )
             //{
             //    if (part.IsMissing)
