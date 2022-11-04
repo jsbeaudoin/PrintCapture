@@ -712,7 +712,21 @@ namespace PrintsCapture.Ui.ViewModel
 
         public void UpdateThumbsVisibility()
         {
-            this.DefineThumbsVisibility();
+            var rules = PrintCaptureApp.Instance.PrintList.Rules;
+
+            if (rules.CaptureTwoThumbs && !rules.SplitCapturedThumbs)
+            {
+                this.LeftThumbVisibility = Visibility.Collapsed;
+                this.RightThumbVisibility = Visibility.Collapsed;
+                this.TwoThumbsVisibility = Visibility.Visible;
+            }
+            else
+            {
+                // Non Sq Mode, never capture 2 thumbs, unless flats (previous case)
+                this.LeftThumbVisibility = Visibility.Visible;
+                this.RightThumbVisibility = Visibility.Visible;
+                this.TwoThumbsVisibility = Visibility.Collapsed;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -732,22 +746,6 @@ namespace PrintsCapture.Ui.ViewModel
             this.EditVisibility = kind == CaptureKind.Cardscan ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void DefineThumbsVisibility()
-        {
-            var rules = PrintCaptureApp.Instance.PrintList.Rules;
-
-            if (rules.CaptureTwoThumbs && ! rules.SplitCapturedThumbs)
-            {
-                this.LeftThumbVisibility = Visibility.Collapsed;
-                this.RightThumbVisibility = Visibility.Collapsed;
-                this.TwoThumbsVisibility = Visibility.Visible;
-            } else
-            {
-                // Non Sq Mode, never capture 2 thumbs, unless flats (previous case)
-                this.LeftThumbVisibility = Visibility.Visible;
-                this.RightThumbVisibility = Visibility.Visible;
-                this.TwoThumbsVisibility = Visibility.Collapsed;
-            }
-        }
+        
     }
 }
