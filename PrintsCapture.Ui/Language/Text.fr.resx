@@ -784,13 +784,13 @@ Je sais que, par suite de ce consentement, si une recherche dactyloscopique m'id
     <value>Consentement à un tiers</value>
   </data>
   <data name="NoOverride" xml:space="preserve">
-    <value>Aucune surdéfinition</value>
+    <value>Aucune dérogation</value>
   </data>
   <data name="OverrideAlwayDisplayed" xml:space="preserve">
     <value>Choix de surdéfinition toujours disponible</value>
   </data>
   <data name="DefineOverride" xml:space="preserve">
-    <value>Surdéfinir</value>
+    <value>Dérogation</value>
   </data>
   <data name="PrintSegments" xml:space="preserve">
     <value>Parties de l'empreintes</value>
