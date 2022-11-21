@@ -37,19 +37,17 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
 
     public class DeviceApi : ILivescanDevice
     {
-        private const string HardwareMakeName = "GREENBIT";
+        private const string HardwareMakeName = "THALES";
 
-        const string PropAutoScanEnabled = "AUTO_SCAN";
+        const string PropFlatAutoScanEnabled = "FLAT_AUTO_SCAN";
         const string PropMinPixelCount = "MIN_PIX_COUNT";
-        const string PropAutoScanDelay = "AUTO_SCAN_DELAY";
-        const string PropAutoScanCountDownStart = "AUTO_COUNTDOWN";
 
 
         private SdkApi sdk;
 
         private CapturePreviewHandler preview;        
 
-        private uint AcquisitionOptionMask = GBMSAPI_NET_AcquisitionOptions.GBMSAPI_NET_AO_AUTOCAPTURE;
+        private uint AcquisitionOptionMask = 0;
 
         private const uint DisplayOptionMask = 0; //GBMSAPI_NET_DisplayOptions.GBMSAPI_NET_DO_FINAL_SCREEN;
 
@@ -58,8 +56,6 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
         private int correctImageMinPixel = 0;
 
         internal byte GreenBitId { get; set; }
-        
-        CaptureAutoScan autoCaptureTrigger;
 
         private string lastErrorMessage;
 
@@ -74,8 +70,6 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
         private ScannerAction currentAction = ScannerAction.Waiting;
 
         private IEnumerable<PhysicalHandPart> handParts;        
-
-        private string timeToDisplay;
 
         public event DeviceStateChangedHandler StateChanged;
 
@@ -127,7 +121,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
         {
             this.Sdk = sdk;
             this.GreenBitId = id;
-            this.InternalKey = "GreenBit-" + id;
+            this.InternalKey = "Thales-" + id;
 
             this.HardwareMake = HardwareMakeName.ToUpper();
             this.DisplayName = friendlyName;
@@ -143,13 +137,12 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
         private void CreatePropertyList()
         {
             this.Properties = new CustomPropertyList();
-            this.Properties.AddBoolProperty(PropAutoScanEnabled, CommonText.PropertyEnabled, true, CommonText.PropertyAutoCapture);
-            this.Properties.AddRangeProperty(PropAutoScanDelay, CommonText.PropertyDelay, 10, 3, 60, CommonText.PropertyAutoCapture);
-            this.Properties.AddRangeProperty(PropAutoScanCountDownStart, CommonText.PropertyCountDown, 3, 3, 10, CommonText.PropertyAutoCapture);
+            this.Properties.AddBoolProperty(PropFlatAutoScanEnabled, CommonText.PropertyEnabled, true, CommonText.PropertyFlatAutoCapture);
             this.Properties.AddIntProperty(PropMinPixelCount, "Min pixel count", 500, "Image");
         }
 
         public bool SupportsLed { get; set; }
+        public bool SupportsPedal { get; }
 
         public void Close()
         {
@@ -226,6 +219,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
                 this.currentAction = ScannerAction.Stopping;                
                 GBMSAPI_NET_ScanningRoutines.GBMSAPI_NET_ROLL_StopPreview();
                 var ret = GBMSAPI_NET_ScanningRoutines.GBMSAPI_NET_StopAcquisition();
+                
                 //Thread.Sleep(250);
                 //if (this.State != DeviceState.Closing)
                 //{
@@ -277,7 +271,6 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
         {
             this.WriteTrace("CapturePrint - Start");
             this.currentAction = ScannerAction.Waiting;            
-            this.timeToDisplay = null;
             this.correctImageMinPixel = this.Properties.GetIntValue(PropMinPixelCount);
             this.OnDeviceSendMessage("", DeviceMessageKind.Information, false);
 
@@ -315,7 +308,13 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
                 acquisitionOptions |= GBMSAPI_NET_AcquisitionOptions.GBMSAPI_NET_AO_ADAPT_ROLL_AREA_POSITION;
             }
 
-            this.DoQualityCallback();
+            // if no pedal Or PropFlatScan is enabled, then set auto flat capture
+            if ((this.optionalEquipmentCode & GBMSAPI_NET_OptionalExternalEquipment.GBMSAPI_NET_OED_PEDAL) == 0 || this.Properties.GetBoolValue(PropFlatAutoScanEnabled))
+            {
+                acquisitionOptions |= GBMSAPI_NET_AcquisitionOptions.GBMSAPI_NET_AO_AUTOCAPTURE;
+            }
+
+                this.DoQualityCallback();
 
             this.WriteTrace("CapturePrint - called GBMSAPI_NET_StartAcquisition2");
             this.currentAction = ScannerAction.Previewing;
@@ -335,20 +334,6 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
                 this.currentAction = ScannerAction.Waiting;
                 return false;
             }
-
-            /*
-             * GBMSAPI_NET_ScanningRoutines.GBMSAPI_NET_StartAcquisition2(
-                        fingerMapping.ObjectToScanId,
-                        AcquisitionOptionMask,
-                        this.AcquisitionCallback,
-                        IntPtr.Zero,
-                        DisplayOptionMask,
-                        0,
-                        0)
-             * */
-
-            //            GBMSAPI_Example_Globals.ContrastLimitToDisplay,
-            //            GBMSAPI_Example_Globals.CompletenessLimitToDisplay)))
 
             this.WriteTrace("CapturePrint - GBMSAPI_NET_StartAcquisition2 - end");
             return true;
@@ -581,9 +566,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
                 this.WriteTrace("END PREVIEW");
                 GBMSAPI_NET_ExternalDevicesControlRoutines.GBMSAPI_NET_Sound(10, 2, 1);
             }
-            this.DoQualityCallback(PrintQualityLevel.Good);            
-
-            this.autoCaptureTrigger.StopTimeout();
+            this.DoQualityCallback(PrintQualityLevel.Good);
 
             if (this.currentCapture.MappedPrint.ScanKind != HandScanKind.Rolled)
             {
@@ -636,7 +619,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
                 if (bmp != old)
                 {
                     old.Dispose();
-                }                
+                }
             }
 
             var editor = new IndexedImageEditor(bmp);
@@ -697,11 +680,6 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
             var y = 0;
             var fontSize = this.currentCapture.MappedPrint.ScanKind == HandScanKind.Rolled ? 16 : 8;
             var ySpace = fontSize + 2;
-            if (!string.IsNullOrEmpty(this.timeToDisplay))
-            {
-                editor.DrawText(this.timeToDisplay, fontSize, 0, y);
-                y += ySpace;
-            }
 
             // draw the messages
             if (diag.Messages.Count > 0)
@@ -729,17 +707,10 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
             {
                 // image is present !                
                 this.DoQualityCallback(PrintQualityLevel.NotGoodEnough);
-                this.autoCaptureTrigger.StartTimeout(1);
             }
             else
             {
                 this.DoQualityCallback(PrintQualityLevel.NotPresent);
-                if (this.autoCaptureTrigger.HasStarted)
-                {
-                    this.autoCaptureTrigger.StopTimeout();
-                }
-                
-                this.timeToDisplay = null;
             }
             
             //if (this.currentCapture.MappedPrint.HandPart == HandPart.LowerPalm && isImagePresent)
@@ -794,43 +765,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
                 }
             }
 
-            if (this.Properties.GetBoolValue(PropAutoScanEnabled) && this.currentCapture.MappedPrint.ScanKind == HandScanKind.Flat)
-            {
-                int delay = this.Properties.GetIntValue(PropAutoScanDelay);
-                this.autoCaptureTrigger = new CaptureAutoScan(true, delay);
-                this.autoCaptureTrigger.CapturedPrintExpected = 1;
-                this.autoCaptureTrigger.OngoingTimeOut += AutoCaptureTriggerOnOngoingTimeOut;
-            }
-            else
-            {
-                this.autoCaptureTrigger = new CaptureAutoScan(false, 5);
-            }
-
             return 1;
-        }
-
-        private void AutoCaptureTriggerOnOngoingTimeOut(object sender, OngoingTimeoutArgs e)
-        {
-            if (this.currentAction != ScannerAction.Previewing)
-            {
-                return;
-            }
-            if (e.NoTimeLeft)
-            {
-                this.WriteTrace("********** TIMEOUT ACQUISITION *******************");
-                GBMSAPI_NET_ScanningRoutines.GBMSAPI_NET_StopAcquisition();
-            }
-            else
-            {
-                if (!e.Interrupted && e.SecondRemaining <= this.Properties.GetIntValue(PropAutoScanCountDownStart))
-                {
-                    this.timeToDisplay = string.Format(@"{0} : {1}", CommonText.PropertyCountDown, e.SecondRemaining);
-                }
-                else
-                {
-                    this.timeToDisplay = null;
-                }    
-            }
         }
 
         private int OnAcquisitionError(int frameErrorCode)

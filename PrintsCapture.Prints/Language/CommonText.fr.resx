@@ -1275,4 +1275,7 @@ Et cliquer sur "Débuter la saisie" pour continuer le processus.</value>
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
   </data>
+  <data name="PropertyFlatAutoCapture" xml:space="preserve">
+    <value>Capture auto des doigts plats</value>
+  </data>
 </root>
