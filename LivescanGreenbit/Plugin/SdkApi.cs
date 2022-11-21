@@ -152,7 +152,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
         {
             this.SupportedDeviceList = new List<ICaptureDevice>
                                        {
-                                           new DeviceApi(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_DS84C, 
+                                           /*new DeviceApi(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_DS84C, 
                                                "Greenbit DactyScan", 
                                                PrintResolution.Dpi500, DeviceScanKind.FlatFourFinger | DeviceScanKind.FlatSingleFinger | DeviceScanKind.FlatTwoFinger | DeviceScanKind.RolledSingleFinger, 
                                                this, 
@@ -163,12 +163,12 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
                                                PrintResolution.Dpi500, DeviceScanKind.FlatFourFinger | DeviceScanKind.FlatSingleFinger | DeviceScanKind.FlatTwoFinger | DeviceScanKind.RolledSingleFinger | DeviceScanKind.FlatPartialPalm, 
                                                this, 
                                                "pack://application:,,,/PrintsCapture.Device.LivescanGreenbit;component/Images/Ms527.png",
-                                               true  ),
+                                               true  ),*/
                                         new DeviceApi(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_CS500Q,
                                                "Thales CS500Q",
                                                PrintResolution.Dpi500, DeviceScanKind.FlatFourFinger | DeviceScanKind.FlatSingleFinger | DeviceScanKind.FlatTwoFinger | DeviceScanKind.RolledSingleFinger | DeviceScanKind.FlatPartialPalm,
                                                this,
-                                               "pack://application:,,,/PrintsCapture.Device.LivescanGreenbit;component/Images/Ms527.png",
+                                               "pack://application:,,,/PrintsCapture.Device.LivescanGreenbit;component/Images/CS500Q.png",
                                                true  ),
                                         
 
