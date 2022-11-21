@@ -57,7 +57,7 @@
                     {
                         new AwareScanner()
                         {
-                            DisplayName = "Aware V500",
+                            DisplayName = "Epson V500",
                             HardwareMake = "EPSON",
                             ModelName = "V500",
                             InternalKey = "AW_SCAN_TYPE_PERFV500",
@@ -66,7 +66,7 @@
                         },
                         new AwareScanner()
                         {
-                            DisplayName = "Aware V550",
+                            DisplayName = "Epson V550",
                             HardwareMake = "EPSON",
                             ModelName = "V550",
                             InternalKey = "AW_SCAN_TYPE_PERFV550",
@@ -75,7 +75,7 @@
                         },
                         new AwareScanner
                         {
-                            DisplayName = "Aware V700",
+                            DisplayName = "Epson V700",
                             HardwareMake = "EPSON",
                             ModelName = "V700",
                             InternalKey = "AW_SCAN_TYPE_PERFV700",
@@ -84,7 +84,7 @@
                         },
                         new AwareScanner
                         {
-                            DisplayName = "Aware Memory",
+                            DisplayName = "Epson Memory",
                             HardwareMake = "EPSON",
                             ModelName = "MEMORY",
                             InternalKey = "AW_SCAN_TYPE_MEMORY",
