@@ -41,6 +41,7 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
 
         const string PropFlatAutoScanEnabled = "FLAT_AUTO_SCAN";
         const string PropMinPixelCount = "MIN_PIX_COUNT";
+        const string PropErrorBeforeStopCount = "ERR_STOP_COUNT";
 
 
         private SdkApi sdk;
@@ -58,6 +59,10 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
         internal byte ThalesId { get; set; }
 
         private string lastErrorMessage;
+
+        private int errorInARow = 3;
+        private int maxErrorInArow = 5;
+        private DiagnosticState currentDiag = null;
 
         private uint scannableTypesMask;
 
@@ -139,6 +144,8 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
             this.Properties = new CustomPropertyList();
             this.Properties.AddBoolProperty(PropFlatAutoScanEnabled, CommonText.PropertyEnabled, true, CommonText.PropertyFlatAutoCapture);
             this.Properties.AddIntProperty(PropMinPixelCount, "Min pixel count", 500, "Image");
+            this.Properties.AddIntProperty(PropErrorBeforeStopCount, "Error count to stop", 3, "Image");
+            
         }
 
         public bool SupportsLed { get; set; }
@@ -179,6 +186,8 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
 
             this.LastException = null;
             this.lastErrorMessage = null;
+            this.currentDiag = null;
+            this.errorInARow = 0;
             this.IsOpened = false;            
 
             if (this.CheckIfError(GBMSAPI_NET_DeviceCharacteristicsRoutines.GBMSAPI_NET_GetOptionalExternalEquipment(
@@ -272,6 +281,7 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
             this.WriteTrace("CapturePrint - Start");
             this.currentAction = ScannerAction.Waiting;            
             this.correctImageMinPixel = this.Properties.GetIntValue(PropMinPixelCount);
+            this.maxErrorInArow = this.Properties.GetIntValue(PropErrorBeforeStopCount);
             this.OnDeviceSendMessage("", DeviceMessageKind.Information, false);
 
             this.ChangeState(DeviceState.ScanInitialization);
@@ -589,12 +599,27 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
                 return;                                                
             }
 
-            var diag = this.CheckDiagnosticCode(diagnosticCode);            
+            var diag = this.CheckDiagnosticCode(diagnosticCode);
 
             if (diag.IsError)
-            {                
-                this.OnDeviceSendMessage(string.Join("\n", diag.Messages), DeviceMessageKind.Error,  true);
-                return;                
+            {
+                GBMSAPI_NET_ScanningRoutines.GBMSAPI_NET_StopAcquisition();
+                this.errorInARow += 1;
+                if (this.errorInARow >= this.maxErrorInArow)
+                {
+                    this.errorInARow = 0;
+                    this.OnDeviceSendMessage(string.Join("\n", diag.Messages), DeviceMessageKind.Error, true);
+                } else
+                {
+                    var prn = this.currentCapture.MappedPrint;
+                    currentDiag = diag;
+                    this.BeginInvoke(() =>
+                    {
+                        this.CapturePrint(this.currentCapture.Resolution, prn.PrintHand, prn.HandPart, prn.ScanKind);
+                    });
+                }
+                
+                return;
             }
 
             if (framePtr == null)
@@ -634,6 +659,9 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
                 return;
             }
 
+            this.currentDiag = null;
+            this.errorInARow = 0;
+
             this.BeginInvoke(() =>
             {
                 this.SyncFrameAquired(bmp);
@@ -667,7 +695,7 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
             
             editor.Begin();            
             
-            var pixelCount = editor.GetAutoCropPixelCount();            
+            var pixelCount = editor.GetAutoCropPixelCount();
             //var autoCropRect = editor.GetAutoCropRectangle(); // WITHOUT FINALIZE, DOESNT WORKWELL            
 
             // draw the clipping rectangle on the image
@@ -690,8 +718,19 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
                     y += ySpace;
                 }
             }
+            // draw error messages !
+            if (this.currentDiag != null && this.currentDiag.Messages.Count > 0)
+            {
+                editor.DrawText(CommonText.RescanCauses, fontSize, bmp.Width / 2, 0);
+                y = 10;
+                foreach (var message in this.currentDiag.Messages)
+                {
+                    editor.DrawText(message, fontSize, bmp.Width / 2, y);
+                    y += ySpace;
+                }
+            }
 
-            
+
 
             editor.End();
 

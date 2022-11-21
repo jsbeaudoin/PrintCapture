@@ -922,177 +922,6 @@ namespace PrintsCapture.Prints.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Frame rate is too slow to ensure proper composition of print image.
-        /// </summary>
-        public static string ThalesCompositionSlow {
-            get {
-                return ResourceManager.GetString("ThalesCompositionSlow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Warning: Dry finger.
-        /// </summary>
-        public static string ThalesDryFinger {
-            get {
-                return ResourceManager.GetString("ThalesDryFinger", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Flat finger(s) sliding has been detected.
-        /// </summary>
-        public static string ThalesFlatFingerSlide {
-            get {
-                return ResourceManager.GetString("ThalesFlatFingerSlide", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Image is out of the bottom zone.
-        /// </summary>
-        public static string ThalesImageOutBottom {
-            get {
-                return ResourceManager.GetString("ThalesImageOutBottom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Image is out of left border.
-        /// </summary>
-        public static string ThalesImageOutLeft {
-            get {
-                return ResourceManager.GetString("ThalesImageOutLeft", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Image is out of the right zone.
-        /// </summary>
-        public static string ThalesImageOutRight {
-            get {
-                return ResourceManager.GetString("ThalesImageOutRight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Image is outside the top region.
-        /// </summary>
-        public static string ThalesImageOutTop {
-            get {
-                return ResourceManager.GetString("ThalesImageOutTop", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Improper roll.
-        /// </summary>
-        public static string ThalesImproperRoll {
-            get {
-                return ResourceManager.GetString("ThalesImproperRoll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Roll too fast.
-        /// </summary>
-        public static string ThalesRollTooFast {
-            get {
-                return ResourceManager.GetString("ThalesRollTooFast", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Roll too narrow.
-        /// </summary>
-        public static string ThalesRollTooNarrow {
-            get {
-                return ResourceManager.GetString("ThalesRollTooNarrow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Roll to the left.
-        /// </summary>
-        public static string ThalesRollToTheLeft {
-            get {
-                return ResourceManager.GetString("ThalesRollToTheLeft", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Roll to the right.
-        /// </summary>
-        public static string ThalesRollToTheRight {
-            get {
-                return ResourceManager.GetString("ThalesRollToTheRight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Roll toward bottom.
-        /// </summary>
-        public static string ThalesRollTowardBottom {
-            get {
-                return ResourceManager.GetString("ThalesRollTowardBottom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Roll toward the top.
-        /// </summary>
-        public static string ThalesRollTowardTop {
-            get {
-                return ResourceManager.GetString("ThalesRollTowardTop", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Vertical roll too short.
-        /// </summary>
-        public static string ThalesRollVerticalTooShort {
-            get {
-                return ResourceManager.GetString("ThalesRollVerticalTooShort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Parameters of acquired image do not conform to quality standard.
-        /// </summary>
-        public static string ThalesScannerFailure {
-            get {
-                return ResourceManager.GetString("ThalesScannerFailure", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Finger placed too early or scanner surface dirty.
-        /// </summary>
-        public static string ThalesSurfaceNotNormal {
-            get {
-                return ResourceManager.GetString("ThalesSurfaceNotNormal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Too much light.
-        /// </summary>
-        public static string ThalesTooMuchLight {
-            get {
-                return ResourceManager.GetString("ThalesTooMuchLight", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Warning : Wet finger.
-        /// </summary>
-        public static string ThalesWetFinger {
-            get {
-                return ResourceManager.GetString("ThalesWetFinger", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap HandModel {
@@ -2381,6 +2210,15 @@ namespace PrintsCapture.Prints.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RESCAN CAUSES.
+        /// </summary>
+        public static string RescanCauses {
+            get {
+                return ResourceManager.GetString("RescanCauses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Send to Service.
         /// </summary>
         public static string Resend {
@@ -3080,6 +2918,177 @@ namespace PrintsCapture.Prints.Language {
         public static string TemplateErrorWsqNotCreated {
             get {
                 return ResourceManager.GetString("TemplateErrorWsqNotCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frame rate is too slow to ensure proper composition of print image.
+        /// </summary>
+        public static string ThalesCompositionSlow {
+            get {
+                return ResourceManager.GetString("ThalesCompositionSlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning: Dry finger.
+        /// </summary>
+        public static string ThalesDryFinger {
+            get {
+                return ResourceManager.GetString("ThalesDryFinger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flat finger(s) sliding has been detected.
+        /// </summary>
+        public static string ThalesFlatFingerSlide {
+            get {
+                return ResourceManager.GetString("ThalesFlatFingerSlide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image is out of the bottom zone.
+        /// </summary>
+        public static string ThalesImageOutBottom {
+            get {
+                return ResourceManager.GetString("ThalesImageOutBottom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image is out of left border.
+        /// </summary>
+        public static string ThalesImageOutLeft {
+            get {
+                return ResourceManager.GetString("ThalesImageOutLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image is out of the right zone.
+        /// </summary>
+        public static string ThalesImageOutRight {
+            get {
+                return ResourceManager.GetString("ThalesImageOutRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Image is outside the top region.
+        /// </summary>
+        public static string ThalesImageOutTop {
+            get {
+                return ResourceManager.GetString("ThalesImageOutTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Improper roll.
+        /// </summary>
+        public static string ThalesImproperRoll {
+            get {
+                return ResourceManager.GetString("ThalesImproperRoll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roll too fast.
+        /// </summary>
+        public static string ThalesRollTooFast {
+            get {
+                return ResourceManager.GetString("ThalesRollTooFast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roll too narrow.
+        /// </summary>
+        public static string ThalesRollTooNarrow {
+            get {
+                return ResourceManager.GetString("ThalesRollTooNarrow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roll to the left.
+        /// </summary>
+        public static string ThalesRollToTheLeft {
+            get {
+                return ResourceManager.GetString("ThalesRollToTheLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roll to the right.
+        /// </summary>
+        public static string ThalesRollToTheRight {
+            get {
+                return ResourceManager.GetString("ThalesRollToTheRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roll toward bottom.
+        /// </summary>
+        public static string ThalesRollTowardBottom {
+            get {
+                return ResourceManager.GetString("ThalesRollTowardBottom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roll toward the top.
+        /// </summary>
+        public static string ThalesRollTowardTop {
+            get {
+                return ResourceManager.GetString("ThalesRollTowardTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vertical roll too short.
+        /// </summary>
+        public static string ThalesRollVerticalTooShort {
+            get {
+                return ResourceManager.GetString("ThalesRollVerticalTooShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameters of acquired image do not conform to quality standard.
+        /// </summary>
+        public static string ThalesScannerFailure {
+            get {
+                return ResourceManager.GetString("ThalesScannerFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finger placed too early or scanner surface dirty.
+        /// </summary>
+        public static string ThalesSurfaceNotNormal {
+            get {
+                return ResourceManager.GetString("ThalesSurfaceNotNormal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Too much light.
+        /// </summary>
+        public static string ThalesTooMuchLight {
+            get {
+                return ResourceManager.GetString("ThalesTooMuchLight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning : Wet finger.
+        /// </summary>
+        public static string ThalesWetFinger {
+            get {
+                return ResourceManager.GetString("ThalesWetFinger", resourceCulture);
             }
         }
         

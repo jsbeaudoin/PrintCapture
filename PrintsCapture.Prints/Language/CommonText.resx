@@ -1252,4 +1252,7 @@ For RCMP validation, you must use 'Flats Only'.</value>
   <data name="PropertyFlatAutoCapture" xml:space="preserve">
     <value>Auto Capture Flats</value>
   </data>
+  <data name="RescanCauses" xml:space="preserve">
+    <value>RESCAN CAUSES</value>
+  </data>
 </root>

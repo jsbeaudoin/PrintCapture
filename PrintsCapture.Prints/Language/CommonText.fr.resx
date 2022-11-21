@@ -1278,4 +1278,7 @@ Et cliquer sur "Débuter la saisie" pour continuer le processus.</value>
   <data name="PropertyFlatAutoCapture" xml:space="preserve">
     <value>Capture auto des doigts plats</value>
   </data>
+  <data name="RescanCauses" xml:space="preserve">
+    <value>CAUSES DE LA REPRISE</value>
+  </data>
 </root>
