@@ -7,10 +7,10 @@ using GBMSAPI_NET.GBMSAPI_NET_Defines.GBMSAPI_NET_ErrorCodesDefines;
 using GBMSAPI_NET.GBMSAPI_NET_LibraryFunctions;
 using PrintsCapture.Device.Enum;
 using PrintsCapture.Device.Interface;
-using PrintsCapture.Device.LivescanGreenbit.Sdk;
+using PrintsCapture.Device.LivescanThales.Sdk;
 using PrintsCapture.Prints.Enum;
 
-namespace PrintsCapture.Device.LivescanGreenbit.Plugin
+namespace PrintsCapture.Device.LivescanThales.Plugin
 {
     [Export(typeof(ICaptureSdk))]
     public class SdkApi : ICaptureSdk
@@ -137,10 +137,10 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
             foreach (var captureDevice in SupportedDeviceList)
             {
                 var capt = captureDevice as DeviceApi;
-                var pluggedDevice = referenceList.FirstOrDefault(x => x.DeviceID == capt.GreenBitId);
+                var pluggedDevice = referenceList.FirstOrDefault(x => x.DeviceID == capt.ThalesId);
                 if (pluggedDevice != null)
                 {
-                    capt.ModelName = GreenBitDeviceNames.GetName(capt.GreenBitId);
+                    capt.ModelName = ThalesDeviceNames.GetName(capt.ThalesId);
                     capt.SerialNumber = pluggedDevice.DeviceSerialNumber;
                     capt.IsPlugged = true;
                     results.Add(capt);
@@ -153,22 +153,22 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
             this.SupportedDeviceList = new List<ICaptureDevice>
                                        {
                                            /*new DeviceApi(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_DS84C, 
-                                               "Greenbit DactyScan", 
+                                               "Thales DactyScan", 
                                                PrintResolution.Dpi500, DeviceScanKind.FlatFourFinger | DeviceScanKind.FlatSingleFinger | DeviceScanKind.FlatTwoFinger | DeviceScanKind.RolledSingleFinger, 
                                                this, 
-                                               "pack://application:,,,/PrintsCapture.Device.LivescanGreenbit;component/Images/Ds84c_Flat.png",
+                                               "pack://application:,,,/PrintsCapture.Device.LivescanThales;component/Images/Ds84c_Flat.png",
                                                false  ),
                                         new DeviceApi(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_MS527, 
-                                               "Greenbit Multiscan 527", 
+                                               "Thales Multiscan 527", 
                                                PrintResolution.Dpi500, DeviceScanKind.FlatFourFinger | DeviceScanKind.FlatSingleFinger | DeviceScanKind.FlatTwoFinger | DeviceScanKind.RolledSingleFinger | DeviceScanKind.FlatPartialPalm, 
                                                this, 
-                                               "pack://application:,,,/PrintsCapture.Device.LivescanGreenbit;component/Images/Ms527.png",
+                                               "pack://application:,,,/PrintsCapture.Device.LivescanThales;component/Images/Ms527.png",
                                                true  ),*/
                                         new DeviceApi(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_CS500Q,
                                                "Thales CS500Q",
                                                PrintResolution.Dpi500, DeviceScanKind.FlatFourFinger | DeviceScanKind.FlatSingleFinger | DeviceScanKind.FlatTwoFinger | DeviceScanKind.RolledSingleFinger | DeviceScanKind.FlatPartialPalm,
                                                this,
-                                               "pack://application:,,,/PrintsCapture.Device.LivescanGreenbit;component/Images/CS500Q.png",
+                                               "pack://application:,,,/PrintsCapture.Device.LivescanThales;component/Images/CS500Q_v2.png",
                                                true  ),
                                         
 

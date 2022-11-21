@@ -10,11 +10,11 @@ using GBMSAPI_NET.GBMSAPI_NET_Defines.GBMSAPI_NET_ErrorCodesDefines;
 using GBMSAPI_NET.GBMSAPI_NET_LibraryFunctions;
 using PrintsCapture.Device.Enum;
 using PrintsCapture.Device.Interface;
-using PrintsCapture.Device.LivescanGreenbit.Sdk;
+using PrintsCapture.Device.LivescanThales.Sdk;
 using PrintsCapture.Prints;
 using PrintsCapture.Prints.Enum;
 
-namespace PrintsCapture.Device.LivescanGreenbit.Plugin
+namespace PrintsCapture.Device.LivescanThales.Plugin
 {
     using System.Diagnostics.Eventing;
     using System.Linq;
@@ -55,7 +55,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
 
         private int correctImageMinPixel = 0;
 
-        internal byte GreenBitId { get; set; }
+        internal byte ThalesId { get; set; }
 
         private string lastErrorMessage;
 
@@ -120,7 +120,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
             bool supportsLed = false)
         {
             this.Sdk = sdk;
-            this.GreenBitId = id;
+            this.ThalesId = id;
             this.InternalKey = "Thales-" + id;
 
             this.HardwareMake = HardwareMakeName.ToUpper();
@@ -863,32 +863,32 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
 
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_SCANNER_SURFACE_NOT_NORMA) != 0)
             {
-                result.Messages.Add(CommonText.GreenBitSurfaceNotNormal);
+                result.Messages.Add(CommonText.ThalesSurfaceNotNormal);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_SCANNER_FAILURE) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitScannerFailure);
+                result.Messages.Add(CommonText.ThalesScannerFailure);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_COMPOSITION_SLOW) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitCompositionSlow);
+                result.Messages.Add(CommonText.ThalesCompositionSlow);
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_FLAT_FINGER_SLIDING) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitFlatFingerSlide);
+                result.Messages.Add(CommonText.ThalesFlatFingerSlide);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_EXT_LIGHT_TOO_STRONG) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitTooMuchLight);
+                result.Messages.Add(CommonText.ThalesTooMuchLight);
                 result.IsError = true;
             }
             if (((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_FLAT_FINGER_OUT_OF_REGION_LEFT) != 0) ||
                 ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_OUTSIDE_BORDER_LEFT) != 0))
             {
-                result.Messages.Add(CommonText.GreenbitImageOutLeft);
+                result.Messages.Add(CommonText.ThalesImageOutLeft);
                 if (this.currentCapture != null && this.currentCapture.MappedPrint.ScanKind != HandScanKind.Rolled)
                 {
                     result.IsError = true;
@@ -897,7 +897,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
             if (((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_FLAT_FINGER_OUT_OF_REGION_RIGHT) != 0) ||
                 ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_OUTSIDE_BORDER_RIGHT) != 0))
             {
-                result.Messages.Add(CommonText.GreenbitImageOutRight);
+                result.Messages.Add(CommonText.ThalesImageOutRight);
                 if (this.currentCapture != null && this.currentCapture.MappedPrint.ScanKind != HandScanKind.Rolled)
                 {
                     result.IsError = true;
@@ -908,7 +908,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
                 ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_OUTSIDE_BORDER_TOP)) != 0)
             {
                 // Only a warning for rolled prints !
-                result.Messages.Add(CommonText.GreenbitImageOutTop);
+                result.Messages.Add(CommonText.ThalesImageOutTop);
                 
                 result.IsError = true;
                 
@@ -917,7 +917,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
                 ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_FLAT_FINGER_DISPLACED_DOWN) != 0))
             {
                 // Only a warning for rolled prints !
-                result.Messages.Add(CommonText.GreenbitImageOutBottom);
+                result.Messages.Add(CommonText.ThalesImageOutBottom);
                 if (this.currentCapture != null && this.currentCapture.MappedPrint.ScanKind != HandScanKind.Rolled)                
                 {
                     result.IsError = true;
@@ -926,51 +926,51 @@ namespace PrintsCapture.Device.LivescanGreenbit.Plugin
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_IMPROPER_ROLL) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitImproperRoll);
+                result.Messages.Add(CommonText.ThalesImproperRoll);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_TOO_FAST_ROLL) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitRollTooFast);
+                result.Messages.Add(CommonText.ThalesRollTooFast);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_TOO_NARROW_ROLL) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitRollTooNarrow);
+                result.Messages.Add(CommonText.ThalesRollTooNarrow);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_ROLL_DIRECTION_RIGHT) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitRollToTheRight);
+                result.Messages.Add(CommonText.ThalesRollToTheRight);
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_ROLL_DIRECTION_LEFT) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitRollToTheLeft);
+                result.Messages.Add(CommonText.ThalesRollToTheLeft);
             }
             // VER 2.9.0.0
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_DRY_FINGER) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitDryFinger);
+                result.Messages.Add(CommonText.ThalesDryFinger);
             }
             // VER 2.9.0.0
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_WET_FINGER) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitWetFinger);
+                result.Messages.Add(CommonText.ThalesWetFinger);
             }
             // VER 3.1.0.0
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_TOO_SHORT_VERTICAL_ROLL) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitRollVerticalTooShort);
+                result.Messages.Add(CommonText.ThalesRollVerticalTooShort);
             }
             // end VER 3.1.0.0
             // VER 3.2.0.0
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_ROLL_DIRECTION_UP) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitRollTowardTop);
+                result.Messages.Add(CommonText.ThalesRollTowardTop);
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_ROLL_DIRECTION_DOWN) != 0)
             {
-                result.Messages.Add(CommonText.GreenbitRollTowardBottom);
+                result.Messages.Add(CommonText.ThalesRollTowardBottom);
             }
             // end VER 3.2.0.0
 

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PrintsCapture.Device.LivescanGreenbit.Plugin
+namespace PrintsCapture.Device.LivescanThales.Plugin
 {
     using System.Drawing;
 
-    using PrintsCapture.Device.LivescanGreenbit.Sdk;
+    using PrintsCapture.Device.LivescanThales.Sdk;
     using PrintsCapture.Prints.Enum;
     using PrintsCapture.Prints.Extension;
 

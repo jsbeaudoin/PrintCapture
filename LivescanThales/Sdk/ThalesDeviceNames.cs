@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using GBMSAPI_NET.GBMSAPI_NET_Defines.GBMSAPI_NET_DeviceCharacteristicsDefines;
 
-namespace PrintsCapture.Device.LivescanGreenbit.Sdk
+namespace PrintsCapture.Device.LivescanThales.Sdk
 {
-    internal static class GreenBitDeviceNames
+    internal static class ThalesDeviceNames
     {
         private static Dictionary<byte, string> devicesDictionary = new Dictionary<byte, string>();
 
@@ -29,7 +29,7 @@ namespace PrintsCapture.Device.LivescanGreenbit.Sdk
         }
 
 
-        static GreenBitDeviceNames()
+        static ThalesDeviceNames()
         {
             Load();
         }

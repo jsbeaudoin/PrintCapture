@@ -1,7 +1,7 @@
 ﻿using System;
 using GBMSAPI_NET.GBMSAPI_NET_Defines.GBMSAPI_NET_ErrorCodesDefines;
 
-namespace PrintsCapture.Device.LivescanGreenbit.Sdk
+namespace PrintsCapture.Device.LivescanThales.Sdk
 {
     public class ErrorMessages
     {

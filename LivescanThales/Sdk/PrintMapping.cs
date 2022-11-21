@@ -3,7 +3,7 @@ using System.Linq;
 using GBMSAPI_NET.GBMSAPI_NET_Defines.GBMSAPI_NET_DeviceCharacteristicsDefines;
 using PrintsCapture.Prints.Enum;
 
-namespace PrintsCapture.Device.LivescanGreenbit.Sdk
+namespace PrintsCapture.Device.LivescanThales.Sdk
 {
     internal class PrintMapping
     {

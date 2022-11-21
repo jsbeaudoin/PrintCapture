@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PrintsCapture.Device.LivescanGreenbit
+namespace PrintsCapture.Device.LivescanThales
 {
     using System.Drawing;
     using System.Drawing.Imaging;

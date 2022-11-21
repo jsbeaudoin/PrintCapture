@@ -7,8 +7,8 @@
     <ProjectGuid>{7C954DF7-885F-482D-943C-B11D6784F70A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PrintsCapture.Device.LivescanGreenbit</RootNamespace>
-    <AssemblyName>PrintsCapture.Device.LivescanGreenbit</AssemblyName>
+    <RootNamespace>PrintsCapture.Device.LivescanThales</RootNamespace>
+    <AssemblyName>PrintsCapture.Device.LivescanThales</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="GBMSAPI_NET, Version=2.9.0.0, Culture=neutral, PublicKeyToken=690d5950eede480e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Greenbit\GBMSAPI_NET.dll</HintPath>
+      <HintPath>..\lib\Thales\GBMSAPI_NET.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.0.1\lib\net40\NLog.dll</HintPath>
@@ -58,7 +58,7 @@
     <Compile Include="IndexedImageEditor.cs" />
     <Compile Include="Plugin\PrintCaptureInformation.cs" />
     <Compile Include="Sdk\ErrorMessages.cs" />
-    <Compile Include="Sdk\GreenBitDeviceNames.cs" />
+    <Compile Include="Sdk\ThalesDeviceNames.cs" />
     <Compile Include="Plugin\DeviceApi.cs" />
     <Compile Include="Plugin\SdkApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,16 +78,17 @@
     <Resource Include="Images\Ds84c_Flat.png" />
     <Resource Include="Images\Ds84c_Std.png" />
     <Resource Include="Images\ms527.png" />
+    <Resource Include="Images\CS500Q.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\CS500Q.png" />
+    <Resource Include="Images\CS500Q_v2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>xcopy "$(SolutionDir)lib\Greenbit\*.*"  "$(TargetDir)*.*" /c /y</PreBuildEvent>
+    <PreBuildEvent>xcopy "$(SolutionDir)lib\Thales\*.*"  "$(TargetDir)*.*" /c /y</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)*.*" "$(SolutionDir)_Plugins\$(ConfigurationName)\Livescan\$(ProjectName)\" /c /y</PostBuildEvent>

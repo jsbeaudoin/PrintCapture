@@ -4,7 +4,7 @@ using NLog;
 
 using XL_ID.Utilities.Log;  
 
-namespace PrintsCapture.Device.LivescanGreenbit
+namespace PrintsCapture.Device.LivescanThales
 {
     public static class DeviceLog
     {
