@@ -52,7 +52,7 @@ namespace PrintsCapture.UniDACLegacy
                 string argValue = "";
                 if (posStart > 0)
                 {
-                    argName = lowerArg.Substring(0, posStart - 1).Trim();
+                    argName = lowerArg.Substring(0, posStart).Trim();
                     argValue = lowerArg.Substring(posStart + 1);
                     commandArgs.Add(argName, argValue);
                 }
