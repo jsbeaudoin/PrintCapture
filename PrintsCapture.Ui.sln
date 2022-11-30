@@ -38,7 +38,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintsCapture.LocalAwSeqChe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintsCapture.RemoteSeqCheck", "PrintsCapture.RemoteSeqCheck\PrintsCapture.RemoteSeqCheck.csproj", "{D2EEE916-405A-44E0-A5A8-CC2034221E59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivescanGreenbit", "LivescanGreenbit\LivescanGreenbit.csproj", "{7C954DF7-885F-482D-943C-B11D6784F70A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivescanThales", "LivescanThales\LivescanThales.csproj", "{7C954DF7-885F-482D-943C-B11D6784F70A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivescanI3", "LivescanI3\LivescanI3.csproj", "{8CF6C2E8-A2DA-41BF-BF16-4D9A2834BCBE}"
 EndProject

@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7C954DF7-885F-482D-943C-B11D6784F70A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PrintsCapture.Device.LivescanThales</RootNamespace>
+    <AssemblyName>PrintsCapture.Device.LivescanThales</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GBMSAPI_NET, Version=2.9.0.0, Culture=neutral, PublicKeyToken=690d5950eede480e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Thales\GBMSAPI_NET.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.0.1\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="XL-ID.Utilities">
+      <HintPath>..\lib\local\XL-ID.Utilities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DeviceLog.cs" />
+    <Compile Include="IndexedImageEditor.cs" />
+    <Compile Include="Plugin\PrintCaptureInformation.cs" />
+    <Compile Include="Sdk\ErrorMessages.cs" />
+    <Compile Include="Sdk\ThalesDeviceNames.cs" />
+    <Compile Include="Plugin\DeviceApi.cs" />
+    <Compile Include="Plugin\SdkApi.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sdk\PrintMapping.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PrintsCapture.Device\PrintsCapture.Device.csproj">
+      <Project>{A5B8F0A9-1024-43AE-B856-ACC6688DC4BE}</Project>
+      <Name>PrintsCapture.Device</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrintsCapture.Prints\PrintsCapture.Prints.csproj">
+      <Project>{8EDB9DDE-268E-4CC6-8C60-4C2576D08740}</Project>
+      <Name>PrintsCapture.Prints</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Ds84c_Flat.png" />
+    <Resource Include="Images\Ds84c_Std.png" />
+    <Resource Include="Images\ms527.png" />
+    <Resource Include="Images\CS500Q.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CS500Q_v2.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>xcopy "$(SolutionDir)lib\Thales\*.*"  "$(TargetDir)*.*" /c /y</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)*.*" "$(SolutionDir)_Plugins\$(ConfigurationName)\Livescan\$(ProjectName)\" /c /y</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

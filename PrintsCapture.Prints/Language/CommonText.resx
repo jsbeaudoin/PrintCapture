@@ -984,61 +984,61 @@ Either close Window or press the "Scan Again"button</value>
   <data name="EmptyImage" xml:space="preserve">
     <value>Empty image</value>
   </data>
-  <data name="GreenBitSurfaceNotNormal" xml:space="preserve">
+  <data name="ThalesSurfaceNotNormal" xml:space="preserve">
     <value>Finger placed too early or scanner surface dirty</value>
   </data>
-  <data name="GreenbitScannerFailure" xml:space="preserve">
+  <data name="ThalesScannerFailure" xml:space="preserve">
     <value>Parameters of acquired image do not conform to quality standard</value>
   </data>
-  <data name="GreenbitCompositionSlow" xml:space="preserve">
+  <data name="ThalesCompositionSlow" xml:space="preserve">
     <value>Frame rate is too slow to ensure proper composition of print image</value>
   </data>
-  <data name="GreenbitFlatFingerSlide" xml:space="preserve">
+  <data name="ThalesFlatFingerSlide" xml:space="preserve">
     <value>Flat finger(s) sliding has been detected</value>
   </data>
-  <data name="GreenbitTooMuchLight" xml:space="preserve">
+  <data name="ThalesTooMuchLight" xml:space="preserve">
     <value>Too much light</value>
   </data>
-  <data name="GreenbitImageOutLeft" xml:space="preserve">
+  <data name="ThalesImageOutLeft" xml:space="preserve">
     <value>Image is out of left border</value>
   </data>
-  <data name="GreenbitImageOutRight" xml:space="preserve">
+  <data name="ThalesImageOutRight" xml:space="preserve">
     <value>Image is out of the right zone</value>
   </data>
-  <data name="GreenbitImageOutTop" xml:space="preserve">
+  <data name="ThalesImageOutTop" xml:space="preserve">
     <value>Image is outside the top region</value>
   </data>
-  <data name="GreenbitImageOutBottom" xml:space="preserve">
+  <data name="ThalesImageOutBottom" xml:space="preserve">
     <value>Image is out of the bottom zone</value>
   </data>
-  <data name="GreenbitImproperRoll" xml:space="preserve">
+  <data name="ThalesImproperRoll" xml:space="preserve">
     <value>Improper roll</value>
   </data>
-  <data name="GreenbitRollTooFast" xml:space="preserve">
+  <data name="ThalesRollTooFast" xml:space="preserve">
     <value>Roll too fast</value>
   </data>
-  <data name="GreenbitRollTooNarrow" xml:space="preserve">
+  <data name="ThalesRollTooNarrow" xml:space="preserve">
     <value>Roll too narrow</value>
   </data>
-  <data name="GreenbitRollToTheRight" xml:space="preserve">
+  <data name="ThalesRollToTheRight" xml:space="preserve">
     <value>Roll to the right</value>
   </data>
-  <data name="GreenbitRollToTheLeft" xml:space="preserve">
+  <data name="ThalesRollToTheLeft" xml:space="preserve">
     <value>Roll to the left</value>
   </data>
-  <data name="GreenbitDryFinger" xml:space="preserve">
+  <data name="ThalesDryFinger" xml:space="preserve">
     <value>Warning: Dry finger</value>
   </data>
-  <data name="GreenbitWetFinger" xml:space="preserve">
+  <data name="ThalesWetFinger" xml:space="preserve">
     <value>Warning : Wet finger</value>
   </data>
-  <data name="GreenbitRollVerticalTooShort" xml:space="preserve">
+  <data name="ThalesRollVerticalTooShort" xml:space="preserve">
     <value>Vertical roll too short</value>
   </data>
-  <data name="GreenbitRollTowardTop" xml:space="preserve">
+  <data name="ThalesRollTowardTop" xml:space="preserve">
     <value>Roll toward the top</value>
   </data>
-  <data name="GreenbitRollTowardBottom" xml:space="preserve">
+  <data name="ThalesRollTowardBottom" xml:space="preserve">
     <value>Roll toward bottom</value>
   </data>
   <data name="PrintCaptureHalted" xml:space="preserve">
@@ -1248,5 +1248,11 @@ For RCMP validation, you must use 'Flats Only'.</value>
   </data>
   <data name="HandModel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\HandModel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PropertyFlatAutoCapture" xml:space="preserve">
+    <value>Auto Capture Flats</value>
+  </data>
+  <data name="RescanCauses" xml:space="preserve">
+    <value>RESCAN CAUSES</value>
   </data>
 </root>

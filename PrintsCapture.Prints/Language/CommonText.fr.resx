@@ -1012,79 +1012,79 @@ Fermer la fenêtre ou recommencer la saisie de l'empreinte.</value>
     <value>Image vide</value>
     <comment>Image vide</comment>
   </data>
-  <data name="GreenBitSurfaceNotNormal" xml:space="preserve">
+  <data name="ThalesSurfaceNotNormal" xml:space="preserve">
     <value>Doigt placé trop tôt ou surface sale.</value>
     <comment>Doigt placé trop tôt ou surface sale.</comment>
   </data>
-  <data name="GreenbitScannerFailure" xml:space="preserve">
+  <data name="ThalesScannerFailure" xml:space="preserve">
     <value>Les paramètres ne sont pas conformes pour une prise d'empreinte de qualité</value>
     <comment>Les paramètres ne sont pas conformes pour une prise d'empreinte de qualité</comment>
   </data>
-  <data name="GreenbitCompositionSlow" xml:space="preserve">
+  <data name="ThalesCompositionSlow" xml:space="preserve">
     <value>Le nombre d,image par secon est trop bas pour faire une image de qualité</value>
     <comment>Le nombre d,image par secon est trop bas pour faire une image de qualité</comment>
   </data>
-  <data name="GreenbitFlatFingerSlide" xml:space="preserve">
+  <data name="ThalesFlatFingerSlide" xml:space="preserve">
     <value>L'empreinte plate a glissée</value>
     <comment>L'empreinte plate a glissée</comment>
   </data>
-  <data name="GreenbitTooMuchLight" xml:space="preserve">
+  <data name="ThalesTooMuchLight" xml:space="preserve">
     <value>Trop de lumière</value>
     <comment>Trop de lumière</comment>
   </data>
-  <data name="GreenbitImageOutLeft" xml:space="preserve">
+  <data name="ThalesImageOutLeft" xml:space="preserve">
     <value>L'image est hors de la zone gauche</value>
     <comment>L'image est hors de la zone gauche</comment>
   </data>
-  <data name="GreenbitImageOutRight" xml:space="preserve">
+  <data name="ThalesImageOutRight" xml:space="preserve">
     <value>L'image est hors de la zone droite</value>
     <comment>L'image est hors de la zone droite</comment>
   </data>
-  <data name="GreenbitImageOutTop" xml:space="preserve">
+  <data name="ThalesImageOutTop" xml:space="preserve">
     <value>L'image est hors de la zone supérieure</value>
     <comment>L'image est hors de la zone supérieure</comment>
   </data>
-  <data name="GreenbitImageOutBottom" xml:space="preserve">
+  <data name="ThalesImageOutBottom" xml:space="preserve">
     <value>L'image est hors de la zone inférieure</value>
     <comment>L'image est hors de la zone inférieure</comment>
   </data>
-  <data name="GreenbitImproperRoll" xml:space="preserve">
+  <data name="ThalesImproperRoll" xml:space="preserve">
     <value>Roulement incorrect</value>
     <comment>Roulement incorrect</comment>
   </data>
-  <data name="GreenbitRollTooFast" xml:space="preserve">
+  <data name="ThalesRollTooFast" xml:space="preserve">
     <value>Roulement trop rapide</value>
     <comment>Roulement trop rapide</comment>
   </data>
-  <data name="GreenbitRollTooNarrow" xml:space="preserve">
+  <data name="ThalesRollTooNarrow" xml:space="preserve">
     <value>Roulement trop étroit</value>
     <comment>Roulement trop étroit</comment>
   </data>
-  <data name="GreenbitRollToTheRight" xml:space="preserve">
+  <data name="ThalesRollToTheRight" xml:space="preserve">
     <value>Roulé vers la droite</value>
     <comment>Roulé vers la droite</comment>
   </data>
-  <data name="GreenbitRollToTheLeft" xml:space="preserve">
+  <data name="ThalesRollToTheLeft" xml:space="preserve">
     <value>Roulé vers la gauche</value>
     <comment>Roulé vers la gauche</comment>
   </data>
-  <data name="GreenbitDryFinger" xml:space="preserve">
+  <data name="ThalesDryFinger" xml:space="preserve">
     <value>Avertissement : Doigts secs</value>
     <comment>Doigts secs</comment>
   </data>
-  <data name="GreenbitWetFinger" xml:space="preserve">
+  <data name="ThalesWetFinger" xml:space="preserve">
     <value>Avertissement : Doigts humides</value>
     <comment>Doigts humides</comment>
   </data>
-  <data name="GreenbitRollVerticalTooShort" xml:space="preserve">
+  <data name="ThalesRollVerticalTooShort" xml:space="preserve">
     <value>Roulement vertical trop court</value>
     <comment>Roulement vertical trop court</comment>
   </data>
-  <data name="GreenbitRollTowardTop" xml:space="preserve">
+  <data name="ThalesRollTowardTop" xml:space="preserve">
     <value>Roulé vers le haut</value>
     <comment>Roulé vers le haut</comment>
   </data>
-  <data name="GreenbitRollTowardBottom" xml:space="preserve">
+  <data name="ThalesRollTowardBottom" xml:space="preserve">
     <value>Roulé vers le bas</value>
     <comment>Roulé vers le bas</comment>
   </data>
@@ -1274,5 +1274,11 @@ Et cliquer sur "Débuter la saisie" pour continuer le processus.</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Oui</value>
+  </data>
+  <data name="PropertyFlatAutoCapture" xml:space="preserve">
+    <value>Capture auto des doigts plats</value>
+  </data>
+  <data name="RescanCauses" xml:space="preserve">
+    <value>CAUSES DE LA REPRISE</value>
   </data>
 </root>
