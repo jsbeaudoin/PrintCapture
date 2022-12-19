@@ -260,7 +260,7 @@ namespace TestWinForm
             }
 
             var args = new Dictionary<string, string>();
-            args.Add("mode", "card");
+            args.Add("mode", "live");
             args.Add("culture", "fr");
             args.Add("debug", "1");
             args.Add("descriptionline1", "");
@@ -278,7 +278,7 @@ namespace TestWinForm
             //args.Add("descriptionline2", "");
             //args.Add("wizard", "0");
             //args.Add("lang", "fr");
-            //args.Add("capture", captureGroup);
+            args.Add("capture", captureGroup);
             //args.Add("endorsement", endorsement ? "1" : "0"); // no endorsement finger
             //args.Add("sqmode", isSqMode ? "1" : "");
 
@@ -378,9 +378,12 @@ namespace TestWinForm
         {
             try
             {
-                PrintsCapture.Direct.PrintCaptureDllApp.Reset();
                 var args = GetCaptureParameters();
-                
+                //var captureTools = new PrintsCapture.Direct.Capture();
+                //var result = captureTools.DoCapture(args);
+
+                PrintsCapture.Direct.PrintCaptureDllApp.Reset();
+
                 PrintsCapture.Direct.PrintCaptureDllApp.DoCapture(args);
                 PrintsCapture.Direct.PrintCaptureDllApp.CaptureWindowClosed += PrintCaptureCompleted;
             }

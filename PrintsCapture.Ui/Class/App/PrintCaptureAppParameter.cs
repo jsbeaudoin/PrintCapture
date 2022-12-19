@@ -112,6 +112,7 @@ namespace PrintsCapture.Ui.Class
             {
                 result.LoadPreviousPrints(previousPrintsSerialized);
             }
+
             return result;
         }
 
