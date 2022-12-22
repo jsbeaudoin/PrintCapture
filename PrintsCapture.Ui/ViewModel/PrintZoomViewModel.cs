@@ -27,6 +27,7 @@ namespace PrintsCapture.Ui.ViewModel
 
     using PrintsCapture.Prints;
     using PrintsCapture.Prints.Enum;
+    using PrintsCapture.Prints.Extension;
     using PrintsCapture.Prints.Language;
     using PrintsCapture.Ui.Language;
     using PrintsCapture.Ui.Print;  
@@ -153,8 +154,8 @@ namespace PrintsCapture.Ui.ViewModel
                 this.CanChangeExpectedSegment = false;
             }
 
-            this.PrintName = name;            
-            this.PrintImage = print.PrintList.GetImage(print);
+            this.PrintName = name;
+            this.PrintImage = print.ImageForProcessing.ToImageSource(false, false); // full resolution print preview
             this.PrintStatusImage = print.PrintList.GetStatusImage(print);
             this.PrintStatusMessage = print.PrintList.GetStatusMessage(print);
             this.IsSequenceCheckEnabled = print.IsSequenceCheckEnabled;
@@ -171,7 +172,7 @@ namespace PrintsCapture.Ui.ViewModel
             this.CanOverridePrint = canOverridePrint;
             this.Resolution = print.Resolution.ToDpi();
 
-            this.OverrideLabel = this.GetOverrideText(this.overrideCode, this.overrideText);            
+            this.OverrideLabel = this.GetOverrideText(this.overrideCode, this.overrideText);
 
             if (print.HasSegments)
             {

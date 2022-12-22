@@ -68,6 +68,7 @@ namespace PrintsCapture.Device
             e.SendBatch = sendBatch;
             e.KeepOriginalImage = keepOriginal;
             handler(this, e);
+            PrintModificationDispatcher.PrintModified(print);
         }
 
         protected void TriggerSettingsCorrupted()

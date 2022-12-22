@@ -27,7 +27,13 @@ namespace PrintsCapture.Ui.View
         {
             InitializeComponent();
             PrintModificationDispatcher.AddWatch(this.PrintModified);
-            this.Closed += (s, e) => PrintModificationDispatcher.RemoveWatch(this.PrintModified);
+            this.Closed += (s, e) =>
+            {
+                PrintModificationDispatcher.RemoveWatch(this.PrintModified);
+                this.PrintImage.Source = null;
+                this.PrintImage.UpdateLayout();
+            };
+
         }
 
         /// <summary>
@@ -46,12 +52,15 @@ namespace PrintsCapture.Ui.View
                     return;
                 }
                 this.viewModel = value;
-
+                if (value == null)
+                {
+                    return;
+                }
                 this.EndorsementBypassButton.Visibility = this.viewModel.Print.HandPart == HandPart.Endorsement
                     ? Visibility.Visible
                     : Visibility.Collapsed;
 
-                this.OnPropertyChanged("ViewModel");                
+                this.OnPropertyChanged("ViewModel");
             }
         }
 
@@ -62,8 +71,6 @@ namespace PrintsCapture.Ui.View
                 this.ViewModel = new PrintZoomViewModel(e.Info);
             }
         }
-
-        
 
         public event PropertyChangedEventHandler PropertyChanged;
        
@@ -204,10 +211,7 @@ namespace PrintsCapture.Ui.View
             this.viewModel.OverridePopupText = text;
 
             this.OverrideListPopup.StaysOpen = false;
-            
         }
-
-        
 
         private void OverrideButtonClick(object sender, RoutedEventArgs e)
         {

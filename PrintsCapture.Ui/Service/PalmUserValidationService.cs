@@ -34,7 +34,7 @@ namespace PrintsCapture.Ui.Class
                     && upperPalm.FailedValidations.Contains(PrintError.SequenceError))
                 {
                     var vm = new PalmQualityControlViewModel();
-                    vm.PalmImage = upperPalm.ImageForProcessing.ToImageSource();
+                    vm.PalmImage = printList.GetImage(upperPalm);
                     vm.Accepted = null;
                     vm.Message = string.Format(CommonText.PalmQualityIsLow, PrintList.GetName(upperPalm));
 

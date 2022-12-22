@@ -175,7 +175,7 @@ namespace PrintsCapture.Prints
                 }
 
                 this.image = value;
-                this.ImageForProcessing = value.DeepClone();                
+                this.ImageForProcessing = value; //value.DeepClone();
                 this.ImageKey = Guid.NewGuid();
             }
         }
@@ -274,6 +274,8 @@ namespace PrintsCapture.Prints
 
         public void Reset()
         {
+            this.PrintList.RemoveBitmapLookup(this.Key);
+
             this.MatchedKey = string.Empty;
             this.MatchedNistPosition = 0;
 
@@ -281,7 +283,7 @@ namespace PrintsCapture.Prints
             this.OverrideUserReason = null;
             
             this.Image = null;
-            this.ImageKey = Guid.Empty;            
+            this.ImageKey = Guid.Empty;
 
             this.QualityScore = 0;
             this.SequenceScore = 0;
@@ -293,7 +295,7 @@ namespace PrintsCapture.Prints
             this.SequenceSelfScore = 0;
             
             this.Status = PrintStatus.Ok;
-            this.ProcessStatus = PrintProcessStatus.Undefined;            
+            this.ProcessStatus = PrintProcessStatus.Undefined;
             this.SequenceAnalyzed = false;
             this.FailedValidations = new List<PrintError>();
             this.TemplateErrors = new List<TemplateError>();

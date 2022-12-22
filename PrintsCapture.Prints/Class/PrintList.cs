@@ -125,7 +125,7 @@ namespace PrintsCapture.Prints
         /// <returns></returns>
         public PrintElementViewModel GetViewModel(PrintInfo prn)
         {
-            var vm = new PrintElementViewModel(prn);            
+            var vm = new PrintElementViewModel(prn);
             
             this.SetPrintElementStatus(prn);
             vm.SequenceScore = prn.SequenceScore;
@@ -135,9 +135,9 @@ namespace PrintsCapture.Prints
             vm.QualityScore = prn.QualityScore;
             vm.MinutiaCount = prn.MinutiaCount;
 
-            vm.MissingText = this.GetMissingText(prn.PhysicalPart.MissingCode, prn.PhysicalPart.MissingDate);                        
+            vm.MissingText = this.GetMissingText(prn.PhysicalPart.MissingCode, prn.PhysicalPart.MissingDate);
 
-            vm.Image = this.GetImage(prn);            
+            vm.Image = this.GetImage(prn);
 
             vm.StatusImage = this.statusImages[prn.Status];
             vm.StatusMessage = this.GetStatusMessage(prn);
@@ -791,7 +791,7 @@ namespace PrintsCapture.Prints
                         return this.bitmapLookups[print.Key].Image;
                     }
                    
-                    var img = print.ImageForProcessing.ToImageSource(false, false);
+                    var img = print.ImageForProcessing.ToImageSource(false, true);
                     ImageSourceLookup look;
 
                     if (this.bitmapLookups.ContainsKey(print.Key))
@@ -814,6 +814,14 @@ namespace PrintsCapture.Prints
             }
 
             return null;
+        }
+
+        public void RemoveBitmapLookup(string key)
+        {
+            if (this.bitmapLookups.ContainsKey(key))
+            {
+                this.bitmapLookups.Remove(key);
+            }
         }
 
         public PrintCondition GetCondition(string code)

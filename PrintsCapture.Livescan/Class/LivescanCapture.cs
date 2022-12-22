@@ -105,7 +105,7 @@ namespace PrintsCapture.Livescan
 
             PrintResolution resolution = print.PhysicalPart.Kind == HandPartKind.Palm ? this.livescanDevice.PalmResolution : this.livescanDevice.FingerResolution;
 
-            this.captureList = new CaptureOrder(this.PrintList, this.livescanDevice, false).GetCaptureList(print, resolution);                        
+            this.captureList = new CaptureOrder(this.PrintList, this.livescanDevice, false).GetCaptureList(print, resolution);
 
             this.InitCapture();
 
@@ -136,7 +136,7 @@ namespace PrintsCapture.Livescan
         public override ScanResult CaptureAuto()
         {                                               
             // 1 --> Get Order            
-            this.captureList = new CaptureOrder(this.PrintList, this.livescanDevice, false).GetCaptureList();            
+            this.captureList = new CaptureOrder(this.PrintList, this.livescanDevice, false).GetCaptureList();
 
             this.InitCapture();
             
@@ -176,7 +176,9 @@ namespace PrintsCapture.Livescan
             foreach (var printInfo in this.captureList)
             {
                 printInfo.CaptureCount = 0;
+                printInfo.Reset();
             }
+            GC.Collect();
 
             // Prepare Sdk and Device            
             this.livePreviewData = new LivePreviewViewModel { KeepWindowOpen = this.captureList.Count < 2 };
@@ -194,7 +196,7 @@ namespace PrintsCapture.Livescan
             var bw = new BackgroundWorker();
             bw.DoWork += (sender, args) =>
             {
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 Application.Current.Dispatcher.Invoke((Action) (() => this.livePreviewWindow.ShowDialog()));
             };
 
@@ -226,10 +228,8 @@ namespace PrintsCapture.Livescan
             {
                 this.rescanPending = true;
                 this.livePreviewData.ScanInstructionText = CommonText.StoppingCapture;
-                this.livescanDevice.StopCapture(); 
+                this.livescanDevice.StopCapture();
             }
-               
-                        
             // when device is ready, the rescan will start
         }
 
@@ -248,7 +248,7 @@ namespace PrintsCapture.Livescan
             PrintModificationDispatcher.PrintModified(printRescan);
 
             //var currentPrint = this.captureList[newCaptureIndex];
-            this.CaptureNextPrint(newCaptureIndex); 
+            this.CaptureNextPrint(newCaptureIndex);
         }
 
         void LivePreviewResumeDemanded(object sender, EventArgs e)
@@ -366,7 +366,7 @@ namespace PrintsCapture.Livescan
             }
 
             if (!this.callbackSet)
-            {                
+            {
                 this.livescanDevice.PrintCaptured += this.DeviceCaptureDone;
                 this.livescanDevice.CaptureQualityChanged += this.DeviceQualityCallback;
                 this.callbackSet = true;
@@ -397,7 +397,7 @@ namespace PrintsCapture.Livescan
 
                     if (img == null)
                     {
-                        im.Source = null;
+                        this.UpdatePreviewImage(null);
                         return;
                     }
 
@@ -421,12 +421,12 @@ namespace PrintsCapture.Livescan
                     else
                     {
                         wbmp = (WriteableBitmap)im.Source;
-                        im.Source = null;
+                        this.UpdatePreviewImage(null);
                     }
 
                     this.WriteIntoWpfBitmap(wbmp, img);
 
-                    im.Source = wbmp;
+                    this.UpdatePreviewImage(wbmp);
                 });
 
             if (Application.Current == null || Application.Current.Dispatcher == null)
@@ -435,6 +435,12 @@ namespace PrintsCapture.Livescan
             }
 
             Application.Current.Dispatcher.Invoke(action);
+        }
+
+        private void UpdatePreviewImage(ImageSource newImageSource)
+        {
+            this.livePreviewWindow.DisplayImage.Source = newImageSource;
+            this.livePreviewWindow.DisplayImage.UpdateLayout();
         }
 
         private void WriteIntoWpfBitmap(WriteableBitmap wbmp, Bitmap img)
@@ -479,21 +485,22 @@ namespace PrintsCapture.Livescan
                 else
                 {
                     wbmp.WritePixels(
-                    new Int32Rect(0, 0, img.Width, img.Height),
-                    ptr0,
-                    stride * img.Height,
-                    stride);
+                        new Int32Rect(0, 0, img.Width, img.Height),
+                        ptr0,
+                        stride * img.Height,
+                        stride);
                 }
                 
             }
             finally
             {
                 img.UnlockBits(data);
-            }                   
+            }
         }
 
         private void CapturePrint(PrintInfo print)
-        {            
+        {
+            GC.Collect();
             this.livePreviewData.CaptureStopped = false;
 
             // 3 --> Capture   
@@ -562,10 +569,10 @@ namespace PrintsCapture.Livescan
         private void SyncDeviceCaptureDone(PrintResolution resolution, Bitmap printImage)
         {
             // remove last preview image
-            // this.livePreview.LivePreviewImage.Source = null;
+            this.UpdatePreviewImage(null);
 
             if (printImage != null)
-            {                
+            {
                 var print = this.captureList[this.captureIndex];
                 print.CaptureCount += 1;
 
@@ -587,7 +594,6 @@ namespace PrintsCapture.Livescan
                 print.Resolution = resolution;
                 print.ProcessStatus = PrintProcessStatus.InProcess;
 
-                PrintModificationDispatcher.PrintModified(print);
                 this.TriggerPrintCaptured(print, false);
 
                 this.CaptureNextPrint();
@@ -638,6 +644,7 @@ namespace PrintsCapture.Livescan
             var displayMessage = new Action(
                 () =>
                     {
+                        this.UpdatePreviewImage(null);
                         this.livePreviewData.DeviceMessage = text;
                         this.livePreviewData.CaptureStopped = kind == DeviceMessageKind.Error;
                         this.livePreviewData.ResumeButtonVisibility = showResumeButton
@@ -645,7 +652,7 @@ namespace PrintsCapture.Livescan
                             : Visibility.Collapsed;
                         if (kind == DeviceMessageKind.Error)
                         {
-                            this.livePreviewData.ScanInstructionText = CommonText.PrintCaptureHalted;                            
+                            this.livePreviewData.ScanInstructionText = CommonText.PrintCaptureHalted;
                             // this.livePreview.LivePreviewImage.Source = null;
                         }
                     });
@@ -679,27 +686,17 @@ namespace PrintsCapture.Livescan
             }
 
             this.endingCapture = true;
-            PrintModificationDispatcher.RemoveWatch(PrintModified);            
+            PrintModificationDispatcher.RemoveWatch(PrintModified);
 
             if (this.livescanDevice.IsOpened)
             {
                 this.livescanDevice.StopCapture();
-            }                        
+            }
 
             if (this.livePreviewWindow != null)
             {
-                //if (this.livePreviewData.KeepWindowOpen)
-                //{
-                //    this.DeviceMessage(CommonText.SingleCaptureCompleted, DeviceMessageKind.Information, false);                    
-                //}
-                //else
-                //{
-                    this.livePreviewWindow.Close();
-                    this.TriggerCaptureCompleted(false);
-                //}
-
-                
-                // this.livePreview = null;
+                this.livePreviewWindow.Close();
+                this.TriggerCaptureCompleted(false);
             }
 
             if (triggeredByWinClosed && this.livePreviewData.KeepWindowOpen)

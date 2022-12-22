@@ -84,8 +84,9 @@ namespace PrintsCapture.Ui.Class
                     PrintCaptureDriver.Instance.DoOperation(print, zoomVm.ActionSelected);
                     break;
             }
-
+            zoomWin.ViewModel = null;
             PrintModificationDispatcher.PrintModified(print);
+            GC.Collect();
         }
 
         public void ProcessPresenceWindow(PrintElementViewModel vm)

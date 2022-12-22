@@ -502,7 +502,7 @@ namespace PrintsCapture.Ui.Class
         public bool? DoOperation(PrintInfo print, PrintZoomAction op)
         {
             PrintCaptureAppLog.Logger.Trace("DoOperation ({0} - {1}", PrintList.GetName(print), op);
-            var result = this.baseDriver.DoOperation(print, op);            
+            var result = this.baseDriver.DoOperation(print, op);
 
             return result;
         }

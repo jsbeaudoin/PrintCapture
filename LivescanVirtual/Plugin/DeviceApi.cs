@@ -232,22 +232,21 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
                 else
                 {
                     img = Resources.VirtualPrint;
-                }                    
+                }
 
-                    this.preview(img);
+                this.preview(img);
 
-                    // resize print
-                    int offsetx, offsety;
+                // resize print
+                int offsetx, offsety;
 
-                    offsetx = (print.ScanSize.Width / 2) - (img.Width / 2);
-                    offsety = (print.ScanSize.Height / 2) - (img.Height / 2);
+                offsetx = (print.ScanSize.Width / 2) - (img.Width / 2);
+                offsety = (print.ScanSize.Height / 2) - (img.Height / 2);
 
-                    var newImg = new Bitmap(print.ScanSize.Width, print.ScanSize.Height);
-                    var g = Graphics.FromImage(newImg);
-                    g.DrawImageUnscaled(img, offsetx, offsety);                
-
-                    this.CaptureImage(print.Resolution,  newImg);
-                });
+                var newImg = new Bitmap(print.ScanSize.Width, print.ScanSize.Height);
+                var g = Graphics.FromImage(newImg);
+                g.DrawImageUnscaled(img, offsetx, offsety);
+                this.CaptureImage(print.Resolution,  newImg);
+            });
 
             DeviceSoundPlayer.Play(DeviceSound.Beep);
 
@@ -292,7 +291,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
                 this.lastFolder = Path.GetDirectoryName(dlg.FileName);
 
-                Bitmap dlgImage = (Bitmap) Image.FromFile(dlg.FileName);                
+                Bitmap dlgImage = (Bitmap) Image.FromFile(dlg.FileName);
 
                 this.CaptureImage(print.Resolution, dlgImage);
 
@@ -305,7 +304,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
         private void CaptureImage(PrintResolution res, Bitmap img)
         {
-            var blank = new Bitmap(img.Width, img.Height);            
+            var blank = new Bitmap(50, 50);
 
             using (var g = Graphics.FromImage(blank))
             {
@@ -317,15 +316,15 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
             var bw = new BackgroundWorker();
             bw.DoWork += (sender, args) =>
-            {                
-                Thread.Sleep(1000);
+            {
+                Thread.Sleep(500);
                 if (stopping)
-                {                   
+                {
                     this.ChangeState(DeviceState.Ready);
-                    return;                 
+                    return;
                 }
                 this.preview(img);
-                Thread.Sleep(1500);
+                Thread.Sleep(500);
                 if (stopping)
                 {
                     this.ChangeState(DeviceState.Ready);
