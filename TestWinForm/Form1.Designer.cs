@@ -41,6 +41,7 @@ namespace TestWinForm
             this.picRemoteModule = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnRemoteModuleLive = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dpi1000 = new System.Windows.Forms.RadioButton();
             this.dpi500 = new System.Windows.Forms.RadioButton();
@@ -54,7 +55,6 @@ namespace TestWinForm
             this.button5 = new System.Windows.Forms.Button();
             this.StartDebugButton = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.btnRemoteModuleLive = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
@@ -148,6 +148,16 @@ namespace TestWinForm
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Test With parameters";
             // 
+            // btnRemoteModuleLive
+            // 
+            this.btnRemoteModuleLive.Location = new System.Drawing.Point(156, 150);
+            this.btnRemoteModuleLive.Name = "btnRemoteModuleLive";
+            this.btnRemoteModuleLive.Size = new System.Drawing.Size(160, 20);
+            this.btnRemoteModuleLive.TabIndex = 16;
+            this.btnRemoteModuleLive.Text = "Remote Module - Live";
+            this.btnRemoteModuleLive.UseVisualStyleBackColor = true;
+            this.btnRemoteModuleLive.Click += new System.EventHandler(this.btnRemoteModuleLive_Click);
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.dpi1000);
@@ -185,8 +195,6 @@ namespace TestWinForm
             // previousPrintCheckBox
             // 
             this.previousPrintCheckBox.AutoSize = true;
-            this.previousPrintCheckBox.Checked = true;
-            this.previousPrintCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.previousPrintCheckBox.Location = new System.Drawing.Point(15, 150);
             this.previousPrintCheckBox.Name = "previousPrintCheckBox";
             this.previousPrintCheckBox.Size = new System.Drawing.Size(122, 17);
@@ -287,16 +295,6 @@ namespace TestWinForm
             this.button4.Text = "DynaInvok Start";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // btnRemoteModuleLive
-            // 
-            this.btnRemoteModuleLive.Location = new System.Drawing.Point(156, 150);
-            this.btnRemoteModuleLive.Name = "btnRemoteModuleLive";
-            this.btnRemoteModuleLive.Size = new System.Drawing.Size(160, 20);
-            this.btnRemoteModuleLive.TabIndex = 16;
-            this.btnRemoteModuleLive.Text = "Remote Module - Live";
-            this.btnRemoteModuleLive.UseVisualStyleBackColor = true;
-            this.btnRemoteModuleLive.Click += new System.EventHandler(this.btnRemoteModuleLive_Click);
             // 
             // Form1
             // 
