@@ -62,9 +62,8 @@
     <Reference Include="XL-ID.Utilities">
       <HintPath>..\lib\local\XL-ID.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="XL_ID.Utilities.Wpf, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XL_ID.Utilities.Wpf">
       <HintPath>..\lib\local\XL_ID.Utilities.Wpf.dll</HintPath>
-      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
