@@ -242,7 +242,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
                     offsetx = (print.ScanSize.Width / 2) - (img.Width / 2);
                     offsety = (print.ScanSize.Height / 2) - (img.Height / 2);
 
-                    var newImg = new Bitmap(print.ScanSize.Width, print.ScanSize.Height);
+                    var newImg = new Bitmap(50, 50);
                     var g = Graphics.FromImage(newImg);
                     g.DrawImageUnscaled(img, offsetx, offsety);                
 
@@ -305,7 +305,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
         private void CaptureImage(PrintResolution res, Bitmap img)
         {
-            var blank = new Bitmap(img.Width, img.Height);            
+            var blank = new Bitmap(50, 50);            
 
             using (var g = Graphics.FromImage(blank))
             {
@@ -318,14 +318,14 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
             var bw = new BackgroundWorker();
             bw.DoWork += (sender, args) =>
             {                
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 if (stopping)
                 {                   
                     this.ChangeState(DeviceState.Ready);
                     return;                 
                 }
                 this.preview(img);
-                Thread.Sleep(1500);
+                Thread.Sleep(500);
                 if (stopping)
                 {
                     this.ChangeState(DeviceState.Ready);

@@ -194,7 +194,7 @@ namespace PrintsCapture.Livescan
             var bw = new BackgroundWorker();
             bw.DoWork += (sender, args) =>
             {
-                Thread.Sleep(200);
+                Thread.Sleep(50);
                 Application.Current.Dispatcher.Invoke((Action) (() => this.livePreviewWindow.ShowDialog()));
             };
 
@@ -397,7 +397,7 @@ namespace PrintsCapture.Livescan
 
                     if (img == null)
                     {
-                        im.Source = null;
+                        this.UpdatePreviewImage(null);
                         return;
                     }
 
@@ -421,12 +421,12 @@ namespace PrintsCapture.Livescan
                     else
                     {
                         wbmp = (WriteableBitmap)im.Source;
-                        im.Source = null;
+                        this.UpdatePreviewImage(null);
                     }
 
                     this.WriteIntoWpfBitmap(wbmp, img);
 
-                    im.Source = wbmp;
+                    this.UpdatePreviewImage(wbmp);
                 });
 
             if (Application.Current == null || Application.Current.Dispatcher == null)
@@ -435,6 +435,12 @@ namespace PrintsCapture.Livescan
             }
 
             Application.Current.Dispatcher.Invoke(action);
+        }
+
+        private void UpdatePreviewImage(ImageSource newImageSource)
+        {
+            this.livePreviewWindow.DisplayImage.Source = newImageSource;
+            this.livePreviewWindow.DisplayImage.UpdateLayout();
         }
 
         private void WriteIntoWpfBitmap(WriteableBitmap wbmp, Bitmap img)
@@ -562,7 +568,7 @@ namespace PrintsCapture.Livescan
         private void SyncDeviceCaptureDone(PrintResolution resolution, Bitmap printImage)
         {
             // remove last preview image
-            // this.livePreview.LivePreviewImage.Source = null;
+            this.UpdatePreviewImage(null);
 
             if (printImage != null)
             {                

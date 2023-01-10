@@ -27,7 +27,12 @@ namespace PrintsCapture.Ui.View
         {
             InitializeComponent();
             PrintModificationDispatcher.AddWatch(this.PrintModified);
-            this.Closed += (s, e) => PrintModificationDispatcher.RemoveWatch(this.PrintModified);
+            this.Closed += (s, e) =>
+            {
+                PrintModificationDispatcher.RemoveWatch(this.PrintModified);
+                this.PrintImage.Source = null;
+                this.PrintImage.UpdateLayout();
+            };
         }
 
         /// <summary>

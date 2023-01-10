@@ -175,7 +175,7 @@ namespace PrintsCapture.Prints
                 }
 
                 this.image = value;
-                this.ImageForProcessing = value.DeepClone();                
+                this.ImageForProcessing = value; //value.DeepClone();                
                 this.ImageKey = Guid.NewGuid();
             }
         }

@@ -816,6 +816,14 @@ namespace PrintsCapture.Prints
             return null;
         }
 
+        public void RemoveBitmapLookup(string key)
+        {
+            if (this.bitmapLookups.ContainsKey(key))
+            {
+                this.bitmapLookups.Remove(key);
+            }
+        }
+
         public PrintCondition GetCondition(string code)
         {
             if (code == null)
