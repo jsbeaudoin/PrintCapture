@@ -260,7 +260,7 @@ namespace TestWinForm
             }
 
             var args = new Dictionary<string, string>();
-            args.Add("mode", "card");
+            args.Add("mode", "live");
             args.Add("culture", "fr");
             args.Add("debug", "1");
             args.Add("descriptionline1", "");
@@ -270,18 +270,7 @@ namespace TestWinForm
             args.Add("capturemode", captureGroup);
             args.Add("endorsement", endorsement ? "1" : "0"); // no endorsement finger
             args.Add("sqmode", isSqMode ? "1" : "");
-
-            //args.Add("mode", "card");
-            //args.Add("culture", "fr");
-            //args.Add("debug", "1");
-            //args.Add("descriptionline1", "");
-            //args.Add("descriptionline2", "");
-            //args.Add("wizard", "0");
-            //args.Add("lang", "fr");
-            //args.Add("capture", captureGroup);
-            //args.Add("endorsement", endorsement ? "1" : "0"); // no endorsement finger
-            //args.Add("sqmode", isSqMode ? "1" : "");
-
+    
             //args.Add("login", "0");
             //args.Add("singlecaptureprompt", "PrintCapture Login Title");
             args.Add("topmost", "0");

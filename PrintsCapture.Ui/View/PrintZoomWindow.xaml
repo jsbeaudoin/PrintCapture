@@ -185,7 +185,7 @@
                 HorizontalAlignment="Center" VerticalAlignment="Center" SizeChanged="ImageSizeChanged" 
                 Background="Transparent" MouseDown="SegmentMouseDown" >
                     <Grid>
-                        <Image Name="PrintImage" Source="{Binding PrintImage}" Stretch="Uniform" ></Image>
+                        <Image Name="PrintImage" Stretch="Uniform" ></Image>
                         <ItemsControl Name="SegmentsItemsControl" ItemsSource="{Binding PrintSegments}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>

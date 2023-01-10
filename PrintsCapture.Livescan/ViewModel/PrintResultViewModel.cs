@@ -105,7 +105,7 @@ namespace PrintsCapture.Livescan.ViewModel
                 this.selectedOption = choiceItems.Last();
             }
 
-            this.PrintImage = print.PrintList.GetImage(print);
+            this.PrintImage = null; // print.PrintList.GetImage(print);
             this.Options = choiceItems;
         }
 

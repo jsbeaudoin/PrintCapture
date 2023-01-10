@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using PrintsCapture.Prints;
 using PrintsCapture.Prints.Enum;
+using PrintsCapture.Prints.Extension;
 using PrintsCapture.Prints.ViewModel;
 using PrintsCapture.Ui.Language;
 using PrintsCapture.Ui.ViewModel;
@@ -27,6 +28,7 @@ namespace PrintsCapture.Ui.View
         {
             InitializeComponent();
             PrintModificationDispatcher.AddWatch(this.PrintModified);
+
             this.Closed += (s, e) =>
             {
                 PrintModificationDispatcher.RemoveWatch(this.PrintModified);
@@ -52,12 +54,30 @@ namespace PrintsCapture.Ui.View
                 }
                 this.viewModel = value;
 
-                this.EndorsementBypassButton.Visibility = this.viewModel.Print.HandPart == HandPart.Endorsement
+                this.EndorsementBypassButton.Visibility = (this.viewModel !=null && this.viewModel.Print.HandPart == HandPart.Endorsement)
                     ? Visibility.Visible
                     : Visibility.Collapsed;
 
-                this.OnPropertyChanged("ViewModel");                
+                this.OnPropertyChanged("ViewModel");
+                this.DisplayPrint();
             }
+        }
+
+        private void DisplayPrint()
+        {
+            if (this.viewModel?.Print?.ImageForProcessing != null)
+            {
+                var imageDisplay = WriteableBitmapExtension.FromBitmap(this.viewModel.Print.ImageForProcessing);
+                imageDisplay.WriteBitmap(this.viewModel.Print.ImageForProcessing);
+                this.PrintImage.Source = imageDisplay;
+                this.PrintImage.UpdateLayout();
+            } else
+            {
+                this.PrintImage.Source = null;
+                this.PrintImage.UpdateLayout();
+            }
+            
+            
         }
 
         private void PrintModified(object sender, PrintModifiedEventArgs e)

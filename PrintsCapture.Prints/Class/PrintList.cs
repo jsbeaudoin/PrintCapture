@@ -790,8 +790,13 @@ namespace PrintsCapture.Prints
                     {
                         return this.bitmapLookups[print.Key].Image;
                     }
-                   
-                    var img = print.ImageForProcessing.ToImageSource(false, false);
+
+                    // get a thumbnail...
+                    var thumb = XL_ID.Utilities.Image.ImageUtilities.ResizeImageProportionnally(print.Image, new System.Drawing.Size(400, 400), System.Drawing.Color.White);
+                    var img = WriteableBitmapExtension.FromBitmap(thumb, true);
+                    //print.ImageForProcessing.
+
+                    //var img = (print.Kind == HandPartKind.Palm) ? print.ImageForProcessing.ToImageSource(false, true) : print.ImageForProcessing.ToImageSource(false, false);
                     ImageSourceLookup look;
 
                     if (this.bitmapLookups.ContainsKey(print.Key))

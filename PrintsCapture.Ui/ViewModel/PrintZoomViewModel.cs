@@ -70,7 +70,7 @@ namespace PrintsCapture.Ui.ViewModel
             
             this.PrintSegments = print.PrintList.GetSegmentViewModel(print);
             this.CanOverrideSegment = print.PrintList.Rules.IsFlatCaptureMode;
-            this.CanChangeExpectedSegment = true;
+            this.CanChangeExpectedSegment = false;
             this.Actions = new List<PrintAction>();
             if (print.PrintList.Rules.CaptureKind == CaptureKind.Livescan)
             {
@@ -153,8 +153,8 @@ namespace PrintsCapture.Ui.ViewModel
                 this.CanChangeExpectedSegment = false;
             }
 
-            this.PrintName = name;            
-            this.PrintImage = print.PrintList.GetImage(print);
+            this.PrintName = name;
+            //this.PrintImage = print.PrintList.GetImage(print);
             this.PrintStatusImage = print.PrintList.GetStatusImage(print);
             this.PrintStatusMessage = print.PrintList.GetStatusMessage(print);
             this.IsSequenceCheckEnabled = print.IsSequenceCheckEnabled;
