@@ -35,11 +35,13 @@ namespace PrintsCapture.LocalAwSeqCheck
         }
 
         private class CapturedPrint
-        {            
+        {
 
             public awSequenceCheck.AwareFingerType Fingertype { get; set; }
 
             public PrintInfo Print { get; set; }
+
+            public byte[] ImageBytes { get; set; }
 
             public Guid TemplateImageKey { get; set; }
 
@@ -118,7 +120,7 @@ namespace PrintsCapture.LocalAwSeqCheck
 
         public override void AddPrint(PrintInfo print)
         {
-            this.Logger.Trace("LocalAwSequence - AddPrint ({0])", PrintList.GetName(print));
+            this.Logger.Trace("LocalAwSequence - AddPrint ({0})", PrintList.GetName(print));
             this.AddOrUpdateTemplate(print);
             this.SwapPrints();
         }
@@ -303,7 +305,7 @@ namespace PrintsCapture.LocalAwSeqCheck
        
         private CapturedPrint GetPrint(PrintInfo info)
         {
-            this.Logger.Trace("LocalAwSequence - GetPrint ({0])", PrintList.GetName(info));
+            this.Logger.Trace("LocalAwSequence - GetPrint ({0})", PrintList.GetName(info));
             var result = this.capturedPrints.SingleOrDefault(x => x.Print == info);
 
             if (result == null)
@@ -486,12 +488,13 @@ namespace PrintsCapture.LocalAwSeqCheck
             }
 
             return nbSlap;
-        }       
+        }
 
         private bool SetTemplate(CapturedPrint capturedPrint)
         {
             this.Logger.Trace("LocalAwSequence - SetTemplate");
             var refImage = capturedPrint.Print.ImageForProcessing;
+
             var imgData = XL_ID.Utilities.Image.ImageUtilities.ConvertToByteArray(refImage);
             var resolution = capturedPrint.Print.Resolution == PrintResolution.Dpi500
                 ? awSequenceCheck.AwareImageResolution.AW_500PPI
@@ -504,15 +507,16 @@ namespace PrintsCapture.LocalAwSeqCheck
             {
                 SetSpecialType(capturedPrint);
             }
-                        
+            
             try
             {
+                //seqChecker.SetFingerRes(capturedPrint.Fingertype, null, 0, 0, resolution);
                 seqChecker.ClearFinger(capturedPrint.Fingertype);
                 awareError = seqChecker.SetFingerRes(capturedPrint.Fingertype,
                     imgData,
                     refImage.Width,
                     refImage.Height,
-                    resolution);                
+                    resolution);
                 
                 errorMsg = awareError.ToString();
             }
@@ -527,7 +531,7 @@ namespace PrintsCapture.LocalAwSeqCheck
                 errorMsg = awareExError.ToString();
                 System.Diagnostics.Debug.WriteLine(DateTime.Now.ToString() + " - SetFingerRes Exception : " + ex.Message + " / " + errorMsg);
 
-                capturedPrint.Print.ProcessStatus = PrintProcessStatus.ServiceError;                                                
+                capturedPrint.Print.ProcessStatus = PrintProcessStatus.ServiceError;
             }
             capturedPrint.TemplateImageKey = capturedPrint.Print.ImageKey;
 

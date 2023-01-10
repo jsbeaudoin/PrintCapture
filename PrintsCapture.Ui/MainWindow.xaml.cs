@@ -271,7 +271,7 @@ namespace PrintsCapture.Ui
             else
             {
                 // Print already captured
-                this.printOp.ProcessZoomWindow(e.ViewModel);                
+                this.printOp.ProcessZoomWindow(e.ViewModel);
             }
         }       
         

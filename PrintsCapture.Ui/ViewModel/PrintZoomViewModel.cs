@@ -58,9 +58,9 @@ namespace PrintsCapture.Ui.ViewModel
         {
             this.BrushForSelected = Brushes.Aqua;
             this.BrushForNotSelected = Brushes.LightSteelBlue;
-            this.segmentOverrideVisibility = Visibility.Collapsed;            
+            this.segmentOverrideVisibility = Visibility.Collapsed;
 
-            string name = string.Empty;          
+            string name = string.Empty;
             var lang = PrintCaptureApp.ApplicationCulture.TwoLetterISOLanguageName;
             var overrideReasonList = OverrideReason.GetBaseList().Where(x => x.Language == lang).ToList();
 
@@ -71,14 +71,14 @@ namespace PrintsCapture.Ui.ViewModel
             
             this.PrintSegments = print.PrintList.GetSegmentViewModel(print);
             this.CanOverrideSegment = print.PrintList.Rules.IsFlatCaptureMode;
-            this.CanChangeExpectedSegment = true;
+            this.CanChangeExpectedSegment = false; // always disable this option... for test and debug purpose only
             this.Actions = new List<PrintAction>();
             if (print.PrintList.Rules.CaptureKind == CaptureKind.Livescan)
             {
                 if (!flatCaptureRestriction)
                 {
                     this.actions.Add(new PrintAction(Text.ScanAgain, PrintZoomAction.Scan));
-                }                
+                }
             }
             else
             {
@@ -86,8 +86,7 @@ namespace PrintsCapture.Ui.ViewModel
                 {
                     this.actions.Add(new PrintAction(Text.EditPrint, PrintZoomAction.Edit));
                 }
-                
-            }                        
+            }
 
             if (print.ProcessStatus == PrintProcessStatus.ServiceError && !flatCaptureRestriction)
             {
@@ -155,7 +154,7 @@ namespace PrintsCapture.Ui.ViewModel
             }
 
             this.PrintName = name;
-            this.PrintImage = print.ImageForProcessing.ToImageSource(false, false); // full resolution print preview
+            this.PrintImage = print.ImageForProcessing.ToImageSource(false, false); ; // full resolution
             this.PrintStatusImage = print.PrintList.GetStatusImage(print);
             this.PrintStatusMessage = print.PrintList.GetStatusMessage(print);
             this.IsSequenceCheckEnabled = print.IsSequenceCheckEnabled;
@@ -178,7 +177,7 @@ namespace PrintsCapture.Ui.ViewModel
             {
                 foreach (var printSegment in this.PrintSegments)
                 {
-                    printSegment.OverrideLabel = this.GetOverrideText(printSegment.OverrideCode, printSegment.OverrideText);                                                
+                    printSegment.OverrideLabel = this.GetOverrideText(printSegment.OverrideCode, printSegment.OverrideText);
                 }
             }
 

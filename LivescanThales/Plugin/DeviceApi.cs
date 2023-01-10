@@ -442,7 +442,7 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
                         break;
                 }
                                 
-                this.LastException = new SdkException(this.DisplayName, "CheckSdkError", errorKind, errorText);
+                //this.LastException = new SdkException(this.DisplayName, "CheckSdkError", errorKind, errorText);
                 this.WriteTrace("Error : " + errorText);
                 return true;
             }

@@ -25,7 +25,7 @@ namespace PrintsCapture.Ui.Class
     using Prints.Enum;
     using Prints.Language;
     using Prints.Sequence;
-    using Print;        
+    using Print;
     using ViewModel;
     using Language;
 
@@ -34,7 +34,7 @@ namespace PrintsCapture.Ui.Class
 
     public class PrintCaptureApp
     {
-        public const string AppVersion = "1.0.54.1";
+        public const string AppVersion = "1.0.54.3";
 
         public const string AppName = "PrintsCapture";
 

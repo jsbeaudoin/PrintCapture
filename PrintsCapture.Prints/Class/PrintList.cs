@@ -36,7 +36,7 @@ namespace PrintsCapture.Prints
 
         private readonly Dictionary<PrintStatus, string> statusMessages = new Dictionary<PrintStatus, string>();
         private readonly Dictionary<string, string> missingTexts = new Dictionary<string, string>();
-        private readonly Dictionary<PrintError, string> validationMessages = new Dictionary<PrintError, string>();        
+        private readonly Dictionary<PrintError, string> validationMessages = new Dictionary<PrintError, string>();
         private readonly Dictionary<string, ImageSourceLookup> bitmapLookups = new Dictionary<string, ImageSourceLookup>();
 
         private readonly Dictionary<PrintStatus, BitmapImage> statusImages = new Dictionary<PrintStatus, BitmapImage>();
@@ -264,7 +264,7 @@ namespace PrintsCapture.Prints
             }
 
             var handLabel = CommonText.ResourceManager.GetString("enumHand" + hand, CommonText.Culture);
-            var partLabel = CommonText.ResourceManager.GetString("enumHandPart" + part, CommonText.Culture);            
+            var partLabel = CommonText.ResourceManager.GetString("enumHandPart" + part, CommonText.Culture);
             if (hand == Hand.None)
             {
                 handLabel = string.Empty;
@@ -282,7 +282,7 @@ namespace PrintsCapture.Prints
 
             if (print.HandPart == HandPart.Endorsement)
             {
-                return CommonText.EndorsementFinger;                
+                return CommonText.EndorsementFinger;
             }
 
             var hand = CommonText.ResourceManager.GetString("enumHand" + print.Hand, CommonText.Culture);
@@ -306,7 +306,7 @@ namespace PrintsCapture.Prints
 
             if (print.HandPart == HandPart.Endorsement)
             {
-                return GetShortName(print.EndorsementFinger);                
+                return GetShortName(print.EndorsementFinger);
             }
 
             return GetShortName(print.PhysicalPart);
@@ -321,8 +321,8 @@ namespace PrintsCapture.Prints
             {
                 return GetShortName(originalFinger);
             }
-            
-            return " ? " + nistPosition.ToString() + " ? ";            
+
+            return " ? " + nistPosition.ToString() + " ? ";
         }
 
         public static string GetShortName(PhysicalHandPart physical)
@@ -335,7 +335,7 @@ namespace PrintsCapture.Prints
 
             var side = (physical.Hand == Hand.Left ? CommonText.Left : CommonText.Right).ToLowerInvariant();
             //var hand = CommonText.ResourceManager.GetString("enumHand" + physical.Hand, CommonText.Culture);
-            var part = CommonText.ResourceManager.GetString("enumHandPart" + physical.HandPart, CommonText.Culture)?.ToLowerInvariant();           
+            var part = CommonText.ResourceManager.GetString("enumHandPart" + physical.HandPart, CommonText.Culture)?.ToLowerInvariant();
 
             //if (print.Hand == Hand.None)
             //{
@@ -454,7 +454,7 @@ namespace PrintsCapture.Prints
         {
             this.Rules = new PrintRules();
 
-            this.FillPhysicalPartList();            
+            this.FillPhysicalPartList();
 
             this.FillPrintList();
 
@@ -790,7 +790,7 @@ namespace PrintsCapture.Prints
                     {
                         return this.bitmapLookups[print.Key].Image;
                     }
-                   
+
                     var img = print.ImageForProcessing.ToImageSource(false, true);
                     ImageSourceLookup look;
 
@@ -806,8 +806,7 @@ namespace PrintsCapture.Prints
 
                     look.Image = img;
                     look.ImageKey = print.ImageKey;
-                    return img;                    
-                    
+                    return img;
                 }
                
                 return this.blankPrint;

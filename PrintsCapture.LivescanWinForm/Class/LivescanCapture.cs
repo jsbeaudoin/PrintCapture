@@ -596,7 +596,7 @@ namespace PrintsCapture.LivescanWinForm
                 print.ProcessStatus = PrintProcessStatus.InProcess;
 
                 PrintModificationDispatcher.PrintModified(print);
-                this.TriggerPrintCaptured(print, false);                 
+                this.TriggerPrintCaptured(print, true); // TODO : Remove this test ...
 
                 this.CaptureNextPrint();
             }

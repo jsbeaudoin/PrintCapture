@@ -455,7 +455,7 @@ namespace PrintsCapture.Device.LivescanThales
                         result++;
                     }
                 }
-            }            
+            }
             
             return result;
         

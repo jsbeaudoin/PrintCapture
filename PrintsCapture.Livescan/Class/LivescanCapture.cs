@@ -594,7 +594,7 @@ namespace PrintsCapture.Livescan
                 print.Resolution = resolution;
                 print.ProcessStatus = PrintProcessStatus.InProcess;
 
-                this.TriggerPrintCaptured(print, false);
+                this.TriggerPrintCaptured(print, true); // Adding a third argument toggle batch mode (, false)
 
                 this.CaptureNextPrint();
             }
