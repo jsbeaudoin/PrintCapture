@@ -80,7 +80,7 @@
     <Compile Include="Class\HandnessFinder.cs" />
     <Compile Include="Enum\CaptureOrderMode.cs" />
     <Compile Include="Enum\HandPartStatus.cs" />
-    <Compile Include="Extension\BaseSequenceCheckExtension.cs" />
+    <Compile Include="Extension\CapturedPrintDataBuilder.cs" />
     <Compile Include="Extension\WriteableBitmapExtension.cs" />
     <Compile Include="RcmpValidation\CharacterValidation.cs" />
     <Compile Include="Sequence\ISequencePrints.cs" />

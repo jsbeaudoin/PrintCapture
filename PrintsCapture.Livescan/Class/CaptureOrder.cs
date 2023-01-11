@@ -43,7 +43,7 @@ namespace PrintsCapture.Livescan
 
         public List<PrintInfo> GetCaptureList()
         {            
-            this.captureList = new List<PrintInfo>();            
+            this.captureList = new List<PrintInfo>();
             this.CreateCaptureList();
 
             return this.captureList;
@@ -219,27 +219,6 @@ namespace PrintsCapture.Livescan
                 return;
             }
 
-            if (rules.CaptureGroup == PrintCaptureGroup.StandardAndPalm)
-            {
-                if (device.Supports(DeviceScanKind.FlatPartialPalm))
-                {
-                    this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.PalmResolution, HandPart.UpperPalm, HandPart.LowerPalm, HandPart.Hypothenar);
-                    this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.PalmResolution, HandPart.UpperPalm, HandPart.LowerPalm, HandPart.Hypothenar);
-                }
-                else if (device.Supports(DeviceScanKind.FlatCompletePalm))
-                {
-                    this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.PalmResolution, HandPart.CompletePalm, HandPart.Hypothenar);
-                    this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.PalmResolution, HandPart.CompletePalm, HandPart.Hypothenar);
-                }
-                else
-                {
-                    if (device.Supports(DeviceScanKind.FlatSingleFinger))
-                    {
-                        throw new ApplicationException(CommonText.ScannerNotSupporPalm);
-                    }
-                }
-            }
-
             if (!device.Supports(DeviceScanKind.FlatSingleFinger))
             {
                 throw new ApplicationException(CommonText.ScannerNotSupportFlat);
@@ -268,6 +247,27 @@ namespace PrintsCapture.Livescan
                     HandPart.Middle,
                     HandPart.Ring,
                     HandPart.Little);
+            }
+
+            if (rules.CaptureGroup == PrintCaptureGroup.StandardAndPalm)
+            {
+                if (device.Supports(DeviceScanKind.FlatPartialPalm))
+                {
+                    this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.PalmResolution, HandPart.UpperPalm, HandPart.LowerPalm, HandPart.Hypothenar);
+                    this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.PalmResolution, HandPart.UpperPalm, HandPart.LowerPalm, HandPart.Hypothenar);
+                }
+                else if (device.Supports(DeviceScanKind.FlatCompletePalm))
+                {
+                    this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.PalmResolution, HandPart.CompletePalm, HandPart.Hypothenar);
+                    this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.PalmResolution, HandPart.CompletePalm, HandPart.Hypothenar);
+                }
+                else
+                {
+                    if (device.Supports(DeviceScanKind.FlatSingleFinger))
+                    {
+                        throw new ApplicationException(CommonText.ScannerNotSupporPalm);
+                    }
+                }
             }
 
             if (rules.CaptureTwoThumbs && device.Supports(DeviceScanKind.FlatTwoFinger))

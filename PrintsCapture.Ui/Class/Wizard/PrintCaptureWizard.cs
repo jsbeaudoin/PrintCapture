@@ -98,7 +98,13 @@ namespace PrintsCapture.Ui.Class.Wizard
         {
             if (PrintCaptureApp.HasWizardAcceptedPrint)
             {
-                this.result = this.sequenceCheckService.GetCapturedPrintData(); //  new WizardCaptureResult(this.sequenceCheckService);
+                var prints = this.sequenceCheckService.GetCapturedPrints();
+                var captureDevice = this.sequenceCheckService.CaptureDevice;
+                var captureMode = this.sequenceCheckService.CaptureMode;
+                this.sequenceCheckService.ResetSession(); // dispose of prints sequence, clear the memory
+                var capturedData = CapturedPrintDataBuilder.GetCapturedPrintData(prints, captureDevice, captureMode);
+
+                this.result = capturedData;
             }
             
         }

@@ -211,10 +211,16 @@ namespace PrintsCapture.RemoteModule
 
             try
             {
+                var prints = seq.GetCapturedPrints();
+                var captureDevice = seq.CaptureDevice;
+                var captureMode = seq.CaptureMode;
+                seq.ResetSession(); // dispose of prints sequence, clear the memory
+
                 if (!PrintCaptureApp.IsWizard || PrintCaptureApp.HasWizardAcceptedPrint)
                 {
                     this.logger.Info("WritePrintsInformation : Adding serialized GetCapturedPrintData in DATA");
-                    dicResult.Add("data", XmlSerializer.Serialize(seq.GetCapturedPrintData()));
+                    var capturedData = CapturedPrintDataBuilder.GetCapturedPrintData(prints, captureDevice, captureMode);
+                    dicResult.Add("data", XmlSerializer.Serialize(capturedData));
                 }
                 else
                 {
@@ -229,50 +235,47 @@ namespace PrintsCapture.RemoteModule
                 dicResult["success"] = "0";
                 dicResult["message"] = "WritePrintsInformation Error: " + ex.Message;
             }
-            
-        }        
-        
+        }
 
         private void RemoteModuleOnNewCommand(Dictionary<string, string> moduleArgs)
+        {
+
+            this.logger.Debug("Remote Received command");
+            string log = "command received";
+
+            try
             {
-
-                this.logger.Debug("Remote Received command");
-
-                string log = "command received";                
-
-                try
+                if (!moduleArgs.ContainsKey("web") || moduleArgs["web"] == "0")
                 {
-                    if (!moduleArgs.ContainsKey("web") || moduleArgs["web"] == "0")
+                    if (!ConfigureLocal(moduleArgs))
                     {
-                        if (!ConfigureLocal(moduleArgs))
-                        {
-                            return;
-                        }
+                        return;
                     }
-                    else
-                    {
-                        ConfigureWeb(moduleArgs);
-                    }
-                    
                 }
-                catch (Exception ex)
+                else
                 {
-                    logger.Error(ex, "Received an incomplete/incorrect command. {0}", log);
-                    SplashWindowHelper.SetErrorMessage("Received an incomplete/incorrect command", 1);
-                    return;
+                    ConfigureWeb(moduleArgs);
                 }
 
-                try
-                {
-                    Application.Current.Dispatcher.Invoke(new Action(() => this.LaunchApp(this.appParameter)));
-                }
-                catch (Exception ex)
-                {
-                    logger.Error(ex, "App could not be launched");
-                    SplashWindowHelper.SetErrorMessage("App could not be launched : " + ex.Message, 1);
-                    return;
-                }
             }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Received an incomplete/incorrect command. {0}", log);
+                SplashWindowHelper.SetErrorMessage("Received an incomplete/incorrect command", 1);
+                return;
+            }
+
+            try
+            {
+                Application.Current.Dispatcher.Invoke(new Action(() => this.LaunchApp(this.appParameter)));
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "App could not be launched");
+                SplashWindowHelper.SetErrorMessage("App could not be launched : " + ex.Message, 1);
+                return;
+            }
+        }
 
         private void ConfigureWeb(Dictionary<string, string> moduleArguments)
         {

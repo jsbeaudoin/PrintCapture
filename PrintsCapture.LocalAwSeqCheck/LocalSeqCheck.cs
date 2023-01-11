@@ -414,6 +414,7 @@ namespace PrintsCapture.LocalAwSeqCheck
             var sizeThumb = info.CaptureSize(true);
             var seqCheckFinger = info.Hand == Hand.Right ? awSequenceCheck.AwareFingerType.AW_PLAIN_THUMBS_RIGHT : awSequenceCheck.AwareFingerType.AW_PLAIN_THUMBS_LEFT;
             var thumbRectangle = seqChecker.GetCentering(seqCheckFinger, awSequenceCheck.AwareCenteringMethod.AWSEQ_AUTO_CENTERING);
+            var thumbQuality = seqChecker.GetQualityScore(seqCheckFinger);
 
             if (thumbRectangle.IsEmpty)
             {
@@ -428,6 +429,7 @@ namespace PrintsCapture.LocalAwSeqCheck
 
             info.Image = resizedBitmap;
             info.OriginalImage = resizedBitmap;
+            info.QualityScore = thumbQuality;
             
             var resultPrint = this.GetPrint(info);
 

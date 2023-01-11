@@ -110,7 +110,13 @@ namespace PrintsCapture.Direct
         {
             if (PrintCaptureApp.HasWizardAcceptedPrint)
             {
-                this.Result = sequenceCheckService.GetCapturedPrintData();
+                var prints = sequenceCheckService.GetCapturedPrints();
+                var captureDevice = sequenceCheckService.CaptureDevice;
+                var captureMode = sequenceCheckService.CaptureMode;
+                sequenceCheckService.ResetSession(); // dispose of prints sequence, clear the memory
+                var capturedData = CapturedPrintDataBuilder.GetCapturedPrintData(prints, captureDevice, captureMode);
+
+                this.Result = capturedData;
             }
             
             this.ShutdownWPF();
