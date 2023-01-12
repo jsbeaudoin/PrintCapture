@@ -1255,4 +1255,7 @@ For RCMP validation, you must use 'Flats Only'.</value>
   <data name="RescanCauses" xml:space="preserve">
     <value>RESCAN CAUSES</value>
   </data>
+  <data name="PalmUserAcceptBad" xml:space="preserve">
+    <value>Check only if it is impossible to get a better palm printé This will accept the palm print as it is.</value>
+  </data>
 </root>

@@ -1281,4 +1281,7 @@ Et cliquer sur "Débuter la saisie" pour continuer le processus.</value>
   <data name="RescanCauses" xml:space="preserve">
     <value>CAUSES DE LA REPRISE</value>
   </data>
+  <data name="PalmUserAcceptBad" xml:space="preserve">
+    <value>Cocher seulement s'il est impossible d'obtenir une meilleure paume. Cela acceptera la paume.</value>
+  </data>
 </root>

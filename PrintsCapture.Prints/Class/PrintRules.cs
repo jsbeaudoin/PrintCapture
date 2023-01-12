@@ -12,10 +12,10 @@
             this.IsSequenceEnabled = true;
             this.IsQualityEnabled = false;
             this.IsDataCompressed = true;
-            this.QualityThreshold = 3;
+            this.QualityThreshold = 4;
             this.SequenceThreshold = 50;
             this.AntiSequencingThreshold = 25;
-            this.IsSequenceChangingPosition = true;            
+            this.IsSequenceChangingPosition = true;
             this.CaptureGroup = PrintCaptureGroup.Standard14;
             this.CaptureGroupAllowed = PrintCaptureGroup.Standard14;
             this.CropTolerance = 50;

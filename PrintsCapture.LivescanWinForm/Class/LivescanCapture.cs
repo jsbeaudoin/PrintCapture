@@ -721,7 +721,7 @@ namespace PrintsCapture.LivescanWinForm
                     this.LoadConfiguration(live);
                     deviceList.Add(new ListElementViewModel<ILivescanDevice>(live, live.DisplayName));
                 } ));
-            LiveScanLog.Logger.Debug($"Devie List Count : {deviceList.Count}");
+            LiveScanLog.Logger.Debug($"Device List Count : {deviceList.Count}");
 
             // build viewModel            
             var selected = deviceList.FirstOrDefault(x => x.Key.InternalKey == viewModel.SelectedDeviceKey);

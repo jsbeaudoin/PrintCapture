@@ -52,14 +52,13 @@ namespace PrintsCapture.Ui.ViewModel
         private string overrideLabel;
         private string overrideErrorMessage;
 
-
         public PrintZoomViewModel(PrintInfo print)
         {
             this.BrushForSelected = Brushes.Aqua;
             this.BrushForNotSelected = Brushes.LightSteelBlue;
-            this.segmentOverrideVisibility = Visibility.Collapsed;            
+            this.segmentOverrideVisibility = Visibility.Collapsed;
 
-            string name = string.Empty;          
+            string name = string.Empty;
             var lang = PrintCaptureApp.ApplicationCulture.TwoLetterISOLanguageName;
             var overrideReasonList = OverrideReason.GetBaseList().Where(x => x.Language == lang).ToList();
 
@@ -70,7 +69,8 @@ namespace PrintsCapture.Ui.ViewModel
             
             this.PrintSegments = print.PrintList.GetSegmentViewModel(print);
             this.CanOverrideSegment = print.PrintList.Rules.IsFlatCaptureMode;
-            this.CanChangeExpectedSegment = false;
+            this.CanChangeExpectedSegment = false; // only set to true for extreme tests
+
             this.Actions = new List<PrintAction>();
             if (print.PrintList.Rules.CaptureKind == CaptureKind.Livescan)
             {
@@ -151,9 +151,16 @@ namespace PrintsCapture.Ui.ViewModel
             {
                 canOverridePrint = false;
                 this.CanChangeExpectedSegment = false;
+                this.CanChangeIsAcceptedByUser = true;
+                this.VisibilityIsAcceptedByUser = (print.Status == PrintStatus.InError || print.IsAcceptedByUser) ? Visibility.Visible : Visibility.Collapsed;
+            } else
+            {
+                this.CanChangeIsAcceptedByUser = false;
+                this.VisibilityIsAcceptedByUser = Visibility.Collapsed;
             }
 
             this.PrintName = name;
+            this.IsAcceptedByUser = print.IsAcceptedByUser;
             //this.PrintImage = print.PrintList.GetImage(print);
             this.PrintStatusImage = print.PrintList.GetStatusImage(print);
             this.PrintStatusMessage = print.PrintList.GetStatusMessage(print);
@@ -171,7 +178,7 @@ namespace PrintsCapture.Ui.ViewModel
             this.CanOverridePrint = canOverridePrint;
             this.Resolution = print.Resolution.ToDpi();
 
-            this.OverrideLabel = this.GetOverrideText(this.overrideCode, this.overrideText);            
+            this.OverrideLabel = this.GetOverrideText(this.overrideCode, this.overrideText);
 
             if (print.HasSegments)
             {
@@ -232,6 +239,12 @@ namespace PrintsCapture.Ui.ViewModel
         /// Set automatically when MatchingPrintPosition is set
         /// </summary>
         public bool IsMatchingPrintDisplayed { get; private set; }
+
+        public bool IsAcceptedByUser { get; set; }
+
+        public bool CanChangeIsAcceptedByUser { get; private set; }
+
+        public Visibility VisibilityIsAcceptedByUser { get; private set; }
 
         /// <summary>
         /// Gets or sets the override code.

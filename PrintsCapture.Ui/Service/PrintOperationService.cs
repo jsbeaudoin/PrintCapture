@@ -52,6 +52,10 @@ namespace PrintsCapture.Ui.Class
                         print.OverrideUserReason = zoomVm.OverrideText;
                         PrintCaptureApp.SequenceCheck.SetPrintOverride(print);
                     }
+                    if (print.IsAcceptedByUser != zoomVm.IsAcceptedByUser)
+                    {
+                        print.IsAcceptedByUser = zoomVm.IsAcceptedByUser;
+                    }
 
                     if (segmentChange.Any(x => x.IsExpectedChanged))
                     {

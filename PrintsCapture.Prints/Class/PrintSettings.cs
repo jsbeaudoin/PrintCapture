@@ -10,5 +10,6 @@
         public string SelectedDeviceKey { get; set; }
 
         public PrintRules Rules { get; set; }
+
     }
 }

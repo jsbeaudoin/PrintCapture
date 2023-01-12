@@ -390,7 +390,7 @@ namespace PrintsCapture.LocalAwSeqCheck
             this.Logger.Trace("LocalAwSequence - AddOrUpdateTemplates - setting status");
             print.Print.ProcessStatus = PrintProcessStatus.Success;
 
-            if (print.Print.Kind == HandPartKind.Palm) // dont keep palm in memory for sequence check
+            if (print.Print.Kind == HandPartKind.Palm && print.Print.HandPart != HandPart.UpperPalm) // dont keep palm in memory for sequence check
             {
                 seqChecker.ClearFinger(print.Fingertype);
             }

@@ -108,7 +108,6 @@
     <Compile Include="Extension\EnumFlagExtension.cs" />
     <Compile Include="Extension\WriteableBitmapExtension.cs" />
     <Compile Include="Service\MissingReasonService.cs" />
-    <Compile Include="Service\PalmUserValidationService.cs" />
     <Compile Include="Class\PluginLoader.cs" />
     <Compile Include="Exceptions\PluginPathNotFoundException.cs" />
     <Compile Include="Class\App\PrintCaptureAppLog.cs" />

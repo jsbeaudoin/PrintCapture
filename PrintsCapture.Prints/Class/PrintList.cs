@@ -689,14 +689,14 @@ namespace PrintsCapture.Prints
                     // Check segments quality
                     if (!segment.IsOverriden && this.Rules.QualityThreshold != 0 && (segment.QualityScore > this.Rules.QualityThreshold || segment.QualityScore == 0))
                     {
-                        segmentsErrors.Add(PrintError.BadSegmentQuality);                        
+                        segmentsErrors.Add(PrintError.BadSegmentQuality);
                     }
 
                     // check segment match
                     if (print.Kind == HandPartKind.Palm && segment.SelfScore != null &&
                         segment.SelfScore.Score < this.Rules.AntiSequencingThreshold)
                     {
-                        segmentsErrors.Add(PrintError.SequenceError);                        
+                        segmentsErrors.Add(PrintError.SequenceError);
                     }
                 }
 
@@ -705,22 +705,19 @@ namespace PrintsCapture.Prints
                     var distinctErrors = segmentsErrors.Distinct().ToList();
                     if (distinctErrors.Contains(PrintError.SequenceError) || (distinctErrors.Contains(PrintError.BadSegmentQuality) && this.Rules.IsQualityEnabled))
                     {
-                        if (print.Kind != HandPartKind.Palm)
-                        {
-                            print.Status = PrintStatus.InError;
-                        }                        
+                        print.Status = PrintStatus.InError;
                     }
 
                     print.FailedValidations.AddRange(distinctErrors);
                 }
 
-                if (print.IsOverriden && print.Status == PrintStatus.InError)
+                if ((print.IsOverriden || print.IsAcceptedByUser) && print.Status == PrintStatus.InError)
                 {
                     print.Status = PrintStatus.Overriden;
                 }
             }
 
-            if (print.IsOverriden && print.Status == PrintStatus.InError)
+            if ((print.IsOverriden || print.IsAcceptedByUser) && print.Status == PrintStatus.InError)
             {
                 print.Status = PrintStatus.Overriden;
             }

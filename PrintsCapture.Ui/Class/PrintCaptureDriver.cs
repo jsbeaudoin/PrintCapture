@@ -350,7 +350,7 @@ namespace PrintsCapture.Ui.Class
                     return;
                 }
                 wizardViewModel.AcceptPrint = true;
-               instance.OnCaptureCompleted();
+                instance.OnCaptureCompleted();
                 wizardViewModel.CaptureCompleted();
             };
             
@@ -395,8 +395,8 @@ namespace PrintsCapture.Ui.Class
                     PrintCaptureApp.Instance.PrintList);
             }
             else
-            {                
-                capture = new LivescanCapture(device, PrintCaptureApp.Instance.PrintList);                                
+            {
+                capture = new LivescanCapture(device, PrintCaptureApp.Instance.PrintList);
             }
             
             capture.PrintCaptured += instance.OnPrintCaptured;
@@ -415,7 +415,7 @@ namespace PrintsCapture.Ui.Class
             if (PrintCaptureApp.Instance.SelectedDevice == null)
             {
                 MessageBox.Show(Text.NoDevice);
-                return ScanResult.NoDevice;                
+                return ScanResult.NoDevice;
             }
 
             try
@@ -646,13 +646,11 @@ namespace PrintsCapture.Ui.Class
         private void OnCaptureCompleted()
         {
             this.SetWindowEnabled(true);
-            var validation = new PalmUserValidationService();
-            validation.VerifyQuality(this.PrintList);
 
             if (printToZoom != null)
             {
                 var printOp = new PrintOperationService();
-                printOp.ProcessZoomWindow(new PrintElementViewModel(this.printToZoom));                
+                printOp.ProcessZoomWindow(new PrintElementViewModel(this.printToZoom));
             }
         }
 

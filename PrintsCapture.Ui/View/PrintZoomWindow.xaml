@@ -105,6 +105,9 @@
                         <TextBlock Margin="0, 5" Text="{Binding OverrideLabel}" TextWrapping="Wrap" FontWeight="Bold"></TextBlock>
                         <Button Click="PrintOverrideClick" Margin="10" IsEnabled="{Binding CanOverridePrint}" Content="{x:Static language:Text.DefineOverride}"></Button>
                         <Button Click="EndorsementBypassOverrideClick" Name="EndorsementBypassButton" Margin="10, 0, 10, 5" Visibility="Collapsed" Content="Bypass validation"></Button>
+                        <CheckBox Margin="0,10" IsChecked="{Binding IsAcceptedByUser}" IsEnabled="{Binding CanChangeIsAcceptedByUser}" Visibility="{Binding VisibilityIsAcceptedByUser}">
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static language1:CommonText.PalmUserAcceptBad}"></TextBlock>
+                        </CheckBox>
                     </StackPanel>
                 </Border>
 

@@ -843,6 +843,11 @@
             Folder name for the Company
             </summary>
         </member>
+        <member name="F:XL_ID.Utilities.Setting.AppSettings.ConfigFolderName">
+            <summary>
+            Folder name when saving as configs under an app directory
+            </summary>
+        </member>
         <member name="F:XL_ID.Utilities.Setting.AppSettings.SettingsExtension">
             <summary>
             Extension for settings files saved

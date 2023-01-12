@@ -1418,6 +1418,15 @@ namespace PrintsCapture.Prints.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check only if it is impossible to get a better palm printé This will accept the palm print as it is..
+        /// </summary>
+        public static string PalmUserAcceptBad {
+            get {
+                return ResourceManager.GetString("PalmUserAcceptBad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is this supposed to be in the print image? Do not modify unless sure..
         /// </summary>
         public static string PartExpectedQuestion {
