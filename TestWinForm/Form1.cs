@@ -276,6 +276,12 @@ namespace TestWinForm
             args.Add("topmost", "0");
             args.Add("alwayscanoverride", "1");
 
+            if (chkForceQualityCheck.Checked)
+            {
+                args.Add("qualityvalidation", chkEnableQualityCheck.Checked ? "1" : "0");
+                args.Add("qualitythreshold", txtQualityThreshold.Text);
+            }
+
             if (this.previousPrintCheckBox.Checked)
             {
                 args.Add("prints", GetPreviousPrints());

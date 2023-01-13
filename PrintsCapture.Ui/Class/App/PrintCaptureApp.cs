@@ -34,7 +34,7 @@ namespace PrintsCapture.Ui.Class
 
     public class PrintCaptureApp
     {
-        public const string AppVersion = "1.0.55.1";
+        public const string AppVersion = "1.0.55.2";
 
         public const string AppName = "PrintsCapture";
 
@@ -130,6 +130,14 @@ namespace PrintsCapture.Ui.Class
                 rules.CaptureGroup = defaultValue;
             } 
             rules.IsEndorsementAllowed = appParam.IsEndorsementAllowed;
+            if (appParam.ForceQualityValidationEnabled.HasValue)
+            {
+                rules.IsQualityEnabled = appParam.ForceQualityValidationEnabled.Value;
+            }
+            if (appParam.ForceQualityThreshold.HasValue)
+            {
+                rules.QualityThreshold = appParam.ForceQualityThreshold.Value;
+            }
 
             instance.PrintList.Rules = rules;
             instance.validationChangedTrigger = new PrintValidationChangedDelayed(instance.PrintList);

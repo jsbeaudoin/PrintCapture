@@ -55,6 +55,9 @@ namespace TestWinForm
             this.button5 = new System.Windows.Forms.Button();
             this.StartDebugButton = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.chkForceQualityCheck = new System.Windows.Forms.CheckBox();
+            this.chkEnableQualityCheck = new System.Windows.Forms.CheckBox();
+            this.txtQualityThreshold = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
@@ -132,6 +135,9 @@ namespace TestWinForm
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtQualityThreshold);
+            this.groupBox2.Controls.Add(this.chkEnableQualityCheck);
+            this.groupBox2.Controls.Add(this.chkForceQualityCheck);
             this.groupBox2.Controls.Add(this.btnRemoteModuleLive);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.previousPrintCheckBox);
@@ -143,7 +149,7 @@ namespace TestWinForm
             this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Location = new System.Drawing.Point(365, 42);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(386, 219);
+            this.groupBox2.Size = new System.Drawing.Size(386, 281);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Test Livescan with parameters";
@@ -296,6 +302,34 @@ namespace TestWinForm
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // chkForceQualityCheck
+            // 
+            this.chkForceQualityCheck.AutoSize = true;
+            this.chkForceQualityCheck.Location = new System.Drawing.Point(15, 217);
+            this.chkForceQualityCheck.Name = "chkForceQualityCheck";
+            this.chkForceQualityCheck.Size = new System.Drawing.Size(211, 17);
+            this.chkForceQualityCheck.TabIndex = 17;
+            this.chkForceQualityCheck.Text = "Overide quality validation and threshold";
+            this.chkForceQualityCheck.UseVisualStyleBackColor = true;
+            // 
+            // chkEnableQualityCheck
+            // 
+            this.chkEnableQualityCheck.AutoSize = true;
+            this.chkEnableQualityCheck.Location = new System.Drawing.Point(31, 243);
+            this.chkEnableQualityCheck.Name = "chkEnableQualityCheck";
+            this.chkEnableQualityCheck.Size = new System.Drawing.Size(142, 17);
+            this.chkEnableQualityCheck.TabIndex = 18;
+            this.chkEnableQualityCheck.Text = "Enable Quality validation";
+            this.chkEnableQualityCheck.UseVisualStyleBackColor = true;
+            // 
+            // txtQualityThreshold
+            // 
+            this.txtQualityThreshold.Location = new System.Drawing.Point(179, 241);
+            this.txtQualityThreshold.Name = "txtQualityThreshold";
+            this.txtQualityThreshold.Size = new System.Drawing.Size(27, 20);
+            this.txtQualityThreshold.TabIndex = 19;
+            this.txtQualityThreshold.Text = "3";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -347,6 +381,9 @@ namespace TestWinForm
         private System.Windows.Forms.RadioButton dpi1000;
         private System.Windows.Forms.RadioButton dpi500;
         private System.Windows.Forms.Button btnRemoteModuleLive;
+        private System.Windows.Forms.TextBox txtQualityThreshold;
+        private System.Windows.Forms.CheckBox chkEnableQualityCheck;
+        private System.Windows.Forms.CheckBox chkForceQualityCheck;
     }
 }
 

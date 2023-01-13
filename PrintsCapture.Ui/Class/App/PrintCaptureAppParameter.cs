@@ -38,6 +38,8 @@ namespace PrintsCapture.Ui.Class
             bool alwaysCanOverride = false;
             bool sqMode = false;
             string previousPrintsSerialized = null;
+            bool? forceQualityValidation = null;
+            int? forceQualityThreshold = null;
 
             logger.Trace("Setting PrintCapture parameters");
             if (creationArguments.ContainsKey("prefix")) fileNamePrefix = creationArguments["prefix"];
@@ -61,6 +63,14 @@ namespace PrintsCapture.Ui.Class
             if (creationArguments.ContainsKey("singlecapturemessage")) singleFingerCaptureLabel = creationArguments["singlecapturemessage"];
             if (creationArguments.ContainsKey("alwayscanoverride")) alwaysCanOverride = creationArguments["alwayscanoverride"] == "1";
             if (creationArguments.ContainsKey("prints")) previousPrintsSerialized = creationArguments["prints"];
+
+            if (creationArguments.ContainsKey("qualityvalidation")) forceQualityValidation = (creationArguments["qualityvalidation"] == "1");
+            if (creationArguments.ContainsKey("qualitythreshold"))
+            {
+                int qualityThreshold = 0;
+                int.TryParse(creationArguments["qualitythreshold"], out qualityThreshold);
+                forceQualityThreshold = qualityThreshold;
+            }
 
             if (string.IsNullOrEmpty(langParameter))
             {
@@ -106,7 +116,9 @@ namespace PrintsCapture.Ui.Class
                 IsLoginMode = isLoginMode,
                 SingleFingerCapturePrompt = singleFingerCaptureLabel,
                 TopMostWindow = topMostWindow,
-                AlwaysCanOverrideWizard = alwaysCanOverride
+                AlwaysCanOverrideWizard = alwaysCanOverride,
+                ForceQualityThreshold = forceQualityThreshold,
+                ForceQualityValidationEnabled = forceQualityValidation
             };
             if (!string.IsNullOrEmpty(previousPrintsSerialized))
             {
@@ -175,6 +187,10 @@ namespace PrintsCapture.Ui.Class
 
         public string SeqCheckServiceConnection { get; set; }
         public CaptureOrderMode CaptureOrder { get; set; }
+
+        public bool? ForceQualityValidationEnabled { get; set; } // when set, force quality validation to 
+
+        public int? ForceQualityThreshold { get; set; } // when set, force quality validation to 
 
         public void LoadPreviousPrints(string serializedData)
         {
