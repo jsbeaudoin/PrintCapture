@@ -133,10 +133,6 @@
     <Resource Include="Images\UniDAC-logo-new.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PrintsCapture.Direct\PrintsCapture.Direct.csproj">
-      <Project>{d2aba2ca-8447-4f7c-9388-48673b831962}</Project>
-      <Name>PrintsCapture.Direct</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PrintsCapture.LocalAwSeqCheck\PrintsCapture.LocalAwSeqCheck.csproj">
       <Project>{c0b173c4-f5a1-4b7e-aae0-15c83e60672e}</Project>
       <Name>PrintsCapture.LocalAwSeqCheck</Name>
