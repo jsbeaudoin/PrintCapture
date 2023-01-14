@@ -194,6 +194,7 @@ namespace PrintsCapture.Ui.Class
 
         public void LoadPreviousPrints(string serializedData)
         {
+            serializedData = serializedData.Replace("<ImageDataFormat>Wsq</ImageDataFormat>", "<ImageDataFormat>Bmp</ImageDataFormat>");
             CapturedPrintData capturedData = ObjectSerializer.GetInstanceFromString<CapturedPrintData>(serializedData);
             List<FingerprintData> fingers = capturedData.Prints;
             this.ImportedPrints = new List<ImportedPrint>();
@@ -209,12 +210,15 @@ namespace PrintsCapture.Ui.Class
                             SevenZipHelper.Decompress(finger.ImageData) : finger.ImageData;
                 if (bmpRawData != null)
                 {
-                    var printSize = new Size(finger.ImageInfo.HLL, finger.ImageInfo.VLL);
-                    var printRect = new Rectangle(new Point(0, 0), printSize);
-                    bmpInstance = ImageUtilities.ByteArrayToBitmap(bmpRawData, printSize, printRect, System.Drawing.Imaging.PixelFormat.Format8bppIndexed, finger.ImageInfo.DPI);
+                    using (var ms = new System.IO.MemoryStream(bmpRawData))
+                    {
+                        bmpInstance = new Bitmap(ms);
+                        bmpInstance.SetResolution(capturedData.Dpi, capturedData.Dpi);
+                    }
+                    finger.ImageData = null;
                 }
 
-                var newPrint = new ImportedPrint { 
+                var newPrint = new ImportedPrint {
                     IsEndorsement = finger.IsEndorsement, 
                     NistPosition = finger.Position, 
                     MissingDate = finger.Missing?.Date,
@@ -222,7 +226,7 @@ namespace PrintsCapture.Ui.Class
                     OverrideCode = finger.Override == null ? "" : finger.Override.ReasonCode.ToString(),
                     OverrideReason= finger.Override?.Description,
                     Image = bmpInstance,
-                    Dpi = !string.IsNullOrEmpty(finger.Missing?.NistCode) ? 0 : finger.ImageInfo.DPI // missing prints dont have dpi
+                    Dpi = !string.IsNullOrEmpty(finger.Missing?.NistCode) ? 0 : capturedData.Dpi // missing prints dont have dpi
                 };
                 this.ImportedPrints.Add(newPrint);
             }

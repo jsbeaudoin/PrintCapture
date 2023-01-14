@@ -66,7 +66,7 @@
                     return;
                 }
                 this.endorsableFingers = value;
-                this.OnPropertyChanged("EndorsableFingers");                
+                this.OnPropertyChanged("EndorsableFingers");
             }
         }        
 

@@ -45,7 +45,6 @@ namespace TestWinForm
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dpi1000 = new System.Windows.Forms.RadioButton();
             this.dpi500 = new System.Windows.Forms.RadioButton();
-            this.previousPrintCheckBox = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.captureModeGroup = new System.Windows.Forms.GroupBox();
             this.criminalNoPalmsCaptureRadio = new System.Windows.Forms.RadioButton();
@@ -58,12 +57,17 @@ namespace TestWinForm
             this.chkForceQualityCheck = new System.Windows.Forms.CheckBox();
             this.chkEnableQualityCheck = new System.Windows.Forms.CheckBox();
             this.txtQualityThreshold = new System.Windows.Forms.TextBox();
+            this.LoadPreviousPrintsGroup = new System.Windows.Forms.GroupBox();
+            this.previousPrintCheckBox = new System.Windows.Forms.CheckBox();
+            this.PrintBmpRadio = new System.Windows.Forms.RadioButton();
+            this.printSerializeRadio = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.captureModeGroup.SuspendLayout();
+            this.LoadPreviousPrintsGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -135,12 +139,12 @@ namespace TestWinForm
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.LoadPreviousPrintsGroup);
             this.groupBox2.Controls.Add(this.txtQualityThreshold);
             this.groupBox2.Controls.Add(this.chkEnableQualityCheck);
             this.groupBox2.Controls.Add(this.chkForceQualityCheck);
             this.groupBox2.Controls.Add(this.btnRemoteModuleLive);
             this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Controls.Add(this.previousPrintCheckBox);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.captureModeGroup);
             this.groupBox2.Controls.Add(this.chkSqMode);
@@ -149,16 +153,16 @@ namespace TestWinForm
             this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Location = new System.Drawing.Point(365, 42);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(386, 281);
+            this.groupBox2.Size = new System.Drawing.Size(386, 409);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Test Livescan with parameters";
             // 
             // btnRemoteModuleLive
             // 
-            this.btnRemoteModuleLive.Location = new System.Drawing.Point(156, 150);
+            this.btnRemoteModuleLive.Location = new System.Drawing.Point(179, 150);
             this.btnRemoteModuleLive.Name = "btnRemoteModuleLive";
-            this.btnRemoteModuleLive.Size = new System.Drawing.Size(160, 20);
+            this.btnRemoteModuleLive.Size = new System.Drawing.Size(137, 20);
             this.btnRemoteModuleLive.TabIndex = 16;
             this.btnRemoteModuleLive.Text = "Remote Module - Live";
             this.btnRemoteModuleLive.UseVisualStyleBackColor = true;
@@ -168,7 +172,7 @@ namespace TestWinForm
             // 
             this.groupBox3.Controls.Add(this.dpi1000);
             this.groupBox3.Controls.Add(this.dpi500);
-            this.groupBox3.Location = new System.Drawing.Point(15, 173);
+            this.groupBox3.Location = new System.Drawing.Point(15, 132);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(142, 38);
             this.groupBox3.TabIndex = 15;
@@ -198,21 +202,11 @@ namespace TestWinForm
             this.dpi500.Text = "500";
             this.dpi500.UseVisualStyleBackColor = true;
             // 
-            // previousPrintCheckBox
-            // 
-            this.previousPrintCheckBox.AutoSize = true;
-            this.previousPrintCheckBox.Location = new System.Drawing.Point(15, 150);
-            this.previousPrintCheckBox.Name = "previousPrintCheckBox";
-            this.previousPrintCheckBox.Size = new System.Drawing.Size(122, 17);
-            this.previousPrintCheckBox.TabIndex = 14;
-            this.previousPrintCheckBox.Text = "Load Previous prints";
-            this.previousPrintCheckBox.UseVisualStyleBackColor = true;
-            // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(153, 46);
+            this.label2.Location = new System.Drawing.Point(179, 46);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(190, 34);
+            this.label2.Size = new System.Drawing.Size(164, 34);
             this.label2.TabIndex = 13;
             this.label2.Text = "Will crash if launched twice without stopping the process.";
             // 
@@ -284,9 +278,9 @@ namespace TestWinForm
             // 
             // StartDebugButton
             // 
-            this.StartDebugButton.Location = new System.Drawing.Point(156, 20);
+            this.StartDebugButton.Location = new System.Drawing.Point(179, 20);
             this.StartDebugButton.Name = "StartDebugButton";
-            this.StartDebugButton.Size = new System.Drawing.Size(160, 23);
+            this.StartDebugButton.Size = new System.Drawing.Size(137, 23);
             this.StartDebugButton.TabIndex = 9;
             this.StartDebugButton.Text = "Live - Direct Start (Debug)";
             this.StartDebugButton.UseVisualStyleBackColor = true;
@@ -305,7 +299,7 @@ namespace TestWinForm
             // chkForceQualityCheck
             // 
             this.chkForceQualityCheck.AutoSize = true;
-            this.chkForceQualityCheck.Location = new System.Drawing.Point(15, 217);
+            this.chkForceQualityCheck.Location = new System.Drawing.Point(15, 181);
             this.chkForceQualityCheck.Name = "chkForceQualityCheck";
             this.chkForceQualityCheck.Size = new System.Drawing.Size(211, 17);
             this.chkForceQualityCheck.TabIndex = 17;
@@ -315,7 +309,7 @@ namespace TestWinForm
             // chkEnableQualityCheck
             // 
             this.chkEnableQualityCheck.AutoSize = true;
-            this.chkEnableQualityCheck.Location = new System.Drawing.Point(31, 243);
+            this.chkEnableQualityCheck.Location = new System.Drawing.Point(26, 204);
             this.chkEnableQualityCheck.Name = "chkEnableQualityCheck";
             this.chkEnableQualityCheck.Size = new System.Drawing.Size(142, 17);
             this.chkEnableQualityCheck.TabIndex = 18;
@@ -324,11 +318,57 @@ namespace TestWinForm
             // 
             // txtQualityThreshold
             // 
-            this.txtQualityThreshold.Location = new System.Drawing.Point(179, 241);
+            this.txtQualityThreshold.Location = new System.Drawing.Point(174, 204);
             this.txtQualityThreshold.Name = "txtQualityThreshold";
             this.txtQualityThreshold.Size = new System.Drawing.Size(27, 20);
             this.txtQualityThreshold.TabIndex = 19;
             this.txtQualityThreshold.Text = "3";
+            // 
+            // LoadPreviousPrintsGroup
+            // 
+            this.LoadPreviousPrintsGroup.Controls.Add(this.printSerializeRadio);
+            this.LoadPreviousPrintsGroup.Controls.Add(this.PrintBmpRadio);
+            this.LoadPreviousPrintsGroup.Controls.Add(this.previousPrintCheckBox);
+            this.LoadPreviousPrintsGroup.Location = new System.Drawing.Point(15, 247);
+            this.LoadPreviousPrintsGroup.Name = "LoadPreviousPrintsGroup";
+            this.LoadPreviousPrintsGroup.Size = new System.Drawing.Size(200, 100);
+            this.LoadPreviousPrintsGroup.TabIndex = 8;
+            this.LoadPreviousPrintsGroup.TabStop = false;
+            this.LoadPreviousPrintsGroup.Text = "Previous Prints Options";
+            // 
+            // previousPrintCheckBox
+            // 
+            this.previousPrintCheckBox.AutoSize = true;
+            this.previousPrintCheckBox.Checked = true;
+            this.previousPrintCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.previousPrintCheckBox.Location = new System.Drawing.Point(11, 20);
+            this.previousPrintCheckBox.Name = "previousPrintCheckBox";
+            this.previousPrintCheckBox.Size = new System.Drawing.Size(134, 17);
+            this.previousPrintCheckBox.TabIndex = 0;
+            this.previousPrintCheckBox.Text = "Load Previous print set";
+            this.previousPrintCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // PrintBmpRadio
+            // 
+            this.PrintBmpRadio.AutoSize = true;
+            this.PrintBmpRadio.Location = new System.Drawing.Point(11, 48);
+            this.PrintBmpRadio.Name = "PrintBmpRadio";
+            this.PrintBmpRadio.Size = new System.Drawing.Size(46, 17);
+            this.PrintBmpRadio.TabIndex = 1;
+            this.PrintBmpRadio.Text = "Bmp";
+            this.PrintBmpRadio.UseVisualStyleBackColor = true;
+            // 
+            // printSerializeRadio
+            // 
+            this.printSerializeRadio.AutoSize = true;
+            this.printSerializeRadio.Checked = true;
+            this.printSerializeRadio.Location = new System.Drawing.Point(11, 71);
+            this.printSerializeRadio.Name = "printSerializeRadio";
+            this.printSerializeRadio.Size = new System.Drawing.Size(70, 17);
+            this.printSerializeRadio.TabIndex = 2;
+            this.printSerializeRadio.TabStop = true;
+            this.printSerializeRadio.Text = "Serialized";
+            this.printSerializeRadio.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -352,6 +392,8 @@ namespace TestWinForm
             this.groupBox3.PerformLayout();
             this.captureModeGroup.ResumeLayout(false);
             this.captureModeGroup.PerformLayout();
+            this.LoadPreviousPrintsGroup.ResumeLayout(false);
+            this.LoadPreviousPrintsGroup.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -376,7 +418,6 @@ namespace TestWinForm
         private System.Windows.Forms.RadioButton civilCaptureRadio;
         private System.Windows.Forms.CheckBox chkSqMode;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox previousPrintCheckBox;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton dpi1000;
         private System.Windows.Forms.RadioButton dpi500;
@@ -384,6 +425,10 @@ namespace TestWinForm
         private System.Windows.Forms.TextBox txtQualityThreshold;
         private System.Windows.Forms.CheckBox chkEnableQualityCheck;
         private System.Windows.Forms.CheckBox chkForceQualityCheck;
+        private System.Windows.Forms.GroupBox LoadPreviousPrintsGroup;
+        private System.Windows.Forms.RadioButton printSerializeRadio;
+        private System.Windows.Forms.RadioButton PrintBmpRadio;
+        private System.Windows.Forms.CheckBox previousPrintCheckBox;
     }
 }
 

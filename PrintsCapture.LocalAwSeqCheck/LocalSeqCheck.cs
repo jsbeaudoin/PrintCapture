@@ -315,8 +315,7 @@ namespace PrintsCapture.LocalAwSeqCheck
                     IsSlap = info.ScanKind == HandScanKind.Flat && info.HandPart != HandPart.Endorsement
                 };
                 this.capturedPrints.Add(result);
-            }
-                
+            }    
 
             return result;
         }
@@ -393,6 +392,7 @@ namespace PrintsCapture.LocalAwSeqCheck
             if (print.Print.Kind == HandPartKind.Palm && print.Print.HandPart != HandPart.UpperPalm) // dont keep palm in memory for sequence check
             {
                 seqChecker.ClearFinger(print.Fingertype);
+                GC.Collect();
             }
 
             print.Print.SequenceAnalyzed = true;
@@ -535,7 +535,7 @@ namespace PrintsCapture.LocalAwSeqCheck
                 errorMsg = awareExError.ToString();
                 System.Diagnostics.Debug.WriteLine(DateTime.Now.ToString() + " - SetFingerRes Exception : " + ex.Message + " / " + errorMsg);
 
-                capturedPrint.Print.ProcessStatus = PrintProcessStatus.ServiceError;                                                
+                capturedPrint.Print.ProcessStatus = PrintProcessStatus.ServiceError;
             }
             capturedPrint.TemplateImageKey = capturedPrint.Print.ImageKey;
 
@@ -976,7 +976,7 @@ namespace PrintsCapture.LocalAwSeqCheck
                 print.SequenceBestScorePosition = 0;
             }
             
-            print.SequenceScore = print.SequenceSelfScore;                                
+            print.SequenceScore = print.SequenceSelfScore;
         }
 
         private List<SequenceCheckResult> GetScores(awSequenceCheck.AwareFingerType fingerType, bool includeTwoThumbs = true)

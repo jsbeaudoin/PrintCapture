@@ -284,14 +284,26 @@ namespace TestWinForm
 
             if (this.previousPrintCheckBox.Checked)
             {
-                args.Add("prints", GetPreviousPrints());
+                args.Add("prints", GetPreviousPrints(this.PrintBmpRadio.Checked ? "image" : "xml"));
             }
 
             return args;
         }
 
-        private string GetPreviousPrints()
+        private string GetPreviousPrints(string printFormat)
         {
+            if (printFormat == "xml")
+            {
+                var dlgXml = new OpenFileDialog { Filter = "XML|*.xml" };
+                dlgXml.Title = string.Format("Select Serialized data");
+                if (dlgXml.ShowDialog() != DialogResult.OK)
+                {
+                    throw new ApplicationException("Dialog canceled");
+                }
+
+                return File.ReadAllText(dlgXml.FileName);
+            }
+
             List<int> printIndexes = null;
             if (this.civilCaptureRadio.Checked)
             {
@@ -339,7 +351,11 @@ namespace TestWinForm
                     {
                         bmp = ImageUtilities.ConvertToIndexedFormat(bmp, ConvertBitmapFormat.Format8bppIndexed);
                     }
-                    printData.ImageData = ImageUtilities.ConvertToByteArray(bmp);
+                    using(var memory = new MemoryStream())
+                    {
+                        bmp.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                        printData.ImageData = bmp.ToByteArray(); //ImageUtilities.ConvertToByteArray(bmp);
+                    }
                     printData.ImageInfo = new ImageInformation { DPI = imageDpi, ImpressionType = UniBIO.Services.Communication.TransactionService.CaptureType.LiveScan, HLL = bmp.Width, VLL = bmp.Height };
                     
                     if (imageIndex == 6)
