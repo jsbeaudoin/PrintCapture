@@ -212,7 +212,7 @@ namespace PrintsCapture.Ui.Class
                 {
                     using (var ms = new System.IO.MemoryStream(bmpRawData))
                     {
-                        bmpInstance = new Bitmap(ms);
+                        bmpInstance = (Bitmap)Image.FromStream(ms); // new Bitmap(ms);
                         bmpInstance.SetResolution(capturedData.Dpi, capturedData.Dpi);
                     }
                     finger.ImageData = null;
@@ -230,6 +230,8 @@ namespace PrintsCapture.Ui.Class
                 };
                 this.ImportedPrints.Add(newPrint);
             }
+           
+            GC.Collect();
         }
     }
 }
