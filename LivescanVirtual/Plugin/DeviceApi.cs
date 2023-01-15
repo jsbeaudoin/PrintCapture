@@ -118,9 +118,6 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
                 this.OnDeviceOpened(DeviceOpenStatus.Success);
                 this.ChangeState(DeviceState.Opened);
             }
-
-
-
         }
 
         public void Close()
@@ -218,7 +215,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
         private void CaptureSimulator(PrintCaptureInformation print)
         {
             var captureTask = new Task(() =>
-            {                
+            {
 
                 Bitmap img;
                 if (print.Part == HandPart.FourFlats)
@@ -232,22 +229,22 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
                 else
                 {
                     img = Resources.VirtualPrint;
-                }                    
+                }
 
-                    this.preview(img);
+                this.preview(img);
 
-                    // resize print
-                    int offsetx, offsety;
+                // resize print
+                int offsetx, offsety;
 
-                    offsetx = (print.ScanSize.Width / 2) - (img.Width / 2);
-                    offsety = (print.ScanSize.Height / 2) - (img.Height / 2);
+                offsetx = (print.ScanSize.Width / 2) - (img.Width / 2);
+                offsety = (print.ScanSize.Height / 2) - (img.Height / 2);
 
-                    var newImg = new Bitmap(50, 50);
-                    var g = Graphics.FromImage(newImg);
-                    g.DrawImageUnscaled(img, offsetx, offsety);                
+                var newImg = new Bitmap(50, 50);
+                var g = Graphics.FromImage(newImg);
+                g.DrawImageUnscaled(img, offsetx, offsety);
 
-                    this.CaptureImage(print.Resolution,  newImg);
-                });
+                this.CaptureImage(print.Resolution, newImg);
+            });
 
             DeviceSoundPlayer.Play(DeviceSound.Beep);
 
@@ -276,14 +273,14 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
                     if (File.Exists(filePath))
                     {
-                        var newImage = (Bitmap)Image.FromFile(filePath);                        
+                        var newImage = (Bitmap)Image.FromFile(filePath);
                         this.CaptureImage(print.Resolution, newImage);
 
                         return;
-                    }                    
+                    }
                 }
 
-                var dlg = new OpenFileDialog {Filter = "Bitmap|*.bmp"};
+                var dlg = new OpenFileDialog { Filter = "Bitmap|*.bmp" };
                 dlg.Title = string.Format("Print {0} {2} ({1} hand). Index:{3}", print.Part, print.Hand, print.Kind, print.NistIndex);
                 if (dlg.ShowDialog() != DialogResult.OK)
                 {
@@ -292,14 +289,14 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
                 this.lastFolder = Path.GetDirectoryName(dlg.FileName);
 
-                Bitmap dlgImage = (Bitmap) Image.FromFile(dlg.FileName);                
+                Bitmap dlgImage = (Bitmap)Image.FromFile(dlg.FileName);
 
                 this.CaptureImage(print.Resolution, dlgImage);
 
                 return;
             }
 
-            
+
             captureTask.Start();
         }
 

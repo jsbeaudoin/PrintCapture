@@ -62,7 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviceLog.cs" />
     <Compile Include="Plugin\DeviceApi.cs" />
     <Compile Include="Plugin\DeviceInfo.cs" />
     <Compile Include="Plugin\LedManager.cs" />
