@@ -43,6 +43,7 @@ namespace PrintsCapture.LivescanWinForm
     using XL_ID.Utilities.XML;    
 
     using Color = System.Drawing.Color;
+    using NLog;
 
     public delegate void CaptureCompletedHandler();
 
@@ -69,16 +70,17 @@ namespace PrintsCapture.LivescanWinForm
         private bool callbackOpenSet;       
 
         private bool rescanPending;
+        protected Logger Logger { get; private set; }
 
         public LivescanCapture(ICaptureDevice device, PrintList printList) : base(device, printList)
-        {            
+        {
+            this.Logger = LogManager.GetCurrentClassLogger();
             this.livescanDevice = device as ILivescanDevice;
             if (this.livescanDevice != null && this.livePreviewData != null)
             {
                 this.livescanDevice.StateChanged +=
                 (sender, state) => this.livePreviewData.DeviceStateLabel = state.ToString();
-            }
-            
+            }   
         }
 
         /// <summary>
@@ -554,9 +556,9 @@ namespace PrintsCapture.LivescanWinForm
         {
             if (this.livePreviewData.PreviousPrint == null || this.livePreviewData.PreviousPrint.LinkedPrint != e.Info)
             {
-                return;                
+                return;
             }
-
+            this.Logger.Trace("LiveScanCapture PrintModified");
             this.livePreviewData.PreviousPrint = this.GetPreviousPrint();
         }
 

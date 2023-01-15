@@ -122,7 +122,7 @@ namespace PrintsCapture.Ui
             try
             {
                 splashWindowId = SplashWindowHelper.CreateSplash(new SplashLabels { Title = "UniDAC", SubTitle = "PrintsCapture " + PrintCaptureApp.AppVersion, Message = Text.LoadingPreviousPrints, CloseLabel = "X" }
-                        , new System.Uri("pack://application:,,,/PrintsCapture.Direct;component/Images/LogoPrintCapture4-300x300.png"));
+                        , new System.Uri("pack://application:,,,/PrintsCapture.Ui;component/Images/LogoPrintCapture4-300x300.png"));
             }
             catch (Exception ex)
             {

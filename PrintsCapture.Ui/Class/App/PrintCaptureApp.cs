@@ -34,7 +34,7 @@ namespace PrintsCapture.Ui.Class
 
     public class PrintCaptureApp
     {
-        public const string AppVersion = "1.0.55.5";
+        public const string AppVersion = "1.0.55.6";
 
         public const string AppName = "PrintsCapture";
 
@@ -142,7 +142,7 @@ namespace PrintsCapture.Ui.Class
             instance.PrintList.Rules = rules;
             instance.validationChangedTrigger = new PrintValidationChangedDelayed(instance.PrintList);
             instance.validationChangedTrigger.DelayedRuleChanged += RulesOnDelayedRuleChanged;  
-            PrintModificationDispatcher.AddWatch(PrintModified);            
+            PrintModificationDispatcher.AddWatch(PrintModified);
 
             // Get Sdk list ...
             PrintCaptureDriver.LoadPluginAndDefaultDevice(instance);
@@ -588,7 +588,7 @@ namespace PrintsCapture.Ui.Class
         private static void PrintModified(object sender, PrintModifiedEventArgs e)
         {
             if (instance.IsWizardMode || instance.IsLoginMode) return;
-
+            LogDispatcher.DoLog("PrintCaptureApp(refresh main viewmodel) PrintModified");
             var vm = instance.PrintList.GetViewModel(e.Info);
             instance.mainViewModel.PrintGridViewModel.Update(vm);
             instance.mainViewModel.IsEndButtonAvailable = instance.PrintList.Prints.All(x => !x.IsInError);

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 using System.Windows.Shapes;
+using NLog;
 using PrintsCapture.Device;
 using PrintsCapture.Device.Enum;
 using PrintsCapture.Livescan.ViewModel;
@@ -26,11 +27,12 @@ namespace PrintsCapture.Livescan.View
     /// </summary>
     public partial class PreviewWindow : INotifyPropertyChanged
     {
-        private LivePreviewViewModel viewModel;        
+        private LivePreviewViewModel viewModel;
+        protected Logger Logger { get; private set; }
 
         public PreviewWindow(LivePreviewViewModel viewModel) : base()
         {
-
+            this.Logger = LogManager.GetCurrentClassLogger();
             this.Owner = WindowHelper.GetWindowByTag("Main");
             this.viewModel = viewModel;
             InitializeComponent();
@@ -46,7 +48,6 @@ namespace PrintsCapture.Livescan.View
             this.PreviewBox.Location = new Point(0, 0);
             this.PreviewBox.BackColor = Color.LightGray;
             
-
             PrintModificationDispatcher.AddWatch(this.RefreshIfPrintModified);
 
             this.Closed += (sender, e) => PrintModificationDispatcher.RemoveWatch(this.RefreshIfPrintModified);
@@ -115,6 +116,7 @@ namespace PrintsCapture.Livescan.View
 
         private void RefreshIfPrintModified(object sender, PrintModifiedEventArgs e)
         {
+            this.Logger.Trace("PreviewWindow RefreshIfPrintModified");
             var previousViewModel = this.ViewModel.PreviousPrint;
 
             if (previousViewModel != null && e.Info == previousViewModel.LinkedPrint)

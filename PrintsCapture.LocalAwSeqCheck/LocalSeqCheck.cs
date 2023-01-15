@@ -118,7 +118,7 @@ namespace PrintsCapture.LocalAwSeqCheck
 
         public override void AddPrint(PrintInfo print)
         {
-            this.Logger.Trace("LocalAwSequence - AddPrint ({0])", PrintList.GetName(print));
+            this.Logger.Trace("LocalAwSequence - AddPrint ({0})", PrintList.GetName(print));
             this.AddOrUpdateTemplate(print);
             this.SwapPrints();
         }
@@ -200,7 +200,7 @@ namespace PrintsCapture.LocalAwSeqCheck
             return new List<PrintSetWarning>();
         }
 
-        public List<PrintInfo> GetCapturedPrints()
+        public override List<PrintInfo> GetCapturedPrints()
         {
             this.Logger.Trace("LocalAwSequence - GetCapturedPrints");
             var captured =  this.capturedPrints.Select(x => x.Print).ToList();
@@ -303,7 +303,7 @@ namespace PrintsCapture.LocalAwSeqCheck
        
         private CapturedPrint GetPrint(PrintInfo info)
         {
-            this.Logger.Trace("LocalAwSequence - GetPrint ({0])", PrintList.GetName(info));
+            this.Logger.Trace("LocalAwSequence - GetPrint ({0})", PrintList.GetName(info));
             var result = this.capturedPrints.SingleOrDefault(x => x.Print == info);
 
             if (result == null)
@@ -449,7 +449,7 @@ namespace PrintsCapture.LocalAwSeqCheck
         private void CutTwoThumbs(PrintInfo info)
         {
             //info.Image.Save("C:\\tmp\\TestMath" + info.NistPosition.ToString() + "_original.bmp");
-
+            this.Logger.Trace("LocalAwSequence - CutTwoThumbs");
             bool isSpecial = info.Segments != null && info.Segments.Count(x => x.IsExpected && !x.Part.IsMissing) == 2;
 
             // set 2thumbs into the sequence check, without really adding it to internal printCaptured collection
@@ -482,6 +482,7 @@ namespace PrintsCapture.LocalAwSeqCheck
 
         private int GetNumberSlapInt(awSequenceCheck.AwareFingerType fingertype)
         {
+            this.Logger.Trace("LocalAwSequence - GetNumberSlapInt");
             int nbSlap = 1;
             try
             {
@@ -794,7 +795,8 @@ namespace PrintsCapture.LocalAwSeqCheck
         }
 
         private PrintCaptureInfo GetCaptureInfo(CapturedPrint print)
-        {            
+        {
+            this.Logger.Trace("LocalAwSequence - GetCaptureInfo");
             switch (print.Fingertype)
             {
                 case awSequenceCheck.AwareFingerType.AW_PLAIN_LEFT_FOUR_FINGERS:
@@ -921,6 +923,7 @@ namespace PrintsCapture.LocalAwSeqCheck
         {
             // custom handness check :-)
             // Returns none for other than 4slaps.
+            this.Logger.Trace("LocalAwSequence - VerifyHandess");
             if (print.Print.HandPart == HandPart.FourFlats && !print.IsSpecial)
             {
                 this.Logger.Trace("LocalAwSequence - CheckSlap - Handness validation");
@@ -955,6 +958,7 @@ namespace PrintsCapture.LocalAwSeqCheck
        
         private void CalculateScores(CapturedPrint capturedPrint)
         {
+            this.Logger.Trace("LocalAwSequence - CalculateScores");
             var print = capturedPrint.Print;
             var scores = this.GetScores(capturedPrint.Fingertype);
 
@@ -1023,6 +1027,7 @@ namespace PrintsCapture.LocalAwSeqCheck
 
         private void RecalculateScores()
         {
+            this.Logger.Trace("LocalAwSequence - RecalculateScores");
             var allRolled = this.capturedPrints.Where(x => !x.IsSlap && !x.Print.IsEndorsement);
             foreach (var capturedPrint in allRolled)
             {
@@ -1145,6 +1150,7 @@ namespace PrintsCapture.LocalAwSeqCheck
         /// <returns></returns>
         private bool AssignScoresToSegments(AwareIndexReference reference, List<SequenceCheckResult> scores)
         {
+            this.Logger.Trace("LocalAwSequence - AssignScoresToSegments");
             var capt = this.capturedPrints.SingleOrDefault(x => x.Fingertype == reference.Parent.Fingertype);
 
             var selfScore = scores.SingleOrDefault(x => x.Position == reference.NistIndex);

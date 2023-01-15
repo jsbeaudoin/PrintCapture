@@ -335,5 +335,10 @@ namespace PrintsCapture.LocalNeuroSeqCheck
         {
             return new List<PrintSetWarning>();
         }
+
+        public override List<PrintInfo> GetCapturedPrints()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

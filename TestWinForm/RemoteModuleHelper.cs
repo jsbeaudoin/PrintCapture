@@ -308,9 +308,9 @@ namespace TestWinForm
         private void RemoteModuleOnNewResult(Dictionary<string, string> result)
         {
 
-            if (!result.ContainsKey("success"))
+            if (!result.ContainsKey("captureinfo"))
             {
-                this.HandleError("Wrong version of module. Results must include an entry : 'success'");
+                this.HandleError("Wrong version of module. Results must include an entry : 'captureinfo'");
                 return;
             }
 
@@ -328,17 +328,26 @@ namespace TestWinForm
 
         private void CommandResultPrints(Dictionary<string, string> result)
         {
-            if (!result.ContainsKey("data"))
+            if (!result.ContainsKey("captureinfo"))
             {
-                this.HandleError("Wrong version of module. Results must include entry : 'data' ");
+                this.HandleError("Wrong version of module. Results must include entry : 'captureinfo' ");
                 return;
             }
 
             CapturedPrintData resultData = null;
             try
             {
-                var serialized = result["data"];
+                var serialized = result["captureinfo"];
                 resultData = XmlSerializer.Deserialize<CapturedPrintData>(serialized);
+
+                foreach (var print in resultData.Prints)
+                {
+                    var key = "captureprint" + print.Position;
+                    if (result.ContainsKey(key))
+                    {
+                        print.ImageData = XmlSerializer.Deserialize<byte[]>(result[key]);
+                    }
+                }
             }
             catch (Exception ex)
             {

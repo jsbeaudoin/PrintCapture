@@ -913,7 +913,9 @@ namespace PrintsCapture.RemoteSeqCheck
             }
         }
 
-        
-        
+        public override List<PrintInfo> GetCapturedPrints()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

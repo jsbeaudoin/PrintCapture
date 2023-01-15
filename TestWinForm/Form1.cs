@@ -433,6 +433,7 @@ namespace TestWinForm
             try
             {
                 this.Enabled = false;
+                this.ResultLabel.Text = "Scan in progress";
                 var rm = new RemoteModuleHelper("fr", true);
 
                 rm.CaptureCompleted += (success, resultObject, exception) =>
@@ -440,19 +441,27 @@ namespace TestWinForm
                     this.Invoke((Action)(() =>
                     {
                         this.Enabled = true;
+                        this.ResultLabel.Text = "Scan completed";
                         var fingers = resultObject as CapturedPrintData;
-
+                        this.ResultLabel.Text = "Read scan result";
                         if (exception != null)
                         {
                             MessageBox.Show(string.Format("Error {0}", exception.Message),
                                 "Prints", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            this.ResultLabel.Text = "Exception :" + exception.ToString();
                         }
 
 
                         if (fingers == null)
                         {
+                            this.ResultLabel.Text = "Empty result set !";
                             //this.SetScanComplete(false);
                             return;
+                        } else
+                        {
+                            this.ResultLabel.Text = "Print returned !";
+                            this.ResultLabel.Text += "Fingers: " + fingers.Prints.Count;
+                            DisplayResult(fingers);
                         }
 
                         //this.SetScanComplete(success);
@@ -470,5 +479,43 @@ namespace TestWinForm
                 this.Enabled = true;
             }
         }
+
+        private void DisplayResult(CapturedPrintData capturedPrintData)
+        {
+            var previousList = ImageResultPanel.Tag as List<PictureBox>;
+
+            if (previousList != null)
+            {
+                foreach(var pic in previousList)
+                {
+                    ImageResultPanel.Controls.Remove(pic);
+                    pic.Dispose();
+                }
+            }
+
+            var newList = new List<PictureBox>();
+            var x = 0;
+            foreach (var print in capturedPrintData.Prints)
+            {
+                using (var ms = new MemoryStream(print.ImageData))
+                {
+                    var newBitmap = (Bitmap)Image.FromStream(ms);
+                    //newBitmap.SetResolution(capturedPrintData.Dpi, capturedPrintData.Dpi);
+                    var newPic = new PictureBox();
+                    newPic.Size = new Size(400, 400);
+                    newPic.SizeMode = PictureBoxSizeMode.Zoom;
+                    newPic.Location = new Point(x, 0);
+                    newPic.Image = newBitmap;
+                    ImageResultPanel.Controls.Add(newPic);
+                    x += newPic.Width + 2;
+                    newList.Add(newPic);
+                }
+
+            }
+            ImageResultPanel.Tag = newList;
+        }
     }
+
+    
+
 }

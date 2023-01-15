@@ -196,7 +196,7 @@ namespace PrintsCapture.LocalAwSeqCheck
             return new List<PrintSetWarning>();
         }
 
-        public List<PrintInfo> GetCapturedPrints()
+        public override List<PrintInfo> GetCapturedPrints()
         {
             this.Logger.Trace("LocalNbisSeqCheck - GetCapturedPrints");
             var captured =  this.capturedPrints.Select(x => x.Print).ToList();

@@ -61,6 +61,11 @@ namespace TestWinForm
             this.previousPrintCheckBox = new System.Windows.Forms.CheckBox();
             this.PrintBmpRadio = new System.Windows.Forms.RadioButton();
             this.printSerializeRadio = new System.Windows.Forms.RadioButton();
+            this.ResultGroupBox = new System.Windows.Forms.GroupBox();
+            this.ResultLabel = new System.Windows.Forms.Label();
+            this.ImageResultPanel = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
@@ -68,6 +73,8 @@ namespace TestWinForm
             this.groupBox3.SuspendLayout();
             this.captureModeGroup.SuspendLayout();
             this.LoadPreviousPrintsGroup.SuspendLayout();
+            this.ResultGroupBox.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -139,28 +146,24 @@ namespace TestWinForm
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.panel1);
             this.groupBox2.Controls.Add(this.LoadPreviousPrintsGroup);
             this.groupBox2.Controls.Add(this.txtQualityThreshold);
             this.groupBox2.Controls.Add(this.chkEnableQualityCheck);
             this.groupBox2.Controls.Add(this.chkForceQualityCheck);
-            this.groupBox2.Controls.Add(this.btnRemoteModuleLive);
             this.groupBox2.Controls.Add(this.groupBox3);
-            this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.captureModeGroup);
             this.groupBox2.Controls.Add(this.chkSqMode);
-            this.groupBox2.Controls.Add(this.button5);
-            this.groupBox2.Controls.Add(this.StartDebugButton);
-            this.groupBox2.Controls.Add(this.button4);
-            this.groupBox2.Location = new System.Drawing.Point(365, 42);
+            this.groupBox2.Location = new System.Drawing.Point(319, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(386, 409);
+            this.groupBox2.Size = new System.Drawing.Size(607, 293);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Test Livescan with parameters";
             // 
             // btnRemoteModuleLive
             // 
-            this.btnRemoteModuleLive.Location = new System.Drawing.Point(179, 150);
+            this.btnRemoteModuleLive.Location = new System.Drawing.Point(182, 28);
             this.btnRemoteModuleLive.Name = "btnRemoteModuleLive";
             this.btnRemoteModuleLive.Size = new System.Drawing.Size(137, 20);
             this.btnRemoteModuleLive.TabIndex = 16;
@@ -204,7 +207,7 @@ namespace TestWinForm
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(179, 46);
+            this.label2.Location = new System.Drawing.Point(18, 54);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(164, 34);
             this.label2.TabIndex = 13;
@@ -268,7 +271,7 @@ namespace TestWinForm
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(179, 120);
+            this.button5.Location = new System.Drawing.Point(421, 54);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(95, 23);
             this.button5.TabIndex = 8;
@@ -278,7 +281,7 @@ namespace TestWinForm
             // 
             // StartDebugButton
             // 
-            this.StartDebugButton.Location = new System.Drawing.Point(179, 20);
+            this.StartDebugButton.Location = new System.Drawing.Point(16, 28);
             this.StartDebugButton.Name = "StartDebugButton";
             this.StartDebugButton.Size = new System.Drawing.Size(137, 23);
             this.StartDebugButton.TabIndex = 9;
@@ -288,7 +291,7 @@ namespace TestWinForm
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(179, 91);
+            this.button4.Location = new System.Drawing.Point(421, 28);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(95, 23);
             this.button4.TabIndex = 7;
@@ -299,7 +302,7 @@ namespace TestWinForm
             // chkForceQualityCheck
             // 
             this.chkForceQualityCheck.AutoSize = true;
-            this.chkForceQualityCheck.Location = new System.Drawing.Point(15, 181);
+            this.chkForceQualityCheck.Location = new System.Drawing.Point(246, 28);
             this.chkForceQualityCheck.Name = "chkForceQualityCheck";
             this.chkForceQualityCheck.Size = new System.Drawing.Size(211, 17);
             this.chkForceQualityCheck.TabIndex = 17;
@@ -309,7 +312,7 @@ namespace TestWinForm
             // chkEnableQualityCheck
             // 
             this.chkEnableQualityCheck.AutoSize = true;
-            this.chkEnableQualityCheck.Location = new System.Drawing.Point(26, 204);
+            this.chkEnableQualityCheck.Location = new System.Drawing.Point(257, 51);
             this.chkEnableQualityCheck.Name = "chkEnableQualityCheck";
             this.chkEnableQualityCheck.Size = new System.Drawing.Size(142, 17);
             this.chkEnableQualityCheck.TabIndex = 18;
@@ -318,7 +321,7 @@ namespace TestWinForm
             // 
             // txtQualityThreshold
             // 
-            this.txtQualityThreshold.Location = new System.Drawing.Point(174, 204);
+            this.txtQualityThreshold.Location = new System.Drawing.Point(405, 51);
             this.txtQualityThreshold.Name = "txtQualityThreshold";
             this.txtQualityThreshold.Size = new System.Drawing.Size(27, 20);
             this.txtQualityThreshold.TabIndex = 19;
@@ -329,7 +332,7 @@ namespace TestWinForm
             this.LoadPreviousPrintsGroup.Controls.Add(this.printSerializeRadio);
             this.LoadPreviousPrintsGroup.Controls.Add(this.PrintBmpRadio);
             this.LoadPreviousPrintsGroup.Controls.Add(this.previousPrintCheckBox);
-            this.LoadPreviousPrintsGroup.Location = new System.Drawing.Point(15, 247);
+            this.LoadPreviousPrintsGroup.Location = new System.Drawing.Point(235, 74);
             this.LoadPreviousPrintsGroup.Name = "LoadPreviousPrintsGroup";
             this.LoadPreviousPrintsGroup.Size = new System.Drawing.Size(200, 100);
             this.LoadPreviousPrintsGroup.TabIndex = 8;
@@ -339,8 +342,6 @@ namespace TestWinForm
             // previousPrintCheckBox
             // 
             this.previousPrintCheckBox.AutoSize = true;
-            this.previousPrintCheckBox.Checked = true;
-            this.previousPrintCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.previousPrintCheckBox.Location = new System.Drawing.Point(11, 20);
             this.previousPrintCheckBox.Name = "previousPrintCheckBox";
             this.previousPrintCheckBox.Size = new System.Drawing.Size(134, 17);
@@ -351,7 +352,7 @@ namespace TestWinForm
             // PrintBmpRadio
             // 
             this.PrintBmpRadio.AutoSize = true;
-            this.PrintBmpRadio.Location = new System.Drawing.Point(11, 48);
+            this.PrintBmpRadio.Location = new System.Drawing.Point(22, 48);
             this.PrintBmpRadio.Name = "PrintBmpRadio";
             this.PrintBmpRadio.Size = new System.Drawing.Size(46, 17);
             this.PrintBmpRadio.TabIndex = 1;
@@ -362,7 +363,7 @@ namespace TestWinForm
             // 
             this.printSerializeRadio.AutoSize = true;
             this.printSerializeRadio.Checked = true;
-            this.printSerializeRadio.Location = new System.Drawing.Point(11, 71);
+            this.printSerializeRadio.Location = new System.Drawing.Point(22, 71);
             this.printSerializeRadio.Name = "printSerializeRadio";
             this.printSerializeRadio.Size = new System.Drawing.Size(70, 17);
             this.printSerializeRadio.TabIndex = 2;
@@ -370,11 +371,64 @@ namespace TestWinForm
             this.printSerializeRadio.Text = "Serialized";
             this.printSerializeRadio.UseVisualStyleBackColor = true;
             // 
+            // ResultGroupBox
+            // 
+            this.ResultGroupBox.Controls.Add(this.ImageResultPanel);
+            this.ResultGroupBox.Controls.Add(this.ResultLabel);
+            this.ResultGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ResultGroupBox.Location = new System.Drawing.Point(0, 324);
+            this.ResultGroupBox.Name = "ResultGroupBox";
+            this.ResultGroupBox.Size = new System.Drawing.Size(997, 450);
+            this.ResultGroupBox.TabIndex = 8;
+            this.ResultGroupBox.TabStop = false;
+            this.ResultGroupBox.Text = "Capture Results";
+            // 
+            // ResultLabel
+            // 
+            this.ResultLabel.AutoSize = true;
+            this.ResultLabel.Location = new System.Drawing.Point(9, 26);
+            this.ResultLabel.Name = "ResultLabel";
+            this.ResultLabel.Size = new System.Drawing.Size(35, 13);
+            this.ResultLabel.TabIndex = 0;
+            this.ResultLabel.Text = "label3";
+            // 
+            // ImageResultPanel
+            // 
+            this.ImageResultPanel.AutoScroll = true;
+            this.ImageResultPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ImageResultPanel.Location = new System.Drawing.Point(3, 47);
+            this.ImageResultPanel.Name = "ImageResultPanel";
+            this.ImageResultPanel.Size = new System.Drawing.Size(991, 400);
+            this.ImageResultPanel.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.StartDebugButton);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.button4);
+            this.panel1.Controls.Add(this.btnRemoteModuleLive);
+            this.panel1.Controls.Add(this.button5);
+            this.panel1.Location = new System.Drawing.Point(15, 176);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(604, 100);
+            this.panel1.TabIndex = 20;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Start Options";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(997, 574);
+            this.ClientSize = new System.Drawing.Size(997, 774);
+            this.Controls.Add(this.ResultGroupBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button2);
@@ -394,6 +448,10 @@ namespace TestWinForm
             this.captureModeGroup.PerformLayout();
             this.LoadPreviousPrintsGroup.ResumeLayout(false);
             this.LoadPreviousPrintsGroup.PerformLayout();
+            this.ResultGroupBox.ResumeLayout(false);
+            this.ResultGroupBox.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -429,6 +487,11 @@ namespace TestWinForm
         private System.Windows.Forms.RadioButton printSerializeRadio;
         private System.Windows.Forms.RadioButton PrintBmpRadio;
         private System.Windows.Forms.CheckBox previousPrintCheckBox;
+        private System.Windows.Forms.GroupBox ResultGroupBox;
+        private System.Windows.Forms.Label ResultLabel;
+        private System.Windows.Forms.Panel ImageResultPanel;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label3;
     }
 }
 

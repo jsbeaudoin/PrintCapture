@@ -169,6 +169,8 @@ namespace PrintsCapture.Prints.Sequence
 
         protected abstract List<PrintSetWarning> CheckSessionIntegrity();
 
+        public abstract List<PrintInfo> GetCapturedPrints();
+
         #endregion
 
         #region protected methods

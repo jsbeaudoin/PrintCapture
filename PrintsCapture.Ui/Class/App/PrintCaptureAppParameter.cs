@@ -194,7 +194,6 @@ namespace PrintsCapture.Ui.Class
 
         public void LoadPreviousPrints(string serializedData)
         {
-            serializedData = serializedData.Replace("<ImageDataFormat>Wsq</ImageDataFormat>", "<ImageDataFormat>Bmp</ImageDataFormat>");
             CapturedPrintData capturedData = ObjectSerializer.GetInstanceFromString<CapturedPrintData>(serializedData);
             List<FingerprintData> fingers = capturedData.Prints;
             this.ImportedPrints = new List<ImportedPrint>();
@@ -202,10 +201,6 @@ namespace PrintsCapture.Ui.Class
             foreach (var finger in fingers)
             {
                 Bitmap bmpInstance = null;
-                if (finger.ImageDataFormat == PrintDataFormat.Wsq)
-                {
-                    throw new ApplicationException("Cannot load Wsq prints for new Print Capture!");
-                }
                 var bmpRawData = finger.ImageDataFormat == PrintDataFormat.BmpZip ?
                             SevenZipHelper.Decompress(finger.ImageData) : finger.ImageData;
                 if (bmpRawData != null)
@@ -216,6 +211,7 @@ namespace PrintsCapture.Ui.Class
                         bmpInstance.SetResolution(capturedData.Dpi, capturedData.Dpi);
                     }
                     finger.ImageData = null;
+                    bmpRawData = null;
                 }
 
                 var newPrint = new ImportedPrint {

@@ -203,6 +203,8 @@ namespace PrintsCapture.RemoteModule
 
         private void WritePrintsInformation(Dictionary<string, string> dicResult)
         {
+            logger.Info("WritePrintsInformation called");            
+
             var seq = this.appParameter.SeqCheckService as LocalAwSeqCheck.LocalSeqCheck;
             if (seq == null)
             {
@@ -211,21 +213,15 @@ namespace PrintsCapture.RemoteModule
 
             try
             {
-                var prints = seq.GetCapturedPrints();
-                var captureDevice = seq.CaptureDevice;
-                var captureMode = seq.CaptureMode;
-                seq.ResetSession(); // dispose of prints sequence, clear the memory
-
                 if (!PrintCaptureApp.IsWizard || PrintCaptureApp.HasWizardAcceptedPrint)
                 {
                     this.logger.Info("WritePrintsInformation : Adding serialized GetCapturedPrintData in DATA");
-                    var capturedData = CapturedPrintDataBuilder.GetCapturedPrintData(prints, captureDevice, captureMode);
-                    dicResult.Add("data", XmlSerializer.Serialize(capturedData));
+                    CapturedPrintDataBuilder.SetSerializedPrintData(seq, dicResult);
                 }
                 else
                 {
                     this.logger.Info("WritePrintsInformation : Adding null in DATA");
-                    dicResult.Add("data", null);
+                    dicResult.Add("captureinfo", null);
                 }
                 
             }
@@ -275,6 +271,7 @@ namespace PrintsCapture.RemoteModule
                 SplashWindowHelper.SetErrorMessage("App could not be launched : " + ex.Message, 1);
                 return;
             }
+            moduleArgs.Clear();
         }
 
         private void ConfigureWeb(Dictionary<string, string> moduleArguments)
@@ -373,7 +370,7 @@ namespace PrintsCapture.RemoteModule
         {
             string log = "command received";
 
-            this.appParameter = PrintCaptureAppParameter.FromParameters(moduleArguments);            
+            this.appParameter = PrintCaptureAppParameter.FromParameters(moduleArguments);
 
             try
             {
@@ -383,7 +380,7 @@ namespace PrintsCapture.RemoteModule
                 {
                     MessageBox.Show("Attach debugger now");
                 }
-
+                moduleArguments.Clear();
 
                 // DotNet 4.0 ...
                 PrintCaptureApp.ApplicationCulture = new CultureInfo(this.appParameter.CultureName);

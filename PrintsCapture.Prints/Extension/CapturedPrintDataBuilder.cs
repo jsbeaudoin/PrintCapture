@@ -12,53 +12,97 @@ namespace PrintsCapture.Prints.Extension
     using UniBIO.Services.Communication.TransactionService;
 
     using XL_ID.Utilities.Image;
+    using XL_ID.Utilities.XML;
+
+    using NLog;
+    using System.IO;
 
     public static class CapturedPrintDataBuilder
     {
+        private static Logger Logger;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="printList">List of all prints</param>
-        /// <param name="captureDevice">Capture Device Information</param>
-        /// <param name="captureMode">Capture mode for prints</param>
-        /// <returns></returns>
-        public static CapturedPrintData GetCapturedPrintData(List<PrintInfo> printList, CaptureDeviceInfo captureDevice, string captureMode)
+        private static Logger GetLogger()
+        {
+            if (Logger == null)
+            {
+                Logger = LogManager.GetCurrentClassLogger();
+            }
+            return Logger;
+        }
+
+        public static CapturedPrintData GetCapturedPrintData(BaseSeqCheckService seq)
+        {
+            var prints = seq.GetCapturedPrints();
+            var data = GetCapturePrintData(seq, prints, true);
+            seq.ResetSession();
+            return data;
+        }
+
+        public static void SetSerializedPrintData(BaseSeqCheckService seq, Dictionary<string, string> dicResult)
+        {
+            var prints = seq.GetCapturedPrints();
+            var data = GetCapturePrintData(seq, prints, false); // Complete structure, without image bytes
+            dicResult.Add("captureinfo", XmlSerializer.Serialize(data));
+            seq.ResetSession();
+
+            foreach (var printInfo in prints)
+            {
+                if (!printInfo.IsMissing && printInfo.ImageForProcessing != null)
+                {
+                    byte[] imageBytes;
+                    using (var ms = new MemoryStream())
+                    {
+                        printInfo.ImageForProcessing.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                        imageBytes = printInfo.ImageForProcessing.ToByteArray();
+                    }
+                    
+                    printInfo.ImageForProcessing.Dispose();
+                    if (printInfo.Image != null)
+                    {
+                        printInfo.Image = null;
+                    }
+                    var printData = XmlSerializer.Serialize(imageBytes);
+                    dicResult.Add($"captureprint{printInfo.NistPosition}", printData); // Serialized image bytes
+
+                    GC.Collect();
+                }
+            }
+        }
+        private static CapturedPrintData GetCapturePrintData(BaseSeqCheckService seq, List<PrintInfo> prints, bool includeImageBytes)
         {
             try
             {
-            
-                var impressionType = captureDevice.Kind == CaptureKind.Livescan
+                var impressionType = seq.CaptureDevice.Kind == CaptureKind.Livescan
                                                   ? CaptureType.LiveScan
                                                   : CaptureType.CardScan;
 
                 var data = new CapturedPrintData
                 {
-                    CaptureFlatOnly = captureMode == "flat",
+                    CaptureFlatOnly = seq.CaptureMode == "flat",
                     CapturedTime = DateTime.Now,
                     Device =
                             new DeviceInformation()
                             {
                                 Kind =
-                                    captureDevice.Kind
+                                    seq.CaptureDevice.Kind
                                     == CaptureKind.Livescan
                                         ? DeviceKind.LiveScan
                                         : DeviceKind.CardScan,
                                 Manufacturer =
                                     ToRcmpText(
-                                        captureDevice.Make),
+                                        seq.CaptureDevice.Make),
                                 ModelName =
                                     ToRcmpText(
-                                        captureDevice.ModelName),
+                                        seq.CaptureDevice.ModelName),
                                 SerialNumber =
                                     ToRcmpText(
-                                        captureDevice
+                                        seq.CaptureDevice
                                     .SerialNumber)
                             },
                     Prints = new List<FingerprintData>()
                 };
 
-                foreach (var printInfo in printList)
+                foreach (var printInfo in prints)
                 {
                     var p = new FingerprintData
                     {
@@ -68,6 +112,11 @@ namespace PrintsCapture.Prints.Extension
                         Sequence = printInfo.SequenceScore,
                         MinutiaCount = printInfo.MinutiaCount,
                     };
+                    if (includeImageBytes)
+                    {
+                        p.ImageData = printInfo.ImageForProcessing.ToByteArray();
+                        printInfo.ImageForProcessing.Dispose();
+                    }
 
                     if (printInfo.IsEndorsement)
                     {
@@ -76,7 +125,11 @@ namespace PrintsCapture.Prints.Extension
 
                     if (!printInfo.IsMissing && printInfo.ImageForProcessing != null)
                     {
-                        p.ImageData = printInfo.ImageForProcessing.ToByteArray();
+                        if (data.Dpi == 0)
+                        {
+                            data.Dpi = printInfo.Resolution.ToDpi();
+                        }
+                        
                         p.ImageInfo = new ImageInformation
                         {
                             HLL = printInfo.ImageForProcessing.Width,
@@ -130,17 +183,16 @@ namespace PrintsCapture.Prints.Extension
                         }
                     }
                 }
-
                 return data;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                GetLogger().Error(ex, "GetCaptureInfo failed");
+                return null;
             }
-
-            return null;
         }
 
+        
         private static string ToRcmpText(DateTime value)
         {
 
@@ -172,5 +224,7 @@ namespace PrintsCapture.Prints.Extension
 
             return text.ToUpperInvariant();
         }
+
+        
     }
 }
