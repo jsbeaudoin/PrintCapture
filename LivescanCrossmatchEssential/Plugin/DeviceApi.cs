@@ -13,7 +13,7 @@
     using Livescan.Scanners.DriverEssential;
     using Livescan.Scanners.DriverEssential.Plugin;
     using Livescan.Scanners.DriverEssential.Sdk;
-
+    using NLog;
     using PrintsCapture.Device;
     using PrintsCapture.Device.AutoScan;
     using PrintsCapture.Device.Enum;
@@ -58,7 +58,7 @@
 
         PrintCaptureInformation currentScan;
 
-               
+        private Logger logger;
 
         private List<PhysicalHandPart> qualityParts;
 
@@ -100,8 +100,9 @@
 
         public DeviceApi()
         {
+            this.logger = LogManager.GetCurrentClassLogger();
             this.CreatePropertyList();
-            this.CreateSupportedPrintList();            
+            this.CreateSupportedPrintList();
         }        
 
         internal DeviceApi(string internalName, string friendlyName, PrintResolution resolutions, DeviceScanKind scanKinds, string imageUri, ICaptureSdk sdk, bool supportsLed = false) : this()
@@ -149,6 +150,7 @@
 
         public void Open()
         {
+            this.Log("Crossmatch DeviceApi Open called");
             this.LastException = null;
             this.ChangeState(DeviceState.Opening);
 
@@ -226,6 +228,7 @@
 
         public bool InitializeCapture(IEnumerable<PhysicalHandPart> physHandParts, CapturePreviewHandler preview, int previewWindowHandle, bool isFlat)
         {
+            this.Log("Crossmatch DeviceApi InitializeCapture called");
             this.handParts = physHandParts;
             this.SetHandFingers();
             this.AdaptSupportedPrints(isFlat);
@@ -255,6 +258,7 @@
 
         public bool CapturePrint(PrintResolution resolution, Hand printHand, HandPart handPart, HandScanKind scanKind)
         {
+            this.Log("Crossmatch DeviceApi CapturePrint called");
             this.LastException = null;
 
             if (!this.IsOpened)
@@ -337,7 +341,8 @@
 
         public bool StopCapture()
         {
-            this.Log("StopCapture called");
+            this.Log("Crossmatch DeviceApi StopCapture called");
+            
             this.displayManage.DisplayStandby();
             this.ledManage?.CloseLeds();
 
@@ -365,7 +370,7 @@
 
         public void Close()
         {
-            this.Log("Close called");
+            this.Log("Crossmatch DeviceApi Close called");
             
             this.ChangeState(DeviceState.Closing);
 
@@ -391,7 +396,7 @@
             }
             catch (Exception ex)
             {
-                LogDispatcher.DoLog("Crossmatch DeviceApi Close error", LogEventLevel.Warning, ex);
+                this.Log("Crossmatch DeviceApi Close error", LogEventLevel.Warning, ex);
             }
 
             this.deviceHandle = -1;            
@@ -574,7 +579,7 @@
                 }
 
                 this.LastException = new SdkException(this.DisplayName, "CheckSdkError", errorKind, errorText, isWarn, null);
-                LogDispatcher.DoLog("Crossmatch DeviceApi CheckSdkError error", LogEventLevel.Warning, LastException);
+                this.Log("Crossmatch DeviceApi CheckSdkError error", LogEventLevel.Warning, LastException);
                 return true;
             }
 
@@ -774,7 +779,7 @@
 
         private void DeviceCommunicationBreak(int errorDeviceHandle, IntPtr pContext)
         {
-            this.Log("DeviceCommunicationBreak called");
+            this.Log("Crossmatch DeviceApi DeviceCommunicationBreak called");
             this.OnDeviceSendMessage(CommonText.CommunicationBreakDetected, DeviceMessageKind.Error, false);
             try
             {
@@ -784,7 +789,7 @@
             }
             catch (Exception ex)
             {
-                LogDispatcher.DoLog("Crossmatch DeviceApi DeviceCommunicationBreak error", LogEventLevel.Warning, ex);
+                this.Log("Crossmatch DeviceApi DeviceCommunicationBreak error", LogEventLevel.Warning, ex);
             }
 
             this.deviceHandle = -1;
@@ -796,6 +801,7 @@
 
         private void CallbackDeviceInitProgress(int deviceIndex, IntPtr pContext, enumLScanOperationType operationType, float progressValue)
         {
+            this.Log("Crossmatch DeviceApi CallbackDeviceInitProgress called");
             int progressInt = (int)(progressValue * 100);
             LSE_SDK.LSCAN_Controls_DisplayShowLogoScreen(this.deviceHandle, enumLScanDisplayLogoOption.LSCAN_DISPLAY_LOGO_OPTION_SHOW_FW_VERSION, progressInt);
 
@@ -840,7 +846,7 @@
         /// </returns>
         public void DeviceCapturedPrint(int deviceHandle, IntPtr pContext, int imageStatus, ImageData image, enumLScanImageType imageType, int detectedObjects)
         {
-            this.Log("DeviceCapturedPrint called");
+            this.Log("Crossmatch DeviceApi DeviceCapturedPrint called");
             this.tftManage.DisplayWait();            
 
             if (this.SupportsLed)
@@ -909,6 +915,7 @@
 
         void DoBeep(int pattern)
         {
+            this.Log("Crossmatch DeviceApi DoBeep called");
             if (this.Properties.GetBoolValue(PropUseSystemSound))
             {                
                 DeviceSoundPlayer.Play(DeviceSound.Beep);             
@@ -1111,10 +1118,28 @@
             this.DoBeep(3);
         }
 
-        void Log(string text)
+        void Log(string text, LogEventLevel level = LogEventLevel.Info, Exception ex = null)
         {
             Console.WriteLine(@"{0:yyyy-MM-dd HH:mm:ss} - DeveiApiCrossmatch - {1}", DateTime.Now, text);
-            LogDispatcher.DoLog($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - DeviceApiCrossmatch - {1}");
+            this.Log($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - DeviceApiCrossmatch - {1}", level, ex);
+
+            if (ex != null && level != LogEventLevel.Error)
+            {
+                text += "\n" + ex.ToString();
+            }
+
+            switch (level)
+            {
+                case LogEventLevel.Warning:
+                    this.logger.Warn(ex, text);
+                    break;
+                case LogEventLevel.Error:
+                    this.logger.Error(ex, text);
+                    break;
+                default:
+                    this.logger.Info(text);
+                    break;
+            }
         }
 
         #endregion
