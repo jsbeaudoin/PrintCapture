@@ -40,42 +40,47 @@ namespace PrintsCapture.RemoteModule
 
             private PrintCaptureAppParameter appParameter;
 
-            protected override void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            logger = LogManager.GetCurrentClassLogger();
+            AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
-                base.OnStartup(e);
+                logger.Error(eventArgs.Exception, "AppDomain.CurrentDomain.FirstChanceException");
+            };
 
-                logger = LogManager.GetCurrentClassLogger();
-                this.logger.Info("*****App PrintsCapture.RemoteModule starting*****");
+            this.logger.Info("*****App PrintsCapture.RemoteModule starting*****");
 
-                var startTime = DateTime.Now;
-                SplashWindowHelper.CreateSplash( 
-                    new SplashLabels
-                    {                        
-                        Title = "UniDAC", 
-                        SubTitle = "PrintsCapture " + PrintCaptureApp.AppVersion,
-                        Message = "..."
-
-                    },
-                    new Uri("pack://application:,,,/Images/LogoPrintCapture4-300x300.png"));
-                var duration = DateTime.Now.Subtract(startTime);
-                this.logger.Trace($"Splash Screen creation process time: {duration.ToString("mm\\:ss\\:ff")}");
-
-                if (!RemoteModuleCallback.IsLaunchedByModuleHost)
+            var startTime = DateTime.Now;
+            SplashWindowHelper.CreateSplash(
+                new SplashLabels
                 {
-                    this.logger.Trace(RemoteModuleCallback.IsLaunchedByModuleHost);
-                    if (e.Args.Length > 0 && e.Args[0] == "debug")
-                    {
-                        var config = new PrintCaptureAppParameter
-                                     {
-                                         CultureName = "fr",
-                                         DescriptionLine1 = "Line1",
-                                         DescriptionLine2 = "Line2",
-                                         Mode = "livescan",
-                                         CaptureModeAllowed = PrintCaptureGroup.FlatOnly
-                                     };
+                    Title = "UniDAC",
+                    SubTitle = "PrintsCapture " + PrintCaptureApp.AppVersion,
+                    Message = "..."
 
-                        // DotNet 4.0 ...
-                        PrintCaptureApp.ApplicationCulture = new CultureInfo(config.CultureName);
+                },
+                new Uri("pack://application:,,,/Images/LogoPrintCapture4-300x300.png"));
+            var duration = DateTime.Now.Subtract(startTime);
+            this.logger.Trace($"Splash Screen creation process time: {duration.ToString("mm\\:ss\\:ff")}");
+
+            if (!RemoteModuleCallback.IsLaunchedByModuleHost)
+            {
+                this.logger.Trace(RemoteModuleCallback.IsLaunchedByModuleHost);
+                if (e.Args.Length > 0 && e.Args[0] == "debug")
+                {
+                    var config = new PrintCaptureAppParameter
+                    {
+                        CultureName = "fr",
+                        DescriptionLine1 = "Line1",
+                        DescriptionLine2 = "Line2",
+                        Mode = "livescan",
+                        CaptureModeAllowed = PrintCaptureGroup.FlatOnly
+                    };
+
+                    // DotNet 4.0 ...
+                    PrintCaptureApp.ApplicationCulture = new CultureInfo(config.CultureName);
 
                     // DotNet 4.5
                     //CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(config.CultureName);
@@ -88,118 +93,118 @@ namespace PrintsCapture.RemoteModule
                     var s =
                             Convert.FromBase64String(
                                 "RW5kcG9pbnQ9c2I6Ly91bmlkYWMuc2VydmljZWJ1cy53aW5kb3dzLm5ldC9EZXYtUHJpbnRTZXRTZXJ2aWNlLztTaGFyZWRBY2Nlc3NLZXlOYW1lPVVuaWRhYy5DaXZpbC5XZWI7U2hhcmVkQWNjZXNzS2V5PVBpeTlKUUh5cm9YVjVBWGVVdGNXUVRwbmIydk8xY0t1dU5Uc2JydTJlTVE9");
-                        var c = Encoding.UTF8.GetString(s);
-                        var cs = new ServiceBusConnectionStringBuilder(); //c
-                        cs.SharedAccessKeyName = "Unidac.Civil.Web"; //"UniBIO.Services";
-                        cs.SharedAccessKey = "Piy9JQHyroXV5AXeUtcWQTpnb2vO1cKuuNTsbru2eMQ="; // "mwmivuTKm1yaBPsTUSmD1BdM4puTrzlkW4uaRwCarwM=";
-                        cs.Endpoints.Add(new Uri("sb://unidac.servicebus.windows.net/dev-PrintSetService/"));
-                        
-                        //"Endpoint=sb://unidac.servicebus.windows.net/dev-PrintDataService/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=yourKey";
+                    var c = Encoding.UTF8.GetString(s);
+                    var cs = new ServiceBusConnectionStringBuilder(); //c
+                    cs.SharedAccessKeyName = "Unidac.Civil.Web"; //"UniBIO.Services";
+                    cs.SharedAccessKey = "Piy9JQHyroXV5AXeUtcWQTpnb2vO1cKuuNTsbru2eMQ="; // "mwmivuTKm1yaBPsTUSmD1BdM4puTrzlkW4uaRwCarwM=";
+                    cs.Endpoints.Add(new Uri("sb://unidac.servicebus.windows.net/dev-PrintSetService/"));
+
+                    //"Endpoint=sb://unidac.servicebus.windows.net/dev-PrintDataService/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=yourKey";
 
 
-                        var seq = new PrintSetService(
-                            "9ca5c736-acbc-4946-a143-e085684deb30",
-                            cs.ToString(),                           
-                            config.Mode == "cardscan" ? CaptureKind.Cardscan : CaptureKind.Livescan,
-                            config.PrintList);
-                        
-                        //seq.ServiceIssuerName = "UniBIO.Services";
-                        //seq.ServiceIssuerSecret = "mwmivuTKm1yaBPsTUSmD1BdM4puTrzlkW4uaRwCarwM=";
-                        //seq.IsSharedAccessKey = false;
+                    var seq = new PrintSetService(
+                        "9ca5c736-acbc-4946-a143-e085684deb30",
+                        cs.ToString(),
+                        config.Mode == "cardscan" ? CaptureKind.Cardscan : CaptureKind.Livescan,
+                        config.PrintList);
 
-                        config.SeqCheckService = seq;
-                        this.LaunchApp(config);
-                        return;
-                    }
+                    //seq.ServiceIssuerName = "UniBIO.Services";
+                    //seq.ServiceIssuerSecret = "mwmivuTKm1yaBPsTUSmD1BdM4puTrzlkW4uaRwCarwM=";
+                    //seq.IsSharedAccessKey = false;
 
-                    this.logger.Debug("App was not launched by module host. App Shutdown.");
-
-                    SplashWindowHelper.SetErrorMessage("App was not launched by module host.", 1);                    
+                    config.SeqCheckService = seq;
+                    this.LaunchApp(config);
                     return;
                 }
 
-                Task.Factory.StartNew(this.SetupRemote);
+                this.logger.Debug("App was not launched by module host. App Shutdown.");
+
+                SplashWindowHelper.SetErrorMessage("App was not launched by module host.", 1);
+                return;
             }
 
-            private void SetupRemote()
+            Task.Factory.StartNew(this.SetupRemote);
+        }
+
+        private void SetupRemote()
+        {
+            try
             {
-                try
-                {
-                    var startTime = DateTime.Now;
-                    this.remoteModule = new RemoteModuleCallback();
-                    var duration = DateTime.Now.Subtract(startTime);
-                    this.logger.Trace($"New RemoteModuleCallback process time: {duration.ToString("mm\\:ss\\:ff")}");
+                var startTime = DateTime.Now;
+                this.remoteModule = new RemoteModuleCallback();
+                var duration = DateTime.Now.Subtract(startTime);
+                this.logger.Trace($"New RemoteModuleCallback process time: {duration.ToString("mm\\:ss\\:ff")}");
 
-                    startTime = DateTime.Now;
-                    this.remoteModule.Connected += this.RemoteModuleOnConnected;
-                    this.remoteModule.Disconnected += this.RemoteModuleOnDisconnected;
-                    this.remoteModule.NewCommand += this.RemoteModuleOnNewCommand;
-                    duration = DateTime.Now.Subtract(startTime);
-                    this.logger.Trace($"Setting remote module events. Process time: {duration.ToString("mm\\:ss\\:ff")}");
+                startTime = DateTime.Now;
+                this.remoteModule.Connected += this.RemoteModuleOnConnected;
+                this.remoteModule.Disconnected += this.RemoteModuleOnDisconnected;
+                this.remoteModule.NewCommand += this.RemoteModuleOnNewCommand;
+                duration = DateTime.Now.Subtract(startTime);
+                this.logger.Trace($"Setting remote module events. Process time: {duration.ToString("mm\\:ss\\:ff")}");
 
-                    startTime = DateTime.Now;
-                    this.Connect();
-                    duration = DateTime.Now.Subtract(startTime);
-                    this.logger.Trace($"Connect function process time: {duration.ToString("mm\\:ss\\:ff")}");
+                startTime = DateTime.Now;
+                this.Connect();
+                duration = DateTime.Now.Subtract(startTime);
+                this.logger.Trace($"Connect function process time: {duration.ToString("mm\\:ss\\:ff")}");
 
-                }
-                catch (Exception ex)
-                {
-                    this.logger.Error(ex, "Can't initialize remote module.");
-
-                    SplashWindowHelper.SetErrorMessage("Can't initialize remote module.", 1);                    
-                }
             }
-
-            private void Connect()
+            catch (Exception ex)
             {
+                this.logger.Error(ex, "Can't initialize remote module.");
 
-                try
-                {
-                    this.remoteModule.Connect();
-                    this.logger.Info("Remote Module Connected");
-                }
-                catch (Exception ex)
-                {
-                    this.logger.Error(ex, "Can't connect to remote module.");
-                    SplashWindowHelper.SetErrorMessage("Can't connect to remote module", 1);                    
-                }
-
+                SplashWindowHelper.SetErrorMessage("Can't initialize remote module.", 1);
             }
+        }
 
+        private void Connect()
+        {
 
-            private void LaunchApp(PrintCaptureAppParameter config)
-            {                           
-                var app = PrintCaptureApp.Start(config);
-                if (app != null)
-                {
-                    app.ScanCompleted += AppOnScanCompleted;                   
-                    PrintCaptureApp.OpenMainFormDialog();
-                    
-                }
-                else
-                {
-                    Application.Current.Shutdown(1);
-                }
-            }
-
-            private void AppOnScanCompleted(object sender, ScanCompletedEventArgs e)
+            try
             {
-                var dicResult = new Dictionary<string, string>();
-                if (!isLocalRemote)
-                {
-                    dicResult["success"] = e.Success ? "1" : "0";
-                    dicResult["referenceid"] = this.referenceId;
-                    dicResult["resultsetid"] = e.ResultSetId;
-                }
-                else
-                {
-                    dicResult["success"] = e.Success ? "1" : "0";
-                    WritePrintsInformation(dicResult);                
-                }
-
-                remoteModule?.SendResult(dicResult);
+                this.remoteModule.Connect();
+                this.logger.Info("Remote Module Connected");
             }
+            catch (Exception ex)
+            {
+                this.logger.Error(ex, "Can't connect to remote module.");
+                SplashWindowHelper.SetErrorMessage("Can't connect to remote module", 1);
+            }
+
+        }
+
+
+        private void LaunchApp(PrintCaptureAppParameter config)
+        {
+            var app = PrintCaptureApp.Start(config);
+            if (app != null)
+            {
+                app.ScanCompleted += AppOnScanCompleted;
+                PrintCaptureApp.OpenMainFormDialog();
+
+            }
+            else
+            {
+                Application.Current.Shutdown(1);
+            }
+        }
+
+        private void AppOnScanCompleted(object sender, ScanCompletedEventArgs e)
+        {
+            var dicResult = new Dictionary<string, string>();
+            if (!isLocalRemote)
+            {
+                dicResult["success"] = e.Success ? "1" : "0";
+                dicResult["referenceid"] = this.referenceId;
+                dicResult["resultsetid"] = e.ResultSetId;
+            }
+            else
+            {
+                dicResult["success"] = e.Success ? "1" : "0";
+                WritePrintsInformation(dicResult);
+            }
+
+            remoteModule?.SendResult(dicResult);
+        }
 
         private void WritePrintsInformation(Dictionary<string, string> dicResult)
         {

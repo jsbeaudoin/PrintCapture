@@ -76,17 +76,17 @@ namespace PrintsCapture.Device.LivescanCrossmatchEssential.Plugin
                 if (this.mustInitialize)
                 {
                     LSE_SDK.LSCAN_InitAPI();
-                }               
+                }
 
                 this.IsOpened = true;
                 return true;
             }
             catch (Exception ex)
             {
-               this.LastException = ex;
-               
-               return false;
-            }            
+                this.LastException = ex;
+                DeviceLog.Logger.Error(ex, "CrossmatchApi Open failed");
+                return false;
+            }
         }
 
         public CaptureKind DeviceKind { get; private set; }
@@ -145,7 +145,8 @@ namespace PrintsCapture.Device.LivescanCrossmatchEssential.Plugin
             catch (Exception ex)
             {
                 // Nothing !
-                this.LastException = ex;                
+                this.LastException = ex;
+                DeviceLog.Logger.Error(ex, "CrossmatchApi Close failed");
             }
 
             this.IsOpened = false;            

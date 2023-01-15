@@ -10,8 +10,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using System.Xml.Serialization;
-
-    
+    using Livescan.Scanners.DriverEssential;
     using Livescan.Scanners.DriverEssential.Plugin;
     using Livescan.Scanners.DriverEssential.Sdk;
 
@@ -310,9 +309,7 @@
             {
                 this.OnDeviceSendMessage("Could not set Window",  DeviceMessageKind.Error,  true);
                 return false;
-            }            
-
-            
+            }
 
             if (!this.SetCaptureMode())
             {
@@ -360,7 +357,7 @@
 
                 this.ClearCallback();            
                 this.ChangeState(DeviceState.Ready);
-            }           
+            }
 
             return true;
         }        
@@ -375,11 +372,11 @@
             {
                 this.Log("Close - Device is not initialized");
                 return;
-            }            
+            }
 
             try
-            {                
-                this.ClearCallback();                
+            {
+                this.ClearCallback();
             }
             catch (Exception)
             {
@@ -391,10 +388,10 @@
                 LSE_SDK.LSCAN_Controls_DisplayShowLogoScreen(this.deviceHandle, enumLScanDisplayLogoOption.LSCAN_DISPLAY_LOGO_OPTION_ERASE, 0);
                 LSE_SDK.LSCAN_Main_Release(this.deviceHandle, 0);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // nothing
-            }            
+                DeviceLog.Logger.Warn(ex, "Crossmatch DeviceApi Close error");
+            }
 
             this.deviceHandle = -1;            
 
@@ -576,6 +573,7 @@
                 }
 
                 this.LastException = new SdkException(this.DisplayName, "CheckSdkError", errorKind, errorText, isWarn, null);
+                DeviceLog.Logger.Warn(LastException, "Crossmatch DeviceApi CheckSdkError error");
                 return true;
             }
 
@@ -783,9 +781,10 @@
                 LSE_SDK.LSCAN_Controls_DisplayShowLogoScreen(this.deviceHandle, enumLScanDisplayLogoOption.LSCAN_DISPLAY_LOGO_OPTION_ERASE, 0);
                 LSE_SDK.LSCAN_Main_Release(this.deviceHandle, 1);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // nothing
+                DeviceLog.Logger.Warn(ex, "Crossmatch DeviceApi DeviceCommunicationBreak error");
             }
 
             this.deviceHandle = -1;
