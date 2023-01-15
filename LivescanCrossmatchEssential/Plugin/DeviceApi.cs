@@ -1114,6 +1114,7 @@
         void Log(string text)
         {
             Console.WriteLine(@"{0:yyyy-MM-dd HH:mm:ss} - DeveiApiCrossmatch - {1}", DateTime.Now, text);
+            LogDispatcher.DoLog($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - DeviceApiCrossmatch - {1}");
         }
 
         #endregion
