@@ -23,6 +23,7 @@ namespace PrintsCapture.Device.LivescanCrossmatchEssential.Plugin
     using PrintsCapture.Device.Enum;
     using PrintsCapture.Device.Interface;
     using PrintsCapture.Prints.Enum;
+    using XL_ID.Utilities.Log;
 
     [Export(typeof(ICaptureSdk))]
     public class SdkApi : ICaptureSdk
@@ -84,7 +85,7 @@ namespace PrintsCapture.Device.LivescanCrossmatchEssential.Plugin
             catch (Exception ex)
             {
                 this.LastException = ex;
-                DeviceLog.Logger.Error(ex, "CrossmatchApi Open failed");
+                LogDispatcher.DoLog("CrossmatchApi Open failed", LogEventLevel.Error, ex);
                 return false;
             }
         }
@@ -146,7 +147,7 @@ namespace PrintsCapture.Device.LivescanCrossmatchEssential.Plugin
             {
                 // Nothing !
                 this.LastException = ex;
-                DeviceLog.Logger.Error(ex, "CrossmatchApi Close failed");
+                LogDispatcher.DoLog("CrossmatchApi Close failed", LogEventLevel.Error, ex);
             }
 
             this.IsOpened = false;            
@@ -160,7 +161,7 @@ namespace PrintsCapture.Device.LivescanCrossmatchEssential.Plugin
 
         private void InitSupportedList()
         {
-            DeviceLog.Logger.Trace("Init Supported List CrossmatchEssential");
+            LogDispatcher.DoLog("Init Supported List CrossmatchEssential", LogEventLevel.Info);
             this.supportedDevices = new List<DeviceApi>();
 
             this.supportedDevices.Add(new DeviceApi(
@@ -255,7 +256,7 @@ namespace PrintsCapture.Device.LivescanCrossmatchEssential.Plugin
                 var productVersion = versionApi.ProductVersion.Replace(',','.');
                 Version version;
 
-                DeviceLog.Logger.Trace($"Checking API Version. Dll path : {dllPath} Version API: {versionApi}");
+                LogDispatcher.DoLog($"Checking API Version. Dll path : {dllPath} Version API: {versionApi}", LogEventLevel.Info);
 
                 if (!Version.TryParse(productVersion, out version))
                 {
@@ -268,7 +269,7 @@ namespace PrintsCapture.Device.LivescanCrossmatchEssential.Plugin
             }
             catch (Exception e)
             {
-                DeviceLog.Logger.Error(e, "LivescanCrossmatchEssential - CheckApiVersion");
+                LogDispatcher.DoLog("LivescanCrossmatchEssential - CheckApiVersion", LogEventLevel.Error, e);
             }
             
         }

@@ -12,47 +12,50 @@ namespace Livescan.Scanners.DriverEssential
 
         static DeviceLog()
         {
-            CurrentLogger = LogManager.GetCurrentClassLogger();
-            LogDispatcher.LogReceived += LogDispatcherOnLogReceived;
+            //CurrentLogger = LogManager.GetCurrentClassLogger();
+            //LogDispatcher.LogReceived += LogDispatcherOnLogReceived;
         }
 
-        private static void LogDispatcherOnLogReceived(string msg, LogEventLevel level, Exception ex)
-        {
-            switch (level)
-            {
-                case LogEventLevel.Info:
-                    CurrentLogger.Info(msg);
-                    break;
+        //private static void LogDispatcherOnLogReceived(string msg, LogEventLevel level, Exception ex)
+        //{
+        //    switch (level)
+        //    {
+        //        case LogEventLevel.Info:
+        //            CurrentLogger.Info(msg);
+        //            break;
 
-                case LogEventLevel.Warning:
-                    if (ex == null)
-                    {
-                        CurrentLogger.Warn(msg);
-                    }
-                    else
-                    {
-                        CurrentLogger.Warn(ex, msg);
-                    }
-                    break;
+        //        case LogEventLevel.Warning:
+        //            if (ex == null)
+        //            {
+        //                CurrentLogger.Warn(msg);
+        //            }
+        //            else
+        //            {
+        //                CurrentLogger.Warn(ex, msg);
+        //            }
+        //            break;
 
-                case LogEventLevel.Error:
-                    if (ex == null)
-                    {
-                        CurrentLogger.Error(msg);
-                    }
-                    else
-                    {
-                        CurrentLogger.Error(ex, msg);
-                    }
-                    break;
+        //        case LogEventLevel.Error:
+        //            if (ex == null)
+        //            {
+        //                CurrentLogger.Error(msg);
+        //            }
+        //            else
+        //            {
+        //                CurrentLogger.Error(ex, msg);
+        //            }
+        //            break;
 
-                default:
-                    CurrentLogger.Warn(msg);
-                    break;
-            }
-        }
+        //        default:
+        //            CurrentLogger.Warn(msg);
+        //            break;
+        //    }
+        //}
 
-        public static Logger Logger => CurrentLogger;
+        //public static void DoLog(String msg, LogEventLevel level , Exception ex = null)
+        //{
+        //    LogDispatcher.DoLog(msg, level, ex);
+        //}
 
     }
 }

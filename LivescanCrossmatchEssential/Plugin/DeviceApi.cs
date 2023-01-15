@@ -23,6 +23,7 @@
     using PrintsCapture.Prints.Language;
 
     using XL_ID.Utilities.Image;
+    using XL_ID.Utilities.Log;
 
     public class DeviceApi : ILivescanDevice
     {        
@@ -390,7 +391,7 @@
             }
             catch (Exception ex)
             {
-                DeviceLog.Logger.Warn(ex, "Crossmatch DeviceApi Close error");
+                LogDispatcher.DoLog("Crossmatch DeviceApi Close error", LogEventLevel.Warning, ex);
             }
 
             this.deviceHandle = -1;            
@@ -573,7 +574,7 @@
                 }
 
                 this.LastException = new SdkException(this.DisplayName, "CheckSdkError", errorKind, errorText, isWarn, null);
-                DeviceLog.Logger.Warn(LastException, "Crossmatch DeviceApi CheckSdkError error");
+                LogDispatcher.DoLog("Crossmatch DeviceApi CheckSdkError error", LogEventLevel.Warning, LastException);
                 return true;
             }
 
@@ -783,8 +784,7 @@
             }
             catch (Exception ex)
             {
-                // nothing
-                DeviceLog.Logger.Warn(ex, "Crossmatch DeviceApi DeviceCommunicationBreak error");
+                LogDispatcher.DoLog("Crossmatch DeviceApi DeviceCommunicationBreak error", LogEventLevel.Warning, ex);
             }
 
             this.deviceHandle = -1;
