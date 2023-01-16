@@ -65,7 +65,6 @@
     <Compile Include="Class\HandPartQualityAndStateDisplay.cs" />
     <Compile Include="Class\HandPartQualityDisplay.cs" />
     <Compile Include="Class\LivescanCapture.cs" />
-    <Compile Include="Class\LiveScanLog.cs" />
     <Compile Include="Class\WizardCapture.cs" />
     <Compile Include="Forms\PreviewWindow.cs">
       <SubType>Form</SubType>

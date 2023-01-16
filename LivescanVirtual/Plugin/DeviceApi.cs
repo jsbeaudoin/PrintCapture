@@ -12,14 +12,14 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using NLog;
     using PrintsCapture.Device.DataLayer;
     using PrintsCapture.Device.Enum;
     using PrintsCapture.Device.Interface;
     using PrintsCapture.Device.LivescanVirtual.Properties;
     using PrintsCapture.Prints;
     using PrintsCapture.Prints.Enum;
-
+    using XL_ID.Utilities.Log;
     using XL_ID.Utilities.XML;
 
     public class DeviceApi : ILivescanDevice
@@ -37,9 +37,12 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
         private int openCount=0;
         private bool stopping;
 
+        private Logger logger;
 
         internal DeviceApi(string internalName, string friendlyName, PrintResolution supportedResolutions, DeviceScanKind supportedScanKinds, string imageUri, ICaptureSdk sdk)
         {
+            this.logger = LogManager.GetCurrentClassLogger();
+            this.Log("Creating Virtual Livescan");
             this.Sdk = sdk;
             this.InternalKey = internalName;
 
@@ -97,6 +100,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
         public void Open()
         {
+            this.Log("LivescanVirtual Open");
             openCount++;
             this.ChangeState(DeviceState.Opening);
             this.OnDeviceSendMessage("Connection Successful", DeviceMessageKind.Information, false);
@@ -122,7 +126,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
         public void Close()
         {
-
+            this.Log("LivescanVirtual Close");
             this.StopCapture();
 
             this.ChangeState(DeviceState.Closing);
@@ -133,6 +137,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
         public bool InitializeCapture(IEnumerable<PhysicalHandPart> handParts, CapturePreviewHandler preview, int previewWindowHandle, bool isFlat)
         {
+            this.Log("LivescanVirtual InitializeCapture");
             this.preview = preview;            
             this.handParts = handParts;
             this.lastFolder = @"D:\Job\Tests\__Set-Tests\Flats\";
@@ -147,6 +152,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
         public bool CapturePrint(PrintResolution resolution, Hand printHand, HandPart handPart, HandScanKind scanKind)
         {
+            this.Log("LivescanVirtual CapturePrint");
             if (!this.IsOpened)
             {
                 this.Open();
@@ -173,6 +179,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
             catch (Exception ex)
             {
                 this.LastException = new SdkException(this.ModelName, "CapturePrint", SdkErrorKind.InvalidParameter, ex.Message, false, ex);
+                this.Log("LivescanVirtual CapturePrint Exception", LogEventLevel.Error, LastException);
                 this.ChangeState(DeviceState.Opened);
                 return false;
             }
@@ -185,6 +192,7 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
 
         public bool StopCapture()
         {
+            this.Log("LivescanVirtual StopCapture");
             this.stopping = true;
 
             // wait for not busy ! 
@@ -427,6 +435,29 @@ namespace PrintsCapture.Device.LivescanVirtual.Plugin
             this.supportedPrints.Add(new PrintCaptureInformation(Hand.Right, HandPart.LowerPalm, HandScanKind.Flat, PrintResolution.Dpi1000, PartialPalm1000, 25));
             this.supportedPrints.Add(new PrintCaptureInformation(Hand.Right, HandPart.Hypothenar, HandScanKind.Flat, PrintResolution.Dpi1000, Hypothenar1000, 22));
 
+        }
+
+        void Log(string text, LogEventLevel level = LogEventLevel.Info, Exception ex = null)
+        {
+            Console.WriteLine(@"{0:yyyy-MM-dd HH:mm:ss} - DeviceApiCrossmatch - {1}", DateTime.Now, text);
+
+            if (ex != null && level != LogEventLevel.Error)
+            {
+                text += "\n" + ex.ToString();
+            }
+
+            switch (level)
+            {
+                case LogEventLevel.Warning:
+                    this.logger.Warn(ex, text);
+                    break;
+                case LogEventLevel.Error:
+                    this.logger.Error(ex, text);
+                    break;
+                default:
+                    this.logger.Info(text);
+                    break;
+            }
         }
 
         #endregion

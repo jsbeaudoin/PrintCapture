@@ -9,7 +9,6 @@
 
 using System.ComponentModel;
 using System.Threading;
-using PrintsCapture.Livescan.Class;
 using XL_ID.Utilities.Log;
 using XL_ID.Utilities.Wpf.ViewModel;
 
@@ -707,9 +706,9 @@ namespace PrintsCapture.Livescan
 
         public override bool? Configure(DeviceConfigurationViewModel viewModel)
         {
-            
+
             // build device list
-            LiveScanLog.Logger.Debug($"Building device list. SDKs count : {viewModel.Sdks.Count}");
+            LogDispatcher.DoLog($"Building device list. SDKs count : {viewModel.Sdks.Count}", LogEventLevel.Trace);
             var deviceList = new List<ListElementViewModel<ILivescanDevice>>();
 
             viewModel.Sdks.ForEach(
@@ -719,7 +718,7 @@ namespace PrintsCapture.Livescan
                     this.LoadConfiguration(live);
                     deviceList.Add(new ListElementViewModel<ILivescanDevice>(live, live.DisplayName));
                 } ));
-            LiveScanLog.Logger.Debug($"Device List Count : {deviceList.Count}");
+            LogDispatcher.DoLog($"Device List Count : {deviceList.Count}", LogEventLevel.Trace);
 
             // build viewModel            
             var selected = deviceList.FirstOrDefault(x => x.Key.InternalKey == viewModel.SelectedDeviceKey);

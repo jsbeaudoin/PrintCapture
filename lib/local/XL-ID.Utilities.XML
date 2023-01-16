@@ -747,6 +747,11 @@
             Error and exception that prevented the proper output of a method/class
             </summary>
         </member>
+        <member name="F:XL_ID.Utilities.Log.LogEventLevel.Trace">
+            <summary>
+            Debug information that is really precise, avoid to output in production logs
+            </summary>
+        </member>
         <member name="T:XL_ID.Utilities.Log.LogDispatcher">
             <summary>
             Class that expose event for log messages. Handling those messages is optional.

@@ -54,7 +54,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviceLog.cs" />
     <Compile Include="Plugin\DeviceApi.cs" />
     <Compile Include="Plugin\SdkApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

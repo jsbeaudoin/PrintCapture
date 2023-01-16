@@ -1120,8 +1120,7 @@
 
         void Log(string text, LogEventLevel level = LogEventLevel.Info, Exception ex = null)
         {
-            Console.WriteLine(@"{0:yyyy-MM-dd HH:mm:ss} - DeveiApiCrossmatch - {1}", DateTime.Now, text);
-            this.Log($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - DeviceApiCrossmatch - {1}", level, ex);
+            Console.WriteLine(@"{0:yyyy-MM-dd HH:mm:ss} - DeviceApiCrossmatch - {1}", DateTime.Now, text);
 
             if (ex != null && level != LogEventLevel.Error)
             {

@@ -69,7 +69,6 @@
   <ItemGroup>
     <Compile Include="Class\CaptureOrder.cs" />
     <Compile Include="Class\ConditionBrushe.cs" />
-    <Compile Include="Class\LiveScanLog.cs" />
     <Compile Include="Class\WizardCapture.cs" />
     <Compile Include="LivescanSettings.cs" />
     <Compile Include="Converter\QualityToGaugeConverter.cs" />

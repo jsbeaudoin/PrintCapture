@@ -54,7 +54,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeviceLog.cs" />
     <Compile Include="IndexedImageEditor.cs" />
     <Compile Include="Plugin\PrintCaptureInformation.cs" />
     <Compile Include="Sdk\ErrorMessages.cs" />

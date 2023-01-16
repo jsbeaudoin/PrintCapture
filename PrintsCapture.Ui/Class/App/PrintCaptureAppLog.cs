@@ -18,6 +18,13 @@
 
         private static void LogDispatcherOnLogReceived(string msg, LogEventLevel level, Exception ex)
         {
+            var consoleText = msg;
+            if (ex != null)
+            {
+                consoleText += "\n" + ex.ToString();
+            }
+
+            Console.WriteLine(@"{0:yyyy-MM-dd HH:mm:ss} - DeveiApiCrossmatch - {1}", DateTime.Now, consoleText);
             switch (level)
             {
                 case LogEventLevel.Info:
