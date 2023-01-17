@@ -48,6 +48,7 @@ namespace PrintsCapture.Direct
 
         public void StartPrintCapture(Dictionary<string, string> startArguments)
         {
+            PrintCaptureAppLog.Init();
             try
             {
                 // Really important to start the splash screen, as it initializes all WPF and the app Needs an owner window to display properly. And to end properly too.

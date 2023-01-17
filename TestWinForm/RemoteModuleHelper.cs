@@ -164,14 +164,16 @@ namespace TestWinForm
 
         private void StartRemote(string remoteModuleName, Dictionary<string, string> arguments)
         {
-            LogDispatcher.LogReceived += (msg, level, exception) =>
-            {
-                Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss") + level + "-" + msg);
-                if (exception != null)
-                {
-                    Debug.WriteLine("Exception:" + exception.Message);
-                }
-            };
+            //LogDispatcher.LogReceived += (msg, level, exception) =>
+            //{
+            //    logger.
+
+            //    Debug.WriteLine(DateTime.Now.ToString("HH:mm:ss") + level + "-" + msg);
+            //    if (exception != null)
+            //    {
+            //        Debug.WriteLine("Exception:" + exception.Message);
+            //    }
+            //};
 
             this.eventTriggered = false;
             var manager = new RemoteModulesHost();

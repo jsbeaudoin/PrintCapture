@@ -13,7 +13,6 @@
     using Livescan.Scanners.DriverEssential;
     using Livescan.Scanners.DriverEssential.Plugin;
     using Livescan.Scanners.DriverEssential.Sdk;
-    using NLog;
     using PrintsCapture.Device;
     using PrintsCapture.Device.AutoScan;
     using PrintsCapture.Device.Enum;
@@ -58,8 +57,6 @@
 
         PrintCaptureInformation currentScan;
 
-        private Logger logger;
-
         private List<PhysicalHandPart> qualityParts;
 
         private CapturePreviewHandler capturePreviewHandler;
@@ -100,7 +97,6 @@
 
         public DeviceApi()
         {
-            this.logger = LogManager.GetCurrentClassLogger();
             this.CreatePropertyList();
             this.CreateSupportedPrintList();
         }        
@@ -150,7 +146,7 @@
 
         public void Open()
         {
-            this.Log("Crossmatch DeviceApi Open called");
+            LogDispatcher.DoLog("Crossmatch DeviceApi Open called");
             this.LastException = null;
             this.ChangeState(DeviceState.Opening);
 
@@ -228,7 +224,7 @@
 
         public bool InitializeCapture(IEnumerable<PhysicalHandPart> physHandParts, CapturePreviewHandler preview, int previewWindowHandle, bool isFlat)
         {
-            this.Log("Crossmatch DeviceApi InitializeCapture called");
+            LogDispatcher.DoLog("Crossmatch DeviceApi InitializeCapture called");
             this.handParts = physHandParts;
             this.SetHandFingers();
             this.AdaptSupportedPrints(isFlat);
@@ -258,18 +254,18 @@
 
         public bool CapturePrint(PrintResolution resolution, Hand printHand, HandPart handPart, HandScanKind scanKind)
         {
-            this.Log("Crossmatch DeviceApi CapturePrint called");
+            LogDispatcher.DoLog("Crossmatch DeviceApi CapturePrint called");
             this.LastException = null;
 
             if (!this.IsOpened)
             {
-                this.Log("CapturePrint called but Device was not opened");
+                LogDispatcher.DoLog("CapturePrint called but Device was not opened");
                 this.Open();
                 return this.IsOpened;  
                 // capture next print is called when a device is opened
             }
 
-            this.Log("CapturePrint called");
+            LogDispatcher.DoLog("CapturePrint called");
 
             this.ChangeState(DeviceState.ScanInitialization);                           
 
@@ -341,7 +337,7 @@
 
         public bool StopCapture()
         {
-            this.Log("Crossmatch DeviceApi StopCapture called");
+            LogDispatcher.DoLog("Crossmatch DeviceApi StopCapture called");
             
             this.displayManage.DisplayStandby();
             this.ledManage?.CloseLeds();
@@ -370,13 +366,13 @@
 
         public void Close()
         {
-            this.Log("Crossmatch DeviceApi Close called");
+            LogDispatcher.DoLog("Crossmatch DeviceApi Close called");
             
             this.ChangeState(DeviceState.Closing);
 
             if (this.deviceHandle == -1 || LSE_SDK.LSCAN_Main_IsInitialized(this.deviceHandle) != LSE_ErrorCode.LSCAN_STATUS_OK) 
             {
-                this.Log("Close - Device is not initialized");
+                LogDispatcher.DoLog("Close - Device is not initialized");
                 return;
             }
 
@@ -396,7 +392,7 @@
             }
             catch (Exception ex)
             {
-                this.Log("Crossmatch DeviceApi Close error", LogEventLevel.Warning, ex);
+                LogDispatcher.DoLog("Crossmatch DeviceApi Close error", LogEventLevel.Warning, ex);
             }
 
             this.deviceHandle = -1;            
@@ -412,7 +408,7 @@
             this.IsOpened = false;
 
             this.ChangeState(DeviceState.Closed);
-            this.Log("Close - Device was closed");
+            LogDispatcher.DoLog("Close - Device was closed");
         }
 
         public void Dispose()
@@ -489,7 +485,7 @@
             {
                 return;
             }
-            this.Log("ChangeState - Device State changed to : " + newState.ToString());
+            LogDispatcher.DoLog("ChangeState - Device State changed to : " + newState.ToString());
             handler(this, newState);
         }
 
@@ -579,7 +575,7 @@
                 }
 
                 this.LastException = new SdkException(this.DisplayName, "CheckSdkError", errorKind, errorText, isWarn, null);
-                this.Log("Crossmatch DeviceApi CheckSdkError error", LogEventLevel.Warning, LastException);
+                LogDispatcher.DoLog("Crossmatch DeviceApi CheckSdkError error", LogEventLevel.Warning, LastException);
                 return true;
             }
 
@@ -588,7 +584,7 @@
 
         private bool SetCaptureMode()
         {
-            this.Log("SetCaptureMode called");
+            LogDispatcher.DoLog("SetCaptureMode called");
             // set capture mode !
             int width, height, resX, resY;
             uint m_defaultCapOption = LSE_CaptureOptions.LSCAN_OPTION_AUTO_CAPTURE;
@@ -779,7 +775,7 @@
 
         private void DeviceCommunicationBreak(int errorDeviceHandle, IntPtr pContext)
         {
-            this.Log("Crossmatch DeviceApi DeviceCommunicationBreak called");
+            LogDispatcher.DoLog("Crossmatch DeviceApi DeviceCommunicationBreak called");
             this.OnDeviceSendMessage(CommonText.CommunicationBreakDetected, DeviceMessageKind.Error, false);
             try
             {
@@ -789,7 +785,7 @@
             }
             catch (Exception ex)
             {
-                this.Log("Crossmatch DeviceApi DeviceCommunicationBreak error", LogEventLevel.Warning, ex);
+                LogDispatcher.DoLog("Crossmatch DeviceApi DeviceCommunicationBreak error", LogEventLevel.Warning, ex);
             }
 
             this.deviceHandle = -1;
@@ -801,7 +797,7 @@
 
         private void CallbackDeviceInitProgress(int deviceIndex, IntPtr pContext, enumLScanOperationType operationType, float progressValue)
         {
-            this.Log("Crossmatch DeviceApi CallbackDeviceInitProgress called");
+            LogDispatcher.DoLog("Crossmatch DeviceApi CallbackDeviceInitProgress called");
             int progressInt = (int)(progressValue * 100);
             LSE_SDK.LSCAN_Controls_DisplayShowLogoScreen(this.deviceHandle, enumLScanDisplayLogoOption.LSCAN_DISPLAY_LOGO_OPTION_SHOW_FW_VERSION, progressInt);
 
@@ -846,7 +842,7 @@
         /// </returns>
         public void DeviceCapturedPrint(int deviceHandle, IntPtr pContext, int imageStatus, ImageData image, enumLScanImageType imageType, int detectedObjects)
         {
-            this.Log("Crossmatch DeviceApi DeviceCapturedPrint called");
+            LogDispatcher.DoLog("Crossmatch DeviceApi DeviceCapturedPrint called");
             this.tftManage.DisplayWait();            
 
             if (this.SupportsLed)
@@ -915,7 +911,7 @@
 
         void DoBeep(int pattern)
         {
-            this.Log("Crossmatch DeviceApi DoBeep called");
+            LogDispatcher.DoLog("Crossmatch DeviceApi DoBeep called");
             if (this.Properties.GetBoolValue(PropUseSystemSound))
             {                
                 DeviceSoundPlayer.Play(DeviceSound.Beep);             
@@ -1118,28 +1114,28 @@
             this.DoBeep(3);
         }
 
-        void Log(string text, LogEventLevel level = LogEventLevel.Info, Exception ex = null)
-        {
-            Console.WriteLine(@"{0:yyyy-MM-dd HH:mm:ss} - DeviceApiCrossmatch - {1}", DateTime.Now, text);
+        //void Log(string text, LogEventLevel level = LogEventLevel.Info, Exception ex = null)
+        //{
+        //    Console.WriteLine(@"{0:yyyy-MM-dd HH:mm:ss} - DeviceApiCrossmatch - {1}", DateTime.Now, text);
 
-            if (ex != null && level != LogEventLevel.Error)
-            {
-                text += "\n" + ex.ToString();
-            }
+        //    if (ex != null && level != LogEventLevel.Error)
+        //    {
+        //        text += "\n" + ex.ToString();
+        //    }
 
-            switch (level)
-            {
-                case LogEventLevel.Warning:
-                    this.logger.Warn(ex, text);
-                    break;
-                case LogEventLevel.Error:
-                    this.logger.Error(ex, text);
-                    break;
-                default:
-                    this.logger.Info(text);
-                    break;
-            }
-        }
+        //    switch (level)
+        //    {
+        //        case LogEventLevel.Warning:
+        //            this.logger.Warn(ex, text);
+        //            break;
+        //        case LogEventLevel.Error:
+        //            this.logger.Error(ex, text);
+        //            break;
+        //        default:
+        //            this.logger.Info(text);
+        //            break;
+        //    }
+        //}
 
         #endregion
 

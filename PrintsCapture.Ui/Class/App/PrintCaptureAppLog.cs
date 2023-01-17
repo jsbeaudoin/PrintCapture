@@ -8,10 +8,14 @@
 
     public  static class PrintCaptureAppLog
     {
-        private static readonly Logger CurrentLogger;
+        private static Logger CurrentLogger;
 
-        static PrintCaptureAppLog()
+        public static void Init()
         {
+            if (CurrentLogger != null)
+            {
+                return;
+            }
             CurrentLogger = LogManager.GetCurrentClassLogger();
             LogDispatcher.LogReceived += LogDispatcherOnLogReceived;
         }

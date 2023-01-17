@@ -39,7 +39,7 @@ namespace PrintsCapture.Direct
 
         public static void DoCapture(Dictionary<string, string> args)
         {
-            
+            PrintCaptureAppLog.Init();
             var instanceExists = instance != null;
             var codeToExecute = new Action(() =>
             {

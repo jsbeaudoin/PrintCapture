@@ -31,7 +31,7 @@ namespace PrintsCapture.UniDACLegacy
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
+            PrintCaptureAppLog.Init();
             SplashWindowHelper.CreateSplash( new SplashLabels { Title = "UniDAC", SubTitle = "PrintsCapture " + PrintCaptureApp.AppVersion, Message = "...", CloseLabel = "X"}
                 , new System.Uri("pack://application:,,,/Images/LogoPrintCapture4-300x300.png"));
 
