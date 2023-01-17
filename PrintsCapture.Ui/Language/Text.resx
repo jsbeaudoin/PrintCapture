@@ -866,4 +866,19 @@ For advanced use, you may click on "Review prints".</value>
   <data name="LoadingPrintsXOfY" xml:space="preserve">
     <value>Loading prints {0} of {1}</value>
   </data>
+  <data name="RulesDataCompressionDisabled" xml:space="preserve">
+    <value>Data Compression DISABLED</value>
+  </data>
+  <data name="RulesQualityEnabled" xml:space="preserve">
+    <value>Quality ENABLED, Threshold:</value>
+  </data>
+  <data name="RulesSequenceDisabled" xml:space="preserve">
+    <value>Sequence DISABLED</value>
+  </data>
+  <data name="RulesSequenceRepositionEnabled" xml:space="preserve">
+    <value>Sequence Reposition ENABLED</value>
+  </data>
+  <data name="RulesSequenceThreshold" xml:space="preserve">
+    <value>Sequence ENABLED, Threshold:</value>
+  </data>
 </root>

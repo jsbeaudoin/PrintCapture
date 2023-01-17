@@ -196,7 +196,7 @@
     <value>Mauvais format. Attendu aaaa-mm-jj. La date doit être dans le passé.</value>
   </data>
   <data name="ExceptionDateYear" xml:space="preserve">
-    <value>Mauvais format. Attendu aaaa-mm-jj . l'année doit être enre 1900 et aujourd'hui.</value>
+    <value>Mauvais format. Attendu aaaa-mm-jj . l'année doit être entre 1900 et aujourd'hui.</value>
   </data>
   <data name="Fingers" xml:space="preserve">
     <value>Doigts</value>
@@ -669,7 +669,7 @@
     <comment>d</comment>
   </data>
   <data name="LivePreviewTitle" xml:space="preserve">
-    <value>Fenêtre De prévisualisation</value>
+    <value>Fenêtre de prévisualisation</value>
   </data>
   <data name="ManageModelPattern" xml:space="preserve">
     <value>Gestion de '{0}'</value>
@@ -1021,8 +1021,8 @@ Fermer la fenêtre ou recommencer la saisie de l'empreinte.</value>
     <comment>Les paramètres ne sont pas conformes pour une prise d'empreinte de qualité</comment>
   </data>
   <data name="ThalesCompositionSlow" xml:space="preserve">
-    <value>Le nombre d,image par secon est trop bas pour faire une image de qualité</value>
-    <comment>Le nombre d,image par secon est trop bas pour faire une image de qualité</comment>
+    <value>Le nombre d'image par seconde est trop bas pour faire une image de qualité</value>
+    <comment>Le nombre d'image par seconde est trop bas pour faire une image de qualité</comment>
   </data>
   <data name="ThalesFlatFingerSlide" xml:space="preserve">
     <value>L'empreinte plate a glissée</value>
@@ -1225,7 +1225,7 @@ Et cliquer sur "Débuter la saisie" pour continuer le processus.</value>
     <value>Bonne</value>
   </data>
   <data name="IgnoreWithReason" xml:space="preserve">
-    <value>Ignore (select reason below) :</value>
+    <value>Ignorer (choisir une raison en-dessous) :</value>
   </data>
   <data name="NotGood" xml:space="preserve">
     <value>Pas assez bonne</value>

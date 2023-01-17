@@ -69,6 +69,7 @@ namespace PrintsCapture.Prints.ViewModel
             this.OverrideText = this.segment.OverrideText;
             this.Quality = this.segment.QualityScore;
             this.MinutiaCount = this.segment.MinutiaCount;
+            this.Sequence = this.segment.SelfScore.Score;
 
             this.IsMissing = !string.IsNullOrEmpty(this.segment.MissingCode);
             this.IsExpected = segment.IsExpected;
@@ -234,6 +235,8 @@ namespace PrintsCapture.Prints.ViewModel
 
         public int MinutiaCount { get; set; }
 
+        public int Sequence { get; set; }
+
         public ImageSource QualityIndicator
         {
             get { return qualityIndicator; }
@@ -325,7 +328,12 @@ namespace PrintsCapture.Prints.ViewModel
                 this.QualityIndicator = QualityOverrideImage;
                 this.StatusText = CommonText.PartQualityOverriden;
             }
-            else if ((this.Quality > rules.QualityThreshold || this.Quality ==0))
+            else if (this.Sequence < rules.SequenceThreshold)
+            {
+                this.QualityIndicator = rules.IsSequenceEnabled ? QualityErrorImage : QualityOkImage;
+                this.StatusText = CommonText.SequenceBad;
+            }
+            else if (this.Quality > rules.QualityThreshold || this.Quality == 0)
             {                
                 this.QualityIndicator = rules.IsQualityEnabled ? QualityErrorImage : QualityOkImage;
                 this.StatusText = CommonText.PartQualityLow;
@@ -334,7 +342,7 @@ namespace PrintsCapture.Prints.ViewModel
             {
                 this.QualityIndicator = QualityOkImage;
                 this.StatusText = CommonText.PartQualityOk;
-            }            
+            }
         }
     }
 }

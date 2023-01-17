@@ -8,6 +8,7 @@ namespace PrintsCapture.Ui.ViewModel
 
     using Prints.Enum;
     using Converter;
+    using PrintsCapture.Ui.Language;
 
     public class RulesViewModel : INotifyPropertyChanged
     {
@@ -313,13 +314,14 @@ namespace PrintsCapture.Ui.ViewModel
             //  Verify Sequence check score and Enabled
             if (!this.IsSequenceEnabled)
             {
-                sb.Append("Sequence DISABLED  ");
+                sb.Append(Text.RulesSequenceDisabled);
             }
             else
             {
                 if (this.SequenceThreshold != 50)
                 {
-                    sb.Append("Sequence Threshold: ");
+                    sb.Append(Text.RulesSequenceThreshold);
+                    sb.Append(' ');
                     sb.Append(this.SequenceThreshold);
                 }
             }
@@ -327,14 +329,15 @@ namespace PrintsCapture.Ui.ViewModel
             if (this.IsSequencePositionEnabled)
             {
                 if (sb.Length > 0) sb.Append(", ");
-                sb.Append("Sequence Reposition ENABLED");
+                sb.Append(Text.RulesSequenceRepositionEnabled);
             }
 
             // Verify Quality Check
             if (this.IsQualityEnabled)
             {
                 if (sb.Length > 0) sb.Append(", ");
-                sb.Append("Quality ENABLED, Threshold:  ");
+                sb.Append(Text.RulesQualityEnabled);
+                sb.Append(' ');
                 sb.Append(this.QualityThreshold);
             }
 
@@ -344,7 +347,7 @@ namespace PrintsCapture.Ui.ViewModel
             {
                 if (sb.Length > 0) sb.Append(", ");
 
-                sb.Append("Data Compression DISABLED");
+                sb.Append(Text.RulesDataCompressionDisabled);
             }
 
             this.RuleStatusText = sb.Length > 0 ? sb.ToString() : null;

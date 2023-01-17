@@ -1636,6 +1636,51 @@ namespace PrintsCapture.Ui.Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data Compression DISABLED.
+        /// </summary>
+        public static string RulesDataCompressionDisabled {
+            get {
+                return ResourceManager.GetString("RulesDataCompressionDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quality ENABLED, Threshold:.
+        /// </summary>
+        public static string RulesQualityEnabled {
+            get {
+                return ResourceManager.GetString("RulesQualityEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sequence DISABLED.
+        /// </summary>
+        public static string RulesSequenceDisabled {
+            get {
+                return ResourceManager.GetString("RulesSequenceDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sequence Reposition ENABLED.
+        /// </summary>
+        public static string RulesSequenceRepositionEnabled {
+            get {
+                return ResourceManager.GetString("RulesSequenceRepositionEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sequence ENABLED, Threshold:.
+        /// </summary>
+        public static string RulesSequenceThreshold {
+            get {
+                return ResourceManager.GetString("RulesSequenceThreshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save Prints.
         /// </summary>
         public static string SavePrints {

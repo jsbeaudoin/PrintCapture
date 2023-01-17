@@ -6,7 +6,7 @@
 
     using XL_ID.Utilities.Log;    
 
-    public  static class PrintCaptureAppLog
+    public static class PrintCaptureAppLog
     {
         private static Logger CurrentLogger;
 

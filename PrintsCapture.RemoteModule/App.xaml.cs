@@ -209,7 +209,7 @@ namespace PrintsCapture.RemoteModule
 
         private void WritePrintsInformation(Dictionary<string, string> dicResult)
         {
-            logger.Info("WritePrintsInformation called");            
+            logger.Info("WritePrintsInformation called");
 
             var seq = this.appParameter.SeqCheckService as LocalAwSeqCheck.LocalSeqCheck;
             if (seq == null)
@@ -222,12 +222,13 @@ namespace PrintsCapture.RemoteModule
                 if (!PrintCaptureApp.IsWizard || PrintCaptureApp.HasWizardAcceptedPrint)
                 {
                     this.logger.Info("WritePrintsInformation : Adding serialized GetCapturedPrintData in DATA");
-                    CapturedPrintDataBuilder.SetSerializedPrintData(seq, dicResult);
+                    CapturedPrintDataBuilder.SetResultData(seq, dicResult, this.appParameter.SplitResult);
                 }
                 else
                 {
                     this.logger.Info("WritePrintsInformation : Adding null in DATA");
                     dicResult.Add("captureinfo", null);
+                    dicResult.Add("data", null);
                 }
                 
             }

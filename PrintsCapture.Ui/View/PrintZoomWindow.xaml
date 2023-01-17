@@ -124,7 +124,11 @@
                         <StackPanel Orientation="Horizontal" >
                             <TextBlock Margin="0, 5" Text="{x:Static language:Text.QualityLabel}"></TextBlock>
                             <TextBlock Margin="10,5" Text="{Binding SelectedSegment.Quality}"></TextBlock>
-                            <Image Margin="30, 0" Stretch="None" Source="{Binding SelectedSegment.Quality, Converter={StaticResource QualityToGaugeConverter}}"></Image>                            
+                            <Image Margin="30, 0" Stretch="None" Source="{Binding SelectedSegment.Quality, Converter={StaticResource QualityToGaugeConverter}}"></Image>
+
+                            <TextBlock Margin="15,0" Name="SegmentSequenceTextBlock" MouseLeftButtonDown="SequenceTextBlockMouseDown"  Text="{x:Static language:Text.SequenceLabel}" />
+                            <TextBlock Text="{Binding SelectedSegment.Sequence}"  />
+                            <Image Stretch="None" Source="{Binding SelectedSegment.Sequence, Converter={StaticResource SequenceToGaugeConverter}}" />
                         </StackPanel>
                         
                         <StackPanel Orientation="Horizontal" Margin="0,10">

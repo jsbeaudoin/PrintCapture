@@ -38,12 +38,18 @@ namespace PrintsCapture.Prints.Extension
             return data;
         }
 
-        public static void SetSerializedPrintData(BaseSeqCheckService seq, Dictionary<string, string> dicResult)
+        public static void SetResultData(BaseSeqCheckService seq, Dictionary<string, string> dicResult, bool splitResult)
         {
+            var key = splitResult ? "captureinfo" : "data";
             var prints = seq.GetCapturedPrints();
-            var data = GetCapturePrintData(seq, prints, false); // Complete structure, without image bytes
-            dicResult.Add("captureinfo", XmlSerializer.Serialize(data));
+            var data = GetCapturePrintData(seq, prints, !splitResult); // Complete structure, without image bytes if splitResult
+            dicResult.Add(key, XmlSerializer.Serialize(data));
             seq.ResetSession();
+
+            if (! splitResult)
+            {
+                return;
+            }
 
             foreach (var printInfo in prints)
             {
@@ -111,12 +117,9 @@ namespace PrintsCapture.Prints.Extension
                         Quality = printInfo.QualityScore,
                         Sequence = printInfo.SequenceScore,
                         MinutiaCount = printInfo.MinutiaCount,
+                        ImageDataFormat = PrintDataFormat.Bmp
                     };
-                    if (includeImageBytes)
-                    {
-                        p.ImageData = printInfo.ImageForProcessing.ToByteArray();
-                        printInfo.ImageForProcessing.Dispose();
-                    }
+                    
 
                     if (printInfo.IsEndorsement)
                     {
@@ -136,6 +139,12 @@ namespace PrintsCapture.Prints.Extension
                             VLL = printInfo.ImageForProcessing.Height,
                             ImpressionType = impressionType
                         };
+
+                        if (includeImageBytes)
+                        {
+                            p.ImageData = printInfo.ImageForProcessing.ToByteArray();
+                            printInfo.ImageForProcessing.Dispose();
+                        }
                     }
 
                     data.Prints.Add(p);

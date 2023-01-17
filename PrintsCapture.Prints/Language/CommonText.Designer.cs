@@ -1418,7 +1418,7 @@ namespace PrintsCapture.Prints.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check only if it is impossible to get a better palm printé This will accept the palm print as it is..
+        ///   Looks up a localized string similar to Check only if it is impossible to get a better palm print. This will accept the palm print as it is..
         /// </summary>
         public static string PalmUserAcceptBad {
             get {

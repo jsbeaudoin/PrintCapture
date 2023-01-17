@@ -568,7 +568,7 @@
     <value>Information</value>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
-    <value>Application de saisie d'empreinte</value>
+    <value>Application de saisie de digitales et palmaires</value>
     <comment>d</comment>
   </data>
   <data name="Cancel" xml:space="preserve">
@@ -891,5 +891,20 @@ Pour une utilisation avancée, vous pouvez cliquer sur "Voir les empreintes"</va
   </data>
   <data name="LoadingPrintsXOfY" xml:space="preserve">
     <value>Chargement des empreintes {0} sur {1}</value>
+  </data>
+  <data name="RulesDataCompressionDisabled" xml:space="preserve">
+    <value>Compression des données DÉSACTIVÉE</value>
+  </data>
+  <data name="RulesQualityEnabled" xml:space="preserve">
+    <value>Qualité ACTIVÉ, Seuil:</value>
+  </data>
+  <data name="RulesSequenceDisabled" xml:space="preserve">
+    <value>Séquence DÉSACTIVÉE</value>
+  </data>
+  <data name="RulesSequenceRepositionEnabled" xml:space="preserve">
+    <value>Reposition par séquence ACTIVÉ</value>
+  </data>
+  <data name="RulesSequenceThreshold" xml:space="preserve">
+    <value>Séquence ACTIVÉ, Seuil:</value>
   </data>
 </root>

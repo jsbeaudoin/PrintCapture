@@ -245,10 +245,12 @@ namespace TestWinForm
             bool isSqMode = this.chkSqMode.Checked;
             string captureGroup = "0";
             bool endorsement = false;
+            string splitResult = "1";
             if (this.civilCaptureRadio.Checked)
             {
                 endorsement = true;
                 captureGroup = "3"; // flats only or standard 14
+                splitResult = "0";
             }
             else if (this.criminalNoPalmsCaptureRadio.Checked)
             {
@@ -263,14 +265,15 @@ namespace TestWinForm
             args.Add("mode", "live");
             args.Add("culture", "fr");
             args.Add("debug", "1");
-            args.Add("descriptionline1", "");
-            args.Add("descriptionline2", "");
+            args.Add("descriptionline1", "line1");
+            args.Add("descriptionline2", "line2");
             //args.Add("wizard", "0");
             //args.Add("lang", "fr");
             args.Add("capturemode", captureGroup);
             args.Add("endorsement", endorsement ? "1" : "0"); // no endorsement finger
             args.Add("sqmode", isSqMode ? "1" : "");
-    
+            args.Add("splitresult", splitResult);
+
             //args.Add("login", "0");
             //args.Add("singlecaptureprompt", "PrintCapture Login Title");
             args.Add("topmost", "0");
@@ -412,19 +415,7 @@ namespace TestWinForm
             }
             else
             {
-                MessageBox.Show("Capture finished without error", "Direct Capture");
-                if (MessageBox.Show("Do you want to save bmp prints?", "Saving Prints", MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                {
-                    for (int x = 0; x < result.Prints.Count; x++)
-                    {
-                        var fileName = $"D://Finger{result.Prints[x].Position}.bmp";
-                        var bmp = XL_ID.Utilities.Image.ImageUtilities.ConvertFromBinary(result.Prints[x].ImageData);
-                        bmp.Save(fileName, System.Drawing.Imaging.ImageFormat.Bmp);
-                        bmp.Dispose();
-                    }
-
-                }
+                DisplayResult(result);
             }
         }
 
@@ -451,23 +442,8 @@ namespace TestWinForm
                             this.ResultLabel.Text = "Exception :" + exception.ToString();
                         }
 
-
-                        if (fingers == null)
-                        {
-                            this.ResultLabel.Text = "Empty result set !";
-                            //this.SetScanComplete(false);
-                            return;
-                        } else
-                        {
-                            this.ResultLabel.Text = "Print returned !";
-                            this.ResultLabel.Text += "Fingers: " + fingers.Prints.Count;
-                            DisplayResult(fingers);
-                        }
-
-                        //this.SetScanComplete(success);
+                        DisplayResult(fingers);
                     }));
-
-
                 };
                 var args = GetCaptureParameters();
                 args.Add("debug-process", "1");
@@ -482,16 +458,15 @@ namespace TestWinForm
 
         private void DisplayResult(CapturedPrintData capturedPrintData)
         {
-            var previousList = ImageResultPanel.Tag as List<PictureBox>;
-
-            if (previousList != null)
+            this.EmptyImageResult();
+            if (capturedPrintData == null)
             {
-                foreach(var pic in previousList)
-                {
-                    ImageResultPanel.Controls.Remove(pic);
-                    pic.Dispose();
-                }
+                this.ResultLabel.Text = "Empty result set !";
+                return;
             }
+            
+            this.ResultLabel.Text = "Prints returned !";
+            this.ResultLabel.Text += "Fingers: " + capturedPrintData.Prints.Count;
 
             var newList = new List<PictureBox>();
             var x = 0;
@@ -513,6 +488,20 @@ namespace TestWinForm
 
             }
             ImageResultPanel.Tag = newList;
+        }
+
+        private void EmptyImageResult()
+        {
+            var previousList = ImageResultPanel.Tag as List<PictureBox>;
+
+            if (previousList != null)
+            {
+                foreach (var pic in previousList)
+                {
+                    ImageResultPanel.Controls.Remove(pic);
+                    pic.Dispose();
+                }
+            }
         }
     }
 

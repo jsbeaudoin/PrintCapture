@@ -310,9 +310,9 @@ namespace TestWinForm
         private void RemoteModuleOnNewResult(Dictionary<string, string> result)
         {
 
-            if (!result.ContainsKey("captureinfo"))
+            if (!result.ContainsKey("captureinfo") && !result.ContainsKey("data"))
             {
-                this.HandleError("Wrong version of module. Results must include an entry : 'captureinfo'");
+                this.HandleError("Results must include an entry : 'captureinfo' (Criminal) or 'data' (Civil) ");
                 return;
             }
 
@@ -330,24 +330,30 @@ namespace TestWinForm
 
         private void CommandResultPrints(Dictionary<string, string> result)
         {
-            if (!result.ContainsKey("captureinfo"))
+            var isSimpleresult = result.ContainsKey("data");
+
+            if (!isSimpleresult && !result.ContainsKey("captureinfo"))
             {
-                this.HandleError("Wrong version of module. Results must include entry : 'captureinfo' ");
+                this.HandleError("Results must include an entry : 'captureinfo' (Criminal) or 'data' (Civil)");
                 return;
             }
+            LogDispatcher.DoLog("Result contains field:" + (isSimpleresult ? "data" : "captureinfo"));
 
             CapturedPrintData resultData = null;
             try
             {
-                var serialized = result["captureinfo"];
+                var serialized = result[isSimpleresult ? "data" : "captureinfo"];
                 resultData = XmlSerializer.Deserialize<CapturedPrintData>(serialized);
 
-                foreach (var print in resultData.Prints)
+                if (! isSimpleresult)
                 {
-                    var key = "captureprint" + print.Position;
-                    if (result.ContainsKey(key))
+                    foreach (var print in resultData.Prints)
                     {
-                        print.ImageData = XmlSerializer.Deserialize<byte[]>(result[key]);
+                        var key = "captureprint" + print.Position;
+                        if (result.ContainsKey(key))
+                        {
+                            print.ImageData = XmlSerializer.Deserialize<byte[]>(result[key]);
+                        }
                     }
                 }
             }

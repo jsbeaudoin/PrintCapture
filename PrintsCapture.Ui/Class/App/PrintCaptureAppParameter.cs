@@ -40,14 +40,18 @@ namespace PrintsCapture.Ui.Class
             string previousPrintsSerialized = null;
             bool? forceQualityValidation = null;
             int? forceQualityThreshold = null;
+            bool splitResult = false;
 
             logger.Trace("Setting PrintCapture parameters");
             if (creationArguments.ContainsKey("prefix")) fileNamePrefix = creationArguments["prefix"];
             if (creationArguments.ContainsKey("lang")) langParameter = creationArguments["lang"];
             if (creationArguments.ContainsKey("culture")) langParameter = creationArguments["culture"];
-            if (creationArguments.ContainsKey("key")) keyParameter = creationArguments["key"];
-            if (creationArguments.ContainsKey("name")) nameParameter = creationArguments["name"];
             if (creationArguments.ContainsKey("mode")) modeParameter = creationArguments["mode"];
+
+            if (creationArguments.ContainsKey("name")) nameParameter = creationArguments["name"];
+            if (creationArguments.ContainsKey("descriptionline1")) keyParameter = creationArguments["descriptionline1"];
+            if (creationArguments.ContainsKey("key")) keyParameter = creationArguments["key"];
+            if (creationArguments.ContainsKey("descriptionline2")) keyParameter = creationArguments["descriptionline2"];
             
             if (creationArguments.ContainsKey("capture")) captureModeParameter = creationArguments["capture"];
             if (creationArguments.ContainsKey("capturemode")) captureModeParameter = creationArguments["capturemode"];
@@ -63,6 +67,8 @@ namespace PrintsCapture.Ui.Class
             if (creationArguments.ContainsKey("singlecapturemessage")) singleFingerCaptureLabel = creationArguments["singlecapturemessage"];
             if (creationArguments.ContainsKey("alwayscanoverride")) alwaysCanOverride = creationArguments["alwayscanoverride"] == "1";
             if (creationArguments.ContainsKey("prints")) previousPrintsSerialized = creationArguments["prints"];
+
+            if (creationArguments.ContainsKey("splitresult")) splitResult = creationArguments["splitresult"] == "1";
 
             if (creationArguments.ContainsKey("qualityvalidation")) forceQualityValidation = (creationArguments["qualityvalidation"] == "1");
             if (creationArguments.ContainsKey("qualitythreshold"))
@@ -118,7 +124,8 @@ namespace PrintsCapture.Ui.Class
                 TopMostWindow = topMostWindow,
                 AlwaysCanOverrideWizard = alwaysCanOverride,
                 ForceQualityThreshold = forceQualityThreshold,
-                ForceQualityValidationEnabled = forceQualityValidation
+                ForceQualityValidationEnabled = forceQualityValidation,
+                SplitResult = splitResult
             };
             if (!string.IsNullOrEmpty(previousPrintsSerialized))
             {
@@ -191,6 +198,8 @@ namespace PrintsCapture.Ui.Class
         public bool? ForceQualityValidationEnabled { get; set; } // when set, force quality validation to 
 
         public int? ForceQualityThreshold { get; set; } // when set, force quality validation to 
+        
+        public bool SplitResult { get; private set; }
 
         public void LoadPreviousPrints(string serializedData)
         {
