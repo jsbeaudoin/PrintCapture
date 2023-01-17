@@ -43,8 +43,9 @@ namespace PrintsCapture.RemoteModule
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            PrintCaptureAppLog.Init();
             logger = LogManager.GetCurrentClassLogger();
+            logger.Info("OnStartup - Starting Remote Module");
+            PrintCaptureAppLog.Init();
             AppDomain.CurrentDomain.FirstChanceException += (sender, eventArgs) =>
             {
                 logger.Error(eventArgs.Exception, "AppDomain.CurrentDomain.FirstChanceException");
