@@ -49,7 +49,7 @@ namespace PrintsCapture.Ui.Class
             if (creationArguments.ContainsKey("mode")) modeParameter = creationArguments["mode"];
 
             if (creationArguments.ContainsKey("name")) nameParameter = creationArguments["name"];
-            if (creationArguments.ContainsKey("descriptionline1")) keyParameter = creationArguments["descriptionline1"];
+            if (creationArguments.ContainsKey("descriptionline1")) nameParameter = creationArguments["descriptionline1"];
             if (creationArguments.ContainsKey("key")) keyParameter = creationArguments["key"];
             if (creationArguments.ContainsKey("descriptionline2")) keyParameter = creationArguments["descriptionline2"];
             
