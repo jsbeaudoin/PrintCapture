@@ -436,16 +436,16 @@
     <value>Validation</value>
   </data>
   <data name="CaptureFlatOnly" xml:space="preserve">
-    <value>Empreintes plates uniquement</value>
+    <value>Empreintes digitales plates seulement</value>
   </data>
   <data name="CaptureMode" xml:space="preserve">
     <value>Type de prise d'empreinte</value>
   </data>
   <data name="CaptureStandard14" xml:space="preserve">
-    <value>Empreintes plates et roulées</value>
+    <value>Empreintes digitales plates et roulées</value>
   </data>
   <data name="CaptureStandardAndPalm" xml:space="preserve">
-    <value>Empreintes plates, roulées et paumes</value>
+    <value>Empreintes digitales plates, roulées et palmaires</value>
   </data>
   <data name="Configure" xml:space="preserve">
     <value>Configuration</value>
