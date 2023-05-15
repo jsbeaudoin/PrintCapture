@@ -503,6 +503,56 @@ namespace TestWinForm
                 }
             }
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var rm = new RemoteModuleHelper(
+                    "fr",
+                    true);
+                this.Enabled = false;
+                picRemoteModule.Image = null;
+
+                rm.CaptureCompleted += (success, resultObject, exception) =>
+                {
+                    var prints = resultObject as CapturedPrintData;
+                    this.Invoke((Action)(() =>
+                    {
+                        this.Enabled = true;
+
+                        if (exception != null)
+                        {
+                            MessageBox.Show(exception.Message, "Capture Single Fingerprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        if (prints == null)
+                        {
+                            MessageBox.Show("No finger returned", "Capture Single Fingerprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        if (prints.Prints.Count == 0)
+                        {
+                            MessageBox.Show("No finger returned", "Capture Single Fingerprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        picRemoteModule.Image = prints.Prints[0].ImageData.ToBitmap();
+
+                    }));
+                };
+
+                rm.GetSinglePrint();
+
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Capture Single Fingerprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Enabled = true;
+            }
+        }
     }
 
     

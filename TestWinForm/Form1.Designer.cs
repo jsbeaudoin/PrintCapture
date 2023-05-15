@@ -41,40 +41,41 @@ namespace TestWinForm
             this.picRemoteModule = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.StartDebugButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             this.btnRemoteModuleLive = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.LoadPreviousPrintsGroup = new System.Windows.Forms.GroupBox();
+            this.printSerializeRadio = new System.Windows.Forms.RadioButton();
+            this.PrintBmpRadio = new System.Windows.Forms.RadioButton();
+            this.previousPrintCheckBox = new System.Windows.Forms.CheckBox();
+            this.txtQualityThreshold = new System.Windows.Forms.TextBox();
+            this.chkEnableQualityCheck = new System.Windows.Forms.CheckBox();
+            this.chkForceQualityCheck = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dpi1000 = new System.Windows.Forms.RadioButton();
             this.dpi500 = new System.Windows.Forms.RadioButton();
-            this.label2 = new System.Windows.Forms.Label();
             this.captureModeGroup = new System.Windows.Forms.GroupBox();
             this.criminalNoPalmsCaptureRadio = new System.Windows.Forms.RadioButton();
             this.criminalPalmCaptureRadio = new System.Windows.Forms.RadioButton();
             this.civilCaptureRadio = new System.Windows.Forms.RadioButton();
             this.chkSqMode = new System.Windows.Forms.CheckBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.StartDebugButton = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.chkForceQualityCheck = new System.Windows.Forms.CheckBox();
-            this.chkEnableQualityCheck = new System.Windows.Forms.CheckBox();
-            this.txtQualityThreshold = new System.Windows.Forms.TextBox();
-            this.LoadPreviousPrintsGroup = new System.Windows.Forms.GroupBox();
-            this.previousPrintCheckBox = new System.Windows.Forms.CheckBox();
-            this.PrintBmpRadio = new System.Windows.Forms.RadioButton();
-            this.printSerializeRadio = new System.Windows.Forms.RadioButton();
             this.ResultGroupBox = new System.Windows.Forms.GroupBox();
-            this.ResultLabel = new System.Windows.Forms.Label();
             this.ImageResultPanel = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
+            this.ResultLabel = new System.Windows.Forms.Label();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.LoadPreviousPrintsGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.captureModeGroup.SuspendLayout();
-            this.LoadPreviousPrintsGroup.SuspendLayout();
             this.ResultGroupBox.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -107,7 +108,7 @@ namespace TestWinForm
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(174, 12);
+            this.button2.Location = new System.Drawing.Point(183, 12);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(98, 23);
             this.button2.TabIndex = 3;
@@ -161,6 +162,56 @@ namespace TestWinForm
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Test Livescan with parameters";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.StartDebugButton);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.button4);
+            this.panel1.Controls.Add(this.btnRemoteModuleLive);
+            this.panel1.Controls.Add(this.button5);
+            this.panel1.Location = new System.Drawing.Point(15, 176);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(604, 100);
+            this.panel1.TabIndex = 20;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(18, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(68, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Start Options";
+            // 
+            // StartDebugButton
+            // 
+            this.StartDebugButton.Location = new System.Drawing.Point(16, 28);
+            this.StartDebugButton.Name = "StartDebugButton";
+            this.StartDebugButton.Size = new System.Drawing.Size(137, 23);
+            this.StartDebugButton.TabIndex = 9;
+            this.StartDebugButton.Text = "Live - Direct Start (Debug)";
+            this.StartDebugButton.UseVisualStyleBackColor = true;
+            this.StartDebugButton.Click += new System.EventHandler(this.StartDebugButton_Click);
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(18, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(164, 34);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Will crash if launched twice without stopping the process.";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(421, 28);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(95, 23);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "DynaInvok Start";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // btnRemoteModuleLive
             // 
             this.btnRemoteModuleLive.Location = new System.Drawing.Point(182, 28);
@@ -170,6 +221,88 @@ namespace TestWinForm
             this.btnRemoteModuleLive.Text = "Remote Module - Live";
             this.btnRemoteModuleLive.UseVisualStyleBackColor = true;
             this.btnRemoteModuleLive.Click += new System.EventHandler(this.btnRemoteModuleLive_Click);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(421, 54);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(95, 23);
+            this.button5.TabIndex = 8;
+            this.button5.Text = "Direct Start";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // LoadPreviousPrintsGroup
+            // 
+            this.LoadPreviousPrintsGroup.Controls.Add(this.printSerializeRadio);
+            this.LoadPreviousPrintsGroup.Controls.Add(this.PrintBmpRadio);
+            this.LoadPreviousPrintsGroup.Controls.Add(this.previousPrintCheckBox);
+            this.LoadPreviousPrintsGroup.Location = new System.Drawing.Point(235, 74);
+            this.LoadPreviousPrintsGroup.Name = "LoadPreviousPrintsGroup";
+            this.LoadPreviousPrintsGroup.Size = new System.Drawing.Size(200, 100);
+            this.LoadPreviousPrintsGroup.TabIndex = 8;
+            this.LoadPreviousPrintsGroup.TabStop = false;
+            this.LoadPreviousPrintsGroup.Text = "Previous Prints Options";
+            // 
+            // printSerializeRadio
+            // 
+            this.printSerializeRadio.AutoSize = true;
+            this.printSerializeRadio.Checked = true;
+            this.printSerializeRadio.Location = new System.Drawing.Point(22, 71);
+            this.printSerializeRadio.Name = "printSerializeRadio";
+            this.printSerializeRadio.Size = new System.Drawing.Size(70, 17);
+            this.printSerializeRadio.TabIndex = 2;
+            this.printSerializeRadio.TabStop = true;
+            this.printSerializeRadio.Text = "Serialized";
+            this.printSerializeRadio.UseVisualStyleBackColor = true;
+            // 
+            // PrintBmpRadio
+            // 
+            this.PrintBmpRadio.AutoSize = true;
+            this.PrintBmpRadio.Location = new System.Drawing.Point(22, 48);
+            this.PrintBmpRadio.Name = "PrintBmpRadio";
+            this.PrintBmpRadio.Size = new System.Drawing.Size(46, 17);
+            this.PrintBmpRadio.TabIndex = 1;
+            this.PrintBmpRadio.Text = "Bmp";
+            this.PrintBmpRadio.UseVisualStyleBackColor = true;
+            // 
+            // previousPrintCheckBox
+            // 
+            this.previousPrintCheckBox.AutoSize = true;
+            this.previousPrintCheckBox.Location = new System.Drawing.Point(11, 20);
+            this.previousPrintCheckBox.Name = "previousPrintCheckBox";
+            this.previousPrintCheckBox.Size = new System.Drawing.Size(134, 17);
+            this.previousPrintCheckBox.TabIndex = 0;
+            this.previousPrintCheckBox.Text = "Load Previous print set";
+            this.previousPrintCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // txtQualityThreshold
+            // 
+            this.txtQualityThreshold.Location = new System.Drawing.Point(405, 51);
+            this.txtQualityThreshold.Name = "txtQualityThreshold";
+            this.txtQualityThreshold.Size = new System.Drawing.Size(27, 20);
+            this.txtQualityThreshold.TabIndex = 19;
+            this.txtQualityThreshold.Text = "3";
+            // 
+            // chkEnableQualityCheck
+            // 
+            this.chkEnableQualityCheck.AutoSize = true;
+            this.chkEnableQualityCheck.Location = new System.Drawing.Point(257, 51);
+            this.chkEnableQualityCheck.Name = "chkEnableQualityCheck";
+            this.chkEnableQualityCheck.Size = new System.Drawing.Size(142, 17);
+            this.chkEnableQualityCheck.TabIndex = 18;
+            this.chkEnableQualityCheck.Text = "Enable Quality validation";
+            this.chkEnableQualityCheck.UseVisualStyleBackColor = true;
+            // 
+            // chkForceQualityCheck
+            // 
+            this.chkForceQualityCheck.AutoSize = true;
+            this.chkForceQualityCheck.Location = new System.Drawing.Point(246, 28);
+            this.chkForceQualityCheck.Name = "chkForceQualityCheck";
+            this.chkForceQualityCheck.Size = new System.Drawing.Size(211, 17);
+            this.chkForceQualityCheck.TabIndex = 17;
+            this.chkForceQualityCheck.Text = "Overide quality validation and threshold";
+            this.chkForceQualityCheck.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
@@ -204,14 +337,6 @@ namespace TestWinForm
             this.dpi500.TabStop = true;
             this.dpi500.Text = "500";
             this.dpi500.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(18, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(164, 34);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Will crash if launched twice without stopping the process.";
             // 
             // captureModeGroup
             // 
@@ -269,108 +394,6 @@ namespace TestWinForm
             this.chkSqMode.Text = "Sq Mode";
             this.chkSqMode.UseVisualStyleBackColor = true;
             // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(421, 54);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(95, 23);
-            this.button5.TabIndex = 8;
-            this.button5.Text = "Direct Start";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // StartDebugButton
-            // 
-            this.StartDebugButton.Location = new System.Drawing.Point(16, 28);
-            this.StartDebugButton.Name = "StartDebugButton";
-            this.StartDebugButton.Size = new System.Drawing.Size(137, 23);
-            this.StartDebugButton.TabIndex = 9;
-            this.StartDebugButton.Text = "Live - Direct Start (Debug)";
-            this.StartDebugButton.UseVisualStyleBackColor = true;
-            this.StartDebugButton.Click += new System.EventHandler(this.StartDebugButton_Click);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(421, 28);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(95, 23);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "DynaInvok Start";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // chkForceQualityCheck
-            // 
-            this.chkForceQualityCheck.AutoSize = true;
-            this.chkForceQualityCheck.Location = new System.Drawing.Point(246, 28);
-            this.chkForceQualityCheck.Name = "chkForceQualityCheck";
-            this.chkForceQualityCheck.Size = new System.Drawing.Size(211, 17);
-            this.chkForceQualityCheck.TabIndex = 17;
-            this.chkForceQualityCheck.Text = "Overide quality validation and threshold";
-            this.chkForceQualityCheck.UseVisualStyleBackColor = true;
-            // 
-            // chkEnableQualityCheck
-            // 
-            this.chkEnableQualityCheck.AutoSize = true;
-            this.chkEnableQualityCheck.Location = new System.Drawing.Point(257, 51);
-            this.chkEnableQualityCheck.Name = "chkEnableQualityCheck";
-            this.chkEnableQualityCheck.Size = new System.Drawing.Size(142, 17);
-            this.chkEnableQualityCheck.TabIndex = 18;
-            this.chkEnableQualityCheck.Text = "Enable Quality validation";
-            this.chkEnableQualityCheck.UseVisualStyleBackColor = true;
-            // 
-            // txtQualityThreshold
-            // 
-            this.txtQualityThreshold.Location = new System.Drawing.Point(405, 51);
-            this.txtQualityThreshold.Name = "txtQualityThreshold";
-            this.txtQualityThreshold.Size = new System.Drawing.Size(27, 20);
-            this.txtQualityThreshold.TabIndex = 19;
-            this.txtQualityThreshold.Text = "3";
-            // 
-            // LoadPreviousPrintsGroup
-            // 
-            this.LoadPreviousPrintsGroup.Controls.Add(this.printSerializeRadio);
-            this.LoadPreviousPrintsGroup.Controls.Add(this.PrintBmpRadio);
-            this.LoadPreviousPrintsGroup.Controls.Add(this.previousPrintCheckBox);
-            this.LoadPreviousPrintsGroup.Location = new System.Drawing.Point(235, 74);
-            this.LoadPreviousPrintsGroup.Name = "LoadPreviousPrintsGroup";
-            this.LoadPreviousPrintsGroup.Size = new System.Drawing.Size(200, 100);
-            this.LoadPreviousPrintsGroup.TabIndex = 8;
-            this.LoadPreviousPrintsGroup.TabStop = false;
-            this.LoadPreviousPrintsGroup.Text = "Previous Prints Options";
-            // 
-            // previousPrintCheckBox
-            // 
-            this.previousPrintCheckBox.AutoSize = true;
-            this.previousPrintCheckBox.Location = new System.Drawing.Point(11, 20);
-            this.previousPrintCheckBox.Name = "previousPrintCheckBox";
-            this.previousPrintCheckBox.Size = new System.Drawing.Size(134, 17);
-            this.previousPrintCheckBox.TabIndex = 0;
-            this.previousPrintCheckBox.Text = "Load Previous print set";
-            this.previousPrintCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // PrintBmpRadio
-            // 
-            this.PrintBmpRadio.AutoSize = true;
-            this.PrintBmpRadio.Location = new System.Drawing.Point(22, 48);
-            this.PrintBmpRadio.Name = "PrintBmpRadio";
-            this.PrintBmpRadio.Size = new System.Drawing.Size(46, 17);
-            this.PrintBmpRadio.TabIndex = 1;
-            this.PrintBmpRadio.Text = "Bmp";
-            this.PrintBmpRadio.UseVisualStyleBackColor = true;
-            // 
-            // printSerializeRadio
-            // 
-            this.printSerializeRadio.AutoSize = true;
-            this.printSerializeRadio.Checked = true;
-            this.printSerializeRadio.Location = new System.Drawing.Point(22, 71);
-            this.printSerializeRadio.Name = "printSerializeRadio";
-            this.printSerializeRadio.Size = new System.Drawing.Size(70, 17);
-            this.printSerializeRadio.TabIndex = 2;
-            this.printSerializeRadio.TabStop = true;
-            this.printSerializeRadio.Text = "Serialized";
-            this.printSerializeRadio.UseVisualStyleBackColor = true;
-            // 
             // ResultGroupBox
             // 
             this.ResultGroupBox.Controls.Add(this.ImageResultPanel);
@@ -383,15 +406,6 @@ namespace TestWinForm
             this.ResultGroupBox.TabStop = false;
             this.ResultGroupBox.Text = "Capture Results";
             // 
-            // ResultLabel
-            // 
-            this.ResultLabel.AutoSize = true;
-            this.ResultLabel.Location = new System.Drawing.Point(9, 26);
-            this.ResultLabel.Name = "ResultLabel";
-            this.ResultLabel.Size = new System.Drawing.Size(35, 13);
-            this.ResultLabel.TabIndex = 0;
-            this.ResultLabel.Text = "label3";
-            // 
             // ImageResultPanel
             // 
             this.ImageResultPanel.AutoScroll = true;
@@ -401,33 +415,31 @@ namespace TestWinForm
             this.ImageResultPanel.Size = new System.Drawing.Size(991, 400);
             this.ImageResultPanel.TabIndex = 1;
             // 
-            // panel1
+            // ResultLabel
             // 
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.StartDebugButton);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.btnRemoteModuleLive);
-            this.panel1.Controls.Add(this.button5);
-            this.panel1.Location = new System.Drawing.Point(15, 176);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(604, 100);
-            this.panel1.TabIndex = 20;
+            this.ResultLabel.AutoSize = true;
+            this.ResultLabel.Location = new System.Drawing.Point(9, 26);
+            this.ResultLabel.Name = "ResultLabel";
+            this.ResultLabel.Size = new System.Drawing.Size(35, 13);
+            this.ResultLabel.TabIndex = 0;
+            this.ResultLabel.Text = "label3";
             // 
-            // label3
+            // button6
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 12);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Start Options";
+            this.button6.Location = new System.Drawing.Point(174, 246);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(139, 23);
+            this.button6.TabIndex = 9;
+            this.button6.Text = "Single Finger Capture";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(997, 774);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.ResultGroupBox);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -442,16 +454,16 @@ namespace TestWinForm
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.LoadPreviousPrintsGroup.ResumeLayout(false);
+            this.LoadPreviousPrintsGroup.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.captureModeGroup.ResumeLayout(false);
             this.captureModeGroup.PerformLayout();
-            this.LoadPreviousPrintsGroup.ResumeLayout(false);
-            this.LoadPreviousPrintsGroup.PerformLayout();
             this.ResultGroupBox.ResumeLayout(false);
             this.ResultGroupBox.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -492,6 +504,7 @@ namespace TestWinForm
         private System.Windows.Forms.Panel ImageResultPanel;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button6;
     }
 }
 

@@ -107,9 +107,23 @@ namespace TestWinForm
         public void GetSinglePrint()
         {
             this.commandReceived = CommandResultPrints;
-            var args = this.GetPrintsCaptureArguments("live");
+            var args = this.GetSinglePrintsCaptureArguments("live");
             args.Add("capturemode", "8");
+            args.Add("singlecaptureprompt", "Veuillez placer le doigt voulu pour l'enrollement");
+            args.Add("topmost", "0");
             this.StartRemote(PrintsCaptureModuleName, args);
+        }
+
+        private Dictionary<string, string> GetSinglePrintsCaptureArguments(string cmdType)
+        {
+            var d = new Dictionary<string, string>();
+            d.Add("mode", cmdType);
+            d.Add("culture", this.language);
+            d.Add("debug", this.isDebug ? "1" : "0");
+            d.Add("descriptionline1", "");
+            d.Add("descriptionline2", "");
+            d.Add("wizard", "1");
+            return d;
         }
 
         /// <summary>
@@ -265,7 +279,6 @@ namespace TestWinForm
             this.TriggerEvent(false, null, ex ?? new ApplicationException(errorMessage));
             this.Close();
         }
-
 
 
         private Bitmap Base64ToImage(string base64String)
