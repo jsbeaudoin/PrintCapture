@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 namespace TestWinForm
 {
+    using System.Drawing.Imaging;
     using System.Globalization;
     using System.IO;
     using PrintsCapture.Prints;
@@ -552,6 +553,55 @@ namespace TestWinForm
                 MessageBox.Show(exception.Message, "Capture Single Fingerprint", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.Enabled = true;
             }
+        }
+
+        private void DeserializeButton_Click(object sender, EventArgs e)
+        {
+            var path = "C:\\travail\\empreintes\\RestartFingerprint.xml";
+            var savePath = @"C:\travail\empreintes\";
+
+            var data = XL_ID.Utilities.XML.ObjectSerializer.GetInstanceFromXml<CapturedPrintData>(path);
+
+            // save all Bitmals !!
+
+            foreach (var finger in data.Prints)
+            {
+                // get nist index
+                var index = finger.Position;
+                Bitmap bmpInstance = null;
+                var bmpRawData = finger.ImageDataFormat != PrintDataFormat.Bmp ?
+                            null : finger.ImageData;
+                if (bmpRawData != null)
+                {
+                    using (var ms = new System.IO.MemoryStream(bmpRawData))
+                    {
+                        bmpInstance = (Bitmap)Image.FromStream(ms); // new Bitmap(ms);
+                        bmpInstance.SetResolution(data.Dpi, data.Dpi);
+
+                        String fileName = savePath + index.ToString() + ".bmp";
+                        bmpInstance.Save(fileName);
+                    }
+
+                    
+                    ////bmpInstance.Save(fileName, System.Drawing.Imaging.ImageFormat.Bmp);
+                    //var bmp2 = bmpInstance.CloneBitmap();
+                    //using (MemoryStream memory = new MemoryStream())
+                    //{
+                    //    using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite))
+                    //    {
+                    //        bmp2.Save(memory, ImageFormat.Bmp);
+                    //        byte[] bytes = memory.ToArray();
+                    //        fs.Write(bytes, 0, bytes.Length);
+                    //    }
+                    //}
+
+                    //bmpInstance.Save(fileName);
+                }
+
+            
+            }
+
+            MessageBox.Show("Done");
         }
     }
 

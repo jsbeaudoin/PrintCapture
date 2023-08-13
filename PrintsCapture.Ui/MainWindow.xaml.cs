@@ -205,7 +205,7 @@ namespace PrintsCapture.Ui
 
         private void EndCaptureButtonClick(object sender, RoutedEventArgs e)
         {
-            PrintCaptureAppSettings.Save();
+            //PrintCaptureAppSettings.Save(); Instead of saving when clicking End, always save when closing the window
             var printList = PrintCaptureApp.Instance.PrintList;
 
             if (!printList.CheckAllStatuses(true))
@@ -337,6 +337,7 @@ namespace PrintsCapture.Ui
 
         private void RibbonWindowClosing(object sender, CancelEventArgs e)
         {
+            PrintCaptureAppSettings.Save();
             if (!PrintCaptureApp.SequenceCheck.Connected)
             {
                 return;

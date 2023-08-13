@@ -881,4 +881,10 @@ For advanced use, you may click on "Review prints".</value>
   <data name="RulesSequenceThreshold" xml:space="preserve">
     <value>Sequence ENABLED, Threshold:</value>
   </data>
+  <data name="CustomOrderUsed" xml:space="preserve">
+    <value>Using custom capture order</value>
+  </data>
+  <data name="CustomOrderFileInvalid" xml:space="preserve">
+    <value>Custom order file is invalid</value>
+  </data>
 </root>

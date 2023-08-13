@@ -111,9 +111,12 @@ namespace PrintsCapture.Ui.Class
             rules.Labels.SingleFingerCapturePrompt = appParam.SingleFingerCapturePrompt;
             
             // make sure rules have a valid set
-            rules.CaptureGroupAllowed = appParam.CaptureModeAllowed;            
-            var defaultValue = PrintCaptureGroup.FlatOnly; // default: flats. Else rolled and flats EXCEPT for Sq, which include palms by default
-            if (!rules.CaptureGroupAllowed.HasFlag(PrintCaptureGroup.FlatOnly))
+            rules.CaptureGroupAllowed = appParam.CaptureModeAllowed;
+            var defaultValue = PrintCaptureGroup.FlatOnly;
+            if (rules.CaptureGroup != PrintCaptureGroup.Unknown && rules.CaptureGroupAllowed.HasFlag(rules.CaptureGroup))
+            {
+                defaultValue = rules.CaptureGroup; // used last value as default value if available
+            } else if (!rules.CaptureGroupAllowed.HasFlag(PrintCaptureGroup.FlatOnly))
             {
                 defaultValue = appParam.CaptureOrder == CaptureOrderMode.Sq ? PrintCaptureGroup.StandardAndPalm : PrintCaptureGroup.Standard14;
             }

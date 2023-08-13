@@ -8,6 +8,7 @@ namespace PrintsCapture.Prints.Enum
     public enum CaptureOrderMode
     {
         Standard,
-        Sq
+        Sq,
+        Custom // file base list
     }
 }

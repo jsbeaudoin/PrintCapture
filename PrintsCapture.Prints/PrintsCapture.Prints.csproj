@@ -73,6 +73,8 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Class\BitmapSourceLookup.cs" />
     <Compile Include="Class\CustomLabels.cs" />
+    <Compile Include="Class\Custom\CustomPrintOrderManager.cs" />
+    <Compile Include="Class\Custom\PrintSelector.cs" />
     <Compile Include="Class\PrintClickedEventArgs.cs" />
     <Compile Include="Class\PrintCondition.cs" />
     <Compile Include="Class\PrintSegment.cs" />

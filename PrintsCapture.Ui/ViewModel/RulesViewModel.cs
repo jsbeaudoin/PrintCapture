@@ -9,6 +9,7 @@ namespace PrintsCapture.Ui.ViewModel
     using Prints.Enum;
     using Converter;
     using PrintsCapture.Ui.Language;
+    using Prints.Class.Custom;
 
     public class RulesViewModel : INotifyPropertyChanged
     {
@@ -38,6 +39,8 @@ namespace PrintsCapture.Ui.ViewModel
         private int retryNeededForOverride;
 
         private int minimumMinutiaCount;
+
+        private Prints.PrintRules rules;
 
         public PrintCaptureGroup CaptureMode
         {
@@ -282,6 +285,7 @@ namespace PrintsCapture.Ui.ViewModel
 
         public RulesViewModel(Prints.PrintRules printRules)
         {
+            this.rules = printRules;
             this.captureMode = printRules.CaptureGroup;
             this.isDataCompressed = printRules.IsDataCompressed;
             this.isOverrideFlatForbidden = printRules.IsOverrideFlatForbidden;
@@ -348,6 +352,21 @@ namespace PrintsCapture.Ui.ViewModel
                 if (sb.Length > 0) sb.Append(", ");
 
                 sb.Append(Text.RulesDataCompressionDisabled);
+            }
+
+            // Verify custom order
+            CustomPrintOrderManager orderManager = new CustomPrintOrderManager(this.rules);
+            if (orderManager.CanBeUsed)
+            {   
+                if (orderManager.IsCustomFileValid())
+                {
+                    if (sb.Length > 0) sb.Append(", ");
+                    sb.Append(Text.CustomOrderUsed);
+                } else if (orderManager.IsCustomFilePresent)
+                {
+                    if (sb.Length > 0) sb.Append(", ");
+                    sb.Append(Text.CustomOrderFileInvalid);
+                }
             }
 
             this.RuleStatusText = sb.Length > 0 ? sb.ToString() : null;

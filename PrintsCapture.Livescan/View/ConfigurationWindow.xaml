@@ -137,7 +137,7 @@
         <Label Name="DeviceMessagesLabel" Foreground="Red" HorizontalAlignment="Center" FontWeight="Bold"></Label>
         <Grid Margin="20,20,20,5">
             <Button Content="{x:Static lng:CommonText.Cancel}" Style="{StaticResource ButtonStyle}" HorizontalAlignment="Left" Name="btnCancel" VerticalAlignment="Bottom" Click="btnCancel_Click" />
-            <Button Content="{x:Static lng:CommonText.Accept}" Style="{StaticResource ButtonStyle}" Name="btnAccept" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="btnAccept_Click" />
+            <Button Content="{x:Static lng:CommonText.Accept}" Style="{StaticResource ButtonStyle}" Name="btnAccept" HorizontalAlignment="Right" Click="btnAccept_Click" Height="Auto" />
         </Grid>
 
     </StackPanel>

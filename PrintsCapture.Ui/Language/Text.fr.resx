@@ -907,4 +907,10 @@ Pour une utilisation avancée, vous pouvez cliquer sur "Voir les empreintes"</va
   <data name="RulesSequenceThreshold" xml:space="preserve">
     <value>Séquence ACTIVÉ, Seuil:</value>
   </data>
+  <data name="CustomOrderUsed" xml:space="preserve">
+    <value>Utilisation d'un ordre de capture personnalisé</value>
+  </data>
+  <data name="CustomOrderFileInvalid" xml:space="preserve">
+    <value>Fichier d'ordre de capture invalide</value>
+  </data>
 </root>

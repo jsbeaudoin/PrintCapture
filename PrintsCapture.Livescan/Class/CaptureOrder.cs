@@ -16,10 +16,11 @@ namespace PrintsCapture.Livescan
     using PrintsCapture.Device.Enum;
     using PrintsCapture.Device.Extension;
     using PrintsCapture.Device.Interface;
-
     using PrintsCapture.Prints;
+    using PrintsCapture.Prints.Class.Custom;
     using PrintsCapture.Prints.Enum;
     using PrintsCapture.Prints.Language;
+    using XL_ID.Utilities.Log;
 
     internal class CaptureOrder
     {
@@ -31,12 +32,15 @@ namespace PrintsCapture.Livescan
 
         private readonly PrintRules rules;
 
+        private CustomPrintOrderManager customManager;
+
         public CaptureOrder(PrintList printList, ILivescanDevice device, bool resumeCaptureMode)
         {
             this.printList = printList;
             this.device = device;
             this.rules = this.printList.Rules;
             this.IsResumeCaptureMode = resumeCaptureMode;
+            this.customManager = new CustomPrintOrderManager(this.rules);
         }
 
         public bool IsResumeCaptureMode { get; private set; }
@@ -49,32 +53,6 @@ namespace PrintsCapture.Livescan
             return this.captureList;
         }
 
-        //public List<PrintInfo> GetQuickFlatCaptureList(bool includeEndorsement)
-        //{
-        //    this.captureList = new List<PrintInfo>();
-
-        //    if (rules.CaptureGroup == PrintCaptureGroup.OneFingerOnly)
-        //    {
-        //        this.AddToCaptureList(Hand.Right, HandScanKind.Flat, PrintResolution.Dpi500, HandPart.Thumb);
-        //    }
-        //    else
-        //    {
-        //        this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.FingerResolution, HandPart.FourFlats);
-        //        this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.FingerResolution, HandPart.FourFlats);
-        //        this.AddToCaptureList(Hand.None, HandScanKind.Flat, device.FingerResolution, HandPart.TwoThumbs);
-
-        //        if (includeEndorsement)
-        //        {
-        //            this.AddToCaptureList(Hand.None, HandScanKind.Flat, device.FingerResolution, HandPart.Endorsement);
-        //            this.SetEndorsement();
-        //        }
-        //    }
-
-            
-
-        //    return this.captureList;
-        //}
-
         public List<PrintInfo> GetCaptureList(PrintInfo print, PrintResolution resolution)
         {
             this.captureList = new List<PrintInfo>();
@@ -83,63 +61,93 @@ namespace PrintsCapture.Livescan
             return this.captureList;
         }
 
-        
-
-
         private void CreateCaptureList()
         {
             this.captureList.Clear();
-            if (this.printList.Rules.OrderMode == CaptureOrderMode.Sq)
+            var order = this.printList.Rules.OrderMode;
+            
+            if (customManager.CanBeUsed && customManager.IsCustomFileValid())
             {
-                this.CreateSqCaptureList();
+                order = CaptureOrderMode.Custom;
             }
-            else
+
+            switch (order) {
+                case CaptureOrderMode.Standard:
+                    this.CreateStandardCaptureList();
+                    break;
+                case CaptureOrderMode.Sq:
+                    this.CreateSqCaptureList();
+                    break;
+                case CaptureOrderMode.Custom:
+                    this.CreateCustomCaptureList();
+                    break;
+            }
+        }
+
+        private void CreateCustomCaptureList()
+        {
+            Dictionary<String, Action> scanActions = new Dictionary<string, Action>();
+
+            scanActions.Add("E", () => AddEndorsementScan());
+
+            scanActions.Add("1", () => AddRolledScan(Hand.Right, HandPart.Thumb));
+            scanActions.Add("2", () => AddRolledScan(Hand.Right, HandPart.Index));
+            scanActions.Add("3", () => AddRolledScan(Hand.Right, HandPart.Middle));
+            scanActions.Add("4", () => AddRolledScan(Hand.Right, HandPart.Ring));
+            scanActions.Add("5", () => AddRolledScan(Hand.Right, HandPart.Little));
+
+            scanActions.Add("6", () => AddRolledScan(Hand.Left, HandPart.Thumb));
+            scanActions.Add("7", () => AddRolledScan(Hand.Left, HandPart.Index));
+            scanActions.Add("8", () => AddRolledScan(Hand.Left, HandPart.Middle));
+            scanActions.Add("9", () => AddRolledScan(Hand.Left, HandPart.Ring));
+            scanActions.Add("10", () => AddRolledScan(Hand.Left, HandPart.Little));
+
+            scanActions.Add("11", () => AddThumbFlatScan(Hand.Right));
+            scanActions.Add("12", () => AddThumbFlatScan(Hand.Left));
+
+            scanActions.Add("13", () => AddFourFlatRightScan());
+            scanActions.Add("14", () => AddFourFlatLeftScan());
+            scanActions.Add("15", () => AddTwoFlatThumbsScan());
+
+            scanActions.Add("22", () => AddPalmScan(Hand.Right, HandPart.Hypothenar));
+            scanActions.Add("24", () => AddPalmScan(Hand.Left, HandPart.Hypothenar));
+            scanActions.Add("25", () => AddPalmScan(Hand.Right, HandPart.LowerPalm));
+            scanActions.Add("26", () => AddPalmScan(Hand.Right, HandPart.UpperPalm));
+            scanActions.Add("27", () => AddPalmScan(Hand.Left, HandPart.LowerPalm));
+            scanActions.Add("28", () => AddPalmScan(Hand.Left, HandPart.UpperPalm));
+
+            try
             {
+                foreach (var print in customManager.PrintList)
+                {
+                    scanActions[print.Key]();
+                }
+            } catch (Exception ex)
+            {
+                LogDispatcher.DoLog("Could not load Custom order file. Using standard list instead.", LogEventLevel.Warning, ex);
+                // failed setting order !!! use standard order !!!
+                this.captureList.Clear();
                 this.CreateStandardCaptureList();
             }
-            
+            LogDispatcher.DoLog("Using custom print capture order file");
+
         }
+
+        
 
         private void CreateSqCaptureList()
         {
             if (rules.CaptureGroup == PrintCaptureGroup.OneFingerOnly)
             {
-                if (!device.Supports(DeviceScanKind.FlatSingleFinger))
-                {
-                    throw new ApplicationException(CommonText.ScannerNotSupportFlat);
-                }
-
-                this.AddToCaptureList(Hand.Right, HandScanKind.Flat, PrintResolution.Dpi500, HandPart.Thumb);
+                AddOneFingerScan();
                 return;
             }
 
             // 1 --> two flat thumbs
-            if (rules.CaptureTwoThumbs && device.Supports(DeviceScanKind.FlatTwoFinger))
-            {
-                this.AddToCaptureList(Hand.None, HandScanKind.Flat, device.FingerResolution, HandPart.TwoThumbs);
-            }
-            else
-            {
-                this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.FingerResolution, HandPart.Thumb);
-                this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.FingerResolution, HandPart.Thumb);
-            }
+            AddTwoFlatThumbsScan();
 
             // 2 --> 4 right fingers flat
-            if (device.Supports(DeviceScanKind.FlatFourFinger))
-            {
-                this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.FingerResolution, HandPart.FourFlats);
-            }
-            else
-            {
-                this.AddToCaptureList(
-                    Hand.Right,
-                    HandScanKind.Flat,
-                    device.FingerResolution,
-                    HandPart.Index,
-                    HandPart.Middle,
-                    HandPart.Ring,
-                    HandPart.Little);
-            }
+            AddFourFlatRightScan();
 
             // 3 to 7 --> Rolled fingers right
             if (rules.CaptureGroup != PrintCaptureGroup.FlatOnly)
@@ -162,21 +170,7 @@ namespace PrintsCapture.Livescan
             }
 
             // 11 --> 4 fingers left
-            if (device.Supports(DeviceScanKind.FlatFourFinger))
-            {
-                this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.FingerResolution, HandPart.FourFlats);
-            }
-            else
-            {
-                this.AddToCaptureList(
-                    Hand.Left,
-                    HandScanKind.Flat,
-                    device.FingerResolution,
-                    HandPart.Index,
-                    HandPart.Middle,
-                    HandPart.Ring,
-                    HandPart.Little);
-            }
+            AddFourFlatLeftScan();
 
             // 12-16 --> Left fingers rolled
             if (rules.CaptureGroup != PrintCaptureGroup.FlatOnly)
@@ -199,23 +193,16 @@ namespace PrintsCapture.Livescan
             }
 
             // 20 --> Endorsement finger
-            if (rules.IsEndorsementAllowed)
-            {
-                this.AddToCaptureList(Hand.None, HandScanKind.Flat, device.FingerResolution, HandPart.Endorsement);
-                this.SetEndorsement();
-            }
+            AddEndorsementScan();
         }
+
+        
 
         private void CreateStandardCaptureList()
         {
             if (rules.CaptureGroup == PrintCaptureGroup.OneFingerOnly)
             {
-                if (!device.Supports(DeviceScanKind.FlatSingleFinger))
-                {
-                    throw new ApplicationException(CommonText.ScannerNotSupportFlat);
-                }
-
-                this.AddToCaptureList(Hand.Right, HandScanKind.Flat, PrintResolution.Dpi500, HandPart.Thumb);
+                AddOneFingerScan();
                 return;
             }
 
@@ -226,18 +213,6 @@ namespace PrintsCapture.Livescan
                     this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.PalmResolution, HandPart.UpperPalm, HandPart.LowerPalm, HandPart.Hypothenar);
                     this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.PalmResolution, HandPart.UpperPalm, HandPart.LowerPalm, HandPart.Hypothenar);
                 }
-                else if (device.Supports(DeviceScanKind.FlatCompletePalm))
-                {
-                    this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.PalmResolution, HandPart.CompletePalm, HandPart.Hypothenar);
-                    this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.PalmResolution, HandPart.CompletePalm, HandPart.Hypothenar);
-                }
-                else
-                {
-                    if (device.Supports(DeviceScanKind.FlatSingleFinger))
-                    {
-                        throw new ApplicationException(CommonText.ScannerNotSupporPalm);
-                    }
-                }
             }
 
             if (!device.Supports(DeviceScanKind.FlatSingleFinger))
@@ -245,40 +220,10 @@ namespace PrintsCapture.Livescan
                 throw new ApplicationException(CommonText.ScannerNotSupportFlat);
             }
 
-            if (device.Supports(DeviceScanKind.FlatFourFinger))
-            {
-                this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.FingerResolution, HandPart.FourFlats);
-                this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.FingerResolution, HandPart.FourFlats);
-            }
-            else
-            {
-                this.AddToCaptureList(
-                    Hand.Left,
-                    HandScanKind.Flat,
-                    device.FingerResolution,
-                    HandPart.Index,
-                    HandPart.Middle,
-                    HandPart.Ring,
-                    HandPart.Little);
-                this.AddToCaptureList(
-                    Hand.Right,
-                    HandScanKind.Flat,
-                    device.FingerResolution,
-                    HandPart.Index,
-                    HandPart.Middle,
-                    HandPart.Ring,
-                    HandPart.Little);
-            }
+            AddFourFlatLeftScan();
+            AddFourFlatRightScan();
 
-            if (rules.CaptureTwoThumbs && device.Supports(DeviceScanKind.FlatTwoFinger))
-            {
-                this.AddToCaptureList(Hand.None, HandScanKind.Flat, device.FingerResolution, HandPart.TwoThumbs);
-            }
-            else
-            {
-                this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.FingerResolution, HandPart.Thumb);
-                this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.FingerResolution, HandPart.Thumb);
-            }
+            AddTwoFlatThumbsScan();
 
             if (rules.CaptureGroup != PrintCaptureGroup.FlatOnly)
             {
@@ -294,12 +239,12 @@ namespace PrintsCapture.Livescan
                 this.AddToCaptureList(Hand.Right, HandScanKind.Rolled, device.FingerResolution, HandPart.Thumb);
             }
 
-            if (rules.IsEndorsementAllowed)
-            {
-                this.AddToCaptureList(Hand.None, HandScanKind.Flat, device.FingerResolution, HandPart.Endorsement);
-                this.SetEndorsement();
-            }
+            AddEndorsementScan();
         }
+
+
+
+
 
         private void SetEndorsement()
         {
@@ -349,7 +294,105 @@ namespace PrintsCapture.Livescan
                 
                 this.captureList.Add(print);                
             }
-        }        
+        }
 
-    }
+        #region "Finger Capture methods"
+
+
+        private void AddOneFingerScan()
+        {
+            if (!device.Supports(DeviceScanKind.FlatSingleFinger))
+            {
+                throw new ApplicationException(CommonText.ScannerNotSupportFlat);
+            }
+
+            this.AddToCaptureList(Hand.Right, HandScanKind.Flat, PrintResolution.Dpi500, HandPart.Thumb);
+        }
+
+        private void AddTwoFlatThumbsScan()
+        {
+            if (rules.CaptureTwoThumbs && device.Supports(DeviceScanKind.FlatTwoFinger))
+            {
+                this.AddToCaptureList(Hand.None, HandScanKind.Flat, device.FingerResolution, HandPart.TwoThumbs);
+            }
+            else
+            {
+                this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.FingerResolution, HandPart.Thumb);
+                this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.FingerResolution, HandPart.Thumb);
+            }
+        }
+
+        private void AddFourFlatRightScan()
+        {
+            if (device.Supports(DeviceScanKind.FlatFourFinger))
+            {
+                this.AddToCaptureList(Hand.Right, HandScanKind.Flat, device.FingerResolution, HandPart.FourFlats);
+            }
+            else
+            {
+                this.AddToCaptureList(
+                    Hand.Right,
+                    HandScanKind.Flat,
+                    device.FingerResolution,
+                    HandPart.Index,
+                    HandPart.Middle,
+                    HandPart.Ring,
+                    HandPart.Little);
+            }
+        }
+
+        private void AddFourFlatLeftScan()
+        {
+            if (device.Supports(DeviceScanKind.FlatFourFinger))
+            {
+                this.AddToCaptureList(Hand.Left, HandScanKind.Flat, device.FingerResolution, HandPart.FourFlats);
+            }
+            else
+            {
+                this.AddToCaptureList(
+                    Hand.Left,
+                    HandScanKind.Flat,
+                    device.FingerResolution,
+                    HandPart.Index,
+                    HandPart.Middle,
+                    HandPart.Ring,
+                    HandPart.Little);
+            }
+        }
+
+        private void AddThumbFlatScan(Hand hand)
+        {
+            this.AddToCaptureList(hand, HandScanKind.Flat, device.FingerResolution, HandPart.Thumb);
+        }
+
+        private void AddPalmScan(Hand hand, HandPart palmPart)
+        {
+            this.AddToCaptureList(hand, HandScanKind.Flat, device.PalmResolution, palmPart);
+        }
+
+        private void AddRolledScan(Hand hand, HandPart rolledFinger)
+        {
+            if (!device.Supports(DeviceScanKind.RolledSingleFinger))
+            {
+                throw new ApplicationException(CommonText.ScannerNotSupportRolled);
+            }
+            this.AddToCaptureList(hand, HandScanKind.Rolled, device.FingerResolution, rolledFinger);
+        }
+
+        private void AddEndorsementScan()
+        {
+            if (rules.IsEndorsementAllowed)
+            {
+                this.AddToCaptureList(Hand.None, HandScanKind.Flat, device.FingerResolution, HandPart.Endorsement);
+                this.SetEndorsement();
+            }
+        }
+
+            
+
+    #endregion
+
+
+
+}
 }

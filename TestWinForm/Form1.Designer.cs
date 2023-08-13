@@ -67,6 +67,7 @@ namespace TestWinForm
             this.ImageResultPanel = new System.Windows.Forms.Panel();
             this.ResultLabel = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
+            this.DeserializeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
@@ -434,11 +435,22 @@ namespace TestWinForm
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // DeserializeButton
+            // 
+            this.DeserializeButton.Location = new System.Drawing.Point(64, 282);
+            this.DeserializeButton.Name = "DeserializeButton";
+            this.DeserializeButton.Size = new System.Drawing.Size(75, 23);
+            this.DeserializeButton.TabIndex = 10;
+            this.DeserializeButton.Text = "Deserialize";
+            this.DeserializeButton.UseVisualStyleBackColor = true;
+            this.DeserializeButton.Click += new System.EventHandler(this.DeserializeButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(997, 774);
+            this.Controls.Add(this.DeserializeButton);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.ResultGroupBox);
             this.Controls.Add(this.groupBox2);
@@ -505,6 +517,7 @@ namespace TestWinForm
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button DeserializeButton;
     }
 }
 
