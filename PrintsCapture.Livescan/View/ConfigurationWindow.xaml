@@ -118,10 +118,10 @@
             <Label Grid.Row="7" Grid.Column="0" Content="{x:Static lng:CommonText.Resolutions}"  />
 
             <Label Grid.Row="7" Grid.Column="2" Content="{x:Static lng:CommonText.Fingers}" />
-            <ComboBox Grid.Row="7" Grid.Column="3" ItemsSource="{Binding Resolutions}" SelectedValue="{Binding FingerResolution}" DisplayMemberPath="Label" />
+            <ComboBox Grid.Row="7" Grid.Column="3" ItemsSource="{Binding Resolutions}" SelectedValue="{Binding FingerResolution}" DisplayMemberPath="Label" IsReadOnly="True" IsEditable="False" IsEnabled="False" />
 
             <Label Grid.Row="7" Grid.Column="5" Content="{x:Static lng:CommonText.Palms}" />
-            <ComboBox Grid.Row="7" Grid.Column="6" ItemsSource="{Binding Resolutions}" DisplayMemberPath="Label" SelectedValue="{Binding PalmResolution}" IsEnabled="{Binding SupportPalms}" />
+            <ComboBox Grid.Row="7" Grid.Column="6" ItemsSource="{Binding Resolutions}" DisplayMemberPath="Label" SelectedValue="{Binding PalmResolution}" IsEnabled="False" IsReadOnly="True" IsEditable="False" />
 
             <Border  Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="5" BorderThickness="1" BorderBrush="Black">
                 <Expander Header="{x:Static lng:CommonText.AdvancedDeviceOption}">

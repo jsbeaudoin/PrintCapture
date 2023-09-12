@@ -151,6 +151,7 @@ namespace PrintsCapture.Livescan
             AddFourFlatRightScan();
 
             // 3 to 7 --> Rolled fingers right
+            AddRolledScan(Hand.Right, HandPart.Thumb);
             AddRolledScan(Hand.Right, HandPart.Index);
             AddRolledScan(Hand.Right, HandPart.Middle);
             AddRolledScan(Hand.Right, HandPart.Ring);
@@ -165,6 +166,7 @@ namespace PrintsCapture.Livescan
             AddFourFlatLeftScan();
 
             // 12-16 --> Left fingers rolled
+            AddRolledScan(Hand.Left, HandPart.Thumb);
             AddRolledScan(Hand.Left, HandPart.Index);
             AddRolledScan(Hand.Left, HandPart.Middle);
             AddRolledScan(Hand.Left, HandPart.Ring);

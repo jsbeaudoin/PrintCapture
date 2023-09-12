@@ -227,12 +227,10 @@ namespace PrintsCapture.UniDACLegacy
                     index++;
                 }
 
-
                 // Write Segments
                 index = 1;
                 foreach (var printElement in segmentsList)
-                {                    
-
+                {
                     foreach (var segment in printElement.Segments)
                     {
                         devInfoWriter.WriteLine("[Segment{0}]", index);
