@@ -36,7 +36,17 @@
                 return;
             }
 
-            this.DialogResult = true;
+            // check for Parent and validate
+            if (this.ViewModel.Parent != null && this.ViewModel.Parent.IsMissing && string.IsNullOrEmpty(this.ViewModel.MissingCode))
+            {
+                var parent = this.ViewModel.Parent;
+                MessageBox.Show(Text.FingerNotPresentParentMissing);
+                this.DialogResult = false;
+            } else
+            {
+                this.DialogResult = true;
+            }
+            
             this.Close();
         }
 

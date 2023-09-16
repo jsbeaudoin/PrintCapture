@@ -100,7 +100,17 @@ namespace PrintsCapture.Ui.Class
             
             // Print not captured
             var name = print.PrintList.Rules.IsFlatCaptureMode ? PrintList.GetName(print.Hand, print.HandPart) : vm.Name;
-            var presVm = new FingerPresenceViewModel(name, print.PhysicalPart.MissingCode, print.PhysicalPart.MissingDate, print);
+            PrintInfo parent = null;
+            
+            // Get parents for rolled, so we dont set them present if parent is missing !
+            if (print.Kind == HandPartKind.Finger && print.ScanKind == HandScanKind.Rolled)
+            {
+                parent = print.HandPart == HandPart.Thumb ?
+                    print.PrintList.Prints.First(x => x.Hand == print.Hand && x.HandPart == HandPart.Thumb && x.ScanKind == HandScanKind.Flat) :
+                    print.PrintList.Prints.First(x => x.Hand == print.Hand && x.HandPart == HandPart.FourFlats && x.ScanKind == HandScanKind.Flat);
+            }
+            
+            var presVm = new FingerPresenceViewModel(name, print.PhysicalPart.MissingCode, print.PhysicalPart.MissingDate, print, parent);
 
             var presWin = new FingerPresenceWindow(presVm);
 
@@ -122,11 +132,10 @@ namespace PrintsCapture.Ui.Class
         public void UpdateMissingInfo(PhysicalHandPart physicalPart, string code, string date)
         {
             var printList = PrintCaptureApp.Instance.PrintList;
+            var allModifiedPrints = printList.Prints.Where(x => x.PhysicalPart == physicalPart).ToList();
 
             physicalPart.MissingCode = code;
             physicalPart.MissingDate = date;
-
-            var allModifiedPrints = printList.Prints.Where(x => x.PhysicalPart == physicalPart).ToList();
 
             foreach (var modifiedPrint in allModifiedPrints)
             {

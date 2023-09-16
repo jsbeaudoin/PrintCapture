@@ -887,4 +887,7 @@ For advanced use, you may click on "Review prints".</value>
   <data name="CustomOrderFileInvalid" xml:space="preserve">
     <value>Custom order file is invalid</value>
   </data>
+  <data name="FingerNotPresentParentMissing" xml:space="preserve">
+    <value>Finger cannot be present if 4 flats or flat thumb is missing</value>
+  </data>
 </root>

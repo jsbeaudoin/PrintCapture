@@ -913,4 +913,7 @@ Pour une utilisation avancée, vous pouvez cliquer sur "Voir les empreintes"</va
   <data name="CustomOrderFileInvalid" xml:space="preserve">
     <value>Fichier d'ordre de capture invalide</value>
   </data>
+  <data name="FingerNotPresentParentMissing" xml:space="preserve">
+    <value>Le doigt ne peut pas être présent si les 4 doigts plats ou le pouce plat sont absents.</value>
+  </data>
 </root>

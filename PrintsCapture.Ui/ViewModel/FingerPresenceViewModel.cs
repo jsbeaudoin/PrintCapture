@@ -22,10 +22,9 @@ namespace PrintsCapture.Ui.ViewModel
     public class FingerPresenceViewModel : INotifyPropertyChanged
     {
         private string missingDate;
-
         private string missingCode;
 
-        public FingerPresenceViewModel(string printName, string missingCode, string missingDate, PrintInfo print)
+        public FingerPresenceViewModel(string printName, string missingCode, string missingDate, PrintInfo print, PrintInfo parentPrint)
         {
             var serv = new MissingReasonService(print);
 
@@ -33,10 +32,13 @@ namespace PrintsCapture.Ui.ViewModel
             this.MissingCode = missingCode;
             this.MissingDate = missingDate;
             this.PrintName = printName;
+            this.Parent = parentPrint;
         }
         
 
         public string PrintName { get; set; }
+
+        public PrintInfo Parent { get; private set; }
 
         public List<MissingReasonViewModel> Reasons { get; private set; }
 

@@ -637,6 +637,15 @@ namespace PrintsCapture.Ui.Language {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Finger cannot be present if 4 flats or flat thumb is missing.
+        /// </summary>
+        public static string FingerNotPresentParentMissing {
+            get {
+                return ResourceManager.GetString("FingerNotPresentParentMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Finger Presence.
         /// </summary>
         public static string FingerPresenceWindowTitle {
