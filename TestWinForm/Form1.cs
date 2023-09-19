@@ -247,6 +247,7 @@ namespace TestWinForm
             string captureGroup = "0";
             bool endorsement = false;
             string splitResult = "1";
+            string cultureName = "fr";
             if (this.civilCaptureRadio.Checked)
             {
                 endorsement = true;
@@ -262,9 +263,14 @@ namespace TestWinForm
                 captureGroup = "5"; // palms + standard 14
             }
 
+            if (EnglishLanguageRadio.Checked)
+            {
+                cultureName = "en";
+            }
+
             var args = new Dictionary<string, string>();
             args.Add("mode", "live");
-            args.Add("culture", "fr");
+            args.Add("culture", cultureName);
             args.Add("debug", "1");
             args.Add("descriptionline1", "line1");
             args.Add("descriptionline2", "line2");

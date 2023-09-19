@@ -68,6 +68,9 @@ namespace TestWinForm
             this.ResultLabel = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.DeserializeButton = new System.Windows.Forms.Button();
+            this.LanguageGroupBox = new System.Windows.Forms.GroupBox();
+            this.EnglishLanguageRadio = new System.Windows.Forms.RadioButton();
+            this.frenchLanguageRadio = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
@@ -77,6 +80,7 @@ namespace TestWinForm
             this.groupBox3.SuspendLayout();
             this.captureModeGroup.SuspendLayout();
             this.ResultGroupBox.SuspendLayout();
+            this.LanguageGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -148,6 +152,7 @@ namespace TestWinForm
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.LanguageGroupBox);
             this.groupBox2.Controls.Add(this.panel1);
             this.groupBox2.Controls.Add(this.LoadPreviousPrintsGroup);
             this.groupBox2.Controls.Add(this.txtQualityThreshold);
@@ -445,6 +450,39 @@ namespace TestWinForm
             this.DeserializeButton.UseVisualStyleBackColor = true;
             this.DeserializeButton.Click += new System.EventHandler(this.DeserializeButton_Click);
             // 
+            // LanguageGroupBox
+            // 
+            this.LanguageGroupBox.Controls.Add(this.frenchLanguageRadio);
+            this.LanguageGroupBox.Controls.Add(this.EnglishLanguageRadio);
+            this.LanguageGroupBox.Location = new System.Drawing.Point(460, 82);
+            this.LanguageGroupBox.Name = "LanguageGroupBox";
+            this.LanguageGroupBox.Size = new System.Drawing.Size(141, 92);
+            this.LanguageGroupBox.TabIndex = 21;
+            this.LanguageGroupBox.TabStop = false;
+            this.LanguageGroupBox.Text = "Language";
+            // 
+            // EnglishLanguageRadio
+            // 
+            this.EnglishLanguageRadio.AutoSize = true;
+            this.EnglishLanguageRadio.Checked = true;
+            this.EnglishLanguageRadio.Location = new System.Drawing.Point(17, 40);
+            this.EnglishLanguageRadio.Name = "EnglishLanguageRadio";
+            this.EnglishLanguageRadio.Size = new System.Drawing.Size(59, 17);
+            this.EnglishLanguageRadio.TabIndex = 0;
+            this.EnglishLanguageRadio.TabStop = true;
+            this.EnglishLanguageRadio.Text = "English";
+            this.EnglishLanguageRadio.UseVisualStyleBackColor = true;
+            // 
+            // frenchLanguageRadio
+            // 
+            this.frenchLanguageRadio.AutoSize = true;
+            this.frenchLanguageRadio.Location = new System.Drawing.Point(17, 63);
+            this.frenchLanguageRadio.Name = "frenchLanguageRadio";
+            this.frenchLanguageRadio.Size = new System.Drawing.Size(58, 17);
+            this.frenchLanguageRadio.TabIndex = 1;
+            this.frenchLanguageRadio.Text = "French";
+            this.frenchLanguageRadio.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -476,6 +514,8 @@ namespace TestWinForm
             this.captureModeGroup.PerformLayout();
             this.ResultGroupBox.ResumeLayout(false);
             this.ResultGroupBox.PerformLayout();
+            this.LanguageGroupBox.ResumeLayout(false);
+            this.LanguageGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -518,6 +558,9 @@ namespace TestWinForm
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button DeserializeButton;
+        private System.Windows.Forms.GroupBox LanguageGroupBox;
+        private System.Windows.Forms.RadioButton frenchLanguageRadio;
+        private System.Windows.Forms.RadioButton EnglishLanguageRadio;
     }
 }
 
