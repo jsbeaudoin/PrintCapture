@@ -902,32 +902,32 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
 
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_SCANNER_SURFACE_NOT_NORMA) != 0)
             {
-                result.Messages.Add(CommonText.ThalesSurfaceNotNormal);
+                result.Messages.Add("\r\n" + CommonText.ThalesSurfaceNotNormal);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_SCANNER_FAILURE) != 0)
             {
-                result.Messages.Add(CommonText.ThalesScannerFailure);
+                result.Messages.Add("\r\n" + CommonText.ThalesScannerFailure);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_COMPOSITION_SLOW) != 0)
             {
-                result.Messages.Add(CommonText.ThalesCompositionSlow);
+                result.Messages.Add("\r\n" + CommonText.ThalesCompositionSlow);
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_FLAT_FINGER_SLIDING) != 0)
             {
-                result.Messages.Add(CommonText.ThalesFlatFingerSlide);
+                result.Messages.Add("\r\n" + CommonText.ThalesFlatFingerSlide);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_EXT_LIGHT_TOO_STRONG) != 0)
             {
-                result.Messages.Add(CommonText.ThalesTooMuchLight);
+                result.Messages.Add("\r\n" + CommonText.ThalesTooMuchLight);
                 result.IsError = true;
             }
             if (((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_FLAT_FINGER_OUT_OF_REGION_LEFT) != 0) ||
                 ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_OUTSIDE_BORDER_LEFT) != 0))
             {
-                result.Messages.Add(CommonText.ThalesImageOutLeft);
+                result.Messages.Add("\r\n" + CommonText.ThalesImageOutLeft);
                 if (this.currentCapture != null && this.currentCapture.MappedPrint.ScanKind != HandScanKind.Rolled)
                 {
                     result.IsError = true;
@@ -936,7 +936,7 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
             if (((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_FLAT_FINGER_OUT_OF_REGION_RIGHT) != 0) ||
                 ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_OUTSIDE_BORDER_RIGHT) != 0))
             {
-                result.Messages.Add(CommonText.ThalesImageOutRight);
+                result.Messages.Add("\r\n" + CommonText.ThalesImageOutRight);
                 if (this.currentCapture != null && this.currentCapture.MappedPrint.ScanKind != HandScanKind.Rolled)
                 {
                     result.IsError = true;
@@ -947,7 +947,7 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
                 ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_OUTSIDE_BORDER_TOP)) != 0)
             {
                 // Only a warning for rolled prints !
-                result.Messages.Add(CommonText.ThalesImageOutTop);
+                result.Messages.Add("\r\n" + CommonText.ThalesImageOutTop);
                 
                 result.IsError = true;
                 
@@ -956,60 +956,60 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
                 ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_FLAT_FINGER_DISPLACED_DOWN) != 0))
             {
                 // Only a warning for rolled prints !
-                result.Messages.Add(CommonText.ThalesImageOutBottom);
+                result.Messages.Add(" ");
+                result.Messages.Add("\r\n" + CommonText.ThalesImageOutBottom);
                 if (this.currentCapture != null && this.currentCapture.MappedPrint.ScanKind != HandScanKind.Rolled)                
                 {
                     result.IsError = true;
                 }
-                
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_IMPROPER_ROLL) != 0)
             {
-                result.Messages.Add(CommonText.ThalesImproperRoll);
+                result.Messages.Add("\r\n" + CommonText.ThalesImproperRoll);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_TOO_FAST_ROLL) != 0)
             {
-                result.Messages.Add(CommonText.ThalesRollTooFast);
+                result.Messages.Add("\r\n" + CommonText.ThalesRollTooFast);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_TOO_NARROW_ROLL) != 0)
             {
-                result.Messages.Add(CommonText.ThalesRollTooNarrow);
+                result.Messages.Add("\r\n" + CommonText.ThalesRollTooNarrow);
                 result.IsError = true;
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_ROLL_DIRECTION_RIGHT) != 0)
             {
-                result.Messages.Add(CommonText.ThalesRollToTheRight);
+                result.Messages.Add("\r\n" + CommonText.ThalesRollToTheRight);
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_ROLL_DIRECTION_LEFT) != 0)
             {
-                result.Messages.Add(CommonText.ThalesRollToTheLeft);
+                result.Messages.Add("\r\n" + CommonText.ThalesRollToTheLeft);
             }
             // VER 2.9.0.0
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_DRY_FINGER) != 0)
             {
-                result.Messages.Add(CommonText.ThalesDryFinger);
+                result.Messages.Add("\r\n" + CommonText.ThalesDryFinger);
             }
             // VER 2.9.0.0
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_WET_FINGER) != 0)
             {
-                result.Messages.Add(CommonText.ThalesWetFinger);
+                result.Messages.Add("\r\n" + CommonText.ThalesWetFinger);
             }
             // VER 3.1.0.0
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_TOO_SHORT_VERTICAL_ROLL) != 0)
             {
-                result.Messages.Add(CommonText.ThalesRollVerticalTooShort);
+                result.Messages.Add("\r\n" + CommonText.ThalesRollVerticalTooShort);
             }
             // end VER 3.1.0.0
             // VER 3.2.0.0
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_ROLL_DIRECTION_UP) != 0)
             {
-                result.Messages.Add(CommonText.ThalesRollTowardTop);
+                result.Messages.Add("\r\n" + CommonText.ThalesRollTowardTop);
             }
             if ((diagnostic & GBMSAPI_NET_DiagnosticMessages.GBMSAPI_NET_DM_VSROLL_ROLL_DIRECTION_DOWN) != 0)
             {
-                result.Messages.Add(CommonText.ThalesRollTowardBottom);
+                result.Messages.Add("\r\n" + CommonText.ThalesRollTowardBottom);
             }
             // end VER 3.2.0.0
 
