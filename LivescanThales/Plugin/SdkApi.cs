@@ -152,25 +152,18 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
         {
             this.SupportedDeviceList = new List<ICaptureDevice>
                                        {
-                                           /*new DeviceApi(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_DS84C, 
-                                               "Thales DactyScan", 
-                                               PrintResolution.Dpi500, DeviceScanKind.FlatFourFinger | DeviceScanKind.FlatSingleFinger | DeviceScanKind.FlatTwoFinger | DeviceScanKind.RolledSingleFinger, 
-                                               this, 
-                                               "pack://application:,,,/PrintsCapture.Device.LivescanThales;component/Images/Ds84c_Flat.png",
-                                               false  ),
-                                        new DeviceApi(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_MS527, 
-                                               "Thales Multiscan 527", 
-                                               PrintResolution.Dpi500, DeviceScanKind.FlatFourFinger | DeviceScanKind.FlatSingleFinger | DeviceScanKind.FlatTwoFinger | DeviceScanKind.RolledSingleFinger | DeviceScanKind.FlatPartialPalm, 
-                                               this, 
-                                               "pack://application:,,,/PrintsCapture.Device.LivescanThales;component/Images/Ms527.png",
-                                               true  ),*/
                                         new DeviceApi(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_CS500Q,
                                                "Thales CS500Q",
                                                PrintResolution.Dpi500, DeviceScanKind.FlatFourFinger | DeviceScanKind.FlatSingleFinger | DeviceScanKind.FlatTwoFinger | DeviceScanKind.RolledSingleFinger | DeviceScanKind.FlatPartialPalm,
                                                this,
                                                "pack://application:,,,/PrintsCapture.Device.LivescanThales;component/Images/CS500Q_v2.png",
                                                true  ),
-                                        
+                                        new DeviceApi(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_CS500F,
+                                            "Thales CS500F",
+                                            PrintResolution.Dpi500, DeviceScanKind.FlatFourFinger | DeviceScanKind.FlatSingleFinger | DeviceScanKind.FlatTwoFinger | DeviceScanKind.RolledSingleFinger ,
+                                            this,
+                                            "pack://application:,,,/PrintsCapture.Device.LivescanThales;component/Images/CS500F.png",
+                                            true  ),
 
                                        };
 

@@ -8,7 +8,7 @@
         xmlns:livescan="clr-namespace:PrintsCapture.Livescan"       
         xmlns:converter1="clr-namespace:XL_ID.Utilities.Wpf.Converter;assembly=XL_ID.Utilities.Wpf"
         Topmost="True"
-        WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" SizeToContent="Height">
+        WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" SizeToContent="Height" ResizeMode="NoResize">
 
     <Window.Resources>
         <LinearGradientBrush x:Key="ToggleOnBrush" EndPoint="0,1"

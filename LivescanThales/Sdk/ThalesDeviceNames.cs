@@ -26,6 +26,7 @@ namespace PrintsCapture.Device.LivescanThales.Sdk
             devicesDictionary.Add(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_VS3, "Visascan3");
             devicesDictionary.Add(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_MS527, "MS527");
             devicesDictionary.Add(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_CS500Q, "CS500Q");
+            devicesDictionary.Add(GBMSAPI_NET_DeviceName.GBMSAPI_NET_DN_CS500F, "CS500F");
         }
 
 

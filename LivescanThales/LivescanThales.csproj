@@ -82,6 +82,9 @@
   <ItemGroup>
     <Resource Include="Images\CS500Q_v2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CS500F.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>xcopy "$(SolutionDir)lib\Thales\*.*"  "$(TargetDir)*.*" /c /y</PreBuildEvent>
