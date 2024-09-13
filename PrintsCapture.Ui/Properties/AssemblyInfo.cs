@@ -14,7 +14,7 @@ using PrintsCapture.Ui.Class;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("XL-ID")]
 [assembly: AssemblyProduct("PrintsCapture.Ui")]
-[assembly: AssemblyCopyright("Copyright © XL-ID 2015")]
+[assembly: AssemblyCopyright("Copyright © XL-ID 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
