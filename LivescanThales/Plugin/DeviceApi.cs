@@ -205,13 +205,7 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
                 this.ChangeState(DeviceState.Closed);
                 return;
             }
-
-            if (this.CheckIfError(GBMSAPI_NET_ExternalDevicesControlRoutines.GBMSAPI_NET_VUI_LCD_GetLcdFeatures(out lcdFeatures)))
-            {
-                this.OnDeviceOpened(DeviceOpenStatus.ErrorOccured);
-                this.ChangeState(DeviceState.Closed);
-                return;
-            }
+           
             this.currentAction = ScannerAction.Waiting;
             this.IsOpened = true;
             this.ChangeState(DeviceState.Opened);
