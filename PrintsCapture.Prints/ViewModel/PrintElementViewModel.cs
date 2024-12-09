@@ -64,7 +64,15 @@
             }
             set
             {
+                if (value != null)
+                {
+                    if (!value.IsFrozen)
+                    {
+                        value.Freeze();
+                    }
+                }
                 this.image = value;
+
                 this.OnPropertyChanged("Image");
             }
         }
