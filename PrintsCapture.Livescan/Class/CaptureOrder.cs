@@ -211,6 +211,10 @@ namespace PrintsCapture.Livescan
             AddRolledScan(Hand.Right, HandPart.Ring);
             AddRolledScan(Hand.Right, HandPart.Little);
 
+            AddRolledScan(Hand.Left, HandPart.Thumb);
+            AddRolledScan(Hand.Right, HandPart.Thumb);
+
+
             AddEndorsementScan();
         }
 

@@ -1258,4 +1258,7 @@ For RCMP validation, you must use 'Flats Only'.</value>
   <data name="PalmUserAcceptBad" xml:space="preserve">
     <value>Check only if it is impossible to get a better palm print. This will accept the palm print as it is.</value>
   </data>
+  <data name="PropertyDryEnhance" xml:space="preserve">
+    <value>Dry Finger Enhancement</value>
+  </data>
 </root>

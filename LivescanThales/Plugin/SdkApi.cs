@@ -31,18 +31,7 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
                 return true;
             }
 
-            this.SetDeviceInfo();
-
-            try
-            {
-                GBMSAPI_NET_ScanSettingsRoutines.GBMSAPI_NET_EnableDrySkinImgEnhance(true);
-            }
-            catch (Exception ex)
-            {
-                this.LastException = new ApplicationException("Cannot enable Dry Skin enhancement.", ex);
-                return false;
-            }
-            
+            this.SetDeviceInfo();   
 
             this.LastException = null;                                 
 

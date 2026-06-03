@@ -40,6 +40,7 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
         private const string HardwareMakeName = "THALES";
 
         const string PropFlatAutoScanEnabled = "FLAT_AUTO_SCAN";
+        const string PropDryEnhancementEnabled = "DRY_ENHANCE";
         const string PropMinPixelCount = "MIN_PIX_COUNT";
         const string PropErrorBeforeStopCount = "ERR_STOP_COUNT";
 
@@ -143,6 +144,7 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
         {
             this.Properties = new CustomPropertyList();
             this.Properties.AddBoolProperty(PropFlatAutoScanEnabled, CommonText.PropertyEnabled, true, CommonText.PropertyFlatAutoCapture);
+            this.Properties.AddBoolProperty(PropDryEnhancementEnabled, CommonText.PropertyEnabled, false, CommonText.PropertyDryEnhance);            
             this.Properties.AddIntProperty(PropMinPixelCount, "Min pixel count", 500, "Image");
             this.Properties.AddIntProperty(PropErrorBeforeStopCount, "Error count to stop", 3, "Image");
             
@@ -206,12 +208,13 @@ namespace PrintsCapture.Device.LivescanThales.Plugin
                 return;
             }
 
-            if (this.CheckIfError(GBMSAPI_NET_ExternalDevicesControlRoutines.GBMSAPI_NET_VUI_LCD_GetLcdFeatures(out lcdFeatures)))
-            {
+            bool enhance = this.Properties.GetBoolValue(PropDryEnhancementEnabled);
+            if (this.CheckIfError(GBMSAPI_NET_ScanSettingsRoutines.GBMSAPI_NET_EnableDrySkinImgEnhance(enhance))) {
                 this.OnDeviceOpened(DeviceOpenStatus.ErrorOccured);
                 this.ChangeState(DeviceState.Closed);
                 return;
             }
+            
             this.currentAction = ScannerAction.Waiting;
             this.IsOpened = true;
             this.ChangeState(DeviceState.Opened);
