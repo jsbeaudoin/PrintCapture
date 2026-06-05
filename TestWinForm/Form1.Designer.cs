@@ -41,6 +41,9 @@ namespace TestWinForm
             this.picRemoteModule = new System.Windows.Forms.PictureBox();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.LanguageGroupBox = new System.Windows.Forms.GroupBox();
+            this.frenchLanguageRadio = new System.Windows.Forms.RadioButton();
+            this.EnglishLanguageRadio = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.StartDebugButton = new System.Windows.Forms.Button();
@@ -68,19 +71,16 @@ namespace TestWinForm
             this.ResultLabel = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.DeserializeButton = new System.Windows.Forms.Button();
-            this.LanguageGroupBox = new System.Windows.Forms.GroupBox();
-            this.EnglishLanguageRadio = new System.Windows.Forms.RadioButton();
-            this.frenchLanguageRadio = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.LanguageGroupBox.SuspendLayout();
             this.panel1.SuspendLayout();
             this.LoadPreviousPrintsGroup.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.captureModeGroup.SuspendLayout();
             this.ResultGroupBox.SuspendLayout();
-            this.LanguageGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -137,6 +137,7 @@ namespace TestWinForm
             this.picRemoteModule.Location = new System.Drawing.Point(7, 53);
             this.picRemoteModule.Name = "picRemoteModule";
             this.picRemoteModule.Size = new System.Drawing.Size(100, 139);
+            this.picRemoteModule.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picRemoteModule.TabIndex = 1;
             this.picRemoteModule.TabStop = false;
             // 
@@ -167,6 +168,39 @@ namespace TestWinForm
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Test Livescan with parameters";
+            // 
+            // LanguageGroupBox
+            // 
+            this.LanguageGroupBox.Controls.Add(this.frenchLanguageRadio);
+            this.LanguageGroupBox.Controls.Add(this.EnglishLanguageRadio);
+            this.LanguageGroupBox.Location = new System.Drawing.Point(460, 82);
+            this.LanguageGroupBox.Name = "LanguageGroupBox";
+            this.LanguageGroupBox.Size = new System.Drawing.Size(141, 92);
+            this.LanguageGroupBox.TabIndex = 21;
+            this.LanguageGroupBox.TabStop = false;
+            this.LanguageGroupBox.Text = "Language";
+            // 
+            // frenchLanguageRadio
+            // 
+            this.frenchLanguageRadio.AutoSize = true;
+            this.frenchLanguageRadio.Location = new System.Drawing.Point(17, 63);
+            this.frenchLanguageRadio.Name = "frenchLanguageRadio";
+            this.frenchLanguageRadio.Size = new System.Drawing.Size(58, 17);
+            this.frenchLanguageRadio.TabIndex = 1;
+            this.frenchLanguageRadio.Text = "French";
+            this.frenchLanguageRadio.UseVisualStyleBackColor = true;
+            // 
+            // EnglishLanguageRadio
+            // 
+            this.EnglishLanguageRadio.AutoSize = true;
+            this.EnglishLanguageRadio.Checked = true;
+            this.EnglishLanguageRadio.Location = new System.Drawing.Point(17, 40);
+            this.EnglishLanguageRadio.Name = "EnglishLanguageRadio";
+            this.EnglishLanguageRadio.Size = new System.Drawing.Size(59, 17);
+            this.EnglishLanguageRadio.TabIndex = 0;
+            this.EnglishLanguageRadio.TabStop = true;
+            this.EnglishLanguageRadio.Text = "English";
+            this.EnglishLanguageRadio.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
@@ -450,39 +484,6 @@ namespace TestWinForm
             this.DeserializeButton.UseVisualStyleBackColor = true;
             this.DeserializeButton.Click += new System.EventHandler(this.DeserializeButton_Click);
             // 
-            // LanguageGroupBox
-            // 
-            this.LanguageGroupBox.Controls.Add(this.frenchLanguageRadio);
-            this.LanguageGroupBox.Controls.Add(this.EnglishLanguageRadio);
-            this.LanguageGroupBox.Location = new System.Drawing.Point(460, 82);
-            this.LanguageGroupBox.Name = "LanguageGroupBox";
-            this.LanguageGroupBox.Size = new System.Drawing.Size(141, 92);
-            this.LanguageGroupBox.TabIndex = 21;
-            this.LanguageGroupBox.TabStop = false;
-            this.LanguageGroupBox.Text = "Language";
-            // 
-            // EnglishLanguageRadio
-            // 
-            this.EnglishLanguageRadio.AutoSize = true;
-            this.EnglishLanguageRadio.Checked = true;
-            this.EnglishLanguageRadio.Location = new System.Drawing.Point(17, 40);
-            this.EnglishLanguageRadio.Name = "EnglishLanguageRadio";
-            this.EnglishLanguageRadio.Size = new System.Drawing.Size(59, 17);
-            this.EnglishLanguageRadio.TabIndex = 0;
-            this.EnglishLanguageRadio.TabStop = true;
-            this.EnglishLanguageRadio.Text = "English";
-            this.EnglishLanguageRadio.UseVisualStyleBackColor = true;
-            // 
-            // frenchLanguageRadio
-            // 
-            this.frenchLanguageRadio.AutoSize = true;
-            this.frenchLanguageRadio.Location = new System.Drawing.Point(17, 63);
-            this.frenchLanguageRadio.Name = "frenchLanguageRadio";
-            this.frenchLanguageRadio.Size = new System.Drawing.Size(58, 17);
-            this.frenchLanguageRadio.TabIndex = 1;
-            this.frenchLanguageRadio.Text = "French";
-            this.frenchLanguageRadio.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -504,6 +505,8 @@ namespace TestWinForm
             ((System.ComponentModel.ISupportInitialize)(this.picRemoteModule)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.LanguageGroupBox.ResumeLayout(false);
+            this.LanguageGroupBox.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.LoadPreviousPrintsGroup.ResumeLayout(false);
@@ -514,8 +517,6 @@ namespace TestWinForm
             this.captureModeGroup.PerformLayout();
             this.ResultGroupBox.ResumeLayout(false);
             this.ResultGroupBox.PerformLayout();
-            this.LanguageGroupBox.ResumeLayout(false);
-            this.LanguageGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
