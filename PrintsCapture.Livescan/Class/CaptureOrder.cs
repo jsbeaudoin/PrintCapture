@@ -86,6 +86,12 @@ namespace PrintsCapture.Livescan
 
         private void CreateCustomCaptureList()
         {
+            if (rules.CaptureGroup == PrintCaptureGroup.OneFingerOnly)
+            {
+                AddOneFingerScan();
+                return;
+            }
+
             Dictionary<String, Action> scanActions = new Dictionary<string, Action>();
 
             scanActions.Add("E", () => AddEndorsementScan());
